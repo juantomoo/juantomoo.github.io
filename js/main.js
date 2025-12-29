@@ -515,23 +515,41 @@ const FormValidation = {
   async submitForm(form) {
     // Show loading state
     const submitBtn = form.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
+    const originalHTML = submitBtn.innerHTML;
     submitBtn.disabled = true;
-    submitBtn.textContent = 'Enviando...';
+    submitBtn.innerHTML = `
+      <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="32"></circle>
+      </svg>
+      Enviando...
+    `;
 
     try {
-      // Simulated submission (replace with actual API call)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Success
-      this.showFormMessage(form, 'success', '¡Mensaje enviado correctamente!');
-      form.reset();
+      // Enviar a Formspree
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        // Success
+        this.showFormMessage(form, 'success', '¡Mensaje enviado! Te responderé pronto.');
+        form.reset();
+      } else {
+        const data = await response.json();
+        throw new Error(data.error || 'Error al enviar');
+      }
     } catch (error) {
       // Error
-      this.showFormMessage(form, 'error', 'Error al enviar. Inténtalo de nuevo.');
+      console.error('Form submission error:', error);
+      this.showFormMessage(form, 'error', 'Error al enviar. Inténtalo de nuevo o escríbeme por WhatsApp.');
     } finally {
       submitBtn.disabled = false;
-      submitBtn.textContent = originalText;
+      submitBtn.innerHTML = originalHTML;
     }
   },
 

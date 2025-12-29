@@ -7,7 +7,7 @@ Sitio web corporativo para Machina Development, una agencia de desarrollo de sof
 ```
 MachinaDevelopment/
 ├── index.html              # Página de inicio
-├── about.html              # Sobre Nosotros
+├── nosotros.html           # Nosotros
 ├── creditos.html           # Créditos y Atribuciones
 ├── privacidad.html         # Política de Privacidad
 ├── terminos.html           # Términos y Condiciones
