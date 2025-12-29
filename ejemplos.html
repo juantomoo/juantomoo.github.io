@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Galería de referencias - Ejemplos de sitios web que podemos desarrollar para ti. Landing pages, web apps, e-commerce y más.">
+  <title>Ejemplos de Diseño Web | Machina Development</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+  <div class="scroll-progress"></div>
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container navbar__container">
+      <a href="/" class="navbar__logo">
+        <img src="/assets/logo.png" alt="Machina Development" width="40" height="40">
+      </a>
+      <div class="navbar__nav hidden-until-desktop">
+        <a href="/#servicios" class="navbar__link">Servicios</a>
+        <a href="/#portafolio" class="navbar__link">Capacidades</a>
+        <a href="ejemplos.html" class="navbar__link navbar__link--active">Ejemplos</a>
+        <a href="/#proceso" class="navbar__link">Proceso</a>
+        <a href="/#precios" class="navbar__link">Precios</a>
+        <a href="/#faq" class="navbar__link">Dudas</a>
+        <a href="/#contacto" class="navbar__link">Contacto</a>
+      </div>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+          <svg class="theme-toggle__icon theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+        <a href="/#contacto" class="btn btn--primary hidden-until-desktop">Comenzar</a>
+        <button class="navbar__toggle hidden-from-tablet" id="menuToggle" aria-label="Menú">
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+        </button>
+      </div>
+    </div>
+    <div class="navbar__mobile-menu" id="mobileMenu">
+      <a href="/#servicios" class="navbar__mobile-link">Servicios</a>
+      <a href="/#portafolio" class="navbar__mobile-link">Capacidades</a>
+      <a href="ejemplos.html" class="navbar__mobile-link">Ejemplos</a>
+      <a href="/#proceso" class="navbar__mobile-link">Proceso</a>
+      <a href="/#precios" class="navbar__mobile-link">Precios</a>
+      <a href="/#faq" class="navbar__mobile-link">Dudas</a>
+      <a href="/#contacto" class="navbar__mobile-link">Contacto</a>
+      <a href="/#contacto" class="btn btn--primary btn--full">Comenzar</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <!-- Hero Section -->
+    <section class="section section--hero" style="padding-top: calc(var(--navbar-height) + var(--space-16));">
+      <div class="container">
+        <div data-animate="fade" style="text-align: center; max-width: 800px; margin: 0 auto;">
+          <a href="/" class="badge badge--cyan" style="display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4);">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Volver al inicio
+          </a>
+          <h1 class="text-5xl" style="margin-bottom: var(--space-4);">
+            Galería de <span class="text-gradient">Referencia</span>
+          </h1>
+          <p class="text-xl text-secondary" style="margin-bottom: var(--space-8);">
+            Ejemplos de sitios web destacados que representan el nivel de calidad y 
+            funcionalidad que podemos desarrollar para tu negocio.
+          </p>
+          
+          <!-- Disclaimer Card -->
+          <div class="card card--glass" style="padding: var(--space-4); text-align: left;">
+            <div style="display: flex; gap: var(--space-3); align-items: flex-start;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+              <p class="text-secondary" style="margin: 0; font-size: var(--text-sm);">
+                <strong style="color: var(--color-text-primary);">¿Por qué mostramos referencias externas?</strong><br>
+                En los últimos años nos hemos enfocado en desarrollo de software a medida: backend para servidores, bots de WhatsApp/Telegram para empresas, y plugins internos para sitios existentes. Son soluciones de uso interno, visualmente poco llamativas pero funcionalmente robustas. Estos ejemplos representan el tipo de interfaces y experiencias que también podemos crear.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Examples Section -->
+    <section class="section" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <!-- Filter Buttons -->
+        <div class="cluster cluster--center" style="margin-bottom: var(--space-10);" data-animate="fade">
+          <button class="btn btn--sm btn--primary" data-filter="all">Todos</button>
+          <button class="btn btn--sm btn--secondary" data-filter="landing">Landing Pages</button>
+          <button class="btn btn--sm btn--secondary" data-filter="ecommerce">E-commerce</button>
+          <button class="btn btn--sm btn--secondary" data-filter="corporate">Corporativo</button>
+          <button class="btn btn--sm btn--secondary" data-filter="portfolio">Portfolios</button>
+          <button class="btn btn--sm btn--secondary" data-filter="restaurant">Restaurantes</button>
+          <button class="btn btn--sm btn--secondary" data-filter="webapp">Web Apps</button>
+        </div>
+
+        <!-- Examples Grid -->
+        <div class="grid grid--cols-3 stagger-container" style="gap: var(--space-6);">
+          
+          <!-- The People vs Coffee - Landing -->
+          <article class="card card--elevated" data-category="landing" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/thepeoplevscoffee.png" alt="The People vs Coffee" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge badge--primary" style="position: absolute; top: var(--space-3); left: var(--space-3);">Landing Page</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">The People vs Coffee</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Café móvil de Adelaide, Australia. Diseño audaz con tipografía expresiva, animaciones sutiles y una experiencia de marca memorable.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $600K COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://thepeoplevscoffee.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Standard Bots - Landing -->
+          <article class="card card--elevated" data-category="landing" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/standardbots.png" alt="Standard Bots" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge badge--primary" style="position: absolute; top: var(--space-3); left: var(--space-3);">Landing Page</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Standard Bots</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Startup de robótica industrial. Landing moderna con video hero, animaciones 3D y secciones de producto claras. Diseño tech minimalista.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $960K COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://standardbots.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Hom Sweet Hom - Portfolio -->
+          <article class="card card--elevated" data-category="portfolio" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/homsweethom.png" alt="Hom Sweet Hom" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge badge--magenta" style="position: absolute; top: var(--space-3); left: var(--space-3);">Portfolio</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Hom Sweet Hom</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Artista de lettering y caligrafía. Portfolio elegante con galería de trabajos, animaciones en scroll y formulario de contacto para proyectos.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $520K COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://homsweethom.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Drunk Elephant - E-commerce -->
+          <article class="card card--elevated" data-category="ecommerce" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/drunkelephant.png" alt="Drunk Elephant" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-success); color: white;">E-commerce</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Drunk Elephant</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Marca de skincare con tienda online premium. Diseño limpio, paleta de colores vibrante, carrito inteligente y experiencia de compra fluida.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.8M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://drunkelephant.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Caitlyn Minimalist - E-commerce -->
+          <article class="card card--elevated" data-category="ecommerce" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/caitlynminimalist.png" alt="Caitlyn Minimalist" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-success); color: white;">E-commerce</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Caitlyn Minimalist</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Joyería personalizada en Etsy/Shopify. Tienda elegante con personalizador de productos, galerías de alta calidad y checkout optimizado.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.44M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://caitlynminimalist.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Jacquie Aiche - E-commerce -->
+          <article class="card card--elevated" data-category="ecommerce" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/jacquieaiche.png" alt="Jacquie Aiche" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-success); color: white;">E-commerce</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Jacquie Aiche</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Joyería de lujo con estética bohemia. E-commerce premium con fotografía editorial, filtros de colección y experiencia de marca inmersiva.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $2.4M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://jacquieaiche.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Zeazoo - E-commerce -->
+          <article class="card card--elevated" data-category="ecommerce" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/zeazoo.png" alt="Zeazoo" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-success); color: white;">E-commerce</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Zeazoo</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Zapatos barefoot para niños de Bulgaria. E-commerce internacional con multi-moneda, lookbook visual y navegación por categorías intuitiva.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.8M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://zeazoo.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Welly - E-commerce -->
+          <article class="card card--elevated" data-category="ecommerce" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/welly.png" alt="Welly" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-success); color: white;">E-commerce</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Welly</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Kits de primeros auxilios coloridos. Tienda Shopify con branding divertido, filtros por uso y diseño optimizado para conversión móvil.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.6M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://welly.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Ratio Coffee - E-commerce -->
+          <article class="card card--elevated" data-category="ecommerce" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/ratiocoffee.png" alt="Ratio Coffee" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-success); color: white;">E-commerce</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Ratio Coffee</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Cafeteras de especialidad. E-commerce con vídeos de producto, comparativas y guías de uso. Diseño minimalista enfocado en el producto.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.44M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://ratiocoffee.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Celele - Restaurant -->
+          <article class="card card--elevated" data-category="restaurant" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/celele.png" alt="Celele Cartagena" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-warning); color: white;">Restaurante</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Celele</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Restaurante en Cartagena, Colombia. Sitio editorial con menú visual, reservas online, galería de platos y storytelling de ingredientes locales.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.2M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://celelerestaurante.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Mora Castilla - Restaurant -->
+          <article class="card card--elevated" data-category="restaurant" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/moracastilla.png" alt="Mora Castilla" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-warning); color: white;">Restaurante</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Mora Castilla</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Restaurante en Popayán. Sitio con menú del día, galería, ubicación en mapa y sistema de pedidos para llevar. Diseño cálido y acogedor.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $800K COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://moracastilla.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- KeyNest - Corporate -->
+          <article class="card card--elevated" data-category="corporate" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/keynest.png" alt="KeyNest" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-info); color: white;">Corporativo B2B</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">KeyNest</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Servicio de gestión de llaves para Airbnb. Sitio corporativo B2B con landing de servicio, pricing, integración API y dashboard de clientes.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.44M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://keynest.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bill Ragan Roofing - Corporate -->
+          <article class="card card--elevated" data-category="corporate" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/billraganroofing.png" alt="Bill Ragan Roofing" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-info); color: white;">Corporativo</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Bill Ragan Roofing</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Empresa de techos en Nashville. Sitio de servicios con portafolio de trabajos, testimonios, cotización online y blog de consejos de mantenimiento.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $960K COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://billraganroofing.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Bowery Farming - Corporate -->
+          <article class="card card--elevated" data-category="corporate" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/boweryfarming.png" alt="Bowery Farming" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-info); color: white;">Corporativo</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Bowery Farming</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Agricultura vertical urbana. Sitio corporativo con misión/visión, tecnología, prensa, inversores y localizador de productos. Diseño verde y moderno.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.8M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://boweryfarming.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Rise Athlete - Corporate -->
+          <article class="card card--elevated" data-category="corporate" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/riseathlete.png" alt="Rise Athlete" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-info); color: white;">Corporativo</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Rise Athlete</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Centro de entrenamiento deportivo. Sitio con programas, entrenadores, agenda de clases y sistema de reservas. Diseño motivacional y energético.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.2M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://catch.co/work/rise-athletics" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- I Am Made to Paint - Portfolio -->
+          <article class="card card--elevated" data-category="portfolio" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/iammadetopaint.png" alt="I Am Made to Paint" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge badge--magenta" style="position: absolute; top: var(--space-3); left: var(--space-3);">Portfolio</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">I Am Made to Paint</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Ilustradora de encargo personalizado. Portfolio con galería por categorías, proceso de trabajo, tienda de prints y formulario de cotización.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $680K COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://iammadetopaint.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Shannon McNamara - Portfolio -->
+          <article class="card card--elevated" data-category="portfolio" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/shannonmcnamara.png" alt="Shannon McNamara" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge badge--magenta" style="position: absolute; top: var(--space-3); left: var(--space-3);">Portfolio</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Shannon McNamara</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Diseñadora gráfica en Behance. Portfolio minimalista con proyectos destacados, case studies y contacto. Diseño limpio enfocado en el trabajo.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $520K COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://behance.net/shannonmcnamara" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Nikolas Type - Web App -->
+          <article class="card card--elevated" data-category="webapp" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/nikolastype.png" alt="Nikolas Type" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-magenta); color: white;">Web App</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Nikolas Type</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Fundición tipográfica digital. Web app con catálogo de fuentes, previsualizador en vivo, licencias y sistema de compra/descarga de tipografías.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $2.4M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://nikolastype.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- TiendaVolt - E-commerce (Proyecto Propio) -->
+          <article class="card card--elevated" data-category="ecommerce" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/tiendavolt.png" alt="TiendaVolt" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-primary); color: white;">Proyecto Propio</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">TiendaVolt ⚡</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Tienda de productos eléctricos en WordPress/WooCommerce. E-commerce con catálogo de productos, carrito, pasarela de pagos y gestión de pedidos.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $1.44M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://tiendavolt.com" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver sitio
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- moDIGem - Web App (Proyecto Propio) -->
+          <article class="card card--elevated" data-category="webapp" data-animate="scale">
+            <div style="position: relative; aspect-ratio: 16/10; overflow: hidden; border-radius: var(--radius-md) var(--radius-md) 0 0;">
+              <img src="/assets/ejemplos/modigem.png" alt="moDIGem" style="width: 100%; height: 100%; object-fit: cover; object-position: top;">
+              <span class="badge" style="position: absolute; top: var(--space-3); left: var(--space-3); background: var(--color-primary); color: white;">Proyecto Propio</span>
+            </div>
+            <div style="padding: var(--space-5);">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">moDIGem</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: var(--space-4);">
+                Sistema de gestión de colecciones museológicas. Web app con catálogo de objetos, fichas técnicas, búsqueda avanzada y exportación de datos.
+              </p>
+              <div style="margin-bottom: var(--space-4);">
+                <span class="badge badge--cyan">Desde $3.2M COP</span>
+              </div>
+              <div class="cluster" style="gap: var(--space-2);">
+                <a href="https://modigem.eonaria.me" target="_blank" rel="noopener" class="btn btn--sm btn--secondary" style="flex: 1;">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  Ver demo
+                </a>
+                <a href="/#contacto" class="btn btn--sm btn--primary" style="flex: 1;">Cotizar similar</a>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- Pricing Reference Note -->
+        <div class="card card--glass" style="margin-top: var(--space-12); padding: var(--space-6);" data-animate="fade">
+          <div style="display: flex; gap: var(--space-4); align-items: flex-start; flex-wrap: wrap;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" stroke-width="2" style="flex-shrink: 0;">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <div style="flex: 1; min-width: 280px;">
+              <h3 class="text-lg" style="margin-bottom: var(--space-2);">Sobre los precios mostrados</h3>
+              <p class="text-secondary text-sm" style="margin-bottom: 0;">
+                Los precios indicados son <strong>referencias base en Pesos Colombianos (COP)</strong> según la complejidad de cada tipo de proyecto. 
+                El costo final depende de los requerimientos específicos, funcionalidades adicionales y nivel de personalización. 
+                <a href="/#contacto" style="color: var(--color-primary);">Contáctanos</a> para una cotización detallada sin compromiso.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta">
+      <div class="cta__background"></div>
+      <div class="container">
+        <div class="cta__content" data-animate="scale">
+          <h2 class="cta__title">¿Te gustó algún ejemplo?</h2>
+          <p class="cta__description">
+            Cuéntanos cuál te llamó la atención y recibe una propuesta personalizada en menos de 24 horas.
+          </p>
+          <div class="cluster cluster--center" style="gap: var(--space-4);">
+            <a href="/#contacto" class="btn btn--primary btn--lg btn--shine">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+              </svg>
+              Solicitar Cotización
+            </a>
+            <a href="https://wa.me/573142827567?text=Hola,%20vi%20la%20galería%20de%20ejemplos%20y%20me%20interesa%20un%20proyecto%20similar%20a..." target="_blank" rel="noopener" class="btn btn--secondary btn--lg">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2025 Machina Development. Todos los derechos reservados.</p>
+        <div class="footer__legal" style="display: flex; gap: var(--space-4);">
+          <a href="/privacidad.html">Privacidad</a>
+          <a href="/terminos.html">Términos</a>
+          <a href="/">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js" defer></script>
+  
+  <!-- Filter functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('[data-filter]');
+      const cards = document.querySelectorAll('[data-category]');
+      
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const filter = this.dataset.filter;
+          
+          // Update active button
+          filterButtons.forEach(btn => {
+            btn.classList.remove('btn--primary');
+            btn.classList.add('btn--secondary');
+          });
+          this.classList.remove('btn--secondary');
+          this.classList.add('btn--primary');
+          
+          // Filter cards
+          cards.forEach(card => {
+            if (filter === 'all' || card.dataset.category === filter) {
+              card.style.display = '';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
