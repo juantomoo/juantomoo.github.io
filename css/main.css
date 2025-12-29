@@ -1,0 +1,32 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MACHINA DEVELOPMENT - MAIN STYLESHEET
+   Import all CSS modules in correct order
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Design System Variables */
+@import url('variables.css');
+
+/* 2. Base Styles & Reset */
+@import url('base.css');
+
+/* 3. Layout System */
+@import url('layout.css');
+
+/* 4. Reusable Components */
+@import url('components.css');
+
+/* 5. Animations */
+@import url('animations.css');
+
+/* 6. Utility Classes */
+@import url('utilities.css');
+
+/* 7. Page-Specific Styles */
+@import url('pages.css');
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GOOGLE FONTS IMPORT
+   Inter for body text, JetBrains Mono for code
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');

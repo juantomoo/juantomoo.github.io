@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conoce a Machina Development. Nuestra filosofía Deus Ex Machina: tecnología avanzada para resolver problemas complejos.">
+  <title>Sobre Nosotros | Machina Development</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+  <div class="scroll-progress"></div>
+  <div class="noise-overlay"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="container navbar__container">
+      <a href="/" class="navbar__logo">
+        <img src="/assets/logo.png" alt="Machina Development" width="40" height="40">
+        
+      </a>
+      <div class="navbar__nav hidden-until-desktop">
+        <a href="/#servicios" class="navbar__link">Servicios</a>
+        <a href="/#portafolio" class="navbar__link">Portafolio</a>
+        <a href="/#contacto" class="navbar__link">Contacto</a>
+      </div>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+          <svg class="theme-toggle__icon theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <a href="/#contacto" class="btn btn--primary hidden-until-desktop">Comenzar</a>
+        <button class="navbar__toggle hidden-from-tablet" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="navbar__mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+      <a href="/#servicios" class="navbar__mobile-link">Servicios</a>
+      <a href="/#portafolio" class="navbar__mobile-link">Portafolio</a>
+      <a href="/#contacto" class="navbar__mobile-link">Contacto</a>
+      <a href="/#contacto" class="btn btn--primary btn--full">Comenzar</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="section section--hero" style="padding-top: calc(var(--navbar-height) + var(--space-16)); text-align: center;">
+      <div class="container">
+        <div data-animate="fade">
+          <h1 class="text-6xl" style="margin-bottom: var(--space-4);">
+            Deus Ex <span class="text-gradient">Machina</span>
+          </h1>
+          <p class="text-2xl text-secondary" style="max-width: 800px; margin: 0 auto var(--space-12);">
+            "El dios que baja de la máquina para resolver una situación sin salida."
+          </p>
+        </div>
+        
+        <div class="grid grid--cols-2" style="gap: var(--space-12); text-align: left; margin-top: var(--space-16);">
+          <div data-animate="slide-right">
+            <h2 class="text-3xl" style="margin-bottom: var(--space-6);">Nuestra Filosofía</h2>
+            <p class="text-lg text-secondary" style="margin-bottom: var(--space-4);">
+              En el teatro griego antiguo, cuando una trama se volvía demasiado compleja para ser resuelta por los mortales, descendía una deidad mecánica (Deus Ex Machina) para poner orden y dar una solución final.
+            </p>
+            <p class="text-lg text-secondary">
+              En <strong>Machina Development</strong>, adoptamos ese rol en el mundo digital. Cuando los desafíos técnicos parecen insuperables, nosotros proveemos la solución tecnológica elegante, eficiente y definitiva. No solo escribimos código; arquitectamos soluciones que transforman problemas complejos en sistemas simples y potentes.
+            </p>
+          </div>
+          <div data-animate="slide-left">
+            <div class="card card--glass" style="height: 100%; display: flex; align-items: center; justify-content: center;">
+              <svg width="200" height="200" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="spin-slow">
+                <path d="M50 10 L60 15 L65 25 L65 40 L60 50 L50 55 L50 45 L55 40 L55 25 L50 20 L45 25 L45 40 L50 45 L50 90 L40 85 L35 75 L35 60 L40 50 L50 45" 
+                      stroke="url(#grad1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <circle cx="50" cy="50" r="35" stroke="url(#grad2)" stroke-width="1" fill="none" opacity="0.5"/>
+                <defs>
+                  <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:var(--color-primary);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:var(--color-magenta);stop-opacity:1" />
+                  </linearGradient>
+                  <linearGradient id="grad2" x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style="stop-color:var(--color-cyan);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:var(--color-primary);stop-opacity:1" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Valores Nucleares</h2>
+        </div>
+        <div class="grid grid--cols-3" style="gap: var(--space-8);">
+          <div class="card card--elevated" data-animate="scale">
+            <h3 class="text-xl" style="margin-bottom: var(--space-4); color: var(--color-primary);">01. Minimalismo</h3>
+            <p class="text-secondary">Menos es más. Código limpio, interfaces intuitivas y eliminación de lo superfluo para maximizar la eficiencia.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <h3 class="text-xl" style="margin-bottom: var(--space-4); color: var(--color-cyan);">02. Innovación</h3>
+            <p class="text-secondary">No seguimos tendencias, las anticipamos. Utilizamos las tecnologías más modernas (Node.js, AI, Web Components) para crear el futuro.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <h3 class="text-xl" style="margin-bottom: var(--space-4); color: var(--color-magenta);">03. Autonomía</h3>
+            <p class="text-secondary">Sistemas que funcionan por sí mismos. Automatización y autogestión son pilares de cada proyecto que entregamos.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="cta__background"></div>
+      <div class="container">
+        <div class="cta__content" data-animate="scale">
+          <h2 class="cta__title">Únete a la Revolución</h2>
+          <p class="cta__description">Deja que la maquinaria trabaje para ti.</p>
+          <a href="/#contacto" class="btn btn--primary btn--lg btn--shine">Iniciar Proyecto</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2025 Machina Development</p>
+        <a href="/">Volver al inicio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

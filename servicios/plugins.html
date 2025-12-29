@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Desarrollo de Plugins para WordPress a medida. Extiende la funcionalidad de tu sitio web con código limpio y optimizado.">
+  <title>Plugins WordPress a Medida | Machina Development</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+  <div class="scroll-progress"></div>
+  <div class="noise-overlay"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="container navbar__container">
+      <a href="/" class="navbar__logo">
+        <img src="/assets/logo.png" alt="Machina Development" width="40" height="40">
+        
+      </a>
+      <div class="navbar__nav hidden-until-desktop">
+        <a href="/#servicios" class="navbar__link">Servicios</a>
+        <a href="/#portafolio" class="navbar__link">Portafolio</a>
+        <a href="/#contacto" class="navbar__link">Contacto</a>
+      </div>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+          <svg class="theme-toggle__icon theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <a href="/#contacto" class="btn btn--primary hidden-until-desktop">Comenzar</a>
+        <button class="navbar__toggle hidden-from-tablet" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="navbar__mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+      <a href="/#servicios" class="navbar__mobile-link">Servicios</a>
+      <a href="/#portafolio" class="navbar__mobile-link">Portafolio</a>
+      <a href="/#contacto" class="navbar__mobile-link">Contacto</a>
+      <a href="/#contacto" class="btn btn--primary btn--full">Comenzar</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="section section--hero" style="padding-top: calc(var(--navbar-height) + var(--space-16));">
+      <div class="container">
+        <div class="grid grid--cols-2 flex--align-center" style="gap: var(--space-12);">
+          <div data-animate="slide-right">
+            <a href="/" class="badge badge--magenta" style="display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Volver a servicios
+            </a>
+            <h1 class="text-5xl" style="margin-bottom: var(--space-4);">
+              Plugins <span class="text-gradient">WordPress</span>
+            </h1>
+            <p class="text-xl text-secondary" style="margin-bottom: var(--space-8);">
+              Extiende la funcionalidad de tu sitio web con plugins personalizados. 
+              Código limpio, seguro y optimizado para el máximo rendimiento.
+            </p>
+            <div class="cluster cluster--lg" style="margin-bottom: var(--space-8);">
+              <span class="badge badge--primary">Custom Code</span>
+              <span class="badge badge--cyan">WooCommerce</span>
+              <span class="badge badge--magenta">API Integration</span>
+            </div>
+            <div class="cluster cluster--lg">
+              <a href="/#contacto" class="btn btn--primary btn--lg btn--shine">Solicitar Cotización</a>
+              <a href="#precios" class="btn btn--secondary btn--lg">Ver Precios</a>
+            </div>
+          </div>
+          <div class="hidden-until-desktop" data-animate="slide-left">
+            <div class="card card--glass" style="padding: var(--space-8);">
+              <div class="code-window">
+                <div class="code-window__header">
+                  <div class="code-window__dots">
+                    <span class="code-window__dot code-window__dot--red"></span>
+                    <span class="code-window__dot code-window__dot--yellow"></span>
+                    <span class="code-window__dot code-window__dot--green"></span>
+                  </div>
+                  <span class="code-window__title">machina-plugin.php</span>
+                </div>
+                <pre class="code-window__content"><code class="language-php">
+/**
+ * Plugin Name: Machina Custom Features
+ * Description: Adds advanced functionality.
+ * Version: 1.0.0
+ * Author: Machina Development
+ */
+
+add_action( 'init', 'machina_register_cpt' );
+
+function machina_register_cpt() {
+    register_post_type( 'portfolio', [
+        'public' => true,
+        'label'  => 'Portfolio',
+        'supports' => ['title', 'editor', 'thumbnail']
+    ]);
+}
+                </code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Calidad de Código</h2>
+        </div>
+        <div class="grid grid--cols-3" style="gap: var(--space-8);">
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">✨</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Estándares WP</h3>
+            <p class="text-secondary">Seguimos estrictamente las guías de codificación de WordPress.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">🔒</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Seguridad</h3>
+            <p class="text-secondary">Sanitización de datos, nonces y prevención de inyecciones SQL.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">⚡</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Rendimiento</h3>
+            <p class="text-secondary">Código optimizado que no ralentiza tu sitio web.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">🔌</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Integraciones</h3>
+            <p class="text-secondary">Conectamos tu WP con APIs externas, CRMs y otros servicios.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">⚙️</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Panel de Opciones</h3>
+            <p class="text-secondary">Interfaces de administración intuitivas para configurar tu plugin.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">🔄</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Actualizable</h3>
+            <p class="text-secondary">Estructura preparada para futuras actualizaciones y mantenimiento.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Demo -->
+    <section class="section" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Arquitectura Robusta</h2>
+          <p class="section-header__subtitle">Diseñamos plugins escalables que se integran perfectamente con el Core de WordPress.</p>
+        </div>
+        
+        <div class="grid grid--cols-1" style="max-width: 800px; margin: 0 auto;">
+          <div class="card card--elevated" data-animate="scale" style="padding: 2rem; overflow-x: auto;">
+            <div style="display: flex; align-items: center; justify-content: space-between; min-width: 600px; gap: 1rem;">
+              
+              <!-- Step 1 -->
+              <div style="text-align: center; flex: 1;">
+                <div style="background: #21759b; color: white; padding: 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 0.5rem;">WP Core</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">Hooks & Actions</div>
+              </div>
+
+              <!-- Arrow -->
+              <div style="color: var(--color-primary); font-size: 2rem;">➜</div>
+
+              <!-- Step 2 -->
+              <div style="text-align: center; flex: 1;">
+                <div style="background: var(--color-primary); color: white; padding: 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 0.5rem;">Tu Plugin</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">Lógica de Negocio</div>
+              </div>
+
+              <!-- Arrow -->
+              <div style="color: var(--color-primary); font-size: 2rem;">➜</div>
+
+              <!-- Step 3 -->
+              <div style="text-align: center; flex: 1;">
+                <div style="background: #46b450; color: white; padding: 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 0.5rem;">Base de Datos</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">Optimized Queries</div>
+              </div>
+
+              <!-- Arrow -->
+              <div style="color: var(--color-primary); font-size: 2rem;">➜</div>
+
+              <!-- Step 4 -->
+              <div style="text-align: center; flex: 1;">
+                <div style="background: #f56e28; color: white; padding: 1rem; border-radius: 8px; font-weight: bold; margin-bottom: 0.5rem;">Frontend</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">HTML/JS/CSS</div>
+              </div>
+
+            </div>
+            
+            <div style="margin-top: 2rem; border-top: 1px solid var(--color-border); padding-top: 1rem;">
+              <div style="font-family: monospace; background: #1e1e1e; color: #d4d4d4; padding: 1rem; border-radius: 4px; text-align: left;">
+                <span style="color: #569cd6;">add_filter</span>( <span style="color: #ce9178;">'the_content'</span>, <span style="color: #dcdcaa;">function</span>( <span style="color: #9cdcfe;">$content</span> ) {<br>
+                &nbsp;&nbsp;<span style="color: #c586c0;">if</span> ( <span style="color: #dcdcaa;">is_single</span>() ) {<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #9cdcfe;">$custom_data</span> = <span style="color: #dcdcaa;">machina_get_data</span>();<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">$content</span> . <span style="color: #9cdcfe;">$custom_data</span>;<br>
+                &nbsp;&nbsp;}<br>
+                &nbsp;&nbsp;<span style="color: #c586c0;">return</span> <span style="color: #9cdcfe;">$content</span>;<br>
+                });
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="precios" class="section">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Planes de Desarrollo</h2>
+          <p class="section-header__subtitle">Inversión en Pesos Colombianos (COP)</p>
+        </div>
+        <div class="pricing__grid stagger-container">
+          <div class="pricing-card">
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">Simple</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">400K</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Funcionalidad específica única</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Shortcode personalizado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Widget básico</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Sin panel de administración</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Entrega en 3-5 días</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--secondary btn--full">Elegir Plan</a>
+          </div>
+
+          <div class="pricing-card pricing-card--featured">
+            <span class="badge badge--new">Popular</span>
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">Complejo</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">960K</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Integración API externa</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Custom Post Types & Taxonomies</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Tablas de base de datos propias</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Panel de opciones completo</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Soporte 1 mes</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--primary btn--full btn--shine">Elegir Plan</a>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">Suite</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">3.2M+</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Ecosistema de plugins</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Add-ons para WooCommerce</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Sistema de Licenciamiento</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>SaaS Integration</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Documentación técnica</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Soporte 3 meses</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--secondary btn--full">Elegir Plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="cta__background"></div>
+      <div class="container">
+        <div class="cta__content" data-animate="scale">
+          <h2 class="cta__title">¿Necesitas una funcionalidad específica?</h2>
+          <p class="cta__description">Desarrollamos la solución exacta que tu sitio WordPress necesita.</p>
+          <a href="/#contacto" class="btn btn--primary btn--lg btn--shine">Consultar Ahora</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2025 Machina Development</p>
+        <div class="footer__legal" style="display: flex; gap: var(--space-4);">
+          <a href="/privacidad.html">Privacidad</a>
+          <a href="/terminos.html">Términos</a>
+          <a href="/">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Créditos y atribuciones de los recursos utilizados en Machina Development.">
+  <title>Créditos | Machina Development</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+  <div class="scroll-progress"></div>
+  <div class="noise-overlay"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="container navbar__container">
+      <a href="/" class="navbar__logo">
+        <img src="/assets/logo.png" alt="Machina Development" width="40" height="40">
+        
+      </a>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+          <svg class="theme-toggle__icon theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <a href="/" class="btn btn--primary hidden-until-desktop">Volver al Inicio</a>
+        <button class="navbar__toggle hidden-from-tablet" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="navbar__mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+      <a href="/#servicios" class="navbar__mobile-link">Servicios</a>
+      <a href="/#portafolio" class="navbar__mobile-link">Portafolio</a>
+      <a href="/#contacto" class="navbar__mobile-link">Contacto</a>
+      <a href="/" class="btn btn--primary btn--full">Volver al Inicio</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="section section--hero" style="padding-top: calc(var(--navbar-height) + var(--space-16));">
+      <div class="container">
+        <div data-animate="fade">
+          <h1 class="text-5xl" style="margin-bottom: var(--space-8);">Créditos</h1>
+          <p class="text-xl text-secondary" style="max-width: 800px; margin-bottom: var(--space-12);">
+            Reconocimiento a las herramientas, librerías y recursos de código abierto que hacen posible este sitio.
+          </p>
+        </div>
+
+        <div class="grid grid--cols-2" style="gap: var(--space-8);">
+          
+          <div class="card card--glass" data-animate="slide-right">
+            <h2 class="text-2xl" style="margin-bottom: var(--space-4); color: var(--color-primary);">Tipografía</h2>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: var(--space-4);">
+                <strong style="display: block; margin-bottom: var(--space-2);">Inter</strong>
+                <p class="text-sm text-secondary">Diseñada por Rasmus Andersson. Utilizada para el cuerpo de texto y UI general por su excelente legibilidad.</p>
+              </li>
+              <li>
+                <strong style="display: block; margin-bottom: var(--space-2);">JetBrains Mono</strong>
+                <p class="text-sm text-secondary">Diseñada por JetBrains. Utilizada para bloques de código y elementos técnicos.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card card--glass" data-animate="slide-left">
+            <h2 class="text-2xl" style="margin-bottom: var(--space-4); color: var(--color-cyan);">Iconografía</h2>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: var(--space-4);">
+                <strong style="display: block; margin-bottom: var(--space-2);">Feather Icons</strong>
+                <p class="text-sm text-secondary">Colección de iconos open source simples y hermosos. Base para la iconografía del sitio.</p>
+              </li>
+              <li>
+                <strong style="display: block; margin-bottom: var(--space-2);">SVG Personalizados</strong>
+                <p class="text-sm text-secondary">Logotipos y gráficos abstractos diseñados in-house por Machina Development.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card card--glass" data-animate="slide-right">
+            <h2 class="text-2xl" style="margin-bottom: var(--space-4); color: var(--color-magenta);">Tecnología</h2>
+            <ul style="list-style: none; padding: 0;">
+              <li style="margin-bottom: var(--space-4);">
+                <strong style="display: block; margin-bottom: var(--space-2);">Vanilla JS</strong>
+                <p class="text-sm text-secondary">Sin frameworks pesados. JavaScript puro para máximo rendimiento.</p>
+              </li>
+              <li>
+                <strong style="display: block; margin-bottom: var(--space-2);">CSS Variables & Grid</strong>
+                <p class="text-sm text-secondary">Arquitectura CSS moderna sin preprocesadores externos.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card card--glass" data-animate="slide-left">
+            <h2 class="text-2xl" style="margin-bottom: var(--space-4);">Inspiración</h2>
+            <p class="text-secondary">
+              El diseño "Cyber Gold" está inspirado en la estética Cyberpunk, el Brutalismo Web y las interfaces de usuario de ciencia ficción (FUI).
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2025 Machina Development</p>
+        <a href="/">Volver al inicio</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

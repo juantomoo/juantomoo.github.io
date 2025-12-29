@@ -1,0 +1,392 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   MACHINA DEVELOPMENT - LAYOUT SYSTEM
+   Containers, Grid Systems, Flexbox Utilities
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────────────────────────────────
+   CONTAINER SYSTEM
+   ───────────────────────────────────────────────────────────────────────── */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-inline: var(--space-6);
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-inline: var(--space-8);
+  }
+}
+
+.container--narrow {
+  max-width: var(--container-4xl);
+}
+
+.container--wide {
+  max-width: 100rem;
+}
+
+.container--full {
+  max-width: none;
+  padding-inline: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SECTION SPACING
+   ───────────────────────────────────────────────────────────────────────── */
+
+.section {
+  padding-block: var(--space-16);
+  position: relative;
+}
+
+.section--sm {
+  padding-block: var(--space-8);
+}
+
+.section--lg {
+  padding-block: var(--space-24);
+}
+
+.section--xl {
+  padding-block: var(--space-32);
+}
+
+.section--hero {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   GRID SYSTEM - Bento Grid
+   ───────────────────────────────────────────────────────────────────────── */
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.grid--sm { gap: var(--space-2); }
+.grid--md { gap: var(--space-4); }
+.grid--lg { gap: var(--space-6); }
+.grid--xl { gap: var(--space-8); }
+
+/* Auto-fit Grid */
+.grid--auto {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+}
+
+.grid--auto-sm {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+}
+
+.grid--auto-lg {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
+}
+
+/* Fixed Column Grids */
+.grid--cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid--cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grid--cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.grid--cols-6 {
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.grid--cols-12 {
+  grid-template-columns: repeat(12, 1fr);
+}
+
+/* Responsive Grid */
+@media (max-width: 767px) {
+  .grid--cols-2,
+  .grid--cols-3,
+  .grid--cols-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  .grid--cols-2.grid--responsive-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .grid--cols-3,
+  .grid--cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   BENTO GRID - Asymmetric Creative Layouts
+   ───────────────────────────────────────────────────────────────────────── */
+
+.bento {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(200px, auto);
+}
+
+@media (max-width: 1023px) {
+  .bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .bento {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Bento Item Spans */
+.bento__item--wide {
+  grid-column: span 2;
+}
+
+.bento__item--tall {
+  grid-row: span 2;
+}
+
+.bento__item--large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+@media (max-width: 639px) {
+  .bento__item--wide,
+  .bento__item--large {
+    grid-column: span 1;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   FLEXBOX UTILITIES
+   ───────────────────────────────────────────────────────────────────────── */
+
+.flex {
+  display: flex;
+}
+
+.flex--inline {
+  display: inline-flex;
+}
+
+/* Direction */
+.flex--col { flex-direction: column; }
+.flex--row { flex-direction: row; }
+.flex--col-reverse { flex-direction: column-reverse; }
+.flex--row-reverse { flex-direction: row-reverse; }
+
+/* Wrap */
+.flex--wrap { flex-wrap: wrap; }
+.flex--nowrap { flex-wrap: nowrap; }
+
+/* Justify Content */
+.flex--justify-start { justify-content: flex-start; }
+.flex--justify-end { justify-content: flex-end; }
+.flex--justify-center { justify-content: center; }
+.flex--justify-between { justify-content: space-between; }
+.flex--justify-around { justify-content: space-around; }
+.flex--justify-evenly { justify-content: space-evenly; }
+
+/* Align Items */
+.flex--align-start { align-items: flex-start; }
+.flex--align-end { align-items: flex-end; }
+.flex--align-center { align-items: center; }
+.flex--align-stretch { align-items: stretch; }
+.flex--align-baseline { align-items: baseline; }
+
+/* Common Combinations */
+.flex--center {
+  justify-content: center;
+  align-items: center;
+}
+
+/* Gap */
+.flex--gap-1 { gap: var(--space-1); }
+.flex--gap-2 { gap: var(--space-2); }
+.flex--gap-3 { gap: var(--space-3); }
+.flex--gap-4 { gap: var(--space-4); }
+.flex--gap-6 { gap: var(--space-6); }
+.flex--gap-8 { gap: var(--space-8); }
+
+/* Flex Children */
+.flex-1 { flex: 1 1 0%; }
+.flex-auto { flex: 1 1 auto; }
+.flex-none { flex: none; }
+.flex-shrink-0 { flex-shrink: 0; }
+.flex-grow { flex-grow: 1; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   STACK LAYOUT (Vertical spacing)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.stack > * + * {
+  margin-top: var(--space-4);
+}
+
+.stack--sm > * + * { margin-top: var(--space-2); }
+.stack--md > * + * { margin-top: var(--space-4); }
+.stack--lg > * + * { margin-top: var(--space-6); }
+.stack--xl > * + * { margin-top: var(--space-8); }
+.stack--2xl > * + * { margin-top: var(--space-12); }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   CLUSTER LAYOUT (Horizontal wrap with gap)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.cluster--sm { gap: var(--space-2); }
+.cluster--lg { gap: var(--space-6); }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   SPLIT LAYOUT (Two columns)
+   ───────────────────────────────────────────────────────────────────────── */
+
+.split {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-8);
+}
+
+.split > * {
+  flex-grow: 1;
+  flex-basis: calc((var(--container-5xl) - 100%) * 999);
+}
+
+.split--reverse {
+  flex-direction: row-reverse;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   CENTER LAYOUT
+   ───────────────────────────────────────────────────────────────────────── */
+
+.center {
+  box-sizing: content-box;
+  max-width: var(--container-3xl);
+  margin-inline: auto;
+  padding-inline: var(--space-4);
+}
+
+.center--text {
+  text-align: center;
+}
+
+.center--intrinsic {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   ASPECT RATIO CONTAINERS
+   ───────────────────────────────────────────────────────────────────────── */
+
+.aspect {
+  position: relative;
+  width: 100%;
+}
+
+.aspect--square { aspect-ratio: var(--aspect-square); }
+.aspect--video { aspect-ratio: var(--aspect-video); }
+.aspect--portrait { aspect-ratio: var(--aspect-portrait); }
+.aspect--wide { aspect-ratio: var(--aspect-wide); }
+
+.aspect > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   POSITION UTILITIES
+   ───────────────────────────────────────────────────────────────────────── */
+
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+.inset-0 { inset: 0; }
+.top-0 { top: 0; }
+.right-0 { right: 0; }
+.bottom-0 { bottom: 0; }
+.left-0 { left: 0; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   OVERFLOW UTILITIES
+   ───────────────────────────────────────────────────────────────────────── */
+
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-scroll { overflow: scroll; }
+.overflow-x-auto { overflow-x: auto; }
+.overflow-y-auto { overflow-y: auto; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   VISIBILITY & DISPLAY
+   ───────────────────────────────────────────────────────────────────────── */
+
+.hidden { display: none; }
+.block { display: block; }
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+
+.invisible { visibility: hidden; }
+.visible { visibility: visible; }
+
+/* Responsive visibility */
+@media (max-width: 639px) {
+  .hidden-mobile { display: none !important; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .hidden-tablet { display: none !important; }
+}
+
+@media (min-width: 1024px) {
+  .hidden-desktop { display: none !important; }
+}
+
+@media (max-width: 1023px) {
+  .hidden-until-desktop { display: none !important; }
+}
+
+@media (min-width: 640px) {
+  .hidden-from-tablet { display: none !important; }
+}

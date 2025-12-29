@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Desarrollo de aplicaciones web a medida con Node.js. Soluciones escalables, seguras y de alto rendimiento para tu negocio.">
+  <title>Aplicaciones Web Node.js | Machina Development</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+  <div class="scroll-progress"></div>
+  <div class="noise-overlay"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="container navbar__container">
+      <a href="/" class="navbar__logo">
+        <img src="/assets/logo.png" alt="Machina Development" width="40" height="40">
+        
+      </a>
+      <div class="navbar__nav hidden-until-desktop">
+        <a href="/#servicios" class="navbar__link">Servicios</a>
+        <a href="/#portafolio" class="navbar__link">Portafolio</a>
+        <a href="/#contacto" class="navbar__link">Contacto</a>
+      </div>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+          <svg class="theme-toggle__icon theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <a href="/#contacto" class="btn btn--primary hidden-until-desktop">Comenzar</a>
+        <button class="navbar__toggle hidden-from-tablet" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="navbar__mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+      <a href="/#servicios" class="navbar__mobile-link">Servicios</a>
+      <a href="/#portafolio" class="navbar__mobile-link">Portafolio</a>
+      <a href="/#contacto" class="navbar__mobile-link">Contacto</a>
+      <a href="/#contacto" class="btn btn--primary btn--full">Comenzar</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="section section--hero" style="padding-top: calc(var(--navbar-height) + var(--space-16));">
+      <div class="container">
+        <div class="grid grid--cols-2 flex--align-center" style="gap: var(--space-12);">
+          <div data-animate="slide-right">
+            <a href="/" class="badge badge--cyan" style="display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Volver a servicios
+            </a>
+            <h1 class="text-5xl" style="margin-bottom: var(--space-4);">
+              Aplicaciones <span class="text-gradient">Web Node.js</span>
+            </h1>
+            <p class="text-xl text-secondary" style="margin-bottom: var(--space-8);">
+              Desarrollo de software a medida con tecnologías modernas. 
+              Sistemas escalables, seguros y de alto rendimiento para tu negocio.
+            </p>
+            <div class="cluster cluster--lg" style="margin-bottom: var(--space-8);">
+              <span class="badge badge--primary">Full Stack</span>
+              <span class="badge badge--cyan">API REST/GraphQL</span>
+              <span class="badge badge--magenta">Real-time</span>
+            </div>
+            <div class="cluster cluster--lg">
+              <a href="/#contacto" class="btn btn--primary btn--lg btn--shine">Solicitar Cotización</a>
+              <a href="#precios" class="btn btn--secondary btn--lg">Ver Precios</a>
+            </div>
+          </div>
+          <div class="hidden-until-desktop" data-animate="slide-left">
+            <div class="card card--glass" style="padding: var(--space-8);">
+              <div class="code-window">
+                <div class="code-window__header">
+                  <div class="code-window__dots">
+                    <span class="code-window__dot code-window__dot--red"></span>
+                    <span class="code-window__dot code-window__dot--yellow"></span>
+                    <span class="code-window__dot code-window__dot--green"></span>
+                  </div>
+                  <span class="code-window__title">server.js</span>
+                </div>
+                <pre class="code-window__content"><code class="language-javascript">
+const express = require('express');
+const app = express();
+
+// High Performance API
+app.get('/api/v1/data', async (req, res) => {
+  const data = await db.query('SELECT * FROM users');
+  res.json({ 
+    status: 'success', 
+    data: data 
+  });
+});
+
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+                </code></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Tecnología de Punta</h2>
+        </div>
+        <div class="grid grid--cols-3" style="gap: var(--space-8);">
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">⚡</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Node.js & Express</h3>
+            <p class="text-secondary">Backend robusto y veloz capaz de manejar miles de conexiones simultáneas.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">💾</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Bases de Datos</h3>
+            <p class="text-secondary">Diseño eficiente en SQL (PostgreSQL) o NoSQL (MongoDB) según tu necesidad.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">🔄</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Tiempo Real</h3>
+            <p class="text-secondary">WebSockets para chats, notificaciones y actualizaciones en vivo.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">🔒</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Seguridad Avanzada</h3>
+            <p class="text-secondary">Autenticación JWT, encriptación de datos y protección contra ataques.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">📊</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Dashboards</h3>
+            <p class="text-secondary">Paneles de administración intuitivos para gestionar tu negocio.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">☁️</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Cloud Ready</h3>
+            <p class="text-secondary">Despliegue en AWS, Google Cloud o VPS con Docker y CI/CD.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Demos -->
+    <section class="section" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Capacidades Interactivas</h2>
+          <p class="section-header__subtitle">Ejemplos de componentes complejos para gestión y visualización de datos.</p>
+        </div>
+        
+        <div class="grid grid--cols-2" style="gap: var(--space-8);">
+          <!-- Dummy Calendar/Reservation System -->
+          <div class="card card--elevated" data-animate="slide-right">
+            <h3 class="text-xl" style="margin-bottom: var(--space-4);">Sistema de Reservas</h3>
+            <div style="background: #fff; color: #333; padding: 1rem; border-radius: 8px;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-weight: bold;">
+                <span>&lt;</span> <span>Diciembre 2025</span> <span>&gt;</span>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; text-align: center; font-size: 0.8rem;">
+                <div>L</div><div>M</div><div>M</div><div>J</div><div>V</div><div>S</div><div>D</div>
+                <div style="color: #ccc;">29</div><div style="color: #ccc;">30</div><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div>
+                <div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div>
+                <div>13</div><div>14</div><div style="background: #e6f7ff; border-radius: 4px; cursor: pointer;">15</div><div>16</div><div>17</div><div>18</div><div>19</div>
+                <div>20</div><div>21</div><div>22</div><div>23</div><div>24</div><div>25</div><div>26</div>
+                <div>27</div><div>28</div><div>29</div><div>30</div><div>31</div><div style="color: #ccc;">1</div><div style="color: #ccc;">2</div>
+              </div>
+              <div style="margin-top: 1rem; padding: 0.5rem; background: #f0f0f0; border-radius: 4px; font-size: 0.9rem;">
+                <strong>Reserva seleccionada:</strong> 15 Dic, 10:00 AM
+              </div>
+            </div>
+            <p class="text-sm text-secondary" style="margin-top: var(--space-2);">Componente de calendario interactivo (Demo)</p>
+          </div>
+
+          <!-- Dummy Workflow Chart -->
+          <div class="card card--elevated" data-animate="slide-left">
+            <h3 class="text-xl" style="margin-bottom: var(--space-4);">Visualización de Workflows</h3>
+            <div style="background: #fff; padding: 1rem; border-radius: 8px; display: flex; justify-content: center; align-items: center; height: 250px;">
+              <svg width="100%" height="100%" viewBox="0 0 400 200">
+                <!-- Nodes -->
+                <rect x="20" y="80" width="80" height="40" rx="5" fill="#e1f5fe" stroke="#0288d1" stroke-width="2"/>
+                <text x="60" y="105" text-anchor="middle" font-size="12" fill="#0277bd">Inicio</text>
+                
+                <rect x="160" y="30" width="80" height="40" rx="5" fill="#fff3e0" stroke="#ef6c00" stroke-width="2"/>
+                <text x="200" y="55" text-anchor="middle" font-size="12" fill="#e65100">Proceso A</text>
+                
+                <rect x="160" y="130" width="80" height="40" rx="5" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+                <text x="200" y="155" text-anchor="middle" font-size="12" fill="#1b5e20">Proceso B</text>
+                
+                <rect x="300" y="80" width="80" height="40" rx="5" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2"/>
+                <text x="340" y="105" text-anchor="middle" font-size="12" fill="#4a148c">Fin</text>
+                
+                <!-- Arrows -->
+                <defs>
+                  <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L0,6 L9,3 z" fill="#666" />
+                  </marker>
+                </defs>
+                
+                <line x1="100" y1="100" x2="160" y2="50" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                <line x1="100" y1="100" x2="160" y2="150" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                <line x1="240" y1="50" x2="300" y2="100" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+                <line x1="240" y1="150" x2="300" y2="100" stroke="#666" stroke-width="2" marker-end="url(#arrow)"/>
+              </svg>
+            </div>
+            <p class="text-sm text-secondary" style="margin-top: var(--space-2);">Gráfico de flujo SVG dinámico (Demo)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="precios" class="section">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Planes de Desarrollo</h2>
+          <p class="section-header__subtitle">Inversión en Pesos Colombianos (COP)</p>
+        </div>
+        <div class="pricing__grid stagger-container">
+          <div class="pricing-card">
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">MVP</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">3.2M</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Funcionalidades Core</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Diseño UI/UX Personalizado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Base de datos optimizada</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Panel Admin Básico</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Despliegue en servidor</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--secondary btn--full">Elegir Plan</a>
+          </div>
+
+          <div class="pricing-card pricing-card--featured">
+            <span class="badge badge--new">Startup</span>
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">Startup</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">6.4M</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Desarrollo Full Stack Completo</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Integración Pasarelas de Pago</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Sistema de Notificaciones</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Panel Admin Avanzado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>API Documentada (Swagger)</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Soporte 3 meses</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--primary btn--full btn--shine">Elegir Plan</a>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">Enterprise</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">16M+</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Arquitectura de Microservicios</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Alta Disponibilidad y Escalado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Auditoría de Seguridad</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>SLA Garantizado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Equipo dedicado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Mantenimiento continuo</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--secondary btn--full">Elegir Plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="cta__background"></div>
+      <div class="container">
+        <div class="cta__content" data-animate="scale">
+          <h2 class="cta__title">¿Tienes una idea innovadora?</h2>
+          <p class="cta__description">Convertimos tu visión en un producto digital robusto y escalable.</p>
+          <a href="/#contacto" class="btn btn--primary btn--lg btn--shine">Hablemos de tu Proyecto</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2025 Machina Development</p>
+        <div class="footer__legal" style="display: flex; gap: var(--space-4);">
+          <a href="/privacidad.html">Privacidad</a>
+          <a href="/terminos.html">Términos</a>
+          <a href="/">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

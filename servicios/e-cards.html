@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="E-Cards y páginas de enlaces personalizadas tipo Linktree. Diseño único para tu marca personal desde $120 USD.">
+  <title>E-Cards Personalizadas | Machina Development</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
+  <div class="scroll-progress"></div>
+  <div class="noise-overlay"></div>
+
+  <nav class="navbar" id="navbar">
+    <div class="container navbar__container">
+      <a href="/" class="navbar__logo">
+        <img src="/assets/logo.png" alt="Machina Development" width="40" height="40">
+        
+      </a>
+      <div class="navbar__nav hidden-until-desktop">
+        <a href="/#servicios" class="navbar__link">Servicios</a>
+        <a href="/#portafolio" class="navbar__link">Portafolio</a>
+        <a href="/#contacto" class="navbar__link">Contacto</a>
+      </div>
+      <div class="navbar__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambiar tema">
+          <svg class="theme-toggle__icon theme-toggle__icon--light" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line></svg>
+          <svg class="theme-toggle__icon theme-toggle__icon--dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+        <a href="/#contacto" class="btn btn--primary hidden-until-desktop">Comenzar</a>
+        <button class="navbar__toggle hidden-from-tablet" id="menuToggle" aria-label="Abrir menú de navegación" aria-expanded="false">
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+          <span class="navbar__toggle-line"></span>
+        </button>
+      </div>
+    </div>
+
+    <div class="navbar__mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+      <a href="/#servicios" class="navbar__mobile-link">Servicios</a>
+      <a href="/#portafolio" class="navbar__mobile-link">Portafolio</a>
+      <a href="/#contacto" class="navbar__mobile-link">Contacto</a>
+      <a href="/#contacto" class="btn btn--primary btn--full">Comenzar</a>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <section class="section section--hero" style="padding-top: calc(var(--navbar-height) + var(--space-16));">
+      <div class="container">
+        <div class="grid grid--cols-2 flex--align-center" style="gap: var(--space-12);">
+          <div data-animate="slide-right">
+            <a href="/" class="badge badge--cyan" style="display: inline-flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4);">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              Volver a servicios
+            </a>
+            <h1 class="text-5xl" style="margin-bottom: var(--space-4);">
+              E-Cards <span class="text-gradient">Personalizadas</span>
+            </h1>
+            <p class="text-xl text-secondary" style="margin-bottom: var(--space-8);">
+              Tu página de enlaces profesional estilo Linktree, completamente personalizada 
+              con tu marca, colores y estilo único.
+            </p>
+            <div class="cluster cluster--lg" style="margin-bottom: var(--space-8);">
+              <span class="badge badge--primary">Responsive</span>
+              <span class="badge badge--cyan">Personalizable</span>
+              <span class="badge badge--magenta">Analytics</span>
+              <span class="badge">QR Code</span>
+            </div>
+            <div class="cluster cluster--lg">
+              <a href="/#contacto" class="btn btn--primary btn--lg btn--shine">Solicitar Cotización</a>
+              <a href="#precios" class="btn btn--secondary btn--lg">Ver Precios</a>
+            </div>
+          </div>
+          <div class="hidden-until-desktop" data-animate="slide-left">
+            <div class="card card--glass" style="padding: var(--space-8); text-align: center;">
+              <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--gradient-cyber); margin: 0 auto var(--space-4);"></div>
+              <h3 class="text-2xl" style="margin-bottom: var(--space-2);">@tuusuario</h3>
+              <p class="text-secondary" style="margin-bottom: var(--space-4);">Creador de contenido</p>
+              <div class="stack stack--sm">
+                <button class="btn btn--primary btn--full">🌐 Mi Sitio Web</button>
+                <button class="btn btn--secondary btn--full">📸 Instagram</button>
+                <button class="btn btn--secondary btn--full">🎥 YouTube</button>
+                <button class="btn btn--secondary btn--full">📧 Contacto</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">¿Qué incluye tu E-Card?</h2>
+        </div>
+        <div class="grid grid--cols-3" style="gap: var(--space-8);">
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">🎨</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Diseño Único</h3>
+            <p class="text-secondary">Personalizado con tus colores, tipografía y estilo de marca.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">🔗</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Enlaces Ilimitados</h3>
+            <p class="text-secondary">Agrega todos los enlaces que necesites a tus redes y sitios.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">📱</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">100% Móvil</h3>
+            <p class="text-secondary">Optimizado para verse perfecto en todos los dispositivos.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">📊</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Analytics</h3>
+            <p class="text-secondary">Estadísticas de clicks y visitas a tu página.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">🎯</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Código QR</h3>
+            <p class="text-secondary">QR code personalizado para compartir offline.</p>
+          </div>
+          <div class="card card--elevated" data-animate="scale">
+            <div style="font-size: 3rem; margin-bottom: var(--space-4);">⚡</div>
+            <h3 class="text-xl" style="margin-bottom: var(--space-2);">Entrega Rápida</h3>
+            <p class="text-secondary">Tu E-Card lista en 2-3 días laborales.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Integrations -->
+    <section class="section" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Integraciones Sociales</h2>
+          <p class="section-header__subtitle">Conecta tu audiencia con contenido dinámico de tus redes favoritas.</p>
+        </div>
+        
+        <div class="grid grid--cols-3" style="gap: var(--space-8);">
+          <!-- Twitter Embed -->
+          <div class="card card--elevated" data-animate="slide-up">
+            <h3 class="text-xl" style="margin-bottom: var(--space-4);">Twitter / X</h3>
+            <blockquote class="twitter-tweet" data-theme="dark"><p lang="es" dir="ltr">¡La biodiversidad de Colombia es asombrosa! 🇨🇴🌿 Desde los Andes hasta el Amazonas, cada rincón está lleno de vida. <a href="https://twitter.com/hashtag/Colombia?src=hash&amp;ref_src=twsrc%5Etfw">#Colombia</a> <a href="https://twitter.com/hashtag/Biodiversidad?src=hash&amp;ref_src=twsrc%5Etfw">#Biodiversidad</a></p>&mdash; MinAmbiente Colombia (@MinAmbienteCo) <a href="https://twitter.com/MinAmbienteCo/status/1234567890?ref_src=twsrc%5Etfw">March 3, 2024</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <p class="text-sm text-secondary" style="margin-top: var(--space-2);">Ejemplo de Tweet embebido</p>
+          </div>
+
+          <!-- Instagram Embed Placeholder (using a card style as actual embed might be heavy/blocked) -->
+          <div class="card card--elevated" data-animate="slide-up" style="display: flex; flex-direction: column;">
+            <h3 class="text-xl" style="margin-bottom: var(--space-4);">Instagram</h3>
+            <div style="background: #fff; color: #000; border-radius: 8px; overflow: hidden; flex-grow: 1;">
+               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Valle_Cocora.jpg/640px-Valle_Cocora.jpg" alt="Valle del Cocora, Quindío - Palmas de Cera" style="width: 100%; height: 200px; object-fit: cover;">
+               <div style="padding: 1rem;">
+                 <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                   <div style="width: 30px; height: 30px; background: linear-gradient(45deg, #405DE6, #833AB4, #E1306C, #F77737); border-radius: 50%;"></div>
+                   <span style="font-weight: bold;">travel_colombia</span>
+                 </div>
+                 <p style="font-size: 0.9rem;">Explorando el Valle del Cocora. 🌴 #Colombia #Quindío #PalmaDeCera</p>
+               </div>
+            </div>
+            <p class="text-sm text-secondary" style="margin-top: var(--space-2);">Ejemplo de Post de Instagram (Simulado)</p>
+          </div>
+
+          <!-- Wikipedia Card -->
+          <div class="card card--elevated" data-animate="slide-up">
+            <h3 class="text-xl" style="margin-bottom: var(--space-4);">Wikipedia Card</h3>
+            <div style="background: #fff; color: #202122; border: 1px solid #a2a9b1; border-radius: 2px; padding: 1rem; font-family: sans-serif;">
+              <h4 style="margin: 0; border-bottom: 1px solid #a2a9b1; padding-bottom: 0.5rem; font-size: 1.2rem;">Frailejón</h4>
+              <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                <div style="flex: 1;">
+                  <p style="font-size: 0.9rem; line-height: 1.4;">Espeletia es un género de plantas de la familia Asteraceae, nativas de Colombia, Venezuela y Ecuador.</p>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Espeletia_boyacensis_2.jpg/220px-Espeletia_boyacensis_2.jpg" alt="Frailejón - Espeletia boyacensis" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px;">
+              </div>
+              <a href="https://es.wikipedia.org/wiki/Espeletia" target="_blank" rel="noopener" style="display: block; margin-top: 0.5rem; color: #3366cc; text-decoration: none; font-size: 0.8rem;">Leer más en Wikipedia →</a>
+            </div>
+            <p class="text-sm text-secondary" style="margin-top: var(--space-2);">Ejemplo de Tarjeta de Información</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="precios" class="section">
+      <div class="container">
+        <div class="section-header" data-animate="fade">
+          <h2 class="section-header__title">Planes y Precios</h2>
+          <p class="section-header__subtitle">Inversión en Pesos Colombianos (COP)</p>
+        </div>
+        <div class="pricing__grid stagger-container">
+          <div class="pricing-card">
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">Básico</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">96K</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Diseño template personalizado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Hasta 10 enlaces</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Analytics básico</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Código QR</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>1 revisión</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--secondary btn--full">Elegir Plan</a>
+          </div>
+
+          <div class="pricing-card pricing-card--featured">
+            <span class="badge badge--new">Popular</span>
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">Profesional</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">200K</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Diseño 100% personalizado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Enlaces ilimitados</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Analytics avanzado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Animaciones personalizadas</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Dominio personalizado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>3 revisiones</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--primary btn--full btn--shine">Elegir Plan</a>
+          </div>
+
+          <div class="pricing-card">
+            <div class="pricing-card__header">
+              <div class="pricing-card__name">Premium</div>
+              <div class="pricing-card__price">
+                <span class="pricing-card__currency">$</span>
+                <span class="pricing-card__amount">320K</span>
+                <span class="pricing-card__period">COP</span>
+              </div>
+            </div>
+            <ul class="pricing-card__features">
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Diseño ultra-personalizado</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Todo de plan Profesional</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Panel de administración</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Edición de enlaces desde panel</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Integraciones (Mailchimp, etc)</li>
+              <li class="pricing-card__feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>Soporte 3 meses</li>
+            </ul>
+            <a href="/#contacto" class="btn btn--secondary btn--full">Elegir Plan</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section cta">
+      <div class="cta__background"></div>
+      <div class="container">
+        <div class="cta__content" data-animate="scale">
+          <h2 class="cta__title">¿Listo para centralizar todos tus enlaces?</h2>
+          <p class="cta__description">Solicita tu E-Card personalizada hoy y recíbela en 2-3 días.</p>
+          <a href="/#contacto" class="btn btn--primary btn--lg btn--shine">Comenzar Ahora</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__bottom">
+        <p class="footer__copyright">© 2025 Machina Development</p>
+        <div class="footer__legal" style="display: flex; gap: var(--space-4);">
+          <a href="/privacidad.html">Privacidad</a>
+          <a href="/terminos.html">Términos</a>
+          <a href="/">Volver al inicio</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>
