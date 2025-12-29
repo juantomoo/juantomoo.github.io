@@ -431,6 +431,8 @@ const FormValidation = {
   },
 
   handleSubmit(e, form) {
+    e.preventDefault();
+    
     const inputs = form.querySelectorAll('input, textarea, select');
     let isValid = true;
 
@@ -440,27 +442,11 @@ const FormValidation = {
       }
     });
 
-    if (!isValid) {
-      e.preventDefault();
-      return false;
+    if (isValid) {
+      // Form is valid, proceed with AJAX submission
+      console.log('Form is valid, submitting...');
+      this.submitForm(form);
     }
-
-    // Form is valid, let it submit natively to Formspree
-    console.log('Form is valid, submitting to Formspree...');
-    
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalHTML = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `
-      <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"></circle>
-      </svg>
-      Enviando...
-    `;
-    
-    // Allow native form submission (Formspree handles the redirect)
-    return true;
   },
 
   validateField(input) {
@@ -506,7 +492,47 @@ const FormValidation = {
     return true;
   },
 
-  showError(input, message) {
+  async submitForm(form) {
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+        <path d="M12 2a10 10 0 0 1 10 10" stroke-opacity="1"></path>
+      </svg>
+      Enviando...
+    `;
+
+    try {
+      // Enviar a Formspree vía AJAX
+      const formData = new FormData(form);
+      const response = await fetch(form.action, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        // Success - Mostrar mensaje sin redirección
+        this.showFormMessage(form, 'success', '¡Mensaje enviado! Te responderé pronto.');
+        form.reset();
+      } else {
+        const data = await response.json();
+        throw new Error(data.error || 'Error al enviar');
+      }
+    } catch (error) {
+      // Error
+      console.error('Form submission error:', error);
+      this.showFormMessage(form, 'error', 'Error al enviar. Inténtalo de nuevo o escríbeme por WhatsApp.');
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalHTML;
+    }
+  },
     input.classList.add('form-input--error');
     
     let errorMsg = input.parentElement.querySelector('.form-error');
@@ -518,7 +544,7 @@ const FormValidation = {
     errorMsg.textContent = message;
   },
 
-  clearError(input) {
+  showError(input, message) {
     input.classList.remove('form-input--error');
     const errorMsg = input.parentElement.querySelector('.form-error');
     if (errorMsg) {
@@ -764,22 +790,7 @@ const App = {
     LazyLoad.init();
     FormValidation.init();
     
-    // Check for form submission success
-    this.checkFormSuccess();
-    
     console.log('✨ Machina Development initialized');
-  },
-  
-  checkFormSuccess() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('mensaje') === 'enviado') {
-      // Show success message
-      setTimeout(() => {
-        alert('¡Gracias por tu mensaje! Te responderé pronto.');
-        // Clean URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      }, 500);
-    }
   }
 };
 
