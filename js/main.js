@@ -533,6 +533,8 @@ const FormValidation = {
       submitBtn.innerHTML = originalHTML;
     }
   },
+
+  showError(input, message) {
     input.classList.add('form-input--error');
     
     let errorMsg = input.parentElement.querySelector('.form-error');
@@ -544,52 +546,11 @@ const FormValidation = {
     errorMsg.textContent = message;
   },
 
-  showError(input, message) {
+  clearError(input) {
     input.classList.remove('form-input--error');
     const errorMsg = input.parentElement.querySelector('.form-error');
     if (errorMsg) {
       errorMsg.remove();
-    }
-  },
-
-  async submitForm(form) {
-    // Show loading state
-    const submitBtn = form.querySelector('button[type="submit"]');
-    const originalHTML = submitBtn.innerHTML;
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = `
-      <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="32"></circle>
-      </svg>
-      Enviando...
-    `;
-
-    try {
-      // Enviar a Formspree
-      const formData = new FormData(form);
-      const response = await fetch(form.action, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Accept': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        // Success
-        this.showFormMessage(form, 'success', '¡Mensaje enviado! Te responderé pronto.');
-        form.reset();
-      } else {
-        const data = await response.json();
-        throw new Error(data.error || 'Error al enviar');
-      }
-    } catch (error) {
-      // Error
-      console.error('Form submission error:', error);
-      this.showFormMessage(form, 'error', 'Error al enviar. Inténtalo de nuevo o escríbeme por WhatsApp.');
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = originalHTML;
     }
   },
 
