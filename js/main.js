@@ -431,8 +431,6 @@ const FormValidation = {
   },
 
   handleSubmit(e, form) {
-    e.preventDefault();
-    
     const inputs = form.querySelectorAll('input, textarea, select');
     let isValid = true;
 
@@ -442,11 +440,27 @@ const FormValidation = {
       }
     });
 
-    if (isValid) {
-      // Form is valid, proceed with submission
-      console.log('Form is valid, submitting...');
-      this.submitForm(form);
+    if (!isValid) {
+      e.preventDefault();
+      return false;
     }
+
+    // Form is valid, let it submit natively to Formspree
+    console.log('Form is valid, submitting to Formspree...');
+    
+    // Show loading state
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `
+      <svg class="spin" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+      </svg>
+      Enviando...
+    `;
+    
+    // Allow native form submission (Formspree handles the redirect)
+    return true;
   },
 
   validateField(input) {
@@ -744,18 +758,28 @@ const App = {
     CounterAnimations.init();
     TextScramble.init();
     
-    // Components
+    // Interactive features
     ShowcaseFilters.init();
+    Accordions.init();
     LazyLoad.init();
     FormValidation.init();
-    Accordions.init();
-    Tabs.init();
-    Modals.init();
     
-    // Development
-    PerformanceMonitor.init();
+    // Check for form submission success
+    this.checkFormSuccess();
     
     console.log('✨ Machina Development initialized');
+  },
+  
+  checkFormSuccess() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mensaje') === 'enviado') {
+      // Show success message
+      setTimeout(() => {
+        alert('¡Gracias por tu mensaje! Te responderé pronto.');
+        // Clean URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }, 500);
+    }
   }
 };
 
