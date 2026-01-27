@@ -1,0 +1,10 @@
+# robots.txt para juantomoo.github.io
+
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://juantomoo.github.io/sitemap.xml
+
+# Optimización de crawling
+Crawl-delay: 1

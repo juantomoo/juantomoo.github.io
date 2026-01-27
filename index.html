@@ -4,26 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juan Tomoo | Artista Visual & Desarrollador</title>
-    <meta name="description" content="Portfolio de Juan Tomoo - Artista visual, programador y consultor para ONGs en temas de cultura, medio ambiente y tecnología.">
-    <meta name="keywords" content="Juan Tomoo, artista visual, programador, desarrollo web, arte digital, Colombia, cyberactivismo">
-    <meta name="author" content="Juan Tomoo">
+    <meta name="description" content="Portfolio de Juan Gómez Rivera (Juan Tomoo) - Artista visual y desarrollador especializado en arte digital, diseño web vaporwave, y experiencias interactivas con Three.js">
+    <meta name="keywords" content="Juan Tomoo, artista visual, desarrollador web, arte digital, vaporwave, Three.js, diseño interactivo, Colombia, cyberactivismo">
+    <meta name="author" content="Juan Gómez Rivera">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Spanish">
+    <link rel="canonical" href="https://juantomoo.github.io/">
     
-    <!-- Open Graph -->
-    <meta property="og:title" content="Juan Tomoo | Artista Visual & Desarrollador">
-    <meta property="og:description" content="Artista visual, nerd indisciplinado jugando a ser programador. Consultor para ONGs en temas de cultura, medio ambiente y tecnología.">
+    <!-- Open Graph (Facebook, LinkedIn) -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://juantomoo.github.io">
+    <meta property="og:url" content="https://juantomoo.github.io/">
+    <meta property="og:title" content="Juan Tomoo | Artista Visual & Desarrollador">
+    <meta property="og:description" content="Portfolio de arte digital y desarrollo web con estética vaporwave y experiencias interactivas">
+    <meta property="og:image" content="https://juantomoo.github.io/assets/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Juan Tomoo Portfolio">
+    <meta property="og:locale" content="es_ES">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@juantomoo">
+    <meta name="twitter:creator" content="@juantomoo">
+    <meta name="twitter:title" content="Juan Tomoo | Artista Visual & Desarrollador">
+    <meta name="twitter:description" content="Portfolio de arte digital y desarrollo web con estética vaporwave">
+    <meta name="twitter:image" content="https://juantomoo.github.io/assets/twitter-card.jpg">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#00ffff">
+    <meta name="msapplication-TileColor" content="#240046">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <!-- Three.js Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.min.js"></script>
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Juan Gómez Rivera",
+      "alternateName": "Juan Tomoo",
+      "url": "https://juantomoo.github.io",
+      "image": "https://juantomoo.github.io/assets/profile.jpg",
+      "jobTitle": "Artista Visual y Desarrollador Web",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Freelance"
+      },
+      "description": "Artista visual y desarrollador especializado en arte digital, diseño web vaporwave, y experiencias interactivas",
+      "sameAs": [
+        "https://github.com/juantomoo",
+        "https://instagram.com/juantomoo",
+        "https://instagram.com/juantomooph",
+        "https://artstation.com/juangomezrivera"
+      ],
+      "knowsAbout": [
+        "Arte Digital",
+        "Diseño Web",
+        "Three.js",
+        "JavaScript",
+        "Desarrollo Frontend",
+        "Estética Vaporwave"
+      ]
+    }
+    </script>
 </head>
 <body>
+    <!-- Skip Link para accesibilidad -->
+    <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
     <!-- Pantalla de carga -->
     <div id="loading-screen" class="loading-screen">
         <div class="loading-content">
@@ -43,8 +97,8 @@
     <canvas id="canvas-3d"></canvas>
 
     <!-- Audio Control -->
-    <button class="audio-toggle" id="audio-toggle" title="Alternar música">
-        <span class="audio-icon">🔇</span>
+    <button class="audio-toggle" id="audio-toggle" aria-label="Alternar música" title="Alternar música">
+        <span class="audio-icon" aria-hidden="true">🔇</span>
     </button>
 
     <!-- HUD Interface -->
@@ -63,16 +117,23 @@
         </div>
         <div class="hud-right">
             <div class="clock" id="clock">00:00:00</div>
-            <button class="menu-btn" id="menu-btn">
-                <span></span>
-                <span></span>
-                <span></span>
+            <button 
+                class="menu-btn" 
+                id="menu-btn"
+                aria-label="Abrir menú de navegación"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+                aria-haspopup="true"
+            >
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
             </button>
         </div>
     </header>
 
     <!-- Navigation Menu -->
-    <nav class="nav-menu" id="nav-menu">
+    <nav class="nav-menu" id="nav-menu" role="navigation" aria-label="Menú principal">
         <div class="nav-background"></div>
         <ul class="nav-list">
             <li class="nav-item" data-section="inicio">

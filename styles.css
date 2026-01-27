@@ -1982,3 +1982,248 @@ body {
     background: var(--color-pink);
     color: var(--color-white);
 }
+
+/* =============================================
+   ACCESSIBILITY UTILITIES
+   ============================================= */
+
+/* Screen reader only (ocultar visualmente pero accesible) */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Skip link (visible al enfocar) */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    z-index: 100000;
+    padding: 8px 16px;
+    background: var(--color-cyan);
+    color: var(--color-bg-dark);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    transition: top 0.3s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 3px solid var(--color-pink);
+    outline-offset: 2px;
+}
+
+/* Focus styles visibles para navegación por teclado */
+*:focus {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+    outline: none;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.2);
+}
+
+/* Focus para elementos interactivos */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--color-cyan);
+    outline-offset: 3px;
+    box-shadow: var(--glow-cyan);
+}
+
+/* Mejoras de contraste */
+@media (prefers-contrast: high) {
+    :root {
+        --color-cyan: #00ffff;
+        --color-pink: #ff00ff;
+        --color-text: #ffffff;
+    }
+    
+    .crt-overlay,
+    .scanlines {
+        opacity: 0.1;
+    }
+}
+
+/* =============================================
+   ERROR NOTIFICATIONS
+   ============================================= */
+
+.error-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    max-width: 400px;
+    padding: 16px 20px;
+    background: rgba(36, 0, 70, 0.95);
+    border: 2px solid var(--color-pink);
+    border-radius: 8px;
+    box-shadow: 
+        0 0 20px rgba(255, 0, 255, 0.5),
+        0 8px 32px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    animation: slideIn 0.3s ease-out;
+    font-family: var(--font-mono);
+}
+
+.error-notification.fade-out {
+    animation: fadeOut 0.3s ease-out forwards;
+}
+
+.error-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.error-message {
+    flex: 1;
+    color: var(--color-text);
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.error-close {
+    background: none;
+    border: none;
+    color: var(--color-cyan);
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.error-close:hover {
+    color: var(--color-pink);
+    transform: scale(1.2);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+}
+
+/* =============================================
+   LAZY LOADING IMAGES
+   ============================================= */
+
+/* Imagen lazy aún no cargada */
+img.lazy {
+    filter: blur(5px);
+    opacity: 0.6;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+/* Imagen lazy cargada */
+img.lazy-loaded {
+    filter: blur(0);
+    opacity: 1;
+}
+
+/* Imagen lazy con error */
+img.lazy-error {
+    background: linear-gradient(135deg, #240046 0%, #3c096c 100%);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+img.lazy-error::after {
+    content: '⚠️ Error de carga';
+    color: var(--color-cyan);
+    font-family: var(--font-mono);
+}
+
+/* Fallback image */
+img.fallback-image {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+/* =============================================
+   REDUCED MOTION
+   ============================================= */
+
+/* Deshabilitar animaciones si el usuario lo prefiere */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    /* Ocultar canvas 3D */
+    #canvas-3d {
+        display: none;
+    }
+    
+    /* Mostrar fondo estático alternativo */
+    body {
+        background: linear-gradient(135deg, #0d0221 0%, #240046 100%);
+    }
+}
+
+/* =============================================
+   MOBILE OPTIMIZATIONS
+   ============================================= */
+
+@media (max-width: 768px) {
+    /* Reducir efectos costosos */
+    .crt-overlay {
+        opacity: 0.3;
+    }
+    
+    .scanlines {
+        display: none;
+    }
+    
+    /* Simplificar glow effects */
+    .glow-text {
+        text-shadow: 0 0 5px currentColor;
+    }
+    
+    /* Notificaciones responsive */
+    .error-notification {
+        left: 20px;
+        right: 20px;
+        max-width: none;
+    }
+}

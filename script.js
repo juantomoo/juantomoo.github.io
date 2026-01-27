@@ -17,8 +17,80 @@ const CONFIG = {
         pink: 0xff00ff
     },
     animationSpeed: 0.001,
-    warpSpeed: 0.02
+    warpSpeed: 0.02,
+    starCount: 500,
+    enableAnimations: true
 };
+
+// =============================================
+// ERROR HANDLING UTILITIES
+// =============================================
+
+/**
+ * Safe fetch wrapper con manejo de errores
+ */
+async function safeFetch(url, options = {}) {
+    try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+            return await response.json();
+        }
+        
+        return await response.text();
+        
+    } catch (error) {
+        console.error(`❌ Error fetching ${url}:`, error);
+        throw error;
+    }
+}
+
+/**
+ * Muestra notificación de error al usuario
+ */
+function showErrorNotification(message, duration = 5000) {
+    const notification = document.createElement('div');
+    notification.className = 'error-notification';
+    notification.innerHTML = `
+        <div class="error-icon">⚠️</div>
+        <div class="error-message">${escapeHtml(message)}</div>
+        <button class="error-close" onclick="this.parentElement.remove()">×</button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        if (notification.parentElement) {
+            notification.classList.add('fade-out');
+            setTimeout(() => notification.remove(), 300);
+        }
+    }, duration);
+}
+
+/**
+ * Escapa HTML para prevenir XSS
+ */
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+/**
+ * Configuración de media por defecto (fallback)
+ */
+function getDefaultMediaConfig() {
+    return {
+        gallery: [],
+        videos: [],
+        audio: []
+    };
+}
 
 // Estado de la aplicación
 let appState = {
@@ -289,6 +361,7 @@ function initUI() {
     menuBtn.addEventListener('click', () => {
         menuBtn.classList.toggle('active');
         navMenu.classList.toggle('active');
+        toggleMenuAria();
     });
 
     // Elementos de navegación
@@ -300,6 +373,7 @@ function initUI() {
             navigateToSection(sectionIndex);
             menuBtn.classList.remove('active');
             navMenu.classList.remove('active');
+            menuBtn.setAttribute('aria-expanded', 'false');
         });
     });
 
@@ -494,14 +568,13 @@ function initContactForm() {
 // =============================================
 async function loadMediaConfig() {
     try {
-        const response = await fetch('media-config.json');
-        if (!response.ok) throw new Error('No se pudo cargar media-config.json');
-        
-        const config = await response.json();
+        const config = await safeFetch('media-config.json');
         
         // Cargar galería
         if (config.gallery && config.gallery.length) {
             renderGallery(config.gallery);
+        } else {
+            showEmptyGalleryMessage();
         }
         
         // Cargar videos
@@ -514,10 +587,29 @@ async function loadMediaConfig() {
             renderAudio(config.audio);
         }
         
+        return config;
+        
     } catch (error) {
-        console.log('Usando contenido de demostración:', error.message);
-        // Mostrar instrucciones si no hay config
+        console.error('Error cargando media config:', error);
+        showErrorNotification('No se pudo cargar el contenido multimedia');
+        
+        // Usar configuración por defecto
+        const defaultConfig = getDefaultMediaConfig();
         showMediaInstructions();
+        
+        return defaultConfig;
+    }
+}
+
+function showEmptyGalleryMessage() {
+    const container = document.getElementById('gallery-container');
+    if (container) {
+        container.innerHTML = `
+            <div class="empty-gallery-message" style="text-align: center; padding: 40px; color: var(--color-cyan); font-family: var(--font-mono);">
+                <p style="font-size: 24px; margin-bottom: 10px;">📷 Galería en construcción</p>
+                <p>El contenido estará disponible próximamente</p>
+            </div>
+        `;
     }
 }
 
@@ -724,6 +816,262 @@ function initCursorEffects() {
     });
 
     // Ocultar en móviles
+    if (window.matchMedia('(max-width: 768px)').matches) {
+        cursor.style.display = 'none';
+    }
+}
+
+// =============================================
+// IMAGE ERROR HANDLING
+// =============================================
+
+/**
+ * Configura manejo de errores para todas las imágenes
+ */
+function setupImageErrorHandling() {
+    document.querySelectorAll('img').forEach(img => {
+        if (img.dataset.errorHandled) return;
+        
+        img.addEventListener('error', function handleImageError() {
+            console.warn(`⚠️ Error cargando imagen: ${this.src}`);
+            
+            if (this.dataset.fallbackUsed) {
+                console.error('❌ Fallback image también falló');
+                this.style.display = 'none';
+                return;
+            }
+            
+            this.dataset.fallbackUsed = 'true';
+            this.src = 'assets/fallback-image.jpg';
+            this.alt = 'Imagen no disponible';
+            this.classList.add('fallback-image');
+        }, { once: true });
+        
+        img.dataset.errorHandled = 'true';
+    });
+}
+
+/**
+ * Pre-carga imagen de fallback al inicio
+ */
+function preloadFallbackImage() {
+    const fallback = new Image();
+    fallback.src = 'assets/fallback-image.jpg';
+}
+
+// =============================================
+// LAZY LOADING
+// =============================================
+
+/**
+ * Inicializa lazy loading para imágenes
+ */
+function initLazyLoading() {
+    if (!('IntersectionObserver' in window)) {
+        console.warn('⚠️ IntersectionObserver no soportado, cargando todas las imágenes');
+        loadAllImages();
+        return;
+    }
+    
+    const imageObserver = new IntersectionObserver(
+        (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    loadLazyImage(img);
+                    observer.unobserve(img);
+                }
+            });
+        },
+        {
+            root: null,
+            rootMargin: '50px',
+            threshold: 0.01
+        }
+    );
+    
+    document.querySelectorAll('img.lazy').forEach(img => {
+        imageObserver.observe(img);
+    });
+}
+
+/**
+ * Carga una imagen lazy
+ */
+function loadLazyImage(img) {
+    const src = img.dataset.src;
+    
+    if (!src) {
+        console.warn('⚠️ Imagen lazy sin data-src:', img);
+        return;
+    }
+    
+    const tempImg = new Image();
+    
+    tempImg.onload = function() {
+        img.src = src;
+        img.classList.remove('lazy');
+        img.classList.add('lazy-loaded');
+    };
+    
+    tempImg.onerror = function() {
+        console.error(`❌ Error cargando imagen lazy: ${src}`);
+        img.classList.remove('lazy');
+        img.classList.add('lazy-error');
+    };
+    
+    tempImg.src = src;
+}
+
+/**
+ * Fallback: cargar todas las imágenes si no hay soporte
+ */
+function loadAllImages() {
+    document.querySelectorAll('img.lazy').forEach(img => {
+        if (img.dataset.src) {
+            img.src = img.dataset.src;
+            img.classList.remove('lazy');
+        }
+    });
+}
+
+// =============================================
+// MOBILE & PERFORMANCE OPTIMIZATIONS
+// =============================================
+
+/**
+ * Detecta y configura optimizaciones para móviles
+ */
+function setupMobileOptimizations() {
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                     window.matchMedia('(max-width: 768px)').matches;
+    
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    if (isMobile) {
+        console.log('📱 Modo móvil detectado - Aplicando optimizaciones');
+        
+        if (window.renderer) {
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+        }
+        
+        CONFIG.starCount = 100;
+        
+        if (window.renderer) {
+            renderer.shadowMap.enabled = false;
+        }
+    }
+    
+    if (prefersReducedMotion) {
+        console.log('♿ Reducción de movimiento preferida - Desactivando animaciones');
+        
+        CONFIG.enableAnimations = false;
+        
+        if (window.animationId) {
+            cancelAnimationFrame(window.animationId);
+        }
+        
+        document.body.classList.add('reduced-motion');
+    }
+}
+
+// =============================================
+// ACCESSIBILITY UTILITIES
+// =============================================
+
+/**
+ * Gestiona el estado ARIA del menú
+ */
+function toggleMenuAria() {
+    const menuBtn = document.getElementById('menu-btn');
+    const navMenu = document.querySelector('.nav-menu');
+    
+    if (!menuBtn || !navMenu) return;
+    
+    const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
+    menuBtn.setAttribute('aria-expanded', !isExpanded);
+    
+    if (!isExpanded) {
+        const firstLink = navMenu.querySelector('a');
+        if (firstLink) {
+            setTimeout(() => firstLink.focus(), 100);
+        }
+    }
+}
+
+/**
+ * Trap focus dentro del modal
+ */
+function trapFocusInModal(modalElement) {
+    const focusableElements = modalElement.querySelectorAll(
+        'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    
+    const firstElement = focusableElements[0];
+    const lastElement = focusableElements[focusableElements.length - 1];
+    
+    if (!firstElement) return;
+    
+    modalElement.addEventListener('keydown', function(e) {
+        const isTabPressed = e.key === 'Tab';
+        
+        if (!isTabPressed) return;
+        
+        if (e.shiftKey) {
+            if (document.activeElement === firstElement) {
+                lastElement.focus();
+                e.preventDefault();
+            }
+        } else {
+            if (document.activeElement === lastElement) {
+                firstElement.focus();
+                e.preventDefault();
+            }
+        }
+    });
+    
+    firstElement.focus();
+}
+
+/**
+ * Manejo de teclado para navegación
+ */
+function setupKeyboardNavigation() {
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const modal = document.querySelector('.modal.active');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+            
+            const menu = document.querySelector('.nav-menu.active');
+            if (menu) {
+                menu.classList.remove('active');
+                const menuBtn = document.getElementById('menu-btn');
+                if (menuBtn) {
+                    menuBtn.setAttribute('aria-expanded', 'false');
+                }
+            }
+        }
+    });
+    
+    const sections = document.querySelectorAll('section[id]');
+    let currentSectionIndex = 0;
+    
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey || e.metaKey) {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                currentSectionIndex = Math.min(currentSectionIndex + 1, sections.length - 1);
+                navigateToSection(sections[currentSectionIndex].id);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                currentSectionIndex = Math.max(currentSectionIndex - 1, 0);
+                navigateToSection(sections[currentSectionIndex].id);
+            }
+        }
+    });
+}
     if ('ontouchstart' in window) {
         cursor.style.display = 'none';
     }
@@ -765,6 +1113,11 @@ function initGlitchEffects() {
 // INICIALIZACIÓN PRINCIPAL
 // =============================================
 document.addEventListener('DOMContentLoaded', () => {
+    // Inicializar optimizaciones móviles y accesibilidad
+    setupMobileOptimizations();
+    preloadFallbackImage();
+    setupKeyboardNavigation();
+    
     // Inicializar elementos 3D
     init3D();
 
@@ -777,8 +1130,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar efectos glitch
     initGlitchEffects();
 
-    // Cargar contenido multimedia
-    loadMediaConfig();
+    // Inicializar lazy loading
+    initLazyLoading();
+    
+    // Configurar manejo de errores de imágenes
+    setupImageErrorHandling();
+
+    // Cargar contenido multimedia con manejo de errores
+    loadMediaConfig().catch(err => {
+        console.error('Error cargando media config:', err);
+    });
 
     // Inicializar audio
     setTimeout(() => {
@@ -789,9 +1150,17 @@ document.addEventListener('DOMContentLoaded', () => {
     initLoading();
 });
 
+// Re-evaluar optimizaciones en resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setupMobileOptimizations, 250);
+});
+
 // =============================================
 // EXPORTAR FUNCIONES GLOBALES
 // =============================================
 window.navigateToSection = navigateToSection;
 window.appState = appState;
 window.openGalleryModal = openGalleryModal;
+window.toggleMenuAria = toggleMenuAria;
