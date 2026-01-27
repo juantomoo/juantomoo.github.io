@@ -253,74 +253,29 @@ function navigateToSection(sectionIndex) {
     }, 500);
 }
 
-function showWarpEffect() {
-    const warpOverlay = document.createElement('div');
-    warpOverlay.className = 'warp-overlay';
-    warpOverlay.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 999;
-        pointer-events: none;
-        background: radial-gradient(circle, transparent 30%, rgba(255,0,255,0.3) 70%);
-        animation: warpIn 0.5s ease-out;
-    `;
 
-    if (!document.getElementById('warp-styles')) {
-        const style = document.createElement('style');
-        style.id = 'warp-styles';
-        style.textContent = `
-            @keyframes warpIn {
-                0% { opacity: 0; }
-                100% { opacity: 1; }
-            }
-        `;
-        document.head.appendChild(style);
+function showWarpEffect() {
+    // Remover warp overlay existente si hay uno
+    const existingWarp = document.querySelector('.warp-overlay');
+    if (existingWarp) {
+        existingWarp.remove();
     }
 
+    // Crear nuevo warp overlay
+    const warpOverlay = document.createElement('div');
+    warpOverlay.className = 'warp-overlay';
+    warpOverlay.id = 'warp-overlay';
     document.body.appendChild(warpOverlay);
-
-    setTimeout(() => {
-        warpOverlay.remove();
-    }, 500);
 }
 
 function hideWarpEffect() {
-    const warpEffect = document.createElement('div');
-    warpEffect.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(circle, rgba(0,255,255,0.3) 0%, transparent 70%);
-        z-index: 998;
-        pointer-events: none;
-        animation: warpOut 0.3s ease-out forwards;
-    `;
-
-    if (!document.getElementById('warp-exit-styles')) {
-        const style = document.createElement('style');
-        style.id = 'warp-exit-styles';
-        style.textContent = `
-            @keyframes warpOut {
-                0% { opacity: 1; }
-                100% { opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
+    const warpOverlay = document.getElementById('warp-overlay');
+    if (warpOverlay) {
+        warpOverlay.classList.add('hiding');
+        setTimeout(() => {
+            warpOverlay.remove();
+        }, 500);
     }
-
-    document.body.appendChild(warpEffect);
-
-    setTimeout(() => {
-        warpEffect.remove();
-    }, 300);
 }
 
 // =============================================

@@ -126,6 +126,80 @@ body {
 }
 
 /* =============================================
+   WARP TRANSITION EFFECT
+   ============================================= */
+.warp-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(ellipse at center, 
+        rgba(255, 0, 255, 0.1) 0%, 
+        rgba(36, 0, 70, 0.8) 50%,
+        rgba(10, 10, 18, 1) 100%);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: warpIn 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+.warp-overlay::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 10px,
+        rgba(0, 255, 255, 0.03) 10px,
+        rgba(0, 255, 255, 0.03) 20px
+    );
+    animation: warpLines 0.5s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+.warp-overlay.hiding {
+    animation: warpOut 0.5s ease-in-out forwards;
+}
+
+@keyframes warpIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes warpOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(1.2);
+    }
+}
+
+@keyframes warpLines {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* =============================================
    PANTALLA DE CARGA
    ============================================= */
 .loading-screen {
