@@ -109,9 +109,22 @@ let scene, camera, renderer;
 let gridMesh, sunMesh, stars = [];
 let warpTunnel;
 let animationId;
+let threeJsAvailable = typeof THREE !== 'undefined';
 
 // Inicializar la escena 3D
 function init3D() {
+    // Verificar si Three.js está disponible
+    if (!threeJsAvailable) {
+        console.warn('⚠️ Three.js no disponible. La escena 3D se deshabilitará.');
+        const canvas = document.getElementById('canvas-3d');
+        if (canvas) {
+            canvas.style.display = 'none';
+        }
+        // Mostrar fondo alternativo con CSS
+        document.body.classList.add('no-threejs');
+        return;
+    }
+    
     const canvas = document.getElementById('canvas-3d');
 
     // Crear escena

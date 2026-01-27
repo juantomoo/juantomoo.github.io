@@ -1,0 +1,17 @@
+{
+    "name": "En el NIDO",
+    "short_name": "NIDO",
+    "description": "Antologia de ficciones interactivas por Juan Tomoo",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0b10",
+    "theme_color": "#0a0b10",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='none' stroke='%2300ff9d' stroke-width='2'/><circle cx='50' cy='50' r='30' fill='none' stroke='%23ff3e3e' stroke-width='1'/><circle cx='50' cy='50' r='15' fill='%2300ff9d' opacity='0.5'/></svg>",
+            "sizes": "any",
+            "type": "image/svg+xml"
+        }
+    ]
+}

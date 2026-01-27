@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>En el NIDO | Antología de Ficciones</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0a0b10">
+    <meta name="description" content="En el NIDO — Antología de ficciones por Juan Tomoo. Una experiencia inmersiva de lectura.">
+</head>
+<body>
+    <!-- Secuencia de Arranque -->
+    <div id="boot-sequence" class="boot-overlay">
+        <div class="boot-content">
+            <div class="boot-line" data-text="Inicializando MiCeLiCon v2.5...">Inicializando MiCeLiCon v2.5...</div>
+            <div class="boot-line" data-text="Conectando a la red de nidos...">Conectando a la red de nidos...</div>
+            <div class="boot-line" data-text="Detectando anomalías sensoriales...">Detectando anomalías sensoriales...</div>
+            <div class="boot-line" data-text="Bypaseando Protocolo Normalizador...">Bypaseando Protocolo Normalizador...</div>
+            <div class="boot-line success" data-text="CONEXIÓN ESTABLE | Bienvenido al NIDO">CONEXIÓN ESTABLE | Bienvenido al NIDO</div>
+        </div>
+        <button id="enter-btn" class="enter-button">ROMPER PROTOCOLO</button>
+    </div>
+
+    <!-- Interfaz Principal -->
+    <div id="main-interface" class="hidden">
+        <!-- Barra de Estado -->
+        <header class="status-bar">
+            <div class="status-left">
+                <span class="status-icon pulse" id="connection-status">●</span>
+                <span class="status-text" id="status-text">MiCeLiCon ACTIVO</span>
+            </div>
+            <div class="status-center">
+                <span class="glitch-text" data-text="EN_EL_NIDO">EN_EL_NIDO</span>
+            </div>
+            <div class="status-right">
+                <button class="control-btn" id="audio-toggle" aria-label="Activar audio">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M11 5L6 9H2v6h4l5 4V5z"></path>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                    </svg>
+                </button>
+                <button class="control-btn" id="mode-toggle" aria-label="Cambiar modo">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Contenedor de Historia -->
+        <main id="reader-container" class="reader-container">
+            <article id="story-content" class="story-content">
+                <!-- El contenido se carga dinamicamente -->
+            </article>
+        </main>
+
+        <!-- Micelio de Navegacion -->
+        <nav id="mycelium-nav" class="mycelium-nav">
+            <canvas id="nav-canvas"></canvas>
+            <div class="nav-overlay"></div>
+        </nav>
+
+        <!-- Menu de Historias -->
+        <aside id="story-menu" class="story-menu">
+            <div class="menu-header">
+                <h2>Nodos del Micelio</h2>
+                <button id="close-menu" class="close-btn">&times;</button>
+            </div>
+            <div class="story-list" id="story-list">
+                <!-- Lista generada dinamicamente -->
+            </div>
+        </aside>
+
+        <!-- Controles Flotantes -->
+        <div class="floating-controls">
+            <button class="floating-btn" id="menu-toggle" aria-label="Abrir menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 12h18M3 6h18M3 18h18"></path>
+                </svg>
+            </button>
+            <button class="floating-btn" id="prev-story" aria-label="Historia anterior">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"></path>
+                </svg>
+            </button>
+            <button class="floating-btn" id="next-story" aria-label="Siguiente historia">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Efectos de Ruido Blanco -->
+        <div id="noise-overlay" class="noise-overlay"></div>
+        <div id="scanlines" class="scanlines"></div>
+    </div>
+
+    <!-- Modal de Modo E-Ink -->
+    <div id="eink-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Modo E-Ink Activado</h3>
+            <p>Optimizado para lectores de tinta electronica. Se han eliminado animaciones, sombras y degradados para maximizar la legibilidad.</p>
+            <button id="eink-confirm">Entendido</button>
+        </div>
+    </div>
+
+    <script src="stories.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,855 @@
+/* ==========================================================================
+   EN EL NIDO — Estilos de la Experiencia Inmersiva
+   ========================================================================== */
+
+/* Variables CSS - Paleta de Colores del NIDO
+   ========================================================================== */
+:root {
+    /* Colores del NIDO (Modo Oscuro) */
+    --void-bg: #0a0b10;
+    --void-light: #12141a;
+    --mycelium-text: #e0e0e0;
+    --mycelium-dim: #8a8a8a;
+    --bioluminescence: rgba(0, 255, 157, 0.15);
+    --bioluminescence-strong: rgba(0, 255, 157, 0.4);
+    --failure-red: #ff3e3e;
+    --failure-orange: #ffae00;
+    --warning-yellow: #ffd93d;
+    --protocol-blue: #0984e3;
+    --organic-green: #2d6a4f;
+    --iridescent-1: #243b55;
+    --iridescent-2: #141e30;
+    --static-gray: #2a2a2a;
+    
+    /* Tipografia */
+    --font-terminal: 'Space Mono', monospace;
+    --font-story: 'Lora', Georgia, serif;
+    
+    /* Efectos */
+    --glow-spread: 0 0 20px var(--bioluminescence);
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --border-radius: 4px;
+    
+    /* Sombras */
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 30px rgba(0, 255, 157, 0.2);
+}
+
+/* Modo Protocolo (Claro)
+   ========================================================================== */
+[data-theme="protocol"] {
+    --void-bg: #f0f2f5;
+    --void-light: #ffffff;
+    --mycelium-text: #2d3436;
+    --mycelium-dim: #636e72;
+    --bioluminescence: rgba(9, 132, 227, 0.1);
+    --bioluminescence-strong: rgba(9, 132, 227, 0.3);
+    --failure-red: #d63031;
+    --failure-orange: #e17055;
+    --warning-yellow: #fdcb6e;
+    --protocol-blue: #0984e3;
+    --static-gray: #dfe6e9;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.1);
+    --shadow-glow: 0 0 20px rgba(9, 132, 227, 0.15);
+}
+
+/* Modo E-Ink
+   ========================================================================== */
+[data-theme="eink"] {
+    --void-bg: #ffffff;
+    --void-light: #fafafa;
+    --mycelium-text: #000000;
+    --mycelium-dim: #333333;
+    --bioluminescence: transparent;
+    --bioluminescence-strong: transparent;
+    --failure-red: #000000;
+    --failure-orange: #000000;
+    --warning-yellow: #000000;
+    --protocol-blue: #000000;
+    --static-gray: #cccccc;
+    --shadow-soft: none;
+    --shadow-glow: none;
+}
+
+/* Reset y Base
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-story);
+    background-color: var(--void-bg);
+    color: var(--mycelium-text);
+    line-height: 1.8;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+/* Ocultar elementos inicialmente
+   ========================================================================== */
+.hidden {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* ==========================================================================
+   SECUENCIA DE ARRANQUE
+   ========================================================================== */
+.boot-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--void-bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    font-family: var(--font-terminal);
+}
+
+.boot-content {
+    max-width: 600px;
+    padding: 2rem;
+}
+
+.boot-line {
+    font-size: 0.875rem;
+    color: var(--mycelium-dim);
+    margin: 0.5rem 0;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: bootLine 0.5s forwards;
+}
+
+.boot-line:nth-child(1) { animation-delay: 0.3s; }
+.boot-line:nth-child(2) { animation-delay: 0.8s; }
+.boot-line:nth-child(3) { animation-delay: 1.3s; }
+.boot-line:nth-child(4) { animation-delay: 1.8s; }
+.boot-line:nth-child(5) { animation-delay: 2.5s; }
+
+.boot-line.success {
+    color: var(--bioluminescence-strong);
+    text-shadow: var(--glow-spread);
+}
+
+@keyframes bootLine {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.enter-button {
+    margin-top: 3rem;
+    padding: 1rem 2.5rem;
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    background: transparent;
+    border: 2px solid var(--bioluminescence-strong);
+    color: var(--bioluminescence-strong);
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 1s 3s forwards;
+    position: relative;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.enter-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, var(--bioluminescence), transparent);
+    transition: left 0.5s ease;
+}
+
+.enter-button:hover::before {
+    left: 100%;
+}
+
+.enter-button:hover {
+    background: var(--bioluminescence);
+    color: var(--void-bg);
+    box-shadow: var(--glow-spread);
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   BARRA DE ESTADO
+   ========================================================================== */
+.status-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1.5rem;
+    background: linear-gradient(180deg, var(--void-bg) 0%, transparent 100%);
+    z-index: 100;
+    font-family: var(--font-terminal);
+    font-size: 0.75rem;
+}
+
+.status-left, .status-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.status-icon {
+    color: var(--bioluminescence-strong);
+    font-size: 0.625rem;
+}
+
+.status-icon.pulse {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.status-text {
+    color: var(--mycelium-dim);
+    letter-spacing: 0.05em;
+}
+
+.glitch-text {
+    position: relative;
+    color: var(--mycelium-text);
+    font-weight: 700;
+    letter-spacing: 0.15em;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+
+.glitch-text::before {
+    color: var(--failure-red);
+    animation: glitch-1 3s infinite;
+}
+
+.glitch-text::after {
+    color: var(--failure-orange);
+    animation: glitch-2 3s infinite;
+}
+
+@keyframes glitch-1 {
+    0%, 90%, 100% { opacity: 0; transform: translate(0); }
+    92% { opacity: 0.8; transform: translate(-2px, 2px); }
+    94% { opacity: 0; transform: translate(0); }
+}
+
+@keyframes glitch-2 {
+    0%, 90%, 100% { opacity: 0; transform: translate(0); }
+    93% { opacity: 0.8; transform: translate(2px, -2px); }
+    95% { opacity: 0; transform: translate(0); }
+}
+
+.control-btn {
+    background: transparent;
+    border: none;
+    color: var(--mycelium-dim);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: var(--transition-smooth);
+}
+
+.control-btn:hover {
+    color: var(--bioluminescence-strong);
+    transform: scale(1.1);
+}
+
+/* ==========================================================================
+   CONTENEDOR DEL LECTOR
+   ========================================================================== */
+.reader-container {
+    max-width: 65ch;
+    margin: 0 auto;
+    padding: 6rem 1.5rem 8rem;
+    min-height: 100vh;
+}
+
+.story-content {
+    position: relative;
+}
+
+.story-meta {
+    font-family: var(--font-terminal);
+    font-size: 0.75rem;
+    color: var(--mycelium-dim);
+    margin-bottom: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.story-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    color: var(--mycelium-text);
+}
+
+.story-subtitle {
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--mycelium-dim);
+    margin-bottom: 2rem;
+}
+
+.story-body {
+    font-size: 1.125rem;
+    line-height: 1.9;
+    text-align: justify;
+}
+
+.story-body p {
+    margin-bottom: 1.5rem;
+    text-indent: 1.5rem;
+}
+
+.story-body p:first-of-type {
+    text-indent: 0;
+}
+
+.story-body p:first-of-type::first-letter {
+    font-size: 3.5rem;
+    font-weight: 700;
+    float: left;
+    line-height: 1;
+    margin-right: 0.5rem;
+    color: var(--bioluminescence-strong);
+    text-shadow: var(--glow-spread);
+}
+
+.story-body strong {
+    color: var(--failure-orange);
+    font-weight: 600;
+}
+
+.story-body em {
+    color: var(--mycelium-dim);
+    font-style: italic;
+}
+
+.story-body .firma {
+    font-family: var(--font-terminal);
+    font-size: 0.75rem;
+    color: var(--mycelium-dim);
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--static-gray);
+    text-align: right;
+}
+
+.story-body .separator {
+    text-align: center;
+    margin: 2rem 0;
+    color: var(--mycelium-dim);
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+}
+
+.story-body .highlight {
+    background: linear-gradient(180deg, transparent 60%, var(--bioluminescence) 60%);
+    padding: 0 0.2rem;
+}
+
+/* Palabras clave especiales */
+.keyword {
+    position: relative;
+    color: var(--failure-orange);
+    transition: var(--transition-smooth);
+}
+
+.keyword:hover {
+    color: var(--bioluminescence-strong);
+    text-shadow: var(--glow-spread);
+}
+
+/* ==========================================================================
+   NAVEGACION DEL MICELIO
+   ========================================================================== */
+.mycelium-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 200px;
+    pointer-events: none;
+    z-index: 50;
+}
+
+#nav-canvas {
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+}
+
+.nav-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(0deg, var(--void-bg) 0%, transparent 100%);
+}
+
+/* ==========================================================================
+   MENU DE HISTORIAS
+   ========================================================================== */
+.story-menu {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: var(--void-light);
+    border-left: 1px solid var(--static-gray);
+    z-index: 200;
+    transition: right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    overflow-y: auto;
+    font-family: var(--font-terminal);
+}
+
+.story-menu.open {
+    right: 0;
+}
+
+.menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--static-gray);
+    position: sticky;
+    top: 0;
+    background: var(--void-light);
+    z-index: 10;
+}
+
+.menu-header h2 {
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mycelium-text);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--mycelium-dim);
+    cursor: pointer;
+    line-height: 1;
+    transition: var(--transition-smooth);
+}
+
+.close-btn:hover {
+    color: var(--failure-red);
+    transform: rotate(90deg);
+}
+
+.story-list {
+    padding: 1rem;
+}
+
+.story-item {
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border: 1px solid var(--static-gray);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+}
+
+.story-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--bioluminescence-strong);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.story-item:hover::before {
+    transform: scaleY(1);
+}
+
+.story-item:hover {
+    border-color: var(--bioluminescence-strong);
+    background: var(--bioluminescence);
+}
+
+.story-item.read {
+    opacity: 0.6;
+}
+
+.story-item.read::after {
+    content: ' LEIDO';
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    font-size: 0.625rem;
+    color: var(--mycelium-dim);
+}
+
+.story-item-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--mycelium-text);
+    margin-bottom: 0.25rem;
+}
+
+.story-item-meta {
+    font-size: 0.75rem;
+    color: var(--mycelium-dim);
+}
+
+/* ==========================================================================
+   CONTROLES FLOTANTES
+   ========================================================================== */
+.floating-controls {
+    position: fixed;
+    bottom: 220px;
+    right: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 80;
+}
+
+.floating-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--void-light);
+    border: 1px solid var(--static-gray);
+    color: var(--mycelium-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-soft);
+}
+
+.floating-btn:hover {
+    background: var(--bioluminescence);
+    border-color: var(--bioluminescence-strong);
+    transform: scale(1.1);
+}
+
+.floating-btn:active {
+    transform: scale(0.95);
+}
+
+/* ==========================================================================
+   EFECTOS VISUALES
+   ========================================================================== */
+.noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.05) 2px,
+        rgba(0, 0, 0, 0.05) 4px
+    );
+}
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: var(--void-light);
+    padding: 2rem;
+    max-width: 400px;
+    text-align: center;
+    border: 1px solid var(--static-gray);
+    font-family: var(--font-story);
+}
+
+.modal-content h3 {
+    font-family: var(--font-terminal);
+    margin-bottom: 1rem;
+    color: var(--mycelium-text);
+}
+
+.modal-content p {
+    font-size: 0.9rem;
+    color: var(--mycelium-dim);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.modal-content button {
+    padding: 0.75rem 2rem;
+    font-family: var(--font-terminal);
+    font-size: 0.875rem;
+    background: var(--bioluminescence-strong);
+    border: none;
+    color: var(--void-bg);
+    cursor: pointer;
+    transition: var(--transition-smooth);
+}
+
+.modal-content button:hover {
+    box-shadow: var(--glow-spread);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Tablets */
+@media (max-width: 1024px) {
+    .story-title {
+        font-size: 2rem;
+    }
+    
+    .story-body {
+        font-size: 1.0625rem;
+    }
+    
+    .floating-controls {
+        bottom: 180px;
+    }
+}
+
+/* Moviles */
+@media (max-width: 768px) {
+    html {
+        font-size: 14px;
+    }
+    
+    .status-bar {
+        padding: 0 1rem;
+    }
+    
+    .status-text {
+        display: none;
+    }
+    
+    .reader-container {
+        padding: 5rem 1rem 6rem;
+    }
+    
+    .story-title {
+        font-size: 1.75rem;
+    }
+    
+    .story-body {
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+    
+    .story-menu {
+        width: 100%;
+        right: -100%;
+    }
+    
+    .floating-controls {
+        bottom: 20px;
+        right: 1rem;
+        flex-direction: row;
+    }
+    
+    .mycelium-nav {
+        height: 120px;
+    }
+    
+    .floating-btn {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* Moviles pequenos */
+@media (max-width: 480px) {
+    .story-title {
+        font-size: 1.5rem;
+    }
+    
+    .story-body p:first-of-type::first-letter {
+        font-size: 2.5rem;
+    }
+    
+    .boot-content {
+        padding: 1rem;
+    }
+    
+    .boot-line {
+        font-size: 0.75rem;
+    }
+}
+
+/* ==========================================================================
+   MODO E-INK — Optimizaciones
+   ========================================================================== */
+[data-theme="eink"] {
+    /* Eliminar animaciones */
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+    
+    /* Colores puros */
+    body {
+        background: #ffffff;
+        color: #000000;
+    }
+    
+    .noise-overlay,
+    .scanlines {
+        display: none;
+    }
+    
+    /* Bordes solidos */
+    .story-item,
+    .story-menu,
+    .modal-content {
+        border: 2px solid #000000;
+    }
+    
+    /* Eliminar sombras */
+    .floating-btn,
+    .story-item,
+    .story-menu,
+    .modal-content {
+        box-shadow: none;
+    }
+    
+    /* Texto mas oscuro */
+    .story-body strong {
+        color: #000000;
+        font-weight: 700;
+    }
+    
+    .keyword {
+        color: #000000;
+        text-decoration: underline;
+    }
+    
+    /* Aumentar contraste */
+    .story-item:hover {
+        background: #f0f0f0;
+    }
+    
+    .floating-btn:hover {
+        background: #e0e0e0;
+    }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* Focus styles */
+:focus {
+    outline: 2px solid var(--bioluminescence-strong);
+    outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--bioluminescence-strong);
+    outline-offset: 2px;
+}
+
+/* Modo de alto contraste */
+@media (prefers-contrast: high) {
+    :root {
+        --mycelium-dim: #aaaaaa;
+        --static-gray: #666666;
+    }
+    
+    [data-theme="protocol"] {
+        --mycelium-dim: #444444;
+        --static-gray: #999999;
+    }
+}

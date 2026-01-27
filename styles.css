@@ -57,6 +57,23 @@ body {
     pointer-events: none;
 }
 
+/* Fallback cuando Three.js no está disponible */
+body.no-threejs {
+    background: linear-gradient(135deg, #0a0a12 0%, #1a0a2e 25%, #0a0a12 50%, #2a0a3e 75%, #0a0a12 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+}
+
+body.no-threejs #canvas-3d {
+    display: none;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 /* Efecto CRT Overlay */
 .crt-overlay {
     position: fixed;
