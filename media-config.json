@@ -1,77 +1,80 @@
 {
   "gallery": [
     {
-      "image": "https://via.placeholder.com/800x600/240046/00ffff?text=Arte+Digital+1",
+      "image": "assets/gallery/arte-digital-1.jpg",
       "title": "Arte Digital Generativo",
       "year": "2024",
-      "description": "Obra de arte digital generativa. Descarga tus imágenes de Instagram (@juantomoo, @juantomooph) y colócalas en assets/gallery/ para reemplazar estos placeholders.",
+      "description": "Obra de arte digital generativa con estética vaporwave.",
       "tags": ["digital", "generativo", "vaporwave"]
     },
     {
-      "image": "https://via.placeholder.com/800x600/3c096c/ff00ff?text=Arte+Digital+2",
+      "image": "assets/gallery/composicion-multimedia.jpg",
       "title": "Composición Multimedia",
       "year": "2024",
-      "description": "Composición multimedia experimental. Visita tu ArtStation (https://www.artstation.com/juangomezrivera) para descargar tus obras profesionales.",
+      "description": "Composición multimedia experimental.",
       "tags": ["digital", "multimedia", "experimental"]
     },
     {
-      "image": "https://via.placeholder.com/800x600/7b2cbf/ff9e00?text=Arte+Digital+3",
+      "image": "assets/gallery/arte-algoritmico.jpg",
       "title": "Arte Algorítmico",
       "year": "2023",
-      "description": "Arte generativo con algoritmos personalizados. Para agregar tus obras: descarga de Instagram/ArtStation y actualiza el campo 'image' al path local.",
+      "description": "Arte generativo con algoritmos personalizados.",
       "tags": ["generativo", "algoritmico", "codigo"]
     },
     {
-      "image": "https://via.placeholder.com/800x600/9d4edd/00ffff?text=Fotografia+1",
+      "image": "assets/gallery/fotografia-experimental.jpg",
       "title": "Fotografía Experimental",
       "year": "2024",
-      "description": "Serie fotográfica experimental. Guarda tus imágenes en assets/gallery/nombre.jpg y actualiza este JSON.",
+      "description": "Serie fotográfica experimental.",
       "tags": ["fotografia", "experimental"]
     },
     {
-      "image": "https://via.placeholder.com/800x600/c77dff/ffffff?text=Diseno+1",
+      "image": "assets/gallery/diseno-grafico.jpg",
       "title": "Diseño Gráfico",
       "year": "2023",
-      "description": "Proyecto de diseño gráfico. Instrucciones: 1) Descarga desde Instagram/ArtStation, 2) Guarda en assets/gallery/, 3) Cambia 'image' a 'assets/gallery/tu-archivo.jpg'",
+      "description": "Proyecto de diseño gráfico.",
       "tags": ["diseno", "grafico"]
     },
     {
-      "image": "https://via.placeholder.com/800x600/e0aaff/000000?text=Collage+Digital",
+      "image": "assets/gallery/collage-digital.jpg",
       "title": "Collage Digital Mixto",
       "year": "2024",
-      "description": "Collage digital con técnica mixta. Este es un placeholder - reemplaza con tus obras reales desde @juantomoo o @juantomooph.",
+      "description": "Collage digital con técnica mixta.",
       "tags": ["digital", "collage", "mixto"]
     }
   ],
   "videos": [
     {
-      "embed": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      "title": "Video de Ejemplo",
-      "description": "Este es un video de ejemplo. Visita tu canal de YouTube (UChdPKkU5-f5rPdxctCzxOyg) y reemplaza con tus videos reales usando el formato: https://www.youtube.com/embed/TU_VIDEO_ID"
+      "embed": "https://www.youtube.com/embed/q8QMKxxQbpw",
+      "title": "Proyecto Visual",
+      "description": "Trabajo audiovisual experimental"
     },
     {
-      "embed": "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      "title": "Segundo Video Demo",
-      "description": "Para obtener el ID del video: Si tu URL es youtube.com/watch?v=ABC123, usa embed/ABC123"
+      "embed": "https://www.youtube.com/embed/AQq45Rly-RE",
+      "title": "Contenido Multimedia",
+      "description": "Producción multimedia creativa"
     }
   ],
   "audio": [
     {
-      "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/a-travel&color=%23ff00ff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false",
-      "title": "A Travel",
-      "description": "Track ambient/experimental de SoundCloud. Este ya está configurado con tu track real."
+      "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/humilliation-first-movement&color=%23ff00ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",
+      "title": "Humilliation (First Movement)",
+      "description": "Composición experimental"
     },
     {
-      "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/TU_SEGUNDO_TRACK&color=%2300ffff&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false",
-      "title": "Segundo Track",
-      "description": "Para agregar más tracks: Ve a soundcloud.com/juantomoo, abre un track, click Share > Embed, copia el URL del iframe y pégalo aquí en 'embed'"
+      "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/a-travel&color=%2300ffff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",
+      "title": "A Travel",
+      "description": "Track ambient/experimental"
+    },
+    {
+      "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/star&color=%23ff9e00&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",
+      "title": "Star",
+      "description": "Composición electrónica"
+    },
+    {
+      "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/efigie-y-adefecio&color=%239900ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",
+      "title": "Efigie y Adefecio",
+      "description": "Exploración sonora"
     }
-  ],
-  "_instrucciones": {
-    "imagenes": "CÓMO AGREGAR TUS IMÁGENES REALES: 1) Crea la carpeta assets/gallery/ si no existe, 2) Descarga tus obras de Instagram (@juantomoo) o ArtStation (artstation.com/juangomezrivera), 3) Guárdalas en assets/gallery/, 4) Actualiza el campo 'image' de este JSON a 'assets/gallery/nombre-archivo.jpg'",
-    "videos_youtube": "YOUTUBE: Usa el formato https://www.youtube.com/embed/VIDEO_ID. Ejemplo: si tu video es youtube.com/watch?v=ABC123, el embed es youtube.com/embed/ABC123",
-    "videos_vimeo": "VIMEO: Formato https://player.vimeo.com/video/VIDEO_ID",
-    "audio_soundcloud": "SOUNDCLOUD: Ve a tu track en soundcloud.com/juantomoo > Share > Embed > copia el src completo del iframe",
-    "audio_spotify": "SPOTIFY: Formato https://open.spotify.com/embed/track/TRACK_ID"
-  }
+  ]
 }

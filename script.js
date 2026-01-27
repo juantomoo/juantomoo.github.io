@@ -82,6 +82,23 @@ function escapeHtml(text) {
 }
 
 /**
+ * Actualiza el ícono Lucide del toggle de audio
+ */
+function updateAudioIcon(audioToggle, iconName) {
+    const audioIcon = audioToggle.querySelector('.audio-icon');
+    if (audioIcon) {
+        audioIcon.setAttribute('data-lucide', iconName);
+        // Regenerar el ícono SVG de Lucide
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+            lucide.createIcons({
+                icons: { [iconName]: true },
+                nameAttr: 'data-lucide'
+            });
+        }
+    }
+}
+
+/**
  * Configuración de media por defecto (fallback)
  */
 function getDefaultMediaConfig() {
@@ -745,13 +762,13 @@ function initAudio() {
         scWidget.bind(SC.Widget.Events.PLAY, () => {
             appState.audioEnabled = true;
             audioToggle.classList.add('playing');
-            audioToggle.querySelector('.audio-icon').textContent = '🔊';
+            updateAudioIcon(audioToggle, 'volume-2');
         });
         
         scWidget.bind(SC.Widget.Events.PAUSE, () => {
             appState.audioEnabled = false;
             audioToggle.classList.remove('playing');
-            audioToggle.querySelector('.audio-icon').textContent = '🔇';
+            updateAudioIcon(audioToggle, 'volume-x');
         });
         
         scWidget.bind(SC.Widget.Events.FINISH, () => {
@@ -781,12 +798,12 @@ function toggleAudio() {
             scIframe.src = currentSrc.replace('auto_play=false', 'auto_play=true');
             appState.audioEnabled = true;
             audioToggle.classList.add('playing');
-            audioToggle.querySelector('.audio-icon').textContent = '🔊';
+            updateAudioIcon(audioToggle, 'volume-2');
         } else {
             scIframe.src = scIframe.src.replace('auto_play=true', 'auto_play=false');
             appState.audioEnabled = false;
             audioToggle.classList.remove('playing');
-            audioToggle.querySelector('.audio-icon').textContent = '🔇';
+            updateAudioIcon(audioToggle, 'volume-x');
         }
     }
 }

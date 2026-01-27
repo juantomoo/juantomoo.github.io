@@ -38,6 +38,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Three.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <!-- Favicon -->
@@ -98,7 +100,7 @@
 
     <!-- Audio Control -->
     <button class="audio-toggle" id="audio-toggle" aria-label="Alternar música" title="Alternar música">
-        <span class="audio-icon" aria-hidden="true">🔇</span>
+        <i data-lucide="volume-x" class="audio-icon"></i>
     </button>
 
     <!-- HUD Interface -->
@@ -197,15 +199,15 @@
                 </div>
                 <div class="welcome-features">
                     <div class="feature">
-                        <span class="feature-icon">🎨</span>
+                        <i data-lucide="palette" class="feature-icon"></i>
                         <span class="feature-text">ARTE DIGITAL</span>
                     </div>
                     <div class="feature">
-                        <span class="feature-icon">💻</span>
+                        <i data-lucide="code-2" class="feature-icon"></i>
                         <span class="feature-text">DESARROLLO WEB</span>
                     </div>
                     <div class="feature">
-                        <span class="feature-icon">🌱</span>
+                        <i data-lucide="leaf" class="feature-icon"></i>
                         <span class="feature-text">CYBERACTIVISMO</span>
                     </div>
                 </div>
@@ -236,7 +238,7 @@
                     <article class="project-card" data-category="webapp" data-demo="true">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(135deg, #ff00ff33, #00ffff33);">
-                                <span class="project-icon">📰</span>
+                                <i data-lucide="book-open" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">PWA</span>
@@ -260,7 +262,7 @@
                     <article class="project-card" data-category="webapp" data-demo="true">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(135deg, #0a0b1033, #ff330033);">
-                                <span class="project-icon">🪺</span>
+                                <i data-lucide="feather" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">PWA</span>
@@ -283,7 +285,7 @@
                     <article class="project-card" data-category="game" data-demo="true">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(45deg, #00ff0033, #ff000033);">
-                                <span class="project-icon">🐍</span>
+                                <i data-lucide="gamepad-2" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">Phaser 3</span>
@@ -307,7 +309,7 @@
                     <article class="project-card" data-category="webapp" data-demo="true">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(225deg, #ffd70033, #8b451333);">
-                                <span class="project-icon">🏛️</span>
+                                <i data-lucide="landmark" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">JavaScript</span>
@@ -331,7 +333,7 @@
                     <article class="project-card" data-category="tool" data-demo="true">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(90deg, #ff00ff33, #00ffff33);">
-                                <span class="project-icon">🎞️</span>
+                                <i data-lucide="film" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">JavaScript</span>
@@ -355,7 +357,7 @@
                     <article class="project-card" data-category="tool" data-demo="false">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(135deg, #ff000033, #00000033);">
-                                <span class="project-icon">🎵</span>
+                                <i data-lucide="music" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">Node.js</span>
@@ -379,7 +381,7 @@
                     <article class="project-card" data-category="tool" data-demo="false">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(45deg, #ff009933, #00ff9933);">
-                                <span class="project-icon">✨</span>
+                                <i data-lucide="sparkles" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">Node.js</span>
@@ -403,7 +405,7 @@
                     <article class="project-card" data-category="tool" data-demo="false">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(135deg, #0066ff33, #ff660033);">
-                                <span class="project-icon">📄</span>
+                                <i data-lucide="file-text" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">Python</span>
@@ -427,7 +429,7 @@
                     <article class="project-card" data-category="tool" data-demo="false">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(225deg, #9900ff33, #ff990033);">
-                                <span class="project-icon">🗣️</span>
+                                <i data-lucide="mic" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">Python</span>
@@ -451,7 +453,7 @@
                     <article class="project-card" data-category="webapp" data-demo="false">
                         <div class="project-image">
                             <div class="project-placeholder" style="background: linear-gradient(90deg, #00ffff33, #ff00ff33);">
-                                <span class="project-icon">🎧</span>
+                                <i data-lucide="headphones" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
                                 <span class="tech-badge">Vue 3</span>
@@ -494,13 +496,13 @@
                 </div>
 
                 <div class="gallery-instructions">
-                    <p>💡 Las imágenes se cargan desde <code>assets/gallery/</code>. Configura tus obras en <code>media-config.json</code></p>
+                    <p><i data-lucide="info" class="inline-icon"></i> Las imágenes se cargan desde <code>assets/gallery/</code>. Configura tus obras en <code>media-config.json</code></p>
                 </div>
 
                 <div class="gallery-grid" id="gallery-container">
                     <!-- Las imágenes se cargan dinámicamente desde media-config.json -->
                     <div class="gallery-placeholder">
-                        <span class="placeholder-icon">🎨</span>
+                        <i data-lucide="image" class="placeholder-icon"></i>
                         <p>Cargando galería...</p>
                     </div>
                 </div>
@@ -531,13 +533,13 @@
                 <!-- SECCIÓN DE VIDEOS -->
                 <div class="media-section">
                     <h3 class="media-section-title">
-                        <span class="media-icon">🎬</span>
+                        <i data-lucide="video" class="media-icon"></i>
                         VIDEOS
                     </h3>
                     <div class="videos-grid" id="videos-container">
                         <!-- Los videos se cargan dinámicamente desde media-config.json -->
                         <div class="media-placeholder">
-                            <span class="placeholder-icon">🎬</span>
+                            <i data-lucide="video" class="placeholder-icon"></i>
                             <p>Cargando videos...</p>
                         </div>
                     </div>
@@ -546,13 +548,13 @@
                 <!-- SECCIÓN DE AUDIO -->
                 <div class="media-section">
                     <h3 class="media-section-title">
-                        <span class="media-icon">🎵</span>
+                        <i data-lucide="volume-2" class="media-icon"></i>
                         AUDIO
                     </h3>
                     <div class="audio-grid" id="audio-container">
                         <!-- Los audios se cargan dinámicamente desde media-config.json -->
                         <div class="media-placeholder">
-                            <span class="placeholder-icon">🎵</span>
+                            <i data-lucide="volume-2" class="placeholder-icon"></i>
                             <p>Cargando audio...</p>
                         </div>
                     </div>
@@ -578,7 +580,7 @@
                             <div class="portrait-frame">
                                 <div class="portrait-content">
                                     <!-- Puedes poner tu foto aquí: <img src="assets/profile.jpg" alt="Juan Tomoo"> -->
-                                    <span class="portrait-icon">🎨</span>
+                                    <i data-lucide="user" class="portrait-icon"></i>
                                 </div>
                             </div>
                             <div class="portrait-glow"></div>
@@ -647,7 +649,7 @@
 
                 <div class="services-promo">
                     <div class="machina-logo">
-                        <span class="machina-icon">⚙️</span>
+                        <i data-lucide="cog" class="machina-icon"></i>
                         <span class="machina-text">MACHINA</span>
                         <span class="machina-sub">DEVELOPMENT</span>
                     </div>
@@ -657,27 +659,27 @@
                     </p>
                     <div class="services-list">
                         <div class="service-item">
-                            <span class="service-icon">🌐</span>
+                            <i data-lucide="globe" class="service-icon"></i>
                             <span class="service-name">Landing Pages</span>
                         </div>
                         <div class="service-item">
-                            <span class="service-icon">🎴</span>
+                            <i data-lucide="id-card" class="service-icon"></i>
                             <span class="service-name">E-Cards Digitales</span>
                         </div>
                         <div class="service-item">
-                            <span class="service-icon">📝</span>
+                            <i data-lucide="file-code" class="service-icon"></i>
                             <span class="service-name">WordPress</span>
                         </div>
                         <div class="service-item">
-                            <span class="service-icon">📱</span>
+                            <i data-lucide="smartphone" class="service-icon"></i>
                             <span class="service-name">Web Apps</span>
                         </div>
                         <div class="service-item">
-                            <span class="service-icon">🤖</span>
+                            <i data-lucide="bot" class="service-icon"></i>
                             <span class="service-name">Chatbots</span>
                         </div>
                         <div class="service-item">
-                            <span class="service-icon">🔌</span>
+                            <i data-lucide="plug" class="service-icon"></i>
                             <span class="service-name">Plugins</span>
                         </div>
                     </div>
@@ -706,21 +708,21 @@
                         </div>
                         <div class="contact-methods">
                             <div class="contact-method">
-                                <span class="method-icon">📧</span>
+                                <i data-lucide="mail" class="method-icon"></i>
                                 <div class="method-info">
                                     <span class="method-label">EMAIL</span>
                                     <a href="mailto:machina.work@gmail.com" class="method-value">machina.work@gmail.com</a>
                                 </div>
                             </div>
                             <div class="contact-method">
-                                <span class="method-icon">📱</span>
+                                <i data-lucide="message-circle" class="method-icon"></i>
                                 <div class="method-info">
                                     <span class="method-label">WHATSAPP</span>
                                     <a href="https://wa.me/573142827567" target="_blank" class="method-value">+57 314 282 7567</a>
                                 </div>
                             </div>
                             <div class="contact-method">
-                                <span class="method-icon">📍</span>
+                                <i data-lucide="map-pin" class="method-icon"></i>
                                 <div class="method-info">
                                     <span class="method-label">UBICACIÓN</span>
                                     <span class="method-value">Santander, Colombia</span>
@@ -826,5 +828,9 @@
     </iframe>
 
     <script src="script.js"></script>
+    <script>
+        // Inicializar Lucide Icons
+        lucide.createIcons();
+    </script>
 </body>
 </html>
