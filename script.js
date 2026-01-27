@@ -1072,10 +1072,6 @@ function setupKeyboardNavigation() {
         }
     });
 }
-    if ('ontouchstart' in window) {
-        cursor.style.display = 'none';
-    }
-}
 
 // =============================================
 // EFECTO DE TEXTO GLITCH
