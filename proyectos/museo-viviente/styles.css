@@ -1,0 +1,619 @@
+/* =========================================
+   1. Variables Globales
+   ========================================= */
+   :root {
+    --color-principal: #a171c8; /* Ajustar según el logo */
+    --color-fondo-oscuro: #1a1a1a;
+    --color-texto-oscuro: #f2e3ff;
+    --color-fondo-claro: #f2e3ff;
+    --color-texto-claro: #000000;
+  }
+  
+  /* =========================================
+     2. Ajustes Globales
+     ========================================= */
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    /* Mantén overflow hidden si lo deseas; de lo contrario, quita esta línea 
+       para permitir scroll en pantallas pequeñas. */
+    overflow: hidden;
+    transition: background-color 0.3s, color 0.3s;
+    /* Soporte a "prefers-reduced-motion" para accesibilidad */
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0s !important;
+      transition-duration: 0s !important;
+    }
+  }
+  
+  /* MODO OSCURO Y CLARO */
+  body.dark-mode {
+    background-color: var(--color-fondo-oscuro);
+    color: var(--color-texto-oscuro);
+  }
+  
+  body.light-mode {
+    background-color: var(--color-fondo-claro);
+    color: var(--color-texto-claro);
+  }
+  
+  /* =========================================
+     3. Elementos Fijos y Botones Globales
+     ========================================= */
+  /* Logos */
+  #logoMuseo {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-height: 80px;
+    cursor: pointer;
+    z-index: 100;
+  }
+  
+  #logoHisque {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    max-height: 40px;
+    opacity: 0.7;
+    cursor: pointer;
+    z-index: 100;
+  }
+  #logoHisque:hover {
+    opacity: 1;
+  }
+  
+  /* Botón para modo claro/oscuro */
+  #toggleModeBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background-color: var(--color-principal);
+    border: none;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 101;
+    transition: background-color 0.3s;
+  }
+  #toggleModeBtn:hover {
+    opacity: 0.9;
+  }
+  
+  /* Botón de configuración (engranaje) */
+  #configBtn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 103;
+    background-color: var(--color-principal);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-fondo-claro);
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+  }
+  #configBtn:hover {
+    background-color: var(--color-fondo-oscuro);
+  }
+  
+  /* =========================================
+     4. Controles de Velocidad (Panel Config)
+     ========================================= */
+  #controlesVelocidad {
+    position: fixed;
+    top: 60px;
+    left: 10px;
+    z-index: 102;
+    display: grid;
+    align-items: center;
+    gap: 10px;
+    background-color: #a171c879;
+    padding: 6px 10px;
+    border-radius: 4px;
+  }
+  #controlesVelocidad.hidden {
+    display: none;
+  }
+  #controlesVelocidad label {
+    font-size: 0.9rem;
+  }
+  #controlesVelocidad input[type="range"] {
+    cursor: pointer;
+    width: 60px;
+    background-color: var(--color-principal);
+    border-radius: 4px;
+  }
+  
+  /* =========================================
+     5. Pantallas Principales
+     ========================================= */
+  /* Ocultar secciones con .hidden */
+  .hidden {
+    display: none !important;
+  }
+  
+  /* PANTALLA 1: INICIO */
+  #pantallaInicio {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  #pantallaInicio .logo {
+    max-width: 300px;
+    margin-bottom: 20px;
+  }
+  
+  #ingresaBtn {
+    padding: 12px 24px;
+    background-color: var(--color-principal);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  #ingresaBtn:hover {
+    background-color: #8652b0;
+  }
+  
+  /* PANTALLA 2: LISTA DE EXPOSICIONES */
+  #pantallaExposiciones {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px; /* para no tapar el logo */
+  }
+  #pantallaExposiciones h1 {
+    margin: 20px 0;
+  }
+  .exposiciones-grid {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    width: 80%;
+    max-width: 1200px;
+    margin-bottom: 40px;
+  }
+  .expo-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 2px solid var(--color-principal);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+    text-align: center;
+  }
+  .expo-card:hover {
+    transform: scale(1.02);
+  }
+  .expo-card img {
+    width: 100%;
+    display: block;
+    height: 200px;
+    object-fit: cover;
+  }
+  .expo-card .expo-title {
+    padding: 10px;
+    font-weight: bold;
+  }
+  
+  /* PANTALLA 3: DETALLE DE EXPOSICIÓN */
+  #pantallaDetalleExpo {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 100px; /* para no tapar el logo */
+  }
+  #pantallaDetalleExpo .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px) brightness(0.5);
+    z-index: -1;
+  }
+  #pantallaDetalleExpo h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  #pantallaDetalleExpo p {
+    font-size: 1rem;
+    max-width: 600px;
+    margin: 0 auto 20px auto;
+  }
+  #pantallaDetalleExpo #iniciarExpoBtn {
+    padding: 12px 24px;
+    background-color: var(--color-principal);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  /* PANTALLA 4: CARRUSEL */
+  #pantallaCarrusel {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+  #slidesContainer {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  
+  /* Diapositivas */
+  .slide {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: left 0.5s ease-in-out;
+    overflow: hidden;
+  }
+  .slide.active {
+    left: 0;
+  }
+  
+  /* Flechas de navegación */
+  .flecha {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--color-principal);
+    color: var(--color-texto-oscuro);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.5rem;
+  }
+  .flecha:hover {
+    background-color: var(--color-texto-claro);
+  }
+  #flechaIzq {
+    left: 20px;
+  }
+  #flechaDer {
+    right: 20px;
+  }
+  
+  /* =========================================
+     6. Texto en Diapositivas
+     ========================================= */
+  /* Caja de texto con 3~5 líneas, scroll, fade arriba/abajo */
+  .slide .texto {
+    position: absolute;
+    bottom: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+  
+    font-size: 2em;
+    line-height: 1.2;
+    height: 6em; /* Ajusta si necesitas un poco más de espacio */
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+    border-radius: 8px;
+    text-align: left;
+    color: #fff;
+  }
+  
+  /* Fade en la parte superior e inferior */
+  .slide .texto::before,
+  .slide .texto::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1em;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .slide .texto::before {
+    top: 0;
+    /* Puedes agregar un gradiente si deseas */
+  }
+  .slide .texto::after {
+    bottom: 0;
+    /* Agregar gradiente si deseas */
+  }
+  
+  /* Estilos para la barra de scroll en .texto */
+  .texto::-webkit-scrollbar {
+    width: 8px;
+  }
+  .texto::-webkit-scrollbar-track {
+    background: var(--color-principal);
+    border-radius: 4px;
+  }
+  .texto::-webkit-scrollbar-thumb {
+    background: var(--color-texto-claro);
+    border-radius: 4px;
+    border: 2px solid var(--color-principal);
+  }
+  .texto::-webkit-scrollbar-thumb:hover {
+    background: var(--color-texto-claro);
+  }
+  .texto {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-texto-claro) var(--color-principal);
+  }
+  
+  /* Enlaces y botones dentro del texto */
+  .slide .texto a,
+  .slide .texto button {
+    display: inline-block;
+    margin: 6px 0;
+    background-color: var(--color-principal);
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .slide .texto a:hover,
+  .slide .texto button:hover {
+    background-color: #8652b0;
+  }
+  
+  /* =========================================
+     7. Iconos de Acción (Lightbox, Texto, Voz, etc.)
+     ========================================= */
+  .slide-icons {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+    z-index: 10;
+  }
+  
+  /* Botones circulares reutilizables */
+  .icon-btn {
+    background-color: var(--color-principal);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-fondo-claro);
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.3s;
+  }
+  .icon-btn:hover {
+    background-color: var(--color-fondo-oscuro);
+  }
+  
+  /* =========================================
+     8. Lightbox
+     ========================================= */
+  #lightboxOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #a171c879;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+  }
+  #lightboxImg {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+    display: block;
+    cursor: grab;
+    transition: transform 0.1s ease-out;
+    touch-action: none;    
+  }
+  #lightboxOverlay .popup-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--color-principal);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    z-index: 105;
+  }
+  #lightboxOverlay .popup-close-btn:hover {
+    background-color: #8652b0;
+  }
+  
+  /* =========================================
+     9. Popups
+     ========================================= */
+  .popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 104;
+  }
+  .popup-content {
+    background-color: var(--color-fondo-claro);
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    color: var(--color-texto-claro);
+    text-align: center;
+    line-height: 1rem;
+    position: relative;
+  }
+  .popup-content h2 {
+    margin-top: 0;
+  }
+  .popup-content a {
+    color: var(--color-principal);
+    text-decoration: none;
+  }
+  .popup-content a:hover {
+    text-decoration: underline;
+  }
+  .popup-content button {
+    background-color: var(--color-principal);
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .popup-content button:hover {
+    background-color: #8652b0;
+  }
+  body.dark-mode .popup-content {
+    background-color: var(--color-fondo-oscuro);
+    color: var(--color-texto-oscuro);
+  }
+  .popup-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: var(--color-principal);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 1.5rem;
+    z-index: 105;
+  }
+  .popup-close-btn:hover {
+    background-color: #8652b0;
+  }
+  
+  /* =========================================
+     10. Íconos Inferiores (Créditos y Apoyar)
+     ========================================= */
+  #iconosInferiores {
+    position: fixed;
+    bottom: 10px;
+    left: 10px; /* Cambiado de right a left */
+    display: flex;
+    gap: 10px;
+    z-index: 103;
+  }
+  
+  /* =========================================
+     11. Animación de Fondo Opcional
+     ========================================= */
+  .auto-scroll {
+    animation: scrollImage 8s linear infinite alternate;
+  }
+  @keyframes scrollImage {
+    from {
+      background-position: center top;
+    }
+    to {
+      background-position: center bottom;
+    }
+  }
+  
+  /* =========================================
+     12. Media Queries para Responsividad
+     ========================================= */
+  @media (max-width: 768px) {
+    /* Ajustes para tablets y móviles */
+    #pantallaInicio .logo {
+      max-width: 200px;
+    }
+  
+    #ingresaBtn {
+      font-size: 1.5rem;
+    }
+  
+    .slide .texto {
+      font-size: 1.5em;
+      height: 5em;
+    }
+  
+    .icon-btn {
+      width: 50px;
+      height: 50px;
+      font-size: 1.2rem;
+    }
+  }
+  @media (max-width: 480px) {
+    /* Ajustes para móviles más pequeños */
+    .slide .texto {
+      font-size: 1.2em;
+      height: 4.5em;
+    }
+  
+    #controlesVelocidad {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  

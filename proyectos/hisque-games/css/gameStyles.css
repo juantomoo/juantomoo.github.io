@@ -1,0 +1,89 @@
+:root {
+  /* Variables para textos */
+  --h1-color: #ff0000;
+  --h1-font-size: 2rem;
+  --h2-color: #00ff00;
+  --h2-font-size: 1.5rem;
+  --h3-color: #0000ff;
+  --h3-font-size: 1.2rem;
+  --h3-font-weight: bold;
+  --h4-color: #ffaa00;
+  --h4-font-size: 1.2rem;
+  --p-color: #333333;
+  --p-font-size: 1em;
+  --list-color: #444444;
+  --list-font-size: 1em;
+
+  /* Variables para objetos del juego */
+  --curtains-bg: #222222;
+  --escenario-bg: #000000;
+  --contenedores-bg: #ffffff;
+  --basura-bg: #777777;
+  --obstaculos-bg: #555555;
+  --powerups-bg: #ff77ff;
+}
+
+/* Estilos para textos */
+h1 {
+  color: var(--h1-color);
+  font-size: var(--h1-font-size);
+  /* ...otras propiedades... */
+}
+h2 {
+  color: var(--h2-color);
+  font-size: var(--h2-font-size);
+  /* ...otras propiedades... */
+}
+h3 {
+  color: var(--h3-color);
+  font-size: var(--h3-font-size);
+  /* ...otras propiedades... */
+}
+h4 {
+  color: var(--h4-color);
+  font-size: var(--h4-font-size);
+  /* ...otras propiedades... */
+}
+p {
+  color: var(--p-color);
+  font-size: var(--p-font-size);
+  /* ...otras propiedades... */
+}
+ul, ol {
+  color: var(--list-color);
+  font-size: var(--list-font-size);
+  /* ...otras propiedades... */
+}
+
+/* Estilos para objetos del juego */
+.cortinas {
+  background-color: var(--curtains-bg);
+  /* ...otras propiedades... */
+}
+
+.fondo-escenario {
+  background-color: var(--escenario-bg);
+  /* ...otras propiedades... */
+}
+
+.contenedores {
+  background-color: var(--contenedores-bg);
+  /* ...otras propiedades... */
+}
+
+.basura {
+  background-color: var(--basura-bg);
+  /* ...otras propiedades... */
+}
+
+.obstaculos {
+  background-color: var(--obstaculos-bg);
+  /* ...otras propiedades... */
+}
+
+.powerups {
+  background-color: var(--powerups-bg);
+  /* ...otras propiedades... */
+}
+
+/* ...otros estilos según se requiera... */

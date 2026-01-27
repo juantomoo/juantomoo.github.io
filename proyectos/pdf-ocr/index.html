@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to ODF OCR | Juan Tomoo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0a0a12;
+            --color-pink: #ff00ff;
+            --color-cyan: #00ffff;
+            --color-orange: #ff9e00;
+            --color-text: #e0e0e0;
+            --font-pixel: 'Press Start 2P', monospace;
+            --font-mono: 'Space Mono', monospace;
+            --font-retro: 'VT323', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-mono);
+            background: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-cyan);
+            text-decoration: none;
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: var(--color-pink); }
+        
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 0, 255, 0.3);
+        }
+        .project-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .project-title {
+            font-family: var(--font-pixel);
+            font-size: 1.3rem;
+            color: var(--color-cyan);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
+        }
+        .project-subtitle {
+            font-family: var(--font-retro);
+            font-size: 1.3rem;
+            color: var(--color-orange);
+        }
+        
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 2rem 0;
+        }
+        .tech-badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            color: var(--color-cyan);
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--color-cyan);
+        }
+        
+        .description { line-height: 1.8; margin-bottom: 2rem; }
+        
+        .workflow {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .workflow-step {
+            background: rgba(36, 0, 70, 0.5);
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+        .workflow-step::after {
+            content: '→';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--color-cyan);
+            font-size: 1.5rem;
+        }
+        .workflow-step:last-child::after { display: none; }
+        .step-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .step-name {
+            font-family: var(--font-retro);
+            font-size: 1.1rem;
+            color: var(--color-orange);
+        }
+        
+        .features {
+            background: rgba(36, 0, 70, 0.3);
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .features h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.9rem;
+            color: var(--color-pink);
+            margin-bottom: 1rem;
+        }
+        .features ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.75rem;
+        }
+        .features li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .features li::before {
+            content: '◈';
+            position: absolute;
+            left: 0;
+            color: var(--color-cyan);
+        }
+        
+        .requirements {
+            background: rgba(255, 158, 0, 0.1);
+            border: 2px solid var(--color-orange);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .requirements h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
+            color: var(--color-orange);
+            margin-bottom: 1rem;
+        }
+        .requirements code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.2rem 0.5rem;
+            font-family: var(--font-mono);
+            color: var(--color-cyan);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .cta-btn.primary {
+            background: var(--color-cyan);
+            color: #000;
+        }
+        .cta-btn.primary:hover {
+            background: var(--color-pink);
+            color: #fff;
+        }
+        
+        @media (max-width: 600px) {
+            .workflow-step::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← VOLVER AL PORTFOLIO</a>
+        
+        <header class="project-header">
+            <div class="project-icon">📄</div>
+            <h1 class="project-title">PDF TO ODF OCR</h1>
+            <p class="project-subtitle">Conversor de PDFs escaneados a texto editable</p>
+            
+            <div class="tech-stack">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Tesseract OCR</span>
+                <span class="tech-badge">PyQt5 / GTK</span>
+                <span class="tech-badge">OpenCV</span>
+            </div>
+        </header>
+        
+        <section class="description">
+            <p>Aplicación de escritorio con interfaz gráfica para convertir documentos PDF escaneados 
+            (imágenes) en archivos de texto editables mediante <strong>reconocimiento óptico de caracteres (OCR)</strong>. 
+            Ideal para digitalizar documentos históricos, libros escaneados o formularios en papel.</p>
+        </section>
+        
+        <h3 style="font-family: var(--font-pixel); font-size: 0.8rem; color: var(--color-cyan); margin-bottom: 1rem; text-align: center;">
+            🔄 FLUJO DE TRABAJO
+        </h3>
+        
+        <div class="workflow">
+            <div class="workflow-step">
+                <div class="step-icon">📎</div>
+                <div class="step-name">Cargar PDF</div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-icon">🔍</div>
+                <div class="step-name">Analizar</div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-icon">🔠</div>
+                <div class="step-name">OCR</div>
+            </div>
+            <div class="workflow-step">
+                <div class="step-icon">📝</div>
+                <div class="step-name">Exportar</div>
+            </div>
+        </div>
+        
+        <section class="features">
+            <h3>✨ CARACTERÍSTICAS</h3>
+            <ul>
+                <li>Interfaz gráfica intuitiva</li>
+                <li>Soporte multi-idioma OCR</li>
+                <li>Procesamiento por lotes</li>
+                <li>Pre-procesamiento de imagen</li>
+                <li>Exporta a ODF, DOCX, TXT</li>
+                <li>Detección automática de idioma</li>
+                <li>Corrección de orientación</li>
+                <li>Mejora de contraste automático</li>
+            </ul>
+        </section>
+        
+        <section class="requirements">
+            <h3>⚠️ REQUISITOS DEL SISTEMA</h3>
+            <p>Este proyecto requiere <strong>instalación local</strong>:</p>
+            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                <li>Python 3.8+</li>
+                <li>Tesseract OCR instalado: <code>sudo apt install tesseract-ocr</code></li>
+                <li>Paquetes de idiomas: <code>tesseract-ocr-spa tesseract-ocr-eng</code></li>
+                <li>Dependencias Python: <code>pip install -r requirements.txt</code></li>
+            </ul>
+        </section>
+        
+        <div class="cta-buttons">
+            <a href="https://github.com/juantomoo/PDFtoODFOCR_GUI" target="_blank" class="cta-btn primary">
+                VER EN GITHUB
+            </a>
+        </div>
+    </div>
+</body>
+</html>

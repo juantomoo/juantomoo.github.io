@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TTS Abierto | Juan Tomoo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0a0a12;
+            --color-pink: #ff00ff;
+            --color-cyan: #00ffff;
+            --color-orange: #ff9e00;
+            --color-text: #e0e0e0;
+            --font-pixel: 'Press Start 2P', monospace;
+            --font-mono: 'Space Mono', monospace;
+            --font-retro: 'VT323', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-mono);
+            background: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-cyan);
+            text-decoration: none;
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: var(--color-pink); }
+        
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 0, 255, 0.3);
+        }
+        .project-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .project-title {
+            font-family: var(--font-pixel);
+            font-size: 1.5rem;
+            color: var(--color-cyan);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
+        }
+        .project-subtitle {
+            font-family: var(--font-retro);
+            font-size: 1.3rem;
+            color: var(--color-orange);
+        }
+        
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 2rem 0;
+        }
+        .tech-badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            color: var(--color-cyan);
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--color-cyan);
+        }
+        
+        .description { line-height: 1.8; margin-bottom: 2rem; }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border: 2px solid var(--color-pink);
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        .highlight-box .icon { font-size: 3rem; margin-bottom: 1rem; }
+        .highlight-box h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.9rem;
+            color: var(--color-pink);
+            margin-bottom: 0.5rem;
+        }
+        .highlight-box p { color: var(--color-orange); }
+        
+        .voices-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .voice-card {
+            background: rgba(36, 0, 70, 0.5);
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .voice-card:hover {
+            border-color: var(--color-cyan);
+            transform: translateY(-3px);
+        }
+        .voice-flag { font-size: 2rem; margin-bottom: 0.5rem; }
+        .voice-lang {
+            font-family: var(--font-retro);
+            font-size: 1rem;
+            color: var(--color-orange);
+        }
+        
+        .features {
+            background: rgba(36, 0, 70, 0.3);
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .features h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.9rem;
+            color: var(--color-pink);
+            margin-bottom: 1rem;
+        }
+        .features ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.75rem;
+        }
+        .features li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .features li::before {
+            content: '◈';
+            position: absolute;
+            left: 0;
+            color: var(--color-cyan);
+        }
+        
+        .requirements {
+            background: rgba(255, 158, 0, 0.1);
+            border: 2px solid var(--color-orange);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .requirements h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
+            color: var(--color-orange);
+            margin-bottom: 1rem;
+        }
+        .requirements code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.2rem 0.5rem;
+            font-family: var(--font-mono);
+            color: var(--color-cyan);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .cta-btn.primary {
+            background: var(--color-cyan);
+            color: #000;
+        }
+        .cta-btn.primary:hover {
+            background: var(--color-pink);
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← VOLVER AL PORTFOLIO</a>
+        
+        <header class="project-header">
+            <div class="project-icon">🔊</div>
+            <h1 class="project-title">TTS ABIERTO</h1>
+            <p class="project-subtitle">Sistema de Text-to-Speech local y privado</p>
+            
+            <div class="tech-stack">
+                <span class="tech-badge">Python</span>
+                <span class="tech-badge">Piper TTS</span>
+                <span class="tech-badge">ONNX</span>
+                <span class="tech-badge">Local AI</span>
+            </div>
+        </header>
+        
+        <section class="description">
+            <p>Sistema de síntesis de voz <strong>completamente local y offline</strong> que convierte texto en audio 
+            usando modelos de inteligencia artificial. Sin dependencias de la nube, sin costos de API, 
+            y con total privacidad de datos. Basado en Piper TTS.</p>
+        </section>
+        
+        <div class="highlight-box">
+            <div class="icon">🔒</div>
+            <h3>100% PRIVADO Y OFFLINE</h3>
+            <p>Tus textos nunca salen de tu computadora</p>
+        </div>
+        
+        <h3 style="font-family: var(--font-pixel); font-size: 0.8rem; color: var(--color-cyan); margin-bottom: 1rem; text-align: center;">
+            🌐 VOCES DISPONIBLES
+        </h3>
+        
+        <div class="voices-grid">
+            <div class="voice-card">
+                <div class="voice-flag">🇪🇸</div>
+                <div class="voice-lang">Español</div>
+            </div>
+            <div class="voice-card">
+                <div class="voice-flag">🇺🇸</div>
+                <div class="voice-lang">English</div>
+            </div>
+            <div class="voice-card">
+                <div class="voice-flag">🇫🇷</div>
+                <div class="voice-lang">Français</div>
+            </div>
+            <div class="voice-card">
+                <div class="voice-flag">🇩🇪</div>
+                <div class="voice-lang">Deutsch</div>
+            </div>
+            <div class="voice-card">
+                <div class="voice-flag">🇵🇹</div>
+                <div class="voice-lang">Português</div>
+            </div>
+            <div class="voice-card">
+                <div class="voice-flag">➕</div>
+                <div class="voice-lang">+20 más</div>
+            </div>
+        </div>
+        
+        <section class="features">
+            <h3>✨ CARACTERÍSTICAS</h3>
+            <ul>
+                <li>Completamente offline</li>
+                <li>Múltiples voces por idioma</li>
+                <li>Voces masculinas y femeninas</li>
+                <li>Exportación a WAV/MP3</li>
+                <li>Procesamiento por lotes</li>
+                <li>API REST local</li>
+                <li>Bajo consumo de recursos</li>
+                <li>Integración con scripts</li>
+            </ul>
+        </section>
+        
+        <section class="requirements">
+            <h3>⚠️ REQUISITOS DEL SISTEMA</h3>
+            <p>Este proyecto se ejecuta <strong>localmente</strong>:</p>
+            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                <li>Python 3.8+</li>
+                <li>Descargar modelos de voz (~50-100MB c/u)</li>
+                <li>4GB RAM mínimo recomendado</li>
+            </ul>
+        </section>
+        
+        <div class="cta-buttons">
+            <a href="https://github.com/juantomoo/TTS-Abierto" target="_blank" class="cta-btn primary">
+                VER EN GITHUB
+            </a>
+        </div>
+    </div>
+</body>
+</html>

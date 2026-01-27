@@ -1,0 +1,102 @@
+{
+    "_comentario": "=== CONFIGURACIÓN DE MULTIMEDIA PARA JUAN TOMOO ===",
+    "_instrucciones": "Edita este archivo para agregar tus obras de arte, videos y audio. Las imágenes deben estar en assets/gallery/",
+    
+    "gallery": [
+        {
+            "_comentario": "=== EJEMPLO DE IMAGEN ===",
+            "image": "assets/gallery/ejemplo-1.jpg",
+            "title": "Título de la Obra",
+            "year": "2024",
+            "description": "Descripción de la obra. Técnica, concepto, historia.",
+            "tags": ["digital", "vaporwave", "3D"]
+        },
+        {
+            "_comentario": "=== IMAGEN DE ARTSTATION ===",
+            "_nota": "Para imágenes de ArtStation, descárgalas y ponlas en assets/gallery/, o usa la URL directa si es pública",
+            "image": "https://cdna.artstation.com/p/assets/images/images/TU_IMAGEN.jpg",
+            "title": "Obra de ArtStation",
+            "year": "2024",
+            "description": "Puedes copiar la descripción de ArtStation aquí.",
+            "tags": ["arte digital"]
+        },
+        {
+            "_comentario": "=== IMAGEN DE INSTAGRAM ===",
+            "_nota": "Instagram no permite embeber imágenes directamente. Descarga tus fotos y ponlas en assets/gallery/",
+            "image": "assets/gallery/instagram-ejemplo.jpg",
+            "title": "Post de Instagram",
+            "year": "2024",
+            "description": "Copia el caption de tu post de Instagram.",
+            "tags": ["fotografía", "instagram"]
+        }
+    ],
+    
+    "videos": [
+        {
+            "_comentario": "=== YOUTUBE ===",
+            "_formato_embed": "https://www.youtube.com/embed/VIDEO_ID",
+            "_ejemplo_url": "Si tu URL es https://www.youtube.com/watch?v=dQw4w9WgXcQ, el embed es:",
+            "embed": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+            "title": "Mi Video de YouTube",
+            "description": "Descripción del video (opcional)"
+        },
+        {
+            "_comentario": "=== VIMEO ===",
+            "_formato_embed": "https://player.vimeo.com/video/VIDEO_ID",
+            "_ejemplo_url": "Si tu URL es https://vimeo.com/123456789, el embed es:",
+            "embed": "https://player.vimeo.com/video/123456789",
+            "title": "Mi Video de Vimeo",
+            "description": "Descripción (opcional)"
+        },
+        {
+            "_comentario": "=== GOOGLE DRIVE ===",
+            "_formato_embed": "https://drive.google.com/file/d/FILE_ID/preview",
+            "_nota": "El archivo debe tener permisos públicos o 'cualquier persona con el enlace'",
+            "_ejemplo_url": "Si tu URL compartida es https://drive.google.com/file/d/1ABC.../view, el embed es:",
+            "embed": "https://drive.google.com/file/d/1ABCdefghij.../preview",
+            "title": "Video desde Drive",
+            "description": "Asegúrate de que el video sea público"
+        }
+    ],
+    
+    "audio": [
+        {
+            "_comentario": "=== SOUNDCLOUD ===",
+            "_formato_embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/USUARIO/TRACK",
+            "_como_obtener": "1. Ve a tu track en SoundCloud, 2. Click en Share, 3. Click en Embed, 4. Copia el src del iframe",
+            "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/a-travel&color=%23ff00ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true",
+            "title": "A Travel",
+            "description": "Track ambient de Juan Tomoo"
+        },
+        {
+            "_comentario": "=== SPOTIFY ===",
+            "_formato_embed": "https://open.spotify.com/embed/track/TRACK_ID",
+            "_como_obtener": "1. Click derecho en track, 2. Share > Embed, 3. Copia el src",
+            "embed": "https://open.spotify.com/embed/track/4iV5W9uYEdYUVa79Axb7Rh",
+            "title": "Track de Spotify",
+            "description": "Descripción (opcional)"
+        },
+        {
+            "_comentario": "=== BANDCAMP ===",
+            "_formato_embed": "https://bandcamp.com/EmbeddedPlayer/...",
+            "_como_obtener": "1. Ve al track/album, 2. Click en Share/Embed, 3. Copia el código del iframe",
+            "embed": "https://bandcamp.com/EmbeddedPlayer/track=123456/size=large/bgcol=0a0a12/linkcol=00ffff/tracklist=false/artwork=small/transparent=true/",
+            "title": "Track de Bandcamp",
+            "description": ""
+        }
+    ],
+    
+    "_guia_colores_embeds": {
+        "soundcloud": "Puedes personalizar el color en el URL: color=%23ff00ff (donde ff00ff es el hex sin #)",
+        "spotify": "Usa theme=0 para modo oscuro",
+        "bandcamp": "bgcol=COLOR y linkcol=COLOR"
+    },
+    
+    "_donde_encontrar_embeds": {
+        "YouTube": "Debajo del video > Compartir > Incorporar > copia el src del iframe",
+        "Vimeo": "Debajo del video > Share > Embed > copia el src",
+        "SoundCloud": "En el track > Share > Embed > copia el src del iframe",
+        "Spotify": "Click derecho en track/album > Share > Embed track > Copy embed code",
+        "Google Drive": "Click derecho > Compartir > Obtener enlace > cambia /view por /preview"
+    }
+}

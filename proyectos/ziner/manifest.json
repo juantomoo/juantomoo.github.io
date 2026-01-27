@@ -1,0 +1,43 @@
+{
+  "name": "ZineR - Creador de Zines",
+  "short_name": "ZineR",
+  "description": "Crea zines artísticos desde Markdown con imposición automática para imprimir y plegar",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#6366f1",
+  "background_color": "#1a1a2e",
+  "lang": "es",
+  "categories": ["productivity", "utilities", "design"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "Nuevo Zine",
+      "short_name": "Nuevo",
+      "description": "Crear un nuevo proyecto de zine",
+      "url": "./index.html?action=new",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

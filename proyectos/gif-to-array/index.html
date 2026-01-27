@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIF Animado desde BIN</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        canvas { background: black; }
+    </style>
+</head>
+<body>
+    <h1>Animación desde BIN</h1>
+    <canvas id="canvas"></canvas>
+    <script>
+        async function loadBinaryFile(url) {
+            const response = await fetch(url);
+            const arrayBuffer = await response.arrayBuffer();
+            return new DataView(arrayBuffer);
+        }
+
+        async function displayAnimation() {
+            const data = await loadBinaryFile('result_modified.bin');
+
+            const width = data.getUint16(0, true);
+            const height = data.getUint16(2, true);
+            const frameDuration = data.getUint16(4, true);
+            const totalPixels = width * height;
+            const frameSize = totalPixels * 3;
+            const totalFrames = (data.byteLength - 6) / frameSize;
+
+            console.log(`📂 Archivo BIN cargado`);
+            console.log(`📏 Resolución: ${width}x${height}`);
+            console.log(`🎞️ Total de frames: ${totalFrames}`);
+
+            const canvas = document.getElementById("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext("2d");
+            const imageData = ctx.createImageData(width, height);
+
+            let currentFrame = 0;
+
+            function renderFrame() {
+                let frameStart = 6 + currentFrame * frameSize;
+                for (let i = 0; i < frameSize; i += 3) {
+                    imageData.data.set([data.getUint8(frameStart + i), data.getUint8(frameStart + i + 1), data.getUint8(frameStart + i + 2), 255], i * 4 / 3);
+                }
+
+                ctx.putImageData(imageData, 0, 0);
+                currentFrame = (currentFrame + 1) % totalFrames;
+                setTimeout(renderFrame, frameDuration);
+            }
+
+            renderFrame();
+        }
+
+        displayAnimation();
+    </script>
+</body>
+</html>

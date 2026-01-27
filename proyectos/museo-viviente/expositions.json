@@ -1,0 +1,124 @@
+{
+  "expositions": [
+    {
+      "id": "historia-tierra",
+      "title": "Pequeña Historia de la Tierra",
+      "folder": "historia-tierra",
+      "musicFile": "musica-fondo.mp3",
+      "description": "Esta exposición se ha creado con ayuda de IAs para generar una experiencia atractiva que permita conocer las historia de nuestro planeta. Te invitamos a visitar tus museos geológicos, paleontológicos y de historia natural cercanos para conocer más sobre este tema.<br>No buscamos dar un contenido completamente riguroso en cuanto a la representación artística para permitirte como lector soñar con esos lugares remotos en el tiempo, así que si despertamos tu curiosidad, te invitamos a investigar más de cada tema con las referencias que te hemos dejado.<br>Por Juan Tomoo para HISQUE Estudio © 2025",
+      "referencias": [
+        {
+          "sectionTitle": "Contenido y Referencias",
+          "text": "<ul><li><strong>Eón Hádico</strong><ul><li>Wikipedia: Hádico <button onclick=\"window.open('https://es.wikipedia.org/wiki/H%C3%A1dico', '_blank')\">Link</button></li></ul></li><li><strong>Eón Arcáico</strong><ul><li>Wikipedia: Arcaico <button onclick=\"window.open('https://es.wikipedia.org/wiki/Arcaico_(e%C3%B3n)', '_blank')\">Link</button></li></ul></li><li><strong>Eón Proterozoico</strong><ul><li>Wikipedia: Proterozoico <button onclick=\"window.open('https://es.wikipedia.org/wiki/Proterozoico', '_blank')\">Link</button></li></ul></li><li><strong>Eón Fanerozoico</strong><ul><li>Wikipedia: Fanerozoico <button onclick=\"window.open('https://es.wikipedia.org/wiki/Fanerozoico', '_blank')\">Link</button></li><li>Wikipedia: Escala temporal geológica <button onclick=\"window.open('https://es.wikipedia.org/wiki/Escala_temporal_geol%C3%B3gica', '_blank')\">Link</button></li></ul></li><li><strong>Era Mesozoica</strong><ul><li>Wikipedia: Mesozoico <button onclick=\"window.open('https://es.wikipedia.org/wiki/Mesozoico', '_blank')\">Link</button></li></ul></li><li><strong>Era Cenozoica</strong><ul><li>Wikipedia: Cenozoico <button onclick=\"window.open('https://es.wikipedia.org/wiki/Cenozoico', '_blank')\">Link</button></li></ul></li><li><strong>Periodo Cuaternario</strong><ul><li>Wikipedia: Cuaternario <button onclick=\"window.open('https://es.wikipedia.org/wiki/Cuaternario', '_blank')\">Link</button></li></ul></li><li><strong>Pleistoceno y Holoceno</strong><ul><li>Wikipedia: Pleistoceno <button onclick=\"window.open('https://es.wikipedia.org/wiki/Pleistoceno', '_blank')\">Link</button></li><li>Wikipedia: Holoceno <button onclick=\"window.open('https://es.wikipedia.org/wiki/Holoceno', '_blank')\">Link</button></li></ul></li></ul>"
+        }
+      ],
+      "glosario": [
+        {
+          "sectionTitle": "Glosario",
+          "text": "<ul><li><strong>Fósil:</strong> Restos o impresiones de seres vivos que se han conservado en rocas.<button onclick=\"window.open('https://www.youtube.com/watch?v=PVzPaA-hMfY', '_blank')\">Video explicativo en YouTube</button></li><li><strong>Paleontología:</strong> Ciencia que estudia los fósiles para entender la historia de la vida en la Tierra.</li><li><strong>Eón:</strong> La división más grande de la escala temporal geológica; abarca miles de millones de años.</li><li><strong>Era:</strong> División de un eón que agrupa periodos de tiempo con características geológicas y biológicas similares.</li><li><strong>Periodo:</strong> Segmento de tiempo dentro de una era, definido por eventos específicos en la Tierra.</li><li><strong>Glaciar:</strong> Masa de hielo en movimiento que se forma en regiones frías, afectando el paisaje.</li><li><strong>Evolución:</strong> Proceso de cambio en los seres vivos a lo largo del tiempo, que da lugar a nuevas especies.</li><li><strong>Asteroide:</strong> Cuerpo rocoso que orbita el Sol; su impacto puede causar cambios masivos en la Tierra.<button onclick=\"window.open('https://www.youtube.com/watch?v=p52KsseIB88', '_blank')\">Video sobre asteroides para niños</button></li><li><strong>Volcán:</strong> Abertura en la corteza terrestre por donde salen magma, cenizas y gases.<button onclick=\"window.open('https://www.youtube.com/watch?v=hn3Vjgl3CbA', '_blank')\">Video sobre volcanes para niños</button></li></ul>"
+        }
+      ],
+      "media": [
+        {
+          "file": "01.jpg",
+          "sectionTitle": "Formación de la Tierra - Eón Hádico (más de 4.5 mil millones de años)",
+          "text": "El Eón Hádico fue el primer gran capítulo de la Tierra, hace más de 4.5 mil millones de años. En ese tiempo, nuestro planeta era un lugar muy caliente y caótico, lleno de rocas fundidas, volcanes en erupción y constantes choques de meteoritos. Aunque no había agua ni vida, se estaban formando las primeras partes sólidas que más tarde darían forma a la Tierra."
+        },
+        {
+          "file": "02.jpg",
+          "sectionTitle": "",
+          "text": "Aunque era un periodo difícil y sin vida, el Eón Hádico fue fundamental para sentar las bases de nuestro planeta. Gracias a las intensas actividades volcánicas y al bombardeo espacial, se creó la corteza primitiva que, con el tiempo, permitiría la formación de océanos y un ambiente más propicio para el surgimiento de la vida."
+        },
+        {
+          "file": "03.jpg",
+          "sectionTitle": "Eón Arcáico (entre 4.0 y 2.5 mil millones de años)",
+          "text": "Durante el Eón Arcáico, que abarca desde hace 4.0 hasta 2.5 mil millones de años, la Tierra comenzó a enfriarse y se formaron los primeros océanos y continentes. En este periodo, aparecieron las primeras formas de vida, diminutos microorganismos que vivían en el agua. Los volcanes seguían siendo muy activos, y la corteza terrestre se fue estabilizando poco a poco."
+        },
+        {
+          "file": "04.jpg",
+          "sectionTitle": "",
+          "text": "En este eón, los seres vivos más simples, como las bacterias, empezaron a poblar nuestro planeta. Estos primeros organismos fueron los pioneros que, con el paso del tiempo, permitieron la evolución y la diversificación de la vida en la Tierra, abriendo el camino para futuros descubrimientos."
+        },
+        {
+          "file": "05.jpg",
+          "sectionTitle": "Eón Proterozoico (desde 2.5 mil millones hasta 541 millones de años)",
+          "text": "El Eón Proterozoico se extiende desde hace 2.5 mil millones de años hasta hace 541 millones de años. Durante este largo periodo, la Tierra experimentó grandes cambios, como el aumento de oxígeno en la atmósfera, lo que permitió el desarrollo de formas de vida más complejas. Fue una época en la que la vida dio sus primeros pasos hacia la diversidad que conocemos hoy.<br>En este eón, aparecieron las primeras células con núcleo, llamadas eucariotas, y se formaron amplias comunidades de microbios y algas en los océanos. Estos cambios importantes fueron fundamentales para que, más adelante, surgieran plantas, animales y, finalmente, los seres humanos."
+        },
+        {
+          "file": "06.jpg",
+          "sectionTitle": "Eón Fanerozoico (desde hace 541 millones de años hasta la actualidad)",
+          "text": "El Eón Fanerozoico es el tiempo en el que la vida se volvió visible y diversa. Comenzó hace aproximadamente 541 millones de años y ha dado lugar a un sinfín de criaturas y plantas que podemos ver en los fósiles. Durante este eón, la Tierra se llenó de vida, desde pequeños invertebrados hasta enormes dinosaurios, y luego, mamíferos y humanos.<br>Este eón se divide en tres eras que muestran cómo la vida y el planeta han cambiado a lo largo del tiempo. Cada era trae consigo eventos emocionantes y transformaciones que han esculpido el mundo tal como lo conocemos hoy."
+        },
+        {
+          "file": "07.jpg",
+          "sectionTitle": "Era Paleozoica (541 - 252 millones de años)",
+          "text": "En la Era Paleozoica, la Tierra se transformó en un enorme lienzo lleno de criaturas sorprendentes. Durante este periodo, los océanos brillaban con seres misteriosos y aparecían los primeros bosques y plantas en tierra. La vida se diversificó de formas inimaginables, y se empezaron a formar comunidades tanto en el agua como en la tierra.<br>Los continentes se movían y chocaban, creando montañas y nuevos hábitats. Los científicos estudian las rocas muy antiguas para descubrir cómo se forjaron estos paisajes y cómo la vida comenzó a poblar nuestro planeta, abriendo el camino para las eras que vendrían después."
+        },
+        {
+          "file": "08.jpg",
+          "sectionTitle": "Era Mesozoica (252 - 66 millones de años)",
+          "text": "La Era Mesozoica es conocida como la era de los dinosaurios, un periodo en el que gigantescas criaturas dominaban la Tierra. Desde hace 252 hasta 66 millones de años, el planeta se llenó de enormes reptiles, vastas selvas y continentes que se transformaban constantemente. Este fue un tiempo lleno de aventuras y misterios, como en una película de aventuras prehistóricas."
+        },
+        {
+          "file": "09.jpg",
+          "sectionTitle": "",
+          "text": "Durante este tiempo, la Tierra se convirtió en el escenario de increíbles batallas naturales y cambios asombrosos. El clima, la forma de la tierra y la vida estaban en constante transformación, y hasta el cielo parecía contar historias con erupciones volcánicas y cielos estrellados. Los restos de estos dinosaurios y paisajes nos cuentan cómo fue la vida en aquel antiguo reino, inspirando a niños y niñas a soñar con mundos llenos de criaturas fantásticas."
+        },
+        {
+          "file": "10.jpg",
+          "sectionTitle": "Fin de la Era Mesozoica",
+          "text": "Aunque fue una época espectacular, un gran evento, el impacto de un asteroide, puso fin a este dominio, dejando una huella imborrable en la historia de nuestro planeta. Este dramático final, lleno de energía y misterio, nos recuerda que incluso en medio de las catástrofes más asombrosas, la vida siempre encuentra un camino para reinventarse."
+        },
+        {
+          "file": "11.jpg",
+          "sectionTitle": "Era Cenozoica (66 millones de años hasta la actualidad)",
+          "text": "Con la desaparición de los dinosaurios, la Era Cenozoica abrió un nuevo capítulo en la historia de la Tierra. Desde hace 66 millones de años hasta hoy, este periodo ha visto la evolución y diversificación de los mamíferos, así como el surgimiento de aves, reptiles y muchas otras formas de vida. La Tierra se transformó en un lugar lleno de diversidad y nuevos ecosistemas."
+        },
+        {
+          "file": "12.jpg",
+          "sectionTitle": "",
+          "text": "Durante esta era, se han dado cambios climáticos y geológicos importantes que han moldeado el mundo moderno. El desarrollo de los humanos y sus culturas es parte de esta era, que continúa evolucionando y llenándose de nuevos descubrimientos y aventuras."
+        },
+        {
+          "file": "13.jpg",
+          "sectionTitle": "Periodo Cuaternario (desde hace 2.6 millones de años hasta la actualidad)",
+          "text": "El Periodo Cuaternario marca la transición final del Neógeno, hace aproximadamente 2.6 millones de años, cuando la Tierra experimentó grandes cambios debido a la acción de los glaciares. Durante este tiempo, el clima se volvió más variable y se esculpieron paisajes sorprendentes con montañas, valles y ríos."
+        },
+        {
+          "file": "14.jpg",
+          "sectionTitle": "",
+          "text": "Estos cambios crearon un ambiente que facilitó la evolución y expansión de la vida, incluyendo la de los primeros humanos.<br>Este periodo fue testigo de grandes transformaciones que prepararon el escenario para la civilización. Los movimientos de hielo y el posterior calentamiento permitieron que los humanos se asentaran, cultivaran la tierra y desarrollaran nuevas tecnologías, marcando el inicio de una era de descubrimientos y crecimiento."
+        },
+        {
+          "file": "15.jpg",
+          "sectionTitle": "Pleistoceno (2.6 millones a 11.700 años atrás)",
+          "text": "Durante el Pleistoceno, que se extendió desde hace 2.6 millones de años hasta hace 11,700 años, la Tierra estuvo marcada por grandes glaciaciones. En este tiempo, enormes capas de hielo cubrían vastas áreas del planeta, dando lugar a paisajes helados y a la aparición de animales impresionantes, como mamuts y tigres dientes de sable. Los humanos también empezaron a explorar y adaptarse a estos climas fríos.<br>Los cambios climáticos del Pleistoceno forzaron a los seres vivos a evolucionar y adaptarse a ambientes extremos. Los primeros humanos, por ejemplo, aprendieron a cazar, a hacer fuego y a crear refugios, lo que les permitió sobrevivir en condiciones muy duras y preparó el camino para el desarrollo de sociedades más complejas."
+        },
+        {
+          "file": "16.jpg",
+          "sectionTitle": "Holoceno (11.700 años atrás hasta la actualidad)",
+          "text": "Hace aproximadamente 11.700 años, con el final de la última gran era de hielo, comenzó el Holoceno. Durante este periodo, el clima se volvió más cálido y estable, lo que permitió que los glaciares se derritieran y el nivel del mar subiera. Estos cambios crearon condiciones ideales para que la vida se diversificara y para que los humanos pudieran establecerse en diferentes regiones del planeta.<br>Con la llegada del Holoceno, los humanos empezaron a experimentar con la agricultura y la domesticación de animales, marcando el inicio de asentamientos permanentes y el desarrollo de la civilización. Este periodo es clave en la historia moderna, ya que permitió el surgimiento de nuevas tecnologías, culturas y formas de organización social que han dado forma al mundo actual."
+        }
+      ]
+    },
+    {
+      "id": "otra-exposicion",
+      "title": "Otra Exposición Ejemplo",
+      "folder": "otra-exposicion",
+      "musicFile": "musica-infantil.mp3",
+      "description": "Contenido generado por IA y orientado a niños de 5 a 12 años.",
+      "media": [
+        {
+          "file": "01.jpg",
+          "sectionTitle": "Sección 1: Presentación",
+          "text": "Descripción de la <em>primera imagen</em> de la otra exposición."
+        },
+        {
+          "file": "02.mp4",
+          "sectionTitle": "Sección 2: Animación divertida",
+          "text": "Un breve video mostrando una animación divertida para niños."
+        }
+      ]
+    }
+  ]
+}

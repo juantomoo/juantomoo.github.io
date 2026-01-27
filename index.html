@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juan Tomoo | Artista Visual & Desarrollador</title>
+    <meta name="description" content="Portfolio de Juan Tomoo - Artista visual, programador y consultor para ONGs en temas de cultura, medio ambiente y tecnología.">
+    <meta name="keywords" content="Juan Tomoo, artista visual, programador, desarrollo web, arte digital, Colombia, cyberactivismo">
+    <meta name="author" content="Juan Tomoo">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Juan Tomoo | Artista Visual & Desarrollador">
+    <meta property="og:description" content="Artista visual, nerd indisciplinado jugando a ser programador. Consultor para ONGs en temas de cultura, medio ambiente y tecnología.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://juantomoo.github.io">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Three.js Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+</head>
+<body>
+    <!-- Pantalla de carga -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-glitch" data-text="JUAN TOMOO">JUAN TOMOO</div>
+            <div class="loading-bar-container">
+                <div class="loading-bar"></div>
+            </div>
+            <p class="loading-text">INICIALIZANDO SISTEMA...</p>
+            <p class="loading-subtext">CARGANDO PORTFOLIO DIGITAL</p>
+        </div>
+    </div>
+
+    <!-- Efecto CRT overlay -->
+    <div class="crt-overlay"></div>
+
+    <!-- Canvas 3D -->
+    <canvas id="canvas-3d"></canvas>
+
+    <!-- Audio Control -->
+    <button class="audio-toggle" id="audio-toggle" title="Alternar música">
+        <span class="audio-icon">🔇</span>
+    </button>
+
+    <!-- HUD Interface -->
+    <header class="hud-header">
+        <div class="hud-left">
+            <div class="logo">
+                <span class="logo-glitch" data-text="JUAN">JUAN</span>
+                <span class="logo-number">TOMOO</span>
+            </div>
+        </div>
+        <div class="hud-center">
+            <div class="system-status">
+                <span class="status-dot"></span>
+                <span class="status-text">SISTEMA ACTIVO</span>
+            </div>
+        </div>
+        <div class="hud-right">
+            <div class="clock" id="clock">00:00:00</div>
+            <button class="menu-btn" id="menu-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav class="nav-menu" id="nav-menu">
+        <div class="nav-background"></div>
+        <ul class="nav-list">
+            <li class="nav-item" data-section="inicio">
+                <span class="nav-icon">◈</span>
+                <span class="nav-text">INICIO</span>
+                <span class="nav-desc">El Origen</span>
+            </li>
+            <li class="nav-item" data-section="proyectos">
+                <span class="nav-icon">◇</span>
+                <span class="nav-text">PROYECTOS</span>
+                <span class="nav-desc">Código & Apps</span>
+            </li>
+            <li class="nav-item" data-section="galeria">
+                <span class="nav-icon">◆</span>
+                <span class="nav-text">GALERÍA</span>
+                <span class="nav-desc">Arte Visual</span>
+            </li>
+            <li class="nav-item" data-section="media">
+                <span class="nav-icon">◊</span>
+                <span class="nav-text">MEDIA</span>
+                <span class="nav-desc">Video & Audio</span>
+            </li>
+            <li class="nav-item" data-section="about">
+                <span class="nav-icon">⟐</span>
+                <span class="nav-text">SOBRE MÍ</span>
+                <span class="nav-desc">El Artista</span>
+            </li>
+            <li class="nav-item" data-section="servicios">
+                <span class="nav-icon">⌬</span>
+                <span class="nav-text">SERVICIOS</span>
+                <span class="nav-desc">Machina Dev</span>
+            </li>
+            <li class="nav-item" data-section="contacto">
+                <span class="nav-icon">⏣</span>
+                <span class="nav-text">CONTACTO</span>
+                <span class="nav-desc">Conectar</span>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Section Content Overlay -->
+    <main class="main-content" id="main-content">
+        
+        <!-- ======================= SECCIÓN INICIO ======================= -->
+        <section class="content-section active" id="section-inicio">
+            <div class="section-container">
+                <div class="welcome-panel">
+                    <h1 class="welcome-title">
+                        <span class="title-glitch" data-text="JUAN TOMOO">JUAN TOMOO</span>
+                        <span class="title-sub">ARTISTA VISUAL & DESARROLLADOR</span>
+                    </h1>
+                    <p class="welcome-subtitle">ARTE DIGITAL / CÓDIGO / ACTIVISMO</p>
+                    <div class="welcome-description">
+                        <p>Nerd indisciplinado jugando a ser programador.</p>
+                        <p class="highlight">Consultor para ONGs en cultura, medio ambiente y tecnología.</p>
+                    </div>
+                    <button class="start-btn" id="start-btn">
+                        <span class="btn-text">EXPLORAR PORTFOLIO</span>
+                        <span class="btn-effect"></span>
+                    </button>
+                </div>
+                <div class="welcome-features">
+                    <div class="feature">
+                        <span class="feature-icon">🎨</span>
+                        <span class="feature-text">ARTE DIGITAL</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">💻</span>
+                        <span class="feature-text">DESARROLLO WEB</span>
+                    </div>
+                    <div class="feature">
+                        <span class="feature-icon">🌱</span>
+                        <span class="feature-text">CYBERACTIVISMO</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= SECCIÓN PROYECTOS ======================= -->
+        <section class="content-section" id="section-proyectos">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="title-enum">/01</span>
+                        <span class="title-text">PROYECTOS</span>
+                    </h2>
+                    <p class="section-subtitle">APLICACIONES, HERRAMIENTAS Y EXPERIMENTOS</p>
+                </div>
+                
+                <!-- Filtros de categoría -->
+                <div class="project-filters">
+                    <button class="filter-btn active" data-filter="all">TODOS</button>
+                    <button class="filter-btn" data-filter="webapp">WEB APPS</button>
+                    <button class="filter-btn" data-filter="tool">HERRAMIENTAS</button>
+                    <button class="filter-btn" data-filter="game">JUEGOS</button>
+                </div>
+
+                <div class="projects-grid">
+                    <!-- Proyecto 1: ZineR -->
+                    <article class="project-card" data-category="webapp" data-demo="true">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(135deg, #ff00ff33, #00ffff33);">
+                                <span class="project-icon">📰</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">PWA</span>
+                                <span class="tech-badge">JavaScript</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/ziner/" class="demo-btn">VER DEMO</a>
+                                <a href="https://github.com/juantomoo/ZineR" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">ZineR</h3>
+                            <p class="project-desc">PWA para crear fanzines digitales con auto-imposición y exportación a PDF.</p>
+                            <div class="project-status">
+                                <span class="status-badge live">DEMO LIVE</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 2: HISQUE Games -->
+                    <article class="project-card" data-category="game" data-demo="true">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(45deg, #00ff0033, #ff000033);">
+                                <span class="project-icon">🐍</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">Phaser 3</span>
+                                <span class="tech-badge">HTML5</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/hisque-games/" class="demo-btn">JUGAR</a>
+                                <a href="https://github.com/juantomoo/HISQUE-Games" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">ECO Serpiente</h3>
+                            <p class="project-desc">Juego educativo sobre reciclaje. Snake con mecánicas ecológicas.</p>
+                            <div class="project-status">
+                                <span class="status-badge live">DEMO LIVE</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 3: Museo Viviente -->
+                    <article class="project-card" data-category="webapp" data-demo="true">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(225deg, #ffd70033, #8b451333);">
+                                <span class="project-icon">🏛️</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">JavaScript</span>
+                                <span class="tech-badge">TTS API</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/museo-viviente/" class="demo-btn">VISITAR</a>
+                                <a href="https://github.com/juantomoo/Museo-Viviente" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Museo Viviente</h3>
+                            <p class="project-desc">Museo virtual interactivo con narración por voz y exposiciones dinámicas.</p>
+                            <div class="project-status">
+                                <span class="status-badge live">DEMO LIVE</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 4: GIFtoArray -->
+                    <article class="project-card" data-category="tool" data-demo="true">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(90deg, #ff00ff33, #00ffff33);">
+                                <span class="project-icon">🎞️</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">JavaScript</span>
+                                <span class="tech-badge">Canvas</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/giftoarray/" class="demo-btn">PROBAR</a>
+                                <a href="https://github.com/juantomoo/GIFtoArray" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">GIFtoArray</h3>
+                            <p class="project-desc">Librería para convertir GIFs animados a arrays de frames manipulables.</p>
+                            <div class="project-status">
+                                <span class="status-badge live">DEMO LIVE</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 5: Antifa Music Downloader -->
+                    <article class="project-card" data-category="tool" data-demo="false">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(135deg, #ff000033, #00000033);">
+                                <span class="project-icon">🎵</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">Node.js</span>
+                                <span class="tech-badge">Electron</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/antifa-music/" class="demo-btn">INFO</a>
+                                <a href="https://github.com/juantomoo/antifa-free-music-share" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">Antifa Music Downloader</h3>
+                            <p class="project-desc">Descargador de música con metadatos automáticos desde YouTube Music.</p>
+                            <div class="project-status">
+                                <span class="status-badge desktop">DESKTOP APP</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 6: GIFnimator -->
+                    <article class="project-card" data-category="tool" data-demo="false">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(45deg, #ff009933, #00ff9933);">
+                                <span class="project-icon">✨</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">Node.js</span>
+                                <span class="tech-badge">Express</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/gifnimator/" class="demo-btn">INFO</a>
+                                <a href="https://github.com/juantomoo/GIFnimator" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">GIFnimator</h3>
+                            <p class="project-desc">Procesador de GIFs con estilos: Vaporwave, Cyberpunk, Glitch y más.</p>
+                            <div class="project-status">
+                                <span class="status-badge server">REQUIERE SERVIDOR</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 7: PDFtoODFOCR -->
+                    <article class="project-card" data-category="tool" data-demo="false">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(135deg, #0066ff33, #ff660033);">
+                                <span class="project-icon">📄</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">Python</span>
+                                <span class="tech-badge">Tesseract</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/pdf-ocr/" class="demo-btn">INFO</a>
+                                <a href="https://github.com/juantomoo/PDFtoODFOCR_GUI" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">PDF to ODF OCR</h3>
+                            <p class="project-desc">Aplicación de escritorio para OCR de PDFs escaneados con interfaz gráfica.</p>
+                            <div class="project-status">
+                                <span class="status-badge desktop">DESKTOP APP</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 8: TTS Abierto -->
+                    <article class="project-card" data-category="tool" data-demo="false">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(225deg, #9900ff33, #ff990033);">
+                                <span class="project-icon">🗣️</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">Python</span>
+                                <span class="tech-badge">Piper TTS</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/tts-abierto/" class="demo-btn">INFO</a>
+                                <a href="https://github.com/juantomoo/TTS-Abierto" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">TTS Abierto</h3>
+                            <p class="project-desc">Sistema de texto a voz local usando Piper. Sin dependencias en la nube.</p>
+                            <div class="project-status">
+                                <span class="status-badge desktop">LOCAL APP</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Proyecto 9: PWA Music Player -->
+                    <article class="project-card" data-category="webapp" data-demo="false">
+                        <div class="project-image">
+                            <div class="project-placeholder" style="background: linear-gradient(90deg, #00ffff33, #ff00ff33);">
+                                <span class="project-icon">🎧</span>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">Vue 3</span>
+                                <span class="tech-badge">PWA</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/pwa-player/" class="demo-btn">INFO</a>
+                                <a href="https://github.com/juantomoo/PWA-MusicPlayer" target="_blank" class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title">PWA Music Player</h3>
+                            <p class="project-desc">Reproductor de música progresivo con Vue 3 y almacenamiento offline.</p>
+                            <div class="project-status">
+                                <span class="status-badge build">REQUIERE BUILD</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="github-cta">
+                    <p>Explora todos mis repositorios en</p>
+                    <a href="https://github.com/juantomoo" target="_blank" class="github-link">
+                        <span>github.com/juantomoo</span>
+                        <span class="github-icon">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= SECCIÓN GALERÍA ======================= -->
+        <section class="content-section" id="section-galeria">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="title-enum">/02</span>
+                        <span class="title-text">GALERÍA DE ARTE</span>
+                    </h2>
+                    <p class="section-subtitle">ARTE DIGITAL Y FOTOGRAFÍA</p>
+                </div>
+
+                <div class="gallery-instructions">
+                    <p>💡 Las imágenes se cargan desde <code>assets/gallery/</code>. Configura tus obras en <code>media-config.json</code></p>
+                </div>
+
+                <div class="gallery-grid" id="gallery-container">
+                    <!-- Las imágenes se cargan dinámicamente desde media-config.json -->
+                    <div class="gallery-placeholder">
+                        <span class="placeholder-icon">🎨</span>
+                        <p>Cargando galería...</p>
+                    </div>
+                </div>
+
+                <div class="gallery-cta">
+                    <p>Más obras en</p>
+                    <a href="https://www.artstation.com/juantomoo" target="_blank" class="artstation-link">
+                        <span>ArtStation</span>
+                    </a>
+                    <a href="https://www.instagram.com/juantomoo/" target="_blank" class="instagram-link">
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= SECCIÓN MEDIA ======================= -->
+        <section class="content-section" id="section-media">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="title-enum">/03</span>
+                        <span class="title-text">VIDEOS & AUDIO</span>
+                    </h2>
+                    <p class="section-subtitle">CONTENIDO MULTIMEDIA</p>
+                </div>
+
+                <!-- SECCIÓN DE VIDEOS -->
+                <div class="media-section">
+                    <h3 class="media-section-title">
+                        <span class="media-icon">🎬</span>
+                        VIDEOS
+                    </h3>
+                    <div class="videos-grid" id="videos-container">
+                        <!-- Los videos se cargan dinámicamente desde media-config.json -->
+                        <div class="media-placeholder">
+                            <span class="placeholder-icon">🎬</span>
+                            <p>Cargando videos...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN DE AUDIO -->
+                <div class="media-section">
+                    <h3 class="media-section-title">
+                        <span class="media-icon">🎵</span>
+                        AUDIO
+                    </h3>
+                    <div class="audio-grid" id="audio-container">
+                        <!-- Los audios se cargan dinámicamente desde media-config.json -->
+                        <div class="media-placeholder">
+                            <span class="placeholder-icon">🎵</span>
+                            <p>Cargando audio...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="media-cta">
+                    <a href="https://www.youtube.com/channel/UChdPKkU5-f5rPdxctCzxOyg" target="_blank" class="platform-link youtube">
+                        <span>YouTube</span>
+                    </a>
+                    <a href="https://soundcloud.com/juantomoo" target="_blank" class="platform-link soundcloud">
+                        <span>SoundCloud</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= SECCIÓN ABOUT ======================= -->
+        <section class="content-section" id="section-about">
+            <div class="section-container">
+                <div class="about-layout">
+                    <div class="about-visual">
+                        <div class="artist-portrait">
+                            <div class="portrait-frame">
+                                <div class="portrait-content">
+                                    <!-- Puedes poner tu foto aquí: <img src="assets/profile.jpg" alt="Juan Tomoo"> -->
+                                    <span class="portrait-icon">🎨</span>
+                                </div>
+                            </div>
+                            <div class="portrait-glow"></div>
+                        </div>
+                        <div class="artist-stats">
+                            <div class="stat">
+                                <span class="stat-value">2015</span>
+                                <span class="stat-label">INICIO</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">30+</span>
+                                <span class="stat-label">PROYECTOS</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-value">∞</span>
+                                <span class="stat-label">IDEAS</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-info">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <span class="title-enum">/04</span>
+                                <span class="title-text">SOBRE MÍ</span>
+                            </h2>
+                        </div>
+                        <div class="bio-content">
+                            <p class="bio-intro">Hola, soy <span class="highlight">Juan Tomoo</span> (también conocido como Juan Gómez).</p>
+                            <p class="bio-text">Artista visual, nerd indisciplinado jugando a ser programador. Desde Santander, Colombia, trabajo como consultor para ONGs en temas de <span class="highlight">cultura, medio ambiente y tecnología</span>.</p>
+                            <p class="bio-text">Mi trabajo fusiona el arte digital con herramientas de código abierto, creando soluciones que democratizan el acceso a la tecnología y promueven el activismo digital.</p>
+                            <div class="mission-box">
+                                <h4>MISIÓN</h4>
+                                <p>Usar la tecnología y el arte como herramientas de transformación social, haciendo accesibles las herramientas digitales para comunidades y organizaciones.</p>
+                            </div>
+                        </div>
+                        <div class="tools-section">
+                            <h4>HERRAMIENTAS & TECNOLOGÍAS</h4>
+                            <div class="tools-grid">
+                                <span class="tool-tag">JavaScript</span>
+                                <span class="tool-tag">Python</span>
+                                <span class="tool-tag">Node.js</span>
+                                <span class="tool-tag">Vue.js</span>
+                                <span class="tool-tag">Three.js</span>
+                                <span class="tool-tag">Blender</span>
+                                <span class="tool-tag">Photoshop</span>
+                                <span class="tool-tag">Electron</span>
+                                <span class="tool-tag">WordPress</span>
+                                <span class="tool-tag">Git</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= SECCIÓN SERVICIOS ======================= -->
+        <section class="content-section" id="section-servicios">
+            <div class="section-container">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="title-enum">/05</span>
+                        <span class="title-text">SERVICIOS PROFESIONALES</span>
+                    </h2>
+                    <p class="section-subtitle">MACHINA DEVELOPMENT</p>
+                </div>
+
+                <div class="services-promo">
+                    <div class="machina-logo">
+                        <span class="machina-icon">⚙️</span>
+                        <span class="machina-text">MACHINA</span>
+                        <span class="machina-sub">DEVELOPMENT</span>
+                    </div>
+                    <p class="services-description">
+                        Transformamos ideas en soluciones digitales. Desarrollo web profesional para empresas, 
+                        organizaciones y emprendedores.
+                    </p>
+                    <div class="services-list">
+                        <div class="service-item">
+                            <span class="service-icon">🌐</span>
+                            <span class="service-name">Landing Pages</span>
+                        </div>
+                        <div class="service-item">
+                            <span class="service-icon">🎴</span>
+                            <span class="service-name">E-Cards Digitales</span>
+                        </div>
+                        <div class="service-item">
+                            <span class="service-icon">📝</span>
+                            <span class="service-name">WordPress</span>
+                        </div>
+                        <div class="service-item">
+                            <span class="service-icon">📱</span>
+                            <span class="service-name">Web Apps</span>
+                        </div>
+                        <div class="service-item">
+                            <span class="service-icon">🤖</span>
+                            <span class="service-name">Chatbots</span>
+                        </div>
+                        <div class="service-item">
+                            <span class="service-icon">🔌</span>
+                            <span class="service-name">Plugins</span>
+                        </div>
+                    </div>
+                    <a href="https://juantomoo.github.io/MachinaDevelopment/" target="_blank" class="machina-cta">
+                        <span>VISITAR SITIO COMPLETO</span>
+                        <span class="cta-arrow">→</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ======================= SECCIÓN CONTACTO ======================= -->
+        <section class="content-section" id="section-contacto">
+            <div class="section-container">
+                <div class="contact-layout">
+                    <div class="contact-info-panel">
+                        <div class="section-header">
+                            <h2 class="section-title">
+                                <span class="title-enum">/06</span>
+                                <span class="title-text">CONTACTO</span>
+                            </h2>
+                        </div>
+                        <div class="contact-intro">
+                            <p>¿Tienes un proyecto en mente, quieres colaborar o simplemente decir hola?</p>
+                            <p class="highlight">Envía tu señal a través del ruido digital.</p>
+                        </div>
+                        <div class="contact-methods">
+                            <div class="contact-method">
+                                <span class="method-icon">📧</span>
+                                <div class="method-info">
+                                    <span class="method-label">EMAIL</span>
+                                    <a href="mailto:machina.work@gmail.com" class="method-value">machina.work@gmail.com</a>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <span class="method-icon">📱</span>
+                                <div class="method-info">
+                                    <span class="method-label">WHATSAPP</span>
+                                    <a href="https://wa.me/573142827567" target="_blank" class="method-value">+57 314 282 7567</a>
+                                </div>
+                            </div>
+                            <div class="contact-method">
+                                <span class="method-icon">📍</span>
+                                <div class="method-info">
+                                    <span class="method-label">UBICACIÓN</span>
+                                    <span class="method-value">Santander, Colombia</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="social-links">
+                            <a href="https://github.com/juantomoo" target="_blank" class="social-link">GITHUB</a>
+                            <a href="https://www.instagram.com/juantomoo/" target="_blank" class="social-link">INSTAGRAM</a>
+                            <a href="https://www.instagram.com/juantomooph/" target="_blank" class="social-link">FOTO IG</a>
+                            <a href="https://www.linkedin.com/in/juangomez451/" target="_blank" class="social-link">LINKEDIN</a>
+                            <a href="https://www.artstation.com/juantomoo" target="_blank" class="social-link">ARTSTATION</a>
+                            <a href="https://www.youtube.com/channel/UChdPKkU5-f5rPdxctCzxOyg" target="_blank" class="social-link">YOUTUBE</a>
+                            <a href="https://soundcloud.com/juantomoo" target="_blank" class="social-link">SOUNDCLOUD</a>
+                        </div>
+                    </div>
+                    <div class="contact-form-panel">
+                        <form class="retro-form" id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                            <div class="form-group">
+                                <label for="name">NOMBRE</label>
+                                <input type="text" id="name" name="name" placeholder="Tu nombre..." required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">EMAIL</label>
+                                <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">ASUNTO</label>
+                                <select id="subject" name="subject">
+                                    <option value="proyecto">PROYECTO</option>
+                                    <option value="colaboracion">COLABORACIÓN</option>
+                                    <option value="consulta">CONSULTA</option>
+                                    <option value="otro">OTRO</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">MENSAJE</label>
+                                <textarea id="message" name="message" rows="5" placeholder="Escribe tu mensaje..." required></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <span>ENVIAR MENSAJE</span>
+                            </button>
+                        </form>
+                        <div class="form-success" id="form-success">
+                            <span class="success-icon">✓</span>
+                            <p>MENSAJE ENVIADO</p>
+                            <p class="success-sub">Responderé lo antes posible</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Section Navigation Arrows -->
+    <div class="section-nav">
+        <button class="nav-arrow prev" id="prev-section">
+            <span>◀</span>
+            <span class="arrow-label">ANTERIOR</span>
+        </button>
+        <button class="nav-arrow next" id="next-section">
+            <span class="arrow-label">SIGUIENTE</span>
+            <span>▶</span>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="hud-footer">
+        <div class="footer-content">
+            <span class="copyright">© 2015 - 2026 JUAN TOMOO</span>
+            <span class="separator">◆</span>
+            <span class="tagline">ARTE + CÓDIGO + ACTIVISMO</span>
+        </div>
+    </footer>
+
+    <!-- Modal para galería -->
+    <div class="modal" id="gallery-modal">
+        <div class="modal-content gallery-modal-content">
+            <button class="modal-close" id="modal-close">✕</button>
+            <div class="modal-body">
+                <div class="modal-image">
+                    <img id="modal-img" src="" alt="">
+                </div>
+                <div class="modal-info">
+                    <h2 id="modal-title">Título de la obra</h2>
+                    <p class="modal-year" id="modal-year">2024</p>
+                    <p class="modal-description" id="modal-description">Descripción de la obra.</p>
+                    <div class="modal-tags" id="modal-tags"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SoundCloud Embed (hidden, for audio) -->
+    <iframe id="soundcloud-player" 
+            width="0" 
+            height="0" 
+            scrolling="no" 
+            frameborder="no" 
+            allow="autoplay" 
+            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/a-travel&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+    </iframe>
+
+    <script src="script.js"></script>
+</body>
+</html>

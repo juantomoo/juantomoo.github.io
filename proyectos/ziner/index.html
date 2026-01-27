@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZineR - Creador de Fanzines</title>
+    <meta name="description" content="Crea fanzines imprimibles con imposición automática">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="ZineR">
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Audiowide&family=Caveat:wght@400;700&family=Courier+Prime:wght@400;700&family=Exo:wght@300;400;600;700&family=Inter:wght@300;400;600;700&family=Merriweather:wght@400;700&family=Ruda:wght@400;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Main Container -->
+    <div class="app-container">
+
+        <!-- Left Sidebar: Configuration Panel -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="assets/icons/icon-192.png" alt="ZineR Logo" class="logo-img">
+                <div class="header-text">
+                    <h1 class="logo">ZineR</h1>
+                    <p class="tagline">Creador de Fanzines</p>
+                </div>
+            </div>
+
+            <div class="sidebar-content">
+                <!-- Format Selection -->
+                <section class="config-section">
+                    <h2 class="section-title">Formato de Plegado</h2>
+                    <div class="format-selector">
+                        <label class="format-option">
+                            <input type="radio" name="format" value="4-caras" checked>
+                            <span class="format-label">
+                                <strong>4 Caras</strong>
+                                <small>Plegado simple</small>
+                            </span>
+                        </label>
+                        <label class="format-option">
+                            <input type="radio" name="format" value="6-caras">
+                            <span class="format-label">
+                                <strong>6 Caras</strong>
+                                <small>Tríptico (con corte)</small>
+                            </span>
+                        </label>
+                        <label class="format-option">
+                            <input type="radio" name="format" value="8-caras">
+                            <span class="format-label">
+                                <strong>8 Caras</strong>
+                                <small>Fanzine clásico (con corte)</small>
+                            </span>
+                        </label>
+                        <label class="format-option">
+                            <input type="radio" name="format" value="16-caras">
+                            <span class="format-label">
+                                <strong>16 Caras</strong>
+                                <small>Extendido (con corte)</small>
+                            </span>
+                        </label>
+                    </div>
+                    <p class="help-text" style="margin-top: 8px; font-size: 11px; color: #666;">
+                        💡 Usa <code>----</code> para forzar salto a siguiente cara
+                    </p>
+                </section>
+
+                <!-- Paper Size -->
+                <section class="config-section">
+                    <h2 class="section-title">Tamaño de Papel</h2>
+                    <select id="paper-size" class="select-input">
+                        <option value="a4">A4 (210 × 297 mm)</option>
+                        <option value="carta">Carta (8.5 × 11 in)</option>
+                        <option value="oficio">Oficio (8.5 × 14 in)</option>
+                    </select>
+                </section>
+
+                <!-- Image Uploads -->
+                <section class="config-section">
+                    <h2 class="section-title">Imágenes de Fondo</h2>
+                    <div id="image-controls">
+                        <!-- Dynamically populated based on format -->
+                    </div>
+                </section>
+
+                <!-- Export Options -->
+                <section class="config-section">
+                    <h2 class="section-title">Opciones de Exportación</h2>
+                    <!-- Opción oculta: el PDF se genera como imagen rasterizada -->
+                    <label class="checkbox-option" style="display:none">
+                        <input type="checkbox" id="embed-fonts" checked>
+                        <span>Embeber fuentes (editable)</span>
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="show-marks">
+                        <span>Marcas de corte/doblez</span>
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="show-page-numbers" checked>
+                        <span>Números de página</span>
+                    </label>
+                </section>
+
+                <!-- Actions -->
+                <div class="action-buttons">
+                    <button id="btn-export-pdf" class="btn btn-primary">
+                        📥 Descargar PDF
+                    </button>
+                    <button id="btn-save-draft" class="btn btn-secondary">
+                        💾 Guardar Borrador
+                    </button>
+                    <button id="btn-new-project" class="btn btn-danger">
+                        🗑️ Nuevo Proyecto
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Panel: Editor -->
+        <main class="editor-panel">
+            <div class="editor-header">
+                <h2>Editor de Contenido</h2>
+                <div class="editor-controls-group">
+                    <!-- Toolbar de Edición Markdown -->
+                    <div class="editor-toolbar">
+                        <div class="toolbar-group">
+                            <button type="button" class="toolbar-btn" data-action="h1" title="Título principal (H1)">H1</button>
+                            <button type="button" class="toolbar-btn" data-action="h2" title="Subtítulo (H2)">H2</button>
+                            <button type="button" class="toolbar-btn" data-action="h3" title="Encabezado 3">H3</button>
+                            <button type="button" class="toolbar-btn" data-action="h4" title="Encabezado 4">H4</button>
+                            <button type="button" class="toolbar-btn" data-action="h5" title="Encabezado 5">H5</button>
+                        </div>
+                        <div class="toolbar-separator"></div>
+                        <div class="toolbar-group">
+                            <button type="button" class="toolbar-btn" data-action="bold" title="Negrita (Ctrl+B)"><b>N</b></button>
+                            <button type="button" class="toolbar-btn" data-action="italic" title="Cursiva (Ctrl+I)"><i>C</i></button>
+                            <button type="button" class="toolbar-btn" data-action="underline" title="Subrayado">S̲</button>
+                        </div>
+                        <div class="toolbar-separator"></div>
+                        <div class="toolbar-group">
+                            <button type="button" class="toolbar-btn" data-action="ul" title="Lista con viñetas">• ―</button>
+                            <button type="button" class="toolbar-btn" data-action="ol" title="Lista numerada">1. ―</button>
+                        </div>
+                        <div class="toolbar-separator"></div>
+                        <div class="toolbar-group">
+                            <button type="button" class="toolbar-btn toolbar-btn-accent" data-action="pagebreak" title="Salto de página (----)">⏎ Salto</button>
+                        </div>
+                    </div>
+
+                    <div class="font-controls">
+                        <!-- Título -->
+                        <div class="font-control-group">
+                            <select id="font-title" class="control-select-sm" title="Fuente Título">
+                                <option value="serif">Título: Serif</option>
+                                <option value="sans">Título: Sans</option>
+                                <option value="mono">Título: Mono</option>
+                                <option value="hand">Título: Hand</option>
+                                <option value="ruda">Título: Ruda</option>
+                                <option value="exo">Título: Exo</option>
+                                <option value="audiowide">Título: Audiowide</option>
+                            </select>
+                            <div class="size-control" title="Tamaño Título">
+                                <button type="button" class="size-btn" data-target="size-title" data-action="decrease">−</button>
+                                <input type="number" id="size-title" class="size-input" value="24" min="12" max="48" step="1">
+                                <button type="button" class="size-btn" data-target="size-title" data-action="increase">+</button>
+                            </div>
+                        </div>
+                        <!-- Subtítulo -->
+                        <div class="font-control-group">
+                            <select id="font-subtitle" class="control-select-sm" title="Fuente Subtítulo">
+                                <option value="serif">Sub: Serif</option>
+                                <option value="sans">Sub: Sans</option>
+                                <option value="mono">Sub: Mono</option>
+                                <option value="hand">Sub: Hand</option>
+                                <option value="ruda">Sub: Ruda</option>
+                                <option value="exo">Sub: Exo</option>
+                                <option value="audiowide">Sub: Audiowide</option>
+                            </select>
+                            <div class="size-control" title="Tamaño Subtítulo">
+                                <button type="button" class="size-btn" data-target="size-subtitle" data-action="decrease">−</button>
+                                <input type="number" id="size-subtitle" class="size-input" value="18" min="10" max="36" step="1">
+                                <button type="button" class="size-btn" data-target="size-subtitle" data-action="increase">+</button>
+                            </div>
+                        </div>
+                        <!-- Cuerpo -->
+                        <div class="font-control-group">
+                            <select id="font-body" class="control-select-sm" title="Fuente Cuerpo">
+                                <option value="serif">Cuerpo: Serif</option>
+                                <option value="sans">Cuerpo: Sans</option>
+                                <option value="mono">Cuerpo: Mono</option>
+                                <option value="hand">Cuerpo: Hand</option>
+                                <option value="ruda">Cuerpo: Ruda</option>
+                                <option value="exo">Cuerpo: Exo</option>
+                                <option value="audiowide">Cuerpo: Audiowide</option>
+                            </select>
+                            <div class="size-control" title="Tamaño Cuerpo">
+                                <button type="button" class="size-btn" data-target="size-body" data-action="decrease">−</button>
+                                <input type="number" id="size-body" class="size-input" value="11" min="8" max="18" step="1">
+                                <button type="button" class="size-btn" data-target="size-body" data-action="increase">+</button>
+                            </div>
+                        </div>
+                        <!-- Firma -->
+                        <div class="font-control-group">
+                            <select id="font-signature" class="control-select-sm" title="Fuente Firma">
+                                <option value="serif">Firma: Serif</option>
+                                <option value="sans">Firma: Sans</option>
+                                <option value="mono">Firma: Mono</option>
+                                <option value="hand">Firma: Hand</option>
+                                <option value="ruda">Firma: Ruda</option>
+                                <option value="exo">Firma: Exo</option>
+                                <option value="audiowide">Firma: Audiowide</option>
+                            </select>
+                            <div class="size-control" title="Tamaño Firma">
+                                <button type="button" class="size-btn" data-target="size-signature" data-action="decrease">−</button>
+                                <input type="number" id="size-signature" class="size-input" value="10" min="6" max="14" step="1">
+                                <button type="button" class="size-btn" data-target="size-signature" data-action="increase">+</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-icons">
+                        <button id="btn-import-md" class="btn btn-icon" title="Importar archivo .md">
+                            📂
+                        </button>
+                        <button id="btn-toggle-preview" class="btn btn-icon" title="Vista previa">
+                            👁️
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="editor-container">
+                <textarea id="markdown-editor" class="markdown-input" placeholder="# Mi Fanzine
+## Subtítulo
+
+Escribe aquí tu contenido en Markdown...
+
+**Negrita** y *cursiva* están soportadas.
+
+- Lista de items
+- Otro item
+
+_Tu nombre aquí_" spellcheck="false"></textarea>
+
+                <div id="markdown-preview" class="markdown-preview hidden">
+                    <!-- Rendered markdown preview -->
+                </div>
+            </div>
+
+            <!-- Import file input (hidden) -->
+            <input type="file" id="file-import" accept=".md,.txt" style="display: none;">
+        </main>
+
+        <!-- Panel Derecho: Vista Previa -->
+        <div class="preview-container">
+            <div class="preview-scroll-area">
+                <div class="panel-header">
+                    <h2>Vista de Imposición</h2>
+                    <div class="preview-controls">
+                        <span id="preview-info" class="preview-info">4 caras</span>
+                    </div>
+                </div>
+
+                <div class="preview-canvas-wrapper">
+                    <div id="preview-canvas" class="preview-canvas">
+                        <!-- El contenido se genera dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Botones de información -->
+                <div class="info-buttons-panel">
+                    <button id="btn-info-folding" class="btn btn-info-panel">
+                        <span class="btn-icon-emoji">📐</span>
+                        Instrucciones de Plegado
+                    </button>
+                    <button id="btn-info-usage" class="btn btn-info-panel">
+                        <span class="btn-icon-emoji">📖</span>
+                        Uso de ZineR
+                    </button>
+                    <button id="btn-info-message" class="btn btn-info-panel">
+                        <span class="btn-icon-emoji">💌</span>
+                        Mensaje en la Botella
+                    </button>
+                </div>
+
+                <!-- Link al repositorio -->
+                <div class="repo-link-panel">
+                    <a href="https://github.com/juantomoo/ZineR" target="_blank" rel="noopener noreferrer" class="btn btn-github">
+                        <svg class="github-icon" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
+                            <path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                        Ir al Repositorio
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Vista Previa PDF -->
+        <div id="pdf-preview-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Vista Previa de Impresión</h2>
+                    <button id="btn-close-modal" class="btn-icon close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <iframe id="pdf-preview-frame" src=""></iframe>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-download-pdf-modal" class="btn btn-primary">Descargar PDF</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de Información -->
+        <div id="info-modal" class="modal hidden">
+            <div class="modal-content modal-info">
+                <div class="modal-header">
+                    <h2 id="info-modal-title">Información</h2>
+                    <button id="btn-close-info-modal" class="btn-icon close-modal">&times;</button>
+                </div>
+                <div class="modal-body modal-body-scroll">
+                    <div id="info-modal-content">
+                        <!-- Contenido dinámico -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btn-close-info-footer" class="btn btn-secondary">Cerrar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Status/Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Librerías Externas -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Scripts de la Aplicación (orden importante) -->
+    <script src="js/config.js"></script>
+    <script src="js/foldingSchemes.js"></script>
+    <script src="js/markdownParser.js"></script>
+    <script src="js/pagination.js"></script>
+    <script src="js/imageManager.js"></script>
+    <script src="js/layoutEngine.js"></script>
+    <script src="js/pdfGenerator.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registrado:', registration.scope);
+                        
+                        // Verificar actualizaciones
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+                            console.log('🔄 Nueva versión del Service Worker encontrada');
+                            
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    // Hay una nueva versión disponible
+                                    console.log('📦 Nueva versión disponible');
+                                }
+                            });
+                        });
+                    })
+                    .catch((error) => {
+                        console.warn('⚠️ Error registrando Service Worker:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+
+</html>

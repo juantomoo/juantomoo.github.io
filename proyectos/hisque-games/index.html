@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Demo de ECO Serpiente, juego educativo en desarrollo por HISQUE Estudio. Aprende sobre reciclaje mientras te diviertes.">
+  <meta name="keywords" content="HISQUE, ECO Serpiente, juego educativo, demo, reciclaje, Phaser">
+  <meta name="robots" content="index, follow">
+  <title>ECO Serpiente - Demo | HISQUE Estudio</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- Importación de fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Raleway:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+  <!-- Script de Phaser -->
+  <script src="https://cdn.jsdelivr.net/npm/phaser@3.88.2/dist/phaser.min.js"></script>
+</head>
+<body>
+  <!-- Encabezado -->
+  <header>
+    <div class="header-container">
+      <a href="https://hisque.com.co/">
+        <img src="assets/hisque-logo.png" alt="Logo HISQUE" class="hisque-logo">
+      </a>
+    </div>
+  </header>
+  
+  <!-- Contenido Principal -->
+  <main class="main-container">
+    <section class="game-info">
+      <h1>ECO Serpiente</h1>
+      <p>Bienvenido a la demo de ECO Serpiente, un juego educativo en desarrollo por HISQUE Estudio. Aprende sobre reciclaje y separación de residuos de forma divertida y retro. ¡Explora, juega y ayuda a salvar el planeta!</p>
+      <p><strong>Nota:</strong> Este es un demo en constante evolución y solo funciona con teclado.</p>
+    </section>
+    <div id="game-container">
+      <canvas id="game-canvas"></canvas>
+    </div>
+  </main>
+  
+  <!-- Pie de Página -->
+  <footer>
+    <button id="menu-button" aria-label="Abrir menú">
+      &#9776;
+    </button>
+  </footer>
+  
+  <!-- Popup del Menú -->
+  <div id="popup-menu" class="hidden" aria-modal="true" role="dialog">
+    <div class="popup-inner">
+      <div class="popup-header">
+        <button id="close-popup" aria-label="Cerrar popup">&times;</button>
+      </div>
+      <div id="popup-content">
+        <!-- Opciones por defecto del popup -->
+        <div class="accordion">
+          <button class="accordion-button" data-option="presentacion">
+            <span class="icon">📄</span>
+            <span class="text">Presentación del Juego</span>
+          </button>
+          <div class="accordion-content hidden">
+            <h2>Presentación del Juego</h2>
+            <p>ECO Serpiente es un juego educativo en desarrollo que te invita a aprender sobre reciclaje de una forma divertida y retro.</p>
+          </div>
+          
+          <button class="accordion-button" data-option="instrucciones">
+            <span class="icon">📝</span>
+            <span class="text">Instrucciones</span>
+          </button>
+          <div class="accordion-content hidden">
+            <h2>Instrucciones</h2>
+            <p>Usa las flechas del teclado para mover la serpiente. Recoge los residuos y deposítalos en el contenedor correcto para ganar puntos.</p>
+          </div>
+          
+          <button class="accordion-button" data-option="donar">
+            <span class="icon">💖</span>
+            <span class="text">Donar</span>
+          </button>
+          <div class="accordion-content hidden">
+            <h2>Donar</h2>
+            <p>Si te gustan nuestros proyectos de acceso libre, puedes hacer una donación del valor que puedas.<br>Gracias :D<br>Donaciones en América Latina: <a href="https://biolibre.co/hisque" target="_blank">BioLibre de Mercado Pago</a></p>
+          </div>
+          
+          <button class="accordion-button" data-option="volver">
+            <span class="icon">↩️</span>
+            <span class="text">Volver al sitio web de HISQUE</span>
+          </button>
+          <div class="accordion-content hidden">
+            <h2>Volver al sitio web de HISQUE</h2>
+            <p>Haz clic <a href="https://hisque.com.co" target="_blank" rel="noopener">aquí</a> para regresar al sitio web principal de HISQUE.</p>
+          </div>
+        </div>
+      </div>
+      <!-- Vista de detalle del popup (oculta por defecto) -->
+      <div id="popup-detail" class="hidden">
+        <div class="popup-detail-header">
+          <button id="back-popup" aria-label="Regresar">&#8592;</button>
+          <button id="close-detail-popup" aria-label="Cerrar popup">&times;</button>
+        </div>
+        <div id="popup-detail-content">
+          <!-- El contenido se cargará dinámicamente según la opción seleccionada -->
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scripts: Funciones del index y del juego -->
+  <script type="module" src="js/main.js"></script>
+  <script>
+    // Funcionalidad básica para el comportamiento del popup
+    const menuButton = document.getElementById('menu-button');
+    const popupMenu = document.getElementById('popup-menu');
+    const closePopup = document.getElementById('close-popup');
+    const popupOptions = document.querySelectorAll('.popup-option');
+    const popupContent = document.getElementById('popup-content');
+    const popupDetail = document.getElementById('popup-detail');
+    const popupDetailContent = document.getElementById('popup-detail-content');
+    const backPopup = document.getElementById('back-popup');
+    const closeDetailPopup = document.getElementById('close-detail-popup');
+    
+    menuButton.addEventListener('click', () => {
+      popupMenu.classList.remove('hidden');
+    });
+    
+    closePopup.addEventListener('click', () => {
+      popupMenu.classList.add('hidden');
+      resetPopup();
+    });
+    
+    popupOptions.forEach(button => {
+      button.addEventListener('click', () => {
+        const option = button.getAttribute('data-option');
+        showPopupDetail(option);
+      });
+    });
+    
+    backPopup.addEventListener('click', () => {
+      popupDetail.classList.add('hidden');
+      popupContent.classList.remove('hidden');
+    });
+    
+    closeDetailPopup.addEventListener('click', () => {
+      popupMenu.classList.add('hidden');
+      resetPopup();
+    });
+    
+    function showPopupDetail(option) {
+      popupContent.classList.add('hidden');
+      popupDetail.classList.remove('hidden');
+      let contentHTML = '';
+      switch(option) {
+        case 'presentacion':
+          contentHTML = '<h2>Presentación del Juego</h2><p>ECO Serpiente es un juego educativo en desarrollo que te invita a aprender sobre reciclaje de una forma divertida y retro.</p>';
+          break;
+        case 'instrucciones':
+          contentHTML = '<h2>Instrucciones</h2><p>Usa las flechas del teclado para mover la serpiente. Recoge los residuos y deposítalos en el contenedor correcto para ganar puntos.</p>';
+          break;
+        case 'donar':
+          contentHTML = '<h2>Donar</h2><p>Si te gustan nuestros proyectos de acceso libre, puedes hacer una donación del valor que puedas.<br>Gracias :D<br>Donaciones en América Latina: <a href="https://biolibre.co/hisque" target="_blank">BioLibre de Mercado Pago</a>';
+          break;
+        case 'volver':
+          contentHTML = '<h2>Volver al sitio web de HISQUE</h2><p>Haz clic <a href="https://hisque.com.co" target="_blank" rel="noopener">aquí</a> para regresar al sitio web principal de HISQUE.</p>';
+          break;
+        default:
+          contentHTML = '<p>Contenido no disponible.</p>';
+      }
+      popupDetailContent.innerHTML = contentHTML;
+    }
+    
+    function resetPopup() {
+      popupContent.classList.remove('hidden');
+      popupDetail.classList.add('hidden');
+      popupDetailContent.innerHTML = '';
+    }
+
+    const accordionButtons = document.querySelectorAll('.accordion-button');
+    const accordionContents = document.querySelectorAll('.accordion-content');
+
+    accordionButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const content = button.nextElementSibling;
+        content.classList.toggle('hidden');
+        accordionContents.forEach(otherContent => {
+          if (otherContent !== content) {
+            otherContent.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

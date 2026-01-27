@@ -1,0 +1,59 @@
+# ZineR - Gitignore
+
+# OS Generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.project
+.settings/
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Dependencies (si se agregan en el futuro)
+node_modules/
+bower_components/
+
+# Build outputs
+dist/
+build/
+.cache/
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# Development files that shouldn't be in production
+examples/Captura*.png
+examples/IMG_*.jpg
+examples/*.jpg
+examples/templates.md
+
+# Local environment
+.env
+.env.local
+
+# Backup files
+*.bak
+*.backup
+
+# XMP sidecar files
+*.xmp

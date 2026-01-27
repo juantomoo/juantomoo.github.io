@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antifa Music Downloader | Juan Tomoo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0a0a12;
+            --color-pink: #ff00ff;
+            --color-cyan: #00ffff;
+            --color-orange: #ff9e00;
+            --color-text: #e0e0e0;
+            --font-pixel: 'Press Start 2P', monospace;
+            --font-mono: 'Space Mono', monospace;
+            --font-retro: 'VT323', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-mono);
+            background: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-cyan);
+            text-decoration: none;
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: var(--color-pink); }
+        
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 0, 255, 0.3);
+        }
+        .project-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .project-title {
+            font-family: var(--font-pixel);
+            font-size: 1.5rem;
+            color: var(--color-cyan);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
+        }
+        .project-subtitle {
+            font-family: var(--font-retro);
+            font-size: 1.3rem;
+            color: var(--color-orange);
+        }
+        
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 2rem 0;
+        }
+        .tech-badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            color: var(--color-cyan);
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--color-cyan);
+        }
+        
+        .description {
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+        
+        .features {
+            background: rgba(36, 0, 70, 0.3);
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .features h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.9rem;
+            color: var(--color-pink);
+            margin-bottom: 1rem;
+        }
+        .features ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.75rem;
+        }
+        .features li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .features li::before {
+            content: '◈';
+            position: absolute;
+            left: 0;
+            color: var(--color-cyan);
+        }
+        
+        .requirements {
+            background: rgba(255, 158, 0, 0.1);
+            border: 2px solid var(--color-orange);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .requirements h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
+            color: var(--color-orange);
+            margin-bottom: 1rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .cta-btn.primary {
+            background: var(--color-cyan);
+            color: #000;
+        }
+        .cta-btn.primary:hover {
+            background: var(--color-pink);
+            color: #fff;
+        }
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--color-cyan);
+            border: 2px solid var(--color-cyan);
+        }
+        .cta-btn.secondary:hover {
+            background: var(--color-cyan);
+            color: #000;
+        }
+        
+        .screenshot {
+            margin: 2rem 0;
+            border: 3px solid var(--color-pink);
+            background: rgba(36, 0, 70, 0.5);
+            padding: 2rem;
+            text-align: center;
+        }
+        .screenshot-placeholder {
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, rgba(255,0,255,0.2), rgba(0,255,255,0.2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+        .screenshot-caption {
+            font-family: var(--font-retro);
+            font-size: 1.1rem;
+            color: var(--color-text);
+            margin-top: 1rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← VOLVER AL PORTFOLIO</a>
+        
+        <header class="project-header">
+            <div class="project-icon">🎵</div>
+            <h1 class="project-title">ANTIFA MUSIC DOWNLOADER</h1>
+            <p class="project-subtitle">Descargador de música con metadatos automáticos</p>
+            
+            <div class="tech-stack">
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">Electron</span>
+                <span class="tech-badge">yt-dlp</span>
+                <span class="tech-badge">ffmpeg</span>
+                <span class="tech-badge">YouTube Music API</span>
+            </div>
+        </header>
+        
+        <section class="description">
+            <p>Aplicación de escritorio para descargar música desde YouTube con <strong>metadatos automáticos</strong> 
+            obtenidos de YouTube Music. Incluye carátulas de álbum, información del artista, año de lanzamiento 
+            y más, todo embebido directamente en los archivos MP3.</p>
+        </section>
+        
+        <section class="features">
+            <h3>✨ CARACTERÍSTICAS</h3>
+            <ul>
+                <li>Descarga de audio en alta calidad</li>
+                <li>Metadatos automáticos desde YouTube Music</li>
+                <li>Carátulas de álbum embebidas</li>
+                <li>Conversión automática a MP3/FLAC</li>
+                <li>Interfaz gráfica con Electron</li>
+                <li>Modo CLI para automatización</li>
+                <li>Soporte para playlists completas</li>
+                <li>Normalización de audio</li>
+            </ul>
+        </section>
+        
+        <section class="screenshot">
+            <div class="screenshot-placeholder">📱</div>
+            <p class="screenshot-caption">Interfaz de la aplicación (captura pendiente)</p>
+        </section>
+        
+        <section class="requirements">
+            <h3>⚠️ REQUISITOS</h3>
+            <p>Esta es una <strong>aplicación de escritorio</strong> que requiere instalación local:</p>
+            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                <li>Node.js 18+</li>
+                <li>yt-dlp instalado en el sistema</li>
+                <li>ffmpeg para conversión de audio</li>
+            </ul>
+        </section>
+        
+        <div class="cta-buttons">
+            <a href="https://github.com/juantomoo/antifa-free-music-share" target="_blank" class="cta-btn primary">
+                VER EN GITHUB
+            </a>
+            <a href="https://github.com/juantomoo/antifa-free-music-share/releases" target="_blank" class="cta-btn secondary">
+                DESCARGAR RELEASE
+            </a>
+        </div>
+    </div>
+</body>
+</html>

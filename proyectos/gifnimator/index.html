@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GIFnimator | Juan Tomoo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #0a0a12;
+            --color-pink: #ff00ff;
+            --color-cyan: #00ffff;
+            --color-orange: #ff9e00;
+            --color-text: #e0e0e0;
+            --font-pixel: 'Press Start 2P', monospace;
+            --font-mono: 'Space Mono', monospace;
+            --font-retro: 'VT323', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-mono);
+            background: var(--color-bg);
+            color: var(--color-text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--color-cyan);
+            text-decoration: none;
+            font-family: var(--font-pixel);
+            font-size: 0.7rem;
+            margin-bottom: 2rem;
+            transition: color 0.3s;
+        }
+        .back-link:hover { color: var(--color-pink); }
+        
+        .project-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid rgba(255, 0, 255, 0.3);
+        }
+        .project-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .project-title {
+            font-family: var(--font-pixel);
+            font-size: 1.5rem;
+            color: var(--color-cyan);
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            margin-bottom: 0.5rem;
+        }
+        .project-subtitle {
+            font-family: var(--font-retro);
+            font-size: 1.3rem;
+            color: var(--color-orange);
+        }
+        
+        .tech-stack {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin: 2rem 0;
+        }
+        .tech-badge {
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            color: var(--color-cyan);
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--color-cyan);
+        }
+        
+        .description { line-height: 1.8; margin-bottom: 2rem; }
+        
+        .styles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .style-card {
+            background: rgba(36, 0, 70, 0.5);
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .style-card:hover {
+            border-color: var(--color-pink);
+            transform: translateY(-3px);
+        }
+        .style-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .style-name {
+            font-family: var(--font-pixel);
+            font-size: 0.65rem;
+            color: var(--color-pink);
+        }
+        
+        .features {
+            background: rgba(36, 0, 70, 0.3);
+            border: 2px solid rgba(255, 0, 255, 0.3);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .features h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.9rem;
+            color: var(--color-pink);
+            margin-bottom: 1rem;
+        }
+        .features ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.75rem;
+        }
+        .features li {
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .features li::before {
+            content: '◈';
+            position: absolute;
+            left: 0;
+            color: var(--color-cyan);
+        }
+        
+        .requirements {
+            background: rgba(255, 158, 0, 0.1);
+            border: 2px solid var(--color-orange);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .requirements h3 {
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
+            color: var(--color-orange);
+            margin-bottom: 1rem;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            font-family: var(--font-pixel);
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .cta-btn.primary {
+            background: var(--color-cyan);
+            color: #000;
+        }
+        .cta-btn.primary:hover {
+            background: var(--color-pink);
+            color: #fff;
+        }
+        .cta-btn.secondary {
+            background: transparent;
+            color: var(--color-cyan);
+            border: 2px solid var(--color-cyan);
+        }
+        .cta-btn.secondary:hover {
+            background: var(--color-cyan);
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../../" class="back-link">← VOLVER AL PORTFOLIO</a>
+        
+        <header class="project-header">
+            <div class="project-icon">✨</div>
+            <h1 class="project-title">GIFNIMATOR</h1>
+            <p class="project-subtitle">Procesador de GIFs con efectos artísticos</p>
+            
+            <div class="tech-stack">
+                <span class="tech-badge">Node.js</span>
+                <span class="tech-badge">Express</span>
+                <span class="tech-badge">Sharp</span>
+                <span class="tech-badge">CLI</span>
+            </div>
+        </header>
+        
+        <section class="description">
+            <p>Herramienta para procesar GIFs animados aplicando <strong>estilos visuales predefinidos</strong>. 
+            Transforma cualquier GIF con filtros artísticos inspirados en estéticas como Vaporwave, Cyberpunk, 
+            Glitch Art y más. Disponible como servidor web o herramienta de línea de comandos.</p>
+        </section>
+        
+        <h3 style="font-family: var(--font-pixel); font-size: 0.8rem; color: var(--color-cyan); margin-bottom: 1rem; text-align: center;">
+            🎨 ESTILOS DISPONIBLES
+        </h3>
+        
+        <div class="styles-grid">
+            <div class="style-card">
+                <div class="style-icon">🌴</div>
+                <div class="style-name">VAPORWAVE</div>
+            </div>
+            <div class="style-card">
+                <div class="style-icon">🌃</div>
+                <div class="style-name">CYBERPUNK</div>
+            </div>
+            <div class="style-card">
+                <div class="style-icon">📺</div>
+                <div class="style-name">GLITCH</div>
+            </div>
+            <div class="style-card">
+                <div class="style-icon">🎞️</div>
+                <div class="style-name">VHS</div>
+            </div>
+            <div class="style-card">
+                <div class="style-icon">🌈</div>
+                <div class="style-name">NEON</div>
+            </div>
+            <div class="style-card">
+                <div class="style-icon">⚫</div>
+                <div class="style-name">NOIR</div>
+            </div>
+        </div>
+        
+        <section class="features">
+            <h3>✨ CARACTERÍSTICAS</h3>
+            <ul>
+                <li>Múltiples estilos artísticos predefinidos</li>
+                <li>Procesamiento por lotes</li>
+                <li>API REST para integración</li>
+                <li>Interfaz web de carga</li>
+                <li>CLI para automatización</li>
+                <li>Preserva animación original</li>
+                <li>Ajuste de parámetros por estilo</li>
+                <li>Exportación a múltiples formatos</li>
+            </ul>
+        </section>
+        
+        <section class="requirements">
+            <h3>⚠️ REQUISITOS</h3>
+            <p>Este proyecto requiere un <strong>servidor Node.js</strong> para funcionar:</p>
+            <ul style="margin-top: 1rem; padding-left: 1.5rem;">
+                <li>Node.js 16+</li>
+                <li>npm o yarn</li>
+                <li>Dependencias: sharp, express, etc.</li>
+            </ul>
+        </section>
+        
+        <div class="cta-buttons">
+            <a href="https://github.com/juantomoo/GIFnimator" target="_blank" class="cta-btn primary">
+                VER EN GITHUB
+            </a>
+        </div>
+    </div>
+</body>
+</html>

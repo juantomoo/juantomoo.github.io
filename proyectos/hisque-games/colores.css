@@ -1,0 +1,23 @@
+/* Azules */
+.azul-oscuro { background-color: #112244; }
+.azul-medio { background-color: #334477; }
+.azul-claro { background-color: #5566AA; }
+.azul-pastel { background-color: #7788CC; }
+.azul-celeste { background-color: #99AAFF; }
+
+/* Verdes */
+.verde-oscuro { background-color: #226644; }
+.verde-medio { background-color: #337755; }
+.verde-claro { background-color: #44AA66; }
+.verde-pastel { background-color: #88BB99; }
+
+/* Violetas */
+.violeta-oscuro { background-color: #551166; }
+.violeta-medio { background-color: #772288; }
+.violeta-claro { background-color: #9933AA; }
+.violeta-pastel { background-color: #BB55CC; }
+.violeta-rosado { background-color: #DD77EE; }
+
+/* Otros */
+.blanco { background-color: #FFFFFF; }
+.transparente { background-color: transparent; }

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Museo Viviente por HISQUE Estudio</title>
+
+  <!-- Metadatos SEO -->
+  <meta name="description" content="Museo Viviente es una aplicación web interactiva que permite explorar exposiciones virtuales sobre diversos temas históricos y científicos.">
+  <meta name="keywords" content="Museo, Exposiciones, Historia, Ciencia, Cultura, Educación, Virtual, Interactivo, HISQUE Estudio">
+  <meta name="author" content="Juan Tomoo, HISQUE Estudio">
+  <meta property="og:title" content="Museo Viviente por HISQUE Estudio">
+  <meta property="og:description" content="Explora y diviértete con exposiciones virtuales sobre diversos temas históricos y científicos.">
+  <meta property="og:image" content="logo-museo-viviente.png">
+  <meta property="og:url" content="https://museoviviente.hisque.com.co">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Museo Viviente por HISQUE Estudio">
+  <meta name="twitter:description" content="Explora exposiciones virtuales sobre diversos temas históricos y científicos.">
+  <meta name="twitter:image" content="logo-museo-viviente.png">
+  <meta name="robots" content="index, follow">
+
+  <!-- Hoja de estilos principal -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="dark-mode">
+  <!-- Encabezado semántico -->
+  <header role="banner" aria-label="Encabezado principal">
+    <!-- Logo principal (fijo, arriba al centro) -->
+    <img
+      id="logoMuseo"
+      src="logo-museo-viviente.png"
+      alt="Logo Museo Viviente"
+      title="Volver al inicio"
+    />
+
+    <!-- Logo HISQUE (fijo, abajo a la derecha) -->
+    <img
+      id="logoHisque"
+      src="logo-hisque.png"
+      alt="Logo HISQUE Estudio"
+      title="HISQUE Estudio"
+    />
+
+    <!-- Botón para alternar modo claro/oscuro -->
+    <button id="toggleModeBtn" aria-label="Cambiar modo claro/oscuro">
+      Modo Claro/Oscuro
+    </button>
+
+    <!-- Botón de configuración -->
+    <button
+      id="configBtn"
+      class="icon-btn"
+      aria-label="Mostrar controles de configuración"
+    >
+      &#9881;
+    </button>
+  </header>
+
+  <!-- Controles para velocidad de TTS y scroll de texto -->
+  <div
+    id="controlesVelocidad"
+    class="hidden"
+    role="region"
+    aria-label="Controles de velocidad"
+  >
+    <label for="ttsRateRange">Velocidad Voz:</label>
+    <input
+      type="range"
+      id="ttsRateRange"
+      min="0.5"
+      max="2"
+      step="0.1"
+      value="1"
+    />
+
+    <label for="scrollSpeedRange">Velocidad Texto:</label>
+    <input
+      type="range"
+      id="scrollSpeedRange"
+      min="1"
+      max="80"
+      step="1"
+      value="15"
+    />
+
+    <!-- Nuevo control de volumen de música -->
+    <label for="musicVolumeRange">Volumen Música:</label>
+    <input
+      type="range"
+      id="musicVolumeRange"
+      min="0"
+      max="1"
+      step="0.1"
+      value="0.1"
+    />
+  </div>
+
+  <!-- Contenido principal -->
+  <main>
+    <!-- PANTALLA 1: Inicio -->
+    <section
+      id="pantallaInicio"
+      role="region"
+      aria-label="Pantalla de inicio"
+    >
+      <img
+        class="logo"
+        src="logo-museo-viviente.png"
+        title="Logo Museo Viviente"
+      />
+      <button id="ingresaBtn">Ingresa al museo</button>
+    </section>
+
+    <!-- PANTALLA 2: Lista de Exposiciones -->
+    <section
+      id="pantallaExposiciones"
+      class="hidden"
+      role="region"
+      aria-label="Lista de exposiciones"
+    >
+      <h1>Exposiciones</h1>
+      <div class="exposiciones-grid" id="exposicionesGrid">
+        <!-- Se generan dinámicamente las tarjetas de exposiciones -->
+      </div>
+    </section>
+
+    <!-- PANTALLA 3: Detalle de Exposición -->
+    <section
+      id="pantallaDetalleExpo"
+      class="hidden"
+      role="region"
+      aria-label="Detalle de la exposición"
+    >
+      <div class="bg-image" id="detalleExpoBg"></div>
+      <h2 id="detalleExpoTitulo"></h2>
+      <p id="detalleExpoDescripcion"></p>
+      <button id="iniciarExpoBtn">Iniciar</button>
+    </section>
+
+    <!-- PANTALLA 4: Carrusel / Slider de la Exposición -->
+    <section
+      id="pantallaCarrusel"
+      class="hidden"
+      role="region"
+      aria-label="Carrusel de diapositivas"
+    >
+      <!-- Flechas de navegación -->
+      <div id="flechaIzq" class="flecha" aria-label="Anterior">&#10094;</div>
+      <div id="flechaDer" class="flecha" aria-label="Siguiente">&#10095;</div>
+
+      <!-- Contenedor para los slides (se generan dinámicamente) -->
+      <div id="slidesContainer"></div>
+    </section>
+  </main>
+
+  <!-- Lightbox sencillo -->
+  <div
+    id="lightboxOverlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Visor de imagen"
+  >
+    <button
+      class="popup-close-btn"
+      onclick="cerrarPopup('lightboxOverlay')"
+      aria-label="Cerrar visor"
+    >
+      X
+    </button>
+    <img src="" alt="" id="lightboxImg" />
+  </div>
+
+  <!-- Popup Referencias -->
+  <div
+    id="popupReferencias"
+    class="popup-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Referencias"
+  >
+    <div class="popup-content">
+      <button
+        class="popup-close-btn"
+        onclick="cerrarPopup('popupReferencias')"
+        aria-label="Cerrar popup"
+      >
+        X
+      </button>
+      <!-- Contenido dinámico se inserta aquí -->
+    </div>
+  </div>
+
+  <!-- Popup Glosario -->
+  <div
+    id="popupGlosario"
+    class="popup-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Glosario"
+  >
+    <div class="popup-content">
+      <button
+        class="popup-close-btn"
+        onclick="cerrarPopup('popupGlosario')"
+        aria-label="Cerrar popup"
+      >
+        X
+      </button>
+      <!-- Contenido dinámico se inserta aquí -->
+    </div>
+  </div>
+
+  <!-- Pie de página con íconos inferiores -->
+  <footer role="contentinfo" aria-label="Pie de página">
+    <div id="iconosInferiores">
+      <button id="creditosBtn" class="icon-btn" aria-label="Ver créditos">
+        ©
+      </button>
+      <button id="apoyarBtn" class="icon-btn" aria-label="Apoyar">
+        🤝
+      </button>
+    </div>
+  </footer>
+
+  <!-- Popup Créditos -->
+  <div
+    id="popupCreditos"
+    class="popup-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Créditos"
+  >
+    <div class="popup-content">
+      <button
+        class="popup-close-btn"
+        onclick="cerrarPopup('popupCreditos')"
+        aria-label="Cerrar popup"
+      >
+        X
+      </button>
+      <h2>Créditos</h2>
+      <p>
+        Realizado por <strong>Juan Tomoo</strong> para
+        <a href="https://hisque.com.co" target="_blank">HISQUE Estudio</a>.
+        Parte del contenido de este sitio web ha sido creado con herramientas
+        de IA para optimizar el rendimiento, disminuir costos y liberar la
+        creatividad para brindarte una experiencia llena de vida, sin dejar de
+        lado el talento de nuestro equipo creativo y el uso de herramientas
+        tradicionales.
+      </p>
+      <p>
+        Se han empleado herramientas de Google Labs, GPT-4 y Copilot.
+      </p>
+      <p>
+        Sigue a
+        <a href="https://example.com">@HISQUE_Estudio en Instagram</a>
+      </p>
+      <p>
+        <button onclick="cerrarPopup('popupCreditos')">Cerrar</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- Popup Apoyar -->
+  <div
+    id="popupApoyar"
+    class="popup-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Apoyar proyecto"
+  >
+    <div class="popup-content">
+      <button
+        class="popup-close-btn"
+        onclick="cerrarPopup('popupApoyar')"
+        aria-label="Cerrar popup"
+      >
+        X
+      </button>
+      <h2>Apoyar</h2>
+      <p>
+        Si te gustan nuestros proyectos de acceso libre, puedes hacer una
+        donación del valor que puedas.
+      </p>
+      <p>Gracias :D</p>
+      <p>
+        Donaciones en América Latina:
+        <a href="https://biolibre.co/hisque">MercadoPago</a>
+      </p>
+      <p>
+        Donaciones en otros países:
+        <a href="https://www.paypal.com">PayPal</a>
+      <p>
+        <button onclick="cerrarPopup('popupApoyar')">Cerrar</button>
+      </p>
+    </div>
+  </div>
+
+  <!-- Scripts (modulares) -->
+  <script type="module" src="js/data.js"></script>
+  <script type="module" src="js/lightbox.js"></script>
+  <script type="module" src="js/slider.js"></script>
+  <script type="module" src="js/main.js"></script>
+
+  <!-- Definición de cerrarPopup -->
+  <script>
+    function cerrarPopup(popupId) {
+      document.getElementById(popupId).style.display = 'none';
+    }
+  </script>
+</body>
+</html>
