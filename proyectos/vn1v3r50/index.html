@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Rosetón Infinito 3D - Multiverso Fractal</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      overflow: hidden;
+      background: #000;
+      color: #d4af37;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      touch-action: none;
+    }
+
+    canvas {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #020510;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #d4af37;
+      z-index: 1000;
+      transition: opacity 0.5s;
+      font-size: 14px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    #ui-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    #debug {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(2, 5, 16, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: rgba(212, 175, 55, 0.8);
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      pointer-events: none;
+    }
+
+    #debug .label {
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    #debug .value {
+      color: #d4af37;
+    }
+
+    #controls {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: rgba(2, 5, 16, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 12px;
+      padding: 20px;
+      color: #d4af37;
+      width: 300px;
+      max-height: 90vh;
+      overflow-y: auto;
+      pointer-events: auto;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+      scrollbar-width: thin;
+    }
+
+    #controls.hidden {
+      transform: translateX(340px);
+    }
+
+    #controls h2 {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+      text-align: center;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #fff;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+      padding-bottom: 15px;
+    }
+
+    .section-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      color: #fff;
+      opacity: 0.5;
+      margin-top: 15px;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      font-weight: 700;
+    }
+
+    .control-group {
+      margin-bottom: 12px;
+    }
+
+    .control-group label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-bottom: 6px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .control-group label span {
+      color: #d4af37;
+      font-family: monospace;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      background: #d4af37;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.3);
+      background: #fff;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 10px;
+      background: transparent;
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      border-radius: 4px;
+      color: #d4af37;
+      font-size: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: rgba(212, 175, 55, 0.2);
+    }
+
+    button.active {
+      background: #d4af37;
+      color: #000;
+      border-color: #d4af37;
+    }
+
+    /* Credits */
+    .credits {
+      margin-top: 25px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 15px;
+    }
+
+    .credits a {
+      color: rgba(255, 255, 255, 0.4);
+      text-decoration: none;
+      font-size: 9px;
+      letter-spacing: 1px;
+      transition: color 0.3s;
+    }
+
+    .credits a:hover {
+      color: #d4af37;
+    }
+
+    /* Global HUD Toggle */
+    #btnHud {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 50%;
+      color: #d4af37;
+      cursor: pointer;
+      z-index: 2000;
+      /* Above everything */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+    }
+
+    #btnHud:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: #d4af37;
+      transform: scale(1.1);
+    }
+
+    #togglePanel {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      background: rgba(2, 5, 16, 0.9);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 8px;
+      color: #d4af37;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 101;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    #controls.hidden+#togglePanel {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #instructions {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(2, 5, 16, 0.85);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 10px;
+      pointer-events: none;
+    }
+
+    #instructions kbd {
+      background: rgba(212, 175, 55, 0.2);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: #d4af37;
+    }
+
+    @media (max-width: 768px) {
+      #controls {
+        width: 260px;
+        right: 10px;
+        max-height: 80vh;
+      }
+
+      #instructions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading">Generando Fractal...</div>
+
+  <button id="btnHud"><i data-lucide="eye"></i></button>
+
+  <div id="ui-container">
+    <div id="debug">
+      <div><span class="label">FPS:</span> <span class="value" id="fps">60</span></div>
+      <div><span class="label">Vertices:</span> <span class="value" id="nodes">0</span></div>
+      <div><span class="label">Capas Activas:</span> <span class="value" id="layersActive">0</span></div>
+    </div>
+
+    <div id="controls">
+      <h2>Rosetón Fractal 3D</h2>
+
+      <div class="section-title">Estructura Cósmica</div>
+      <div class="control-group">
+        <label>Total de Capas <span id="layerVal">12</span></label>
+        <input type="range" id="layerCount" min="3" max="50" value="12">
+      </div>
+      <div class="control-group">
+        <label>Distancia entre Capas <span id="distVal">1.2</span></label>
+        <input type="range" id="distance" min="1.05" max="2.0" step="0.05" value="1.2">
+      </div>
+
+      <div class="section-title">Geometría Fractal</div>
+      <div class="control-group">
+        <label>Profundidad (Iteraciones) <span id="depthVal">3</span></label>
+        <input type="range" id="depth" min="1" max="4" value="3">
+      </div>
+      <div class="control-group">
+        <label>Ramificaciones <span id="branchVal">6</span></label>
+        <input type="range" id="branching" min="3" max="12" value="6">
+      </div>
+      <div class="control-group">
+        <label>Escala del Patrón <span id="scaleVal">0.5</span></label>
+        <input type="range" id="scale" min="0.3" max="0.7" step="0.05" value="0.5">
+      </div>
+
+      <div class="section-title">Animación</div>
+      <div class="control-group">
+        <label>Rotación <span id="rotationVal">0.1</span></label>
+        <input type="range" id="rotation" min="0" max="100" value="10">
+      </div>
+      <div class="control-group">
+        <label>Pulsación <span id="pulseVal">0.3</span></label>
+        <input type="range" id="pulse" min="0" max="100" value="30">
+      </div>
+
+      <div class="section-title">Vista</div>
+      <div class="control-group">
+        <label>Campo de Visión (FOV) <span id="fovDisplay">90</span></label>
+        <input type="range" id="fovParams" min="30" max="140" value="90">
+      </div>
+
+      <div class="btn-group">
+        <button id="btnAuto" class="active">Auto</button>
+        <button id="btnManual">Manual</button>
+      </div>
+
+      <div class="btn-group">
+        <button id="btnHide">Ocultar Panel</button>
+      </div>
+
+      <!-- Credits -->
+      <div class="credits">
+        <a href="https://juantomoo.github.io/" target="_blank">2010-2026 © Juan Tomoo 「 杜茂男」</a>
+      </div>
+    </div>
+
+    <button id="togglePanel">☰</button>
+
+    <div id="instructions">
+      <kbd>Arrastrar</kbd> Mirar 360° | <kbd>Scroll</kbd> Zoom (FOV)
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+    if (typeof THREE === 'undefined') {
+      document.getElementById('loading').textContent = "Error: Three.js no cargó.";
+      throw new Error("Three.js not loaded");
+    }
+
+    // Initialize Icons
+    lucide.createIcons();
+
+    // HUD Toggle
+    let hudVisible = true;
+    const btnHud = document.getElementById('btnHud');
+    const uiContainer = document.getElementById('ui-container');
+
+    btnHud.addEventListener('click', () => {
+      hudVisible = !hudVisible;
+      if (hudVisible) {
+        uiContainer.style.opacity = '1';
+        uiContainer.style.pointerEvents = 'none'; // Container itself is none, children are auto
+        document.getElementById('controls').style.pointerEvents = 'auto'; // Re-enable pointer events for controls
+        btnHud.style.opacity = '1';
+        // Reset eye icon
+        btnHud.innerHTML = '<i data-lucide="eye"></i>';
+        lucide.createIcons();
+      } else {
+        uiContainer.style.opacity = '0';
+        uiContainer.style.pointerEvents = 'none'; // Disable all interaction with hidden UI
+        document.getElementById('controls').style.pointerEvents = 'none';
+        btnHud.style.opacity = '0.3'; // Dim the toggle button so it doesn't distract
+        // Set eye-off icon
+        btnHud.innerHTML = '<i data-lucide="eye-off"></i>';
+        lucide.createIcons();
+      }
+    });
+
+    // Ensure toggle button is always clickable
+    btnHud.addEventListener('mouseenter', () => { if (!hudVisible) btnHud.style.opacity = 1; });
+    btnHud.addEventListener('mouseleave', () => { if (!hudVisible) btnHud.style.opacity = 0.3; });
+
+    const params = {
+      depth: 3,
+      branching: 6,
+      fractalScale: 0.5,
+      layers: 12,
+      distanceFactor: 1.25,
+      rotationSpeed: 0.0,
+      pulseIntensity: 0.3,
+      fov: 90
+    };
+    const targetParams = { ...params };
+
+    let time = 0;
+    let autoRotate = true;
+    let isDragging = false;
+
+    // Setup Scene - Increased render distance significantly for layers
+    const scene = new THREE.Scene();
+    // Reduced fog density to allow distant layers to be seen
+    scene.fog = new THREE.FogExp2(0x000000, 0.0004);
+
+    const camera = new THREE.PerspectiveCamera(params.fov, window.innerWidth / window.innerHeight, 0.1, 8000);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    // Use logarithmic depth buffer for better z-precision with large scales
+    renderer.capabilities.logarithmicDepthBuffer = true;
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 1);
+    document.body.appendChild(renderer.domElement);
+
+    // --- FRACTAL GENERATOR ---
+    function generateFractalGeometry() {
+      const points = [];
+
+      const addLine = (v1, v2) => {
+        points.push(v1.x, v1.y, v1.z);
+        points.push(v2.x, v2.y, v2.z);
+      };
+
+      const getPoint = (face, u, v) => {
+        let x, y, z;
+        switch (face) {
+          case 0: x = 1; y = u; z = v; break;
+          case 1: x = -1; y = u; z = v; break;
+          case 2: x = u; y = 1; z = v; break;
+          case 3: x = u; y = -1; z = v; break;
+          case 4: x = u; y = v; z = 1; break;
+          case 5: x = u; y = v; z = -1; break;
+        }
+        return new THREE.Vector3(x, y, z).normalize();
+      };
+
+      const drawRecursiveRosette = (face, centerU, centerV, radius, depth, startAngle = 0) => {
+        if (depth <= 0) return;
+
+        const segments = 16 + depth * 4;
+        let prevP = null;
+        for (let i = 0; i <= segments; i++) {
+          const theta = (i / segments) * Math.PI * 2;
+          const u = centerU + Math.cos(theta) * radius;
+          const v = centerV + Math.sin(theta) * radius;
+
+          if (u < -1.5 || u > 1.5 || v < -1.5 || v > 1.5) { prevP = null; continue; }
+
+          const p = getPoint(face, Math.max(-1, Math.min(1, u)), Math.max(-1, Math.min(1, v)));
+          if (prevP && i > 0) addLine(prevP, p);
+          prevP = p;
+        }
+
+        const branches = Math.round(targetParams.branching);
+        for (let i = 0; i < branches; i++) {
+          const theta = startAngle + (i / branches) * Math.PI * 2;
+          const rimU = centerU + Math.cos(theta) * radius;
+          const rimV = centerV + Math.sin(theta) * radius;
+
+          if (Math.abs(rimU) <= 1.05 && Math.abs(rimV) <= 1.05) {
+            const p1 = getPoint(face, Math.max(-1, Math.min(1, centerU)), Math.max(-1, Math.min(1, centerV)));
+            const p2 = getPoint(face, Math.max(-1, Math.min(1, rimU)), Math.max(-1, Math.min(1, rimV)));
+            addLine(p1, p2);
+          }
+
+          const childRadius = radius * targetParams.fractalScale;
+          drawRecursiveRosette(face, rimU, rimV, childRadius, depth - 1, theta);
+        }
+      };
+
+      for (let face = 0; face < 6; face++) {
+        drawRecursiveRosette(face, 0, 0, 0.8, Math.round(targetParams.depth));
+      }
+
+      const geometry = new THREE.BufferGeometry();
+      geometry.setAttribute('position', new THREE.Float32BufferAttribute(points, 3));
+      geometry.computeBoundingSphere();
+      return geometry;
+    }
+
+    // --- SCENE MANAGEMENT ---
+    const universeGroup = new THREE.Group();
+    scene.add(universeGroup);
+    let meshes = [];
+    let baseGeometry = null;
+
+    function updateGeometry() {
+      meshes.forEach(m => universeGroup.remove(m));
+      if (baseGeometry) baseGeometry.dispose();
+      meshes.forEach(m => { if (m.geometry) m.geometry.dispose(); if (m.material) m.material.dispose(); });
+      meshes = [];
+
+      baseGeometry = generateFractalGeometry();
+      const layers = Math.round(targetParams.layers);
+
+      for (let l = 1; l <= layers; l++) {
+        // Adjusted scaling for denser corridor
+        // Linear + Logarithmic mix
+        const spacing = targetParams.distanceFactor; // e.g. 1.2
+        const radius = 25 * Math.pow(spacing, l);
+
+        const material = new THREE.LineBasicMaterial({
+          color: 0xffd700,
+          transparent: true,
+          opacity: Math.max(0.1, 1 - (l / layers)), // Linear opacity fade relative to max layers
+          blending: THREE.AdditiveBlending,
+          depthWrite: false,
+          side: THREE.DoubleSide
+        });
+
+        const mesh = new THREE.LineSegments(baseGeometry, material);
+        mesh.scale.set(radius, radius, radius);
+        mesh.frustumCulled = false;
+
+        mesh.userData = {
+          baseScale: radius,
+          pulseOffset: l * 0.5,
+          rotSpeed: (1.5 / Math.sqrt(l + 1)) * (l % 2 == 0 ? 1 : -1) // Reduced speed for distant layers, alternating
+        };
+
+        universeGroup.add(mesh);
+        meshes.push(mesh);
+      }
+
+      document.getElementById('nodes').textContent = (baseGeometry.attributes.position.count / 2).toLocaleString();
+      document.getElementById('layersActive').textContent = layers;
+    }
+
+    // --- UI & EVENTS ---
+    function setupControl(id, param, displayId, multiplier = 1) {
+      document.getElementById(id).addEventListener('input', (e) => {
+        let val = parseFloat(e.target.value) * multiplier;
+        targetParams[param] = val;
+        if (displayId) document.getElementById(displayId).textContent = Math.round(val * 100) / 100;
+      });
+    }
+
+    setupControl('depth', 'depth', 'depthVal', 1);
+    setupControl('branching', 'branching', 'branchVal', 1);
+    setupControl('scale', 'fractalScale', 'scaleVal', 1);
+    setupControl('layerCount', 'layers', 'layerVal', 1);
+    setupControl('distance', 'distanceFactor', 'distVal', 1);
+    setupControl('rotation', 'rotationSpeed', 'rotationVal', 0.01);
+    setupControl('pulse', 'pulseIntensity', 'pulseVal', 0.01);
+
+    document.getElementById('fovParams').addEventListener('input', (e) => {
+      targetParams.fov = parseFloat(e.target.value);
+    });
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      updateGeometry();
+    });
+
+    // Mouse/Touch
+    let lon = 0, lat = 0, targetLon = 0, targetLat = 0;
+    let pX = 0, pY = 0, pLon = 0, pLat = 0;
+
+    const handleDown = (x, y) => { isDragging = true; pX = x; pY = y; pLon = lon; pLat = lat; autoRotate = false; updateButtons(); };
+    const handleMove = (x, y) => { if (!isDragging) return; lon = (pX - x) * 0.1 + pLon; lat = (y - pY) * 0.1 + pLat; targetLon = lon; targetLat = lat; };
+
+    document.addEventListener('mousedown', e => { if (!e.target.closest('#controls')) handleDown(e.clientX, e.clientY); });
+    document.addEventListener('mousemove', e => handleMove(e.clientX, e.clientY));
+    document.addEventListener('mouseup', () => isDragging = false);
+
+    document.addEventListener('touchstart', e => { if (!e.target.closest('#controls') && e.touches.length === 1) handleDown(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
+    document.addEventListener('touchmove', e => { if (e.touches.length === 1) { e.preventDefault(); handleMove(e.touches[0].clientX, e.touches[0].clientY); } }, { passive: false });
+    document.addEventListener('touchend', () => isDragging = false);
+
+    document.addEventListener('wheel', (e) => {
+      targetParams.fov += e.deltaY * 0.05;
+      targetParams.fov = Math.max(10, Math.min(150, targetParams.fov));
+      document.getElementById('fovParams').value = targetParams.fov;
+    });
+
+    function updateButtons() {
+      document.getElementById('btnAuto').className = autoRotate ? 'active' : '';
+      document.getElementById('btnManual').className = !autoRotate ? 'active' : '';
+    }
+    document.getElementById('btnAuto').onclick = () => { autoRotate = true; updateButtons(); };
+    document.getElementById('btnManual').onclick = () => { autoRotate = false; updateButtons(); };
+    document.getElementById('btnHide').onclick = () => document.getElementById('controls').classList.add('hidden');
+    document.getElementById('togglePanel').onclick = () => document.getElementById('controls').classList.remove('hidden');
+
+    // Animation
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.005;
+
+      // Param Smoothing
+      let geomUpdate = false;
+      for (let key in params) {
+        const diff = targetParams[key] - params[key];
+        if (Math.abs(diff) > 0.01) {
+          params[key] += diff * 0.1;
+          if (['depth', 'branching', 'fractalScale', 'layers', 'distanceFactor'].includes(key)) geomUpdate = true;
+        }
+      }
+      if (geomUpdate) {
+        if (Math.round(params.depth) !== Math.round(targetParams.depth) ||
+          Math.round(params.branching) !== Math.round(targetParams.branching) ||
+          Math.abs(params.fractalScale - targetParams.fractalScale) > 0.05 ||
+          Math.round(params.layers) !== Math.round(targetParams.layers) ||
+          Math.abs(params.distanceFactor - targetParams.distanceFactor) > 0.05
+        ) {
+          params.depth = targetParams.depth;
+          params.branching = targetParams.branching;
+          params.fractalScale = targetParams.fractalScale;
+          params.layers = targetParams.layers;
+          params.distanceFactor = targetParams.distanceFactor;
+          updateGeometry();
+        }
+      }
+
+      meshes.forEach(mesh => {
+        const p = 1 + Math.sin(time * 3 + mesh.userData.pulseOffset) * params.pulseIntensity * 0.05;
+        const s = mesh.userData.baseScale * p;
+        mesh.scale.set(s, s, s);
+
+        mesh.rotation.y += mesh.userData.rotSpeed * params.rotationSpeed;
+        mesh.rotation.x += params.rotationSpeed * 0.05 * (mesh.userData.pulseOffset % 2 == 0 ? 1 : -1);
+      });
+
+      // Camera
+      if (autoRotate && !isDragging) lon += 0.05;
+      else { lon += (targetLon - lon) * 0.1; lat += (targetLat - lat) * 0.1; }
+      lat = Math.max(-85, Math.min(85, lat));
+      const phi = THREE.Math.degToRad(90 - lat);
+      const theta = THREE.Math.degToRad(lon);
+      const x = 500 * Math.sin(phi) * Math.cos(theta);
+      const y = 500 * Math.cos(phi);
+      const z = 500 * Math.sin(phi) * Math.sin(theta);
+      camera.lookAt(x, y, z);
+
+      if (Math.abs(camera.fov - params.fov) > 0.1) {
+        camera.fov = params.fov;
+        camera.updateProjectionMatrix();
+        document.getElementById('fovDisplay').textContent = Math.round(params.fov);
+      }
+
+      renderer.render(scene, camera);
+      document.getElementById('fps').textContent = "60";
+    }
+
+    setTimeout(() => document.getElementById('loading').style.display = 'none', 500);
+    updateGeometry();
+    animate();
+
+  </script>
+</body>
+
+</html>

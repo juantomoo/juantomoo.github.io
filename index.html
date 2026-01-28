@@ -49,31 +49,23 @@
     <!-- Three.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <!-- Favicon -->
-    <link rel="icon"
-        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+    <link rel="icon" href="assets/favicon.png">
 
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "Juan Gómez",
-      "alternateName": ["Juan Tomoo", "tomOO", "Tomoo 杜茂男"],
+      "name": "Juan Gómez Rivera",
+      "alternateName": "Juan Tomoo",
       "url": "https://juantomoo.github.io",
       "image": "https://juantomoo.github.io/assets/profile.jpg",
-      "jobTitle": "Artista Visual, Director de Arte e Ilustrador",
-      "worksFor": [
-        {
-          "@type": "Organization",
-          "name": "HISQUE Estudio"
-        },
-        {
-          "@type": "Organization",
-          "name": "Machina Development"
-        }
-      ],
-      "birthPlace": "Bogotá, Colombia",
-      "description": "Generalista creativo con trayectoria híbrida en dirección de arte, ilustración digital 2D y consultoría para organizaciones sin ánimo de lucro (ESAL-ONG). Especializado en narrativas visuales, fanzines, arte conceptual y gestión de proyectos culturales.",
+      "jobTitle": "Artista Visual y Desarrollador Web",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Freelance"
+      },
+      "description": "Artista visual y desarrollador especializado en arte digital, diseño web vaporwave, y experiencias interactivas",
       "sameAs": [
         "https://github.com/juantomoo",
         "https://instagram.com/juantomoo",
@@ -244,6 +236,34 @@
                 </div>
 
                 <div class="projects-grid">
+                    <!-- Proyecto Destacado: vn1v3r50 -->
+                    <article class="project-card" data-category="arte-digital" data-demo="true">
+                        <div class="project-image">
+                            <!-- Fondo cósmico dorado para destacar -->
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(135deg, #000000, #1a0b00); border: 1px solid rgba(212, 175, 55, 0.3);">
+                                <i data-lucide="sun" class="project-icon" style="color: #d4af37;"></i>
+                            </div>
+                            <div class="project-tech-badges">
+                                <span class="tech-badge">WebGL</span>
+                                <span class="tech-badge">Three.js</span>
+                            </div>
+                            <div class="project-overlay">
+                                <a href="proyectos/vn1v3r50/" class="demo-btn">EXPLORAR</a>
+                                <a href="https://github.com/juantomoo/vn1v3r50" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3 class="project-title" style="color: #d4af37;">vn1v3r50</h3>
+                            <p class="project-desc">Multiverso Fractal Infinito. Obra de arte procedural 3D sobre la
+                                geometría sagrada y la recursividad cósmica.</p>
+                            <div class="project-status">
+                                <span class="status-badge live"
+                                    style="background: rgba(212, 175, 55, 0.2); color: #d4af37; border-color: #d4af37;">NUEVO</span>
+                            </div>
+                        </div>
+                    </article>
                     <!-- Proyecto 1: ZineR -->
                     <article class="project-card" data-category="webapp" data-demo="true">
                         <div class="project-image">
@@ -652,24 +672,20 @@
                             </h2>
                         </div>
                         <div class="bio-content">
-                            <p class="bio-intro">Hola, soy <span class="highlight">Juan Tomoo 杜茂男</span> (Juan Gómez).
-                                Nacido en Bogotá, actualmente en <span class="highlight">Santander, Colombia</span>.</p>
-                            <p class="bio-text">Generalista creativo con trayectoria híbrida en <span
-                                    class="highlight">dirección de arte e ilustración digital 2D</span>. Consultor para
-                                organizaciones sin ánimo de lucro (ESAL-ONG) en gestión de proyectos culturales,
-                                ambientales y tecnológicos.</p>
-                            <p class="bio-text">Director de arte en <span class="highlight">HISQUE Estudio</span> y
-                                diseño/desarrollo web en <span class="highlight">Machina Development</span>. Me
-                                especializo en narrativas visuales, fanzines, arte conceptual y curaduría artística.</p>
+                            <p class="bio-intro">Hola, soy <span class="highlight">Juan Tomoo</span> (Juan Gómez
+                                Rivera). Artista visual, programador autodidacta y activista digital.</p>
+                            <p class="bio-text">Desde <span class="highlight">Santander, Colombia</span>, trabajo como
+                                consultor independiente para ONGs en temas de cultura digital, medio ambiente y
+                                tecnología cívica. Me especializo en transformación digital con herramientas libres y
+                                privadas.</p>
+                            <p class="bio-text">Mi práctica combina <span class="highlight">arte generativo, desarrollo
+                                    full-stack y diseño de experiencias interactivas</span>, siempre buscando crear
+                                herramientas que empoderen comunidades y democraticen el acceso a la tecnología.</p>
                             <div class="mission-box">
-                                <h4>PRODUCCIÓN ARTÍSTICA</h4>
-                                <ul style="margin:0;padding-left:1rem;font-size:0.9em;">
-                                    <li><span class="creation-title"><a href="https://www.amazon.es/dp/B0GHD53FM6" target="_blank">Cuerpos que Despiertan</a></span> — Novela experimental (2023)</li>
-                                    <li><span class="creation-title"><a href="https://juantomoo.substack.com/" target="_blank">EN EL NIDO</a></span> — Antología de ficciones cyberpunk (2024)</li>
-                                    <li><span class="creation-title"><a href="https://www.wattpad.com/user/hisque" target="_blank">Historias Que Traen Las Nubes</a></span> — Proyecto editorial ilustrado (2020)</li>
-                                    <li><strong>Desperatio</strong> - 25 obras de arte digital en colecciones privadas
-                                    </li>
-                                </ul>
+                                <h4>ENFOQUE</h4>
+                                <p>Crear tecnología accesible y ética que empodere a las comunidades. Software libre,
+                                    privacidad digital y cultura abierta como pilares para la transformación social a
+                                    través del arte y el código.</p>
                             </div>
                         </div>
                         <div class="tools-section">
@@ -795,7 +811,6 @@
                                 IG</a>
                             <a href="https://www.linkedin.com/in/juangomez451/" target="_blank"
                                 class="social-link">LINKEDIN</a>
-                            <a href="https://juantomoo.substack.com" target="_blank" class="social-link">SUBSTACK</a>
                             <a href="https://www.artstation.com/juantomoo" target="_blank"
                                 class="social-link">ARTSTATION</a>
                             <a href="https://www.youtube.com/channel/UChdPKkU5-f5rPdxctCzxOyg" target="_blank"
