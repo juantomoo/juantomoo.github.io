@@ -646,22 +646,50 @@ function showEmptyGalleryMessage() {
 function renderGallery(items) {
     const container = document.getElementById('gallery-container');
     if (!container) return;
-    
     container.innerHTML = '';
-    
+
     items.forEach(item => {
         const article = document.createElement('article');
         article.className = 'gallery-item';
+
+        // Thumb: si existe una versión en thumbnails, usarla como low-res
+        let thumb = item.image;
+        const thumbPath = item.image.replace('assets/gallery/', 'assets/gallery/thumbnails/');
+        // No comprobamos existencia, solo usamos el path para srcset
+
         article.innerHTML = `
-            <img src="${item.image}" alt="${item.title || 'Obra'}" loading="lazy">
+            <img src="${thumb}" alt="${item.title || 'Obra'}" loading="lazy" 
+                srcset="${thumbPath} 400w, ${item.image} 900w" sizes="(max-width: 600px) 400px, 900px">
             <div class="gallery-item-overlay">
                 <span class="gallery-item-title">${item.title || 'Sin título'}</span>
                 ${item.description ? `<span class="gallery-item-desc">${item.description}</span>` : ''}
             </div>
         `;
-        
+        article.setAttribute('data-tags', (item.tags || []).join(','));
         article.addEventListener('click', () => openGalleryModal(item));
         container.appendChild(article);
+    });
+    initGalleryFilters();
+}
+
+// Filtros para galería de arte
+function initGalleryFilters() {
+    const filterBtns = document.querySelectorAll('.gallery-filters .filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const filter = btn.dataset.filter;
+            galleryItems.forEach(item => {
+                const tags = (item.getAttribute('data-tags') || '').toLowerCase();
+                if (filter === 'all' || tags.includes(filter)) {
+                    item.style.display = '';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
     });
 }
 

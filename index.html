@@ -240,6 +240,7 @@
                     <button class="filter-btn" data-filter="webapp">WEB APPS</button>
                     <button class="filter-btn" data-filter="tool">HERRAMIENTAS</button>
                     <button class="filter-btn" data-filter="game">JUEGOS</button>
+                    <button class="filter-btn" data-filter="arte-digital">ARTE DIGITAL</button>
                 </div>
 
                 <div class="projects-grid">
@@ -270,7 +271,7 @@
                     </article>
 
                     <!-- Proyecto 2: En el NIDO -->
-                    <article class="project-card" data-category="webapp" data-demo="true">
+                    <article class="project-card" data-category="arte-digital" data-demo="true">
                         <div class="project-image">
                             <div class="project-placeholder"
                                 style="background: linear-gradient(135deg, #0a0b1033, #ff330033);">
@@ -531,9 +532,14 @@
                     <p class="section-subtitle">ARTE DIGITAL Y FOTOGRAFÍA</p>
                 </div>
 
-                <div class="gallery-instructions">
-                    <p><i data-lucide="info" class="inline-icon"></i> Las imágenes se cargan desde
-                        <code>assets/gallery/</code>. Configura tus obras en <code>media-config.json</code></p>
+                <!-- Filtros Galería de Arte -->
+                <div class="gallery-filters">
+                    <button class="filter-btn active" data-filter="all">TODOS</button>
+                    <button class="filter-btn" data-filter="ilustración">ILUSTRACIÓN</button>
+                    <button class="filter-btn" data-filter="ia">IA</button>
+                    <button class="filter-btn" data-filter="arte-digital">ARTE DIGITAL</button>
+                    <button class="filter-btn" data-filter="fotografía">FOTOGRAFÍA</button>
+                    <button class="filter-btn" data-filter="institucional">INSTITUCIONAL</button>
                 </div>
 
                 <div class="gallery-grid" id="gallery-container">
@@ -658,10 +664,9 @@
                             <div class="mission-box">
                                 <h4>PRODUCCIÓN ARTÍSTICA</h4>
                                 <ul style="margin:0;padding-left:1rem;font-size:0.9em;">
-                                    <li><strong>EN EL NIDO</strong> - Serie de cuentos cortos de ciencia ficción</li>
-                                    <li><strong>Cuerpos Que Despiertan</strong> - ISBN: 979-8244013757</li>
-                                    <li><strong>Historias Que Traen Las Nubes</strong> - Cosmogonía andina y ficción
-                                    </li>
+                                    <li><span class="creation-title"><a href="https://www.amazon.es/dp/B0GHD53FM6" target="_blank">Cuerpos que Despiertan</a></span> — Novela experimental (2023)</li>
+                                    <li><span class="creation-title"><a href="https://juantomoo.substack.com/" target="_blank">EN EL NIDO</a></span> — Antología de ficciones cyberpunk (2024)</li>
+                                    <li><span class="creation-title"><a href="https://www.wattpad.com/user/hisque" target="_blank">Historias Que Traen Las Nubes</a></span> — Proyecto editorial ilustrado (2020)</li>
                                     <li><strong>Desperatio</strong> - 25 obras de arte digital en colecciones privadas
                                     </li>
                                 </ul>
@@ -675,7 +680,7 @@
                                 <span class="tool-tag">Node.js</span>
                                 <span class="tool-tag">Vue.js</span>
                                 <span class="tool-tag">Three.js</span>
-                                <span class="tool-tag">Blender</span>
+                                <span class="tool-tag">Illustrator</span>
                                 <span class="tool-tag">Photoshop</span>
                                 <span class="tool-tag">Electron</span>
                                 <span class="tool-tag">WordPress</span>
@@ -854,7 +859,7 @@
     <!-- Footer -->
     <footer class="hud-footer">
         <div class="footer-content">
-            <span class="copyright">© 2015 - 2026 JUAN TOMOO</span>
+            <span class="copyright">© 2008 - 2026 JUAN TOMOO</span>
             <span class="separator">◆</span>
             <span class="tagline">ARTE + CÓDIGO + ACTIVISMO</span>
         </div>
