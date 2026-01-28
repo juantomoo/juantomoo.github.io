@@ -1,46 +1,598 @@
 {
   "gallery": [
     {
-      "image": "assets/gallery/arte-digital-1.jpg",
-      "title": "Arte Digital Generativo",
-      "year": "2024",
-      "description": "Obra de arte digital generativa con estética vaporwave.",
-      "tags": ["digital", "generativo", "vaporwave"]
+      "image": "assets/gallery/Historias Que Traen Las Nubes - Final-2C.webp",
+      "title": "Historias Que Traen Las Nubes",
+      "year": "2020",
+      "description": "Portada ilustrada del proyecto editorial sobre memoria gráfica de Nueva Pamplona.",
+      "tags": [
+        "ilustración",
+        "editorial",
+        "cuentos"
+      ]
     },
     {
-      "image": "assets/gallery/composicion-multimedia.jpg",
-      "title": "Composición Multimedia",
-      "year": "2024",
-      "description": "Composición multimedia experimental.",
-      "tags": ["digital", "multimedia", "experimental"]
+      "image": "assets/gallery/Historias Que Traen Las Nubes - Final-5Cfix.webp",
+      "title": "HQN - Escena Interior",
+      "year": "2020",
+      "description": "Ilustración interior del proyecto Historias Que Traen Las Nubes.",
+      "tags": [
+        "ilustración",
+        "narrativa",
+        "cuentos"
+      ]
     },
     {
-      "image": "assets/gallery/arte-algoritmico.jpg",
-      "title": "Arte Algorítmico",
+      "image": "assets/gallery/Historias Que Traen Las Nubes - Final-6Dfix.webp",
+      "title": "HQN - Paisaje Andino",
+      "year": "2020",
+      "description": "Paisaje ilustrado integrando cosmogonía andina y ficción.",
+      "tags": [
+        "ilustración",
+        "paisaje",
+        "andino"
+      ]
+    },
+    {
+      "image": "assets/gallery/La-Gata-Pepa-en-el-bosque.webp",
+      "title": "La Gata Pepa en el Bosque",
+      "year": "2021",
+      "description": "Ilustración digital de personaje en escenario natural.",
+      "tags": [
+        "ilustración",
+        "personaje",
+        "naturaleza"
+      ]
+    },
+    {
+      "image": "assets/gallery/La-Gata-Pepa-descasna.webp",
+      "title": "La Gata Pepa Descansa",
+      "year": "2021",
+      "description": "Escena de reposo del personaje La Gata Pepa.",
+      "tags": [
+        "ilustración",
+        "personaje",
+        "digital"
+      ]
+    },
+    {
+      "image": "assets/gallery/Explorador-001@2x.webp",
+      "title": "Explorador",
+      "year": "2022",
+      "description": "Diseño de personaje explorador para proyecto de ilustración.",
+      "tags": [
+        "ilustración",
+        "personaje",
+        "aventura"
+      ]
+    },
+    {
+      "image": "assets/gallery/Mirando a Barichara@2x.webp",
+      "title": "Mirando a Barichara",
+      "year": "2022",
+      "description": "Paisaje ilustrado del pueblo patrimonio de Santander.",
+      "tags": [
+        "ilustración",
+        "paisaje",
+        "barichara"
+      ]
+    },
+    {
+      "image": "assets/gallery/Entrando al bosque@2x.webp",
+      "title": "Entrando al Bosque",
+      "year": "2022",
+      "description": "Escena de inmersión en paisaje boscoso.",
+      "tags": [
+        "ilustración",
+        "paisaje",
+        "naturaleza"
+      ]
+    },
+    {
+      "image": "assets/gallery/Caney-001@2x.webp",
+      "title": "Caney",
+      "year": "2022",
+      "description": "Ilustración de arquitectura tradicional colombiana.",
+      "tags": [
+        "ilustración",
+        "arquitectura",
+        "tradicional"
+      ]
+    },
+    {
+      "image": "assets/gallery/Deshilar escena final@3x.webp",
+      "title": "Deshilar - Escena Final",
+      "year": "2019",
+      "description": "Ilustración del proyecto sobre tradición textil charaleña.",
+      "tags": [
+        "ilustración",
+        "tradición",
+        "textil"
+      ]
+    },
+    {
+      "image": "assets/gallery/Deshilar escena 01a.webp",
+      "title": "Deshilar - Escena 1",
+      "year": "2019",
+      "description": "Primera escena del proceso de deshilado tradicional.",
+      "tags": [
+        "ilustración",
+        "tradición",
+        "charalá"
+      ]
+    },
+    {
+      "image": "assets/gallery/Deshilar escena 02.webp",
+      "title": "Deshilar - Escena 2",
+      "year": "2019",
+      "description": "Segunda escena del proceso artesanal.",
+      "tags": [
+        "ilustración",
+        "tradición",
+        "textil"
+      ]
+    },
+    {
+      "image": "assets/gallery/Tejido-escena 1-web.webp",
+      "title": "Tejido - Escena 1",
+      "year": "2019",
+      "description": "Ilustración del proceso de tejido tradicional.",
+      "tags": [
+        "ilustración",
+        "tradición",
+        "artesanía"
+      ]
+    },
+    {
+      "image": "assets/gallery/Tejido-escena 2.webp",
+      "title": "Tejido - Escena 2",
+      "year": "2019",
+      "description": "Detalle del proceso de tejido artesanal.",
+      "tags": [
+        "ilustración",
+        "tradición",
+        "textil"
+      ]
+    },
+    {
+      "image": "assets/gallery/Tejido-escena 3.webp",
+      "title": "Tejido - Escena 3",
+      "year": "2019",
+      "description": "Escena final del proceso de tejido tradicional.",
+      "tags": [
+        "ilustración",
+        "tradición",
+        "artesanía"
+      ]
+    },
+    {
+      "image": "assets/gallery/Hilado - Mechis.webp",
+      "title": "Hilado - Mechas",
+      "year": "2019",
+      "description": "Detalle del proceso de hilado tradicional de Charalá.",
+      "tags": [
+        "ilustración",
+        "tradición",
+        "textil"
+      ]
+    },
+    {
+      "image": "assets/gallery/Chia Madura.webp",
+      "title": "Chía Madura",
+      "year": "2020",
+      "description": "Ilustración de flora nativa.",
+      "tags": [
+        "ilustración",
+        "naturaleza",
+        "flora"
+      ]
+    },
+    {
+      "image": "assets/gallery/Despepado---Maria.webp",
+      "title": "Despepado",
+      "year": "2019",
+      "description": "Retrato ilustrado sobre tradiciones rurales.",
+      "tags": [
+        "ilustración",
+        "retrato",
+        "tradición"
+      ]
+    },
+    {
+      "image": "assets/gallery/Nydia-001.webp",
+      "title": "Nydia - Retrato 1",
       "year": "2023",
-      "description": "Arte generativo con algoritmos personalizados.",
-      "tags": ["generativo", "algoritmico", "codigo"]
+      "description": "Retrato minimalista digital.",
+      "tags": [
+        "ilustración",
+        "retrato",
+        "minimalista"
+      ]
     },
     {
-      "image": "assets/gallery/fotografia-experimental.jpg",
-      "title": "Fotografía Experimental",
-      "year": "2024",
-      "description": "Serie fotográfica experimental.",
-      "tags": ["fotografia", "experimental"]
-    },
-    {
-      "image": "assets/gallery/diseno-grafico.jpg",
-      "title": "Diseño Gráfico",
+      "image": "assets/gallery/Nydia-002.webp",
+      "title": "Nydia - Retrato 2",
       "year": "2023",
-      "description": "Proyecto de diseño gráfico.",
-      "tags": ["diseno", "grafico"]
+      "description": "Serie de retratos con economía visual.",
+      "tags": [
+        "ilustración",
+        "retrato",
+        "minimalista"
+      ]
     },
     {
-      "image": "assets/gallery/collage-digital.jpg",
-      "title": "Collage Digital Mixto",
+      "image": "assets/gallery/Lore.webp",
+      "title": "Lore",
+      "year": "2023",
+      "description": "Retrato ilustrado conceptual.",
+      "tags": [
+        "ilustración",
+        "retrato",
+        "conceptual"
+      ]
+    },
+    {
+      "image": "assets/gallery/Astro-02.webp",
+      "title": "Astro 02",
+      "year": "2023",
+      "description": "Ilustración de temática espacial.",
+      "tags": [
+        "ilustración",
+        "espacio",
+        "scifi"
+      ]
+    },
+    {
+      "image": "assets/gallery/Astro-03.webp",
+      "title": "Astro 03",
+      "year": "2023",
+      "description": "Serie de ilustraciones cósmicas.",
+      "tags": [
+        "ilustración",
+        "espacio",
+        "scifi"
+      ]
+    },
+    {
+      "image": "assets/gallery/Atardecer gatuno-1@2x-100.webp",
+      "title": "Atardecer Gatuno",
+      "year": "2023",
+      "description": "Ilustración de atardecer con personaje felino.",
+      "tags": [
+        "ilustración",
+        "paisaje",
+        "gato"
+      ]
+    },
+    {
+      "image": "assets/gallery/Cat sunset 2@2x-100.webp",
+      "title": "Cat Sunset",
+      "year": "2023",
+      "description": "Silueta felina en atardecer.",
+      "tags": [
+        "ilustración",
+        "paisaje",
+        "gato"
+      ]
+    },
+    {
+      "image": "assets/gallery/I Close My Eyes - DesperatioMachina NFT.webp",
+      "title": "I Close My Eyes",
+      "year": "2013",
+      "description": "Obra del proyecto Desperatio - Arte digital experimental.",
+      "tags": [
+        "digital",
+        "desperatio",
+        "conceptual"
+      ]
+    },
+    {
+      "image": "assets/gallery/Ritual Noise - - DesperatioMachina NFT.webp",
+      "title": "Ritual Noise",
+      "year": "2013",
+      "description": "Obra del proyecto Desperatio - Exploración visual/sonora.",
+      "tags": [
+        "digital",
+        "desperatio",
+        "experimental"
+      ]
+    },
+    {
+      "image": "assets/gallery/oldbrain.webp",
+      "title": "Old Brain",
       "year": "2024",
-      "description": "Collage digital con técnica mixta.",
-      "tags": ["digital", "collage", "mixto"]
+      "description": "Arte generativo con IA - Exploración neurológica.",
+      "tags": [
+        "IA",
+        "generativo",
+        "experimental"
+      ]
+    },
+    {
+      "image": "assets/gallery/Medusa - HatingTheWorld9_Mirror_Shield_Medusa_Finally_I_have_seen_the_li_8f9dace7-cb7d-4a68-b508-93bc286a63e8.webp",
+      "title": "Medusa",
+      "year": "2024",
+      "description": "Arte generativo con IA - Serie Hating The World.",
+      "tags": [
+        "IA",
+        "generativo",
+        "mitología"
+      ]
+    },
+    {
+      "image": "assets/gallery/We Want Revolution - HatingTheWorld10_We_want_revolution_Destroy_your_television_Ste_57fdc026-513f-47c3-abf4-edd19f62134a.webp",
+      "title": "We Want Revolution",
+      "year": "2024",
+      "description": "Arte generativo con IA - Cyberactivismo visual.",
+      "tags": [
+        "IA",
+        "generativo",
+        "activismo"
+      ]
+    },
+    {
+      "image": "assets/gallery/High Rise - HatingTheWorld10_Black_sun_rising_New_day_dawning_Im_defying_Im_12eb273d-2b5e-4de2-ae64-0fd8e48af769.webp",
+      "title": "High Rise",
+      "year": "2024",
+      "description": "Arte generativo con IA - Arquitectura futurista.",
+      "tags": [
+        "IA",
+        "generativo",
+        "arquitectura"
+      ]
+    },
+    {
+      "image": "assets/gallery/Cry in the wind - HatingTheWorld9_A_demon_Jumping_in_a_field_of_lavender_mountain_d25f23ed-c959-48c9-917f-6a742987e653.webp",
+      "title": "Cry in the Wind",
+      "year": "2024",
+      "description": "Arte generativo con IA - Paisaje surrealista.",
+      "tags": [
+        "IA",
+        "generativo",
+        "surrealismo"
+      ]
+    },
+    {
+      "image": "assets/gallery/Conteniendo la Ira - HatingTheMachine16_13_hybrid_mouths_between_animals_and_humans__1fe37646-69f5-4bac-b573-c6b76900decb.webp",
+      "title": "Conteniendo la Ira",
+      "year": "2024",
+      "description": "Arte generativo con IA - Exploración emocional.",
+      "tags": [
+        "IA",
+        "generativo",
+        "emocional"
+      ]
+    },
+    {
+      "image": "assets/gallery/Amar demasiado y ser egoísta.webp",
+      "title": "Amar Demasiado y Ser Egoísta",
+      "year": "2024",
+      "description": "Arte generativo con IA - Reflexión relacional.",
+      "tags": [
+        "IA",
+        "generativo",
+        "conceptual"
+      ]
+    },
+    {
+      "image": "assets/gallery/Charalá-20190912-ACC-ECO-1074.webp",
+      "title": "Charalá - Paisaje Rural",
+      "year": "2019",
+      "description": "Fotografía documental de la zona rural de Charalá, Santander.",
+      "tags": [
+        "fotografía",
+        "documental",
+        "charalá"
+      ]
+    },
+    {
+      "image": "assets/gallery/Charalá-20190912-ACC-ECO-1163.webp",
+      "title": "Charalá - Tradición Textil",
+      "year": "2019",
+      "description": "Documentación de procesos textiles tradicionales.",
+      "tags": [
+        "fotografía",
+        "documental",
+        "tradición"
+      ]
+    },
+    {
+      "image": "assets/gallery/Charalá-20190912-ACC-ECO-1173.webp",
+      "title": "Charalá - Artesanía",
+      "year": "2019",
+      "description": "Registro de artesanías tradicionales charaleñas.",
+      "tags": [
+        "fotografía",
+        "documental",
+        "artesanía"
+      ]
+    },
+    {
+      "image": "assets/gallery/Charalá-2. Antiguo telar A.webp",
+      "title": "Antiguo Telar",
+      "year": "2019",
+      "description": "Documentación de telar tradicional en Charalá.",
+      "tags": [
+        "fotografía",
+        "documental",
+        "textil"
+      ]
+    },
+    {
+      "image": "assets/gallery/Manos hiladora.webp",
+      "title": "Manos Hiladoras",
+      "year": "2019",
+      "description": "Detalle de manos en proceso de hilado tradicional.",
+      "tags": [
+        "fotografía",
+        "documental",
+        "tradición"
+      ]
+    },
+    {
+      "image": "assets/gallery/Tejadora-3-web.webp",
+      "title": "La Tejadora",
+      "year": "2019",
+      "description": "Retrato de artesana tejedora de Charalá.",
+      "tags": [
+        "fotografía",
+        "retrato",
+        "tradición"
+      ]
+    },
+    {
+      "image": "assets/gallery/campo charaleño.webp",
+      "title": "Campo Charaleño",
+      "year": "2020",
+      "description": "Paisaje rural de Charalá, Santander.",
+      "tags": [
+        "fotografía",
+        "paisaje",
+        "santander"
+      ]
+    },
+    {
+      "image": "assets/gallery/FINAL-FINAL-IMG_8858-HDR-3.webp",
+      "title": "Paisaje HDR",
+      "year": "2020",
+      "description": "Fotografía HDR de paisaje santandereano.",
+      "tags": [
+        "fotografía",
+        "paisaje",
+        "hdr"
+      ]
+    },
+    {
+      "image": "assets/gallery/edit_DSC_7112.webp",
+      "title": "Montañas de Mutiscua",
+      "year": "2020",
+      "description": "Fotografía de paisaje montañoso en Norte de Santander.",
+      "tags": [
+        "fotografía",
+        "paisaje",
+        "montaña"
+      ]
+    },
+    {
+      "image": "assets/gallery/mutiscua-edit-DSC_7065.webp",
+      "title": "Mutiscua",
+      "year": "2020",
+      "description": "Paisaje fotográfico de Mutiscua.",
+      "tags": [
+        "fotografía",
+        "paisaje",
+        "nortesantander"
+      ]
+    },
+    {
+      "image": "assets/gallery/San Gil - Catedral -001.webp",
+      "title": "Catedral San Gil 1",
+      "year": "2016",
+      "description": "Fotografía arquitectónica de la Catedral de San Gil.",
+      "tags": [
+        "fotografía",
+        "arquitectura",
+        "sangil"
+      ]
+    },
+    {
+      "image": "assets/gallery/San Gil - Catedral -002.webp",
+      "title": "Catedral San Gil 2",
+      "year": "2016",
+      "description": "Detalle arquitectónico de la Catedral.",
+      "tags": [
+        "fotografía",
+        "arquitectura",
+        "patrimonio"
+      ]
+    },
+    {
+      "image": "assets/gallery/Parque Nautral El Gallineral004 - San Gil - Tomoo ©  2016.webp",
+      "title": "Parque El Gallineral",
+      "year": "2016",
+      "description": "Fotografía del Parque Natural El Gallineral, San Gil.",
+      "tags": [
+        "fotografía",
+        "naturaleza",
+        "sangil"
+      ]
+    },
+    {
+      "image": "assets/gallery/BIOFORO - Cartografía Área de Influencia Agrosolidaria Charalá y AP-ARF.webp",
+      "title": "BIOFORO - Cartografía Agrosolidaria",
+      "year": "2019",
+      "description": "Cartografía institucional para proyecto Agrosolidaria Charalá.",
+      "tags": [
+        "institucional",
+        "cartografía",
+        "agrosolidaria"
+      ]
+    },
+    {
+      "image": "assets/gallery/Cartografía 3D - Agrosolidaria Ruta del Roble.webp",
+      "title": "Cartografía 3D Ruta del Roble",
+      "year": "2019",
+      "description": "Mapa 3D de la Ruta del Roble para Agrosolidaria.",
+      "tags": [
+        "institucional",
+        "cartografía",
+        "3d"
+      ]
+    },
+    {
+      "image": "assets/gallery/Cartografía 3D - Agrosolidaria Zona de Influencia.webp",
+      "title": "Cartografía 3D Zona de Influencia",
+      "year": "2019",
+      "description": "Mapa 3D de zona de influencia del proyecto.",
+      "tags": [
+        "institucional",
+        "cartografía",
+        "3d"
+      ]
+    },
+    {
+      "image": "assets/gallery/Gira de las Fibras- San Gil_frente_0.webp",
+      "title": "Gira de las Fibras - Portada",
+      "year": "2019",
+      "description": "Diseño editorial para proyecto Gira de las Fibras.",
+      "tags": [
+        "institucional",
+        "editorial",
+        "diseño"
+      ]
+    },
+    {
+      "image": "assets/gallery/Gira de las Fibras- San Gil_interior_1.webp",
+      "title": "Gira de las Fibras - Interior",
+      "year": "2019",
+      "description": "Diseño interior del catálogo Gira de las Fibras.",
+      "tags": [
+        "institucional",
+        "editorial",
+        "diseño"
+      ]
+    },
+    {
+      "image": "assets/gallery/museo_paleontologico_de_villa_de_leyva.webp",
+      "title": "Museo Paleontológico Villa de Leyva",
+      "year": "2020",
+      "description": "Diseño conceptual para museo digital.",
+      "tags": [
+        "institucional",
+        "museo",
+        "digital"
+      ]
+    },
+    {
+      "image": "assets/gallery/museo_paleontologico_de_villa_de_leyva-20200420.webp",
+      "title": "Museo Digital - Concepto",
+      "year": "2020",
+      "description": "Proyecto Apps.Co - Museo Digital ganador.",
+      "tags": [
+        "institucional",
+        "museo",
+        "appsco"
+      ]
     }
   ],
   "videos": [
@@ -59,7 +611,7 @@
     {
       "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/humilliation-first-movement&color=%23ff00ff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",
       "title": "Humilliation (First Movement)",
-      "description": "Composición experimental"
+      "description": "Composición experimental - Proyecto Desperatio"
     },
     {
       "embed": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/a-travel&color=%2300ffff&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",

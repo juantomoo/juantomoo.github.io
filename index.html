@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Juan Tomoo | Artista Visual & Desarrollador</title>
-    <meta name="description" content="Portfolio de Juan Gómez Rivera (Juan Tomoo) - Artista visual y desarrollador especializado en arte digital, diseño web vaporwave, y experiencias interactivas con Three.js">
-    <meta name="keywords" content="Juan Tomoo, artista visual, desarrollador web, arte digital, vaporwave, Three.js, diseño interactivo, Colombia, cyberactivismo">
+    <meta name="description"
+        content="Portfolio de Juan Gómez Rivera (Juan Tomoo) - Artista visual y desarrollador especializado en arte digital, diseño web vaporwave, y experiencias interactivas con Three.js">
+    <meta name="keywords"
+        content="Juan Tomoo, artista visual, desarrollador web, arte digital, vaporwave, Three.js, diseño interactivo, Colombia, cyberactivismo">
     <meta name="author" content="Juan Gómez Rivera">
     <meta name="robots" content="index, follow">
     <meta name="language" content="Spanish">
     <link rel="canonical" href="https://juantomoo.github.io/">
-    
+
     <!-- Open Graph (Facebook, LinkedIn) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://juantomoo.github.io/">
     <meta property="og:title" content="Juan Tomoo | Artista Visual & Desarrollador">
-    <meta property="og:description" content="Portfolio de arte digital y desarrollo web con estética vaporwave y experiencias interactivas">
+    <meta property="og:description"
+        content="Portfolio de arte digital y desarrollo web con estética vaporwave y experiencias interactivas">
     <meta property="og:image" content="https://juantomoo.github.io/assets/og-image.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:site_name" content="Juan Tomoo Portfolio">
     <meta property="og:locale" content="es_ES">
-    
+
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@juantomoo">
@@ -29,37 +33,47 @@
     <meta name="twitter:title" content="Juan Tomoo | Artista Visual & Desarrollador">
     <meta name="twitter:description" content="Portfolio de arte digital y desarrollo web con estética vaporwave">
     <meta name="twitter:image" content="https://juantomoo.github.io/assets/twitter-card.jpg">
-    
+
     <!-- Theme Color -->
     <meta name="theme-color" content="#00ffff">
     <meta name="msapplication-TileColor" content="#240046">
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=VT323&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Three.js Library -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
     <!-- Favicon -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
-    
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Person",
-      "name": "Juan Gómez Rivera",
-      "alternateName": "Juan Tomoo",
+      "name": "Juan Gómez",
+      "alternateName": ["Juan Tomoo", "tomOO", "Tomoo 杜茂男"],
       "url": "https://juantomoo.github.io",
       "image": "https://juantomoo.github.io/assets/profile.jpg",
-      "jobTitle": "Artista Visual y Desarrollador Web",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "Freelance"
-      },
-      "description": "Artista visual y desarrollador especializado en arte digital, diseño web vaporwave, y experiencias interactivas",
+      "jobTitle": "Artista Visual, Director de Arte e Ilustrador",
+      "worksFor": [
+        {
+          "@type": "Organization",
+          "name": "HISQUE Estudio"
+        },
+        {
+          "@type": "Organization",
+          "name": "Machina Development"
+        }
+      ],
+      "birthPlace": "Bogotá, Colombia",
+      "description": "Generalista creativo con trayectoria híbrida en dirección de arte, ilustración digital 2D y consultoría para organizaciones sin ánimo de lucro (ESAL-ONG). Especializado en narrativas visuales, fanzines, arte conceptual y gestión de proyectos culturales.",
       "sameAs": [
         "https://github.com/juantomoo",
         "https://instagram.com/juantomoo",
@@ -77,6 +91,7 @@
     }
     </script>
 </head>
+
 <body>
     <!-- Skip Link para accesibilidad -->
     <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
@@ -119,14 +134,8 @@
         </div>
         <div class="hud-right">
             <div class="clock" id="clock">00:00:00</div>
-            <button 
-                class="menu-btn" 
-                id="menu-btn"
-                aria-label="Abrir menú de navegación"
-                aria-expanded="false"
-                aria-controls="nav-menu"
-                aria-haspopup="true"
-            >
+            <button class="menu-btn" id="menu-btn" aria-label="Abrir menú de navegación" aria-expanded="false"
+                aria-controls="nav-menu" aria-haspopup="true">
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
                 <span aria-hidden="true"></span>
@@ -178,7 +187,7 @@
 
     <!-- Section Content Overlay -->
     <main class="main-content" id="main-content">
-        
+
         <!-- ======================= SECCIÓN INICIO ======================= -->
         <section class="content-section active" id="section-inicio">
             <div class="section-container">
@@ -224,7 +233,7 @@
                     </h2>
                     <p class="section-subtitle">APLICACIONES, HERRAMIENTAS Y EXPERIMENTOS</p>
                 </div>
-                
+
                 <!-- Filtros de categoría -->
                 <div class="project-filters">
                     <button class="filter-btn active" data-filter="all">TODOS</button>
@@ -237,7 +246,8 @@
                     <!-- Proyecto 1: ZineR -->
                     <article class="project-card" data-category="webapp" data-demo="true">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(135deg, #ff00ff33, #00ffff33);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(135deg, #ff00ff33, #00ffff33);">
                                 <i data-lucide="book-open" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -251,7 +261,8 @@
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">ZineR</h3>
-                            <p class="project-desc">PWA para crear fanzines digitales con auto-imposición y exportación a PDF.</p>
+                            <p class="project-desc">PWA para crear fanzines digitales con auto-imposición y exportación
+                                a PDF.</p>
                             <div class="project-status">
                                 <span class="status-badge live">DEMO LIVE</span>
                             </div>
@@ -261,7 +272,8 @@
                     <!-- Proyecto 2: En el NIDO -->
                     <article class="project-card" data-category="webapp" data-demo="true">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(135deg, #0a0b1033, #ff330033);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(135deg, #0a0b1033, #ff330033);">
                                 <i data-lucide="feather" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -274,7 +286,8 @@
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">En el NIDO</h3>
-                            <p class="project-desc">Antología de ficciones cyberpunk. Experiencia inmersiva de lectura con estética MiCeLiCon.</p>
+                            <p class="project-desc">Antología de ficciones cyberpunk. Experiencia inmersiva de lectura
+                                con estética MiCeLiCon.</p>
                             <div class="project-status">
                                 <span class="status-badge live">DEMO LIVE</span>
                             </div>
@@ -284,7 +297,8 @@
                     <!-- Proyecto 3: HISQUE Games -->
                     <article class="project-card" data-category="game" data-demo="true">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(45deg, #00ff0033, #ff000033);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(45deg, #00ff0033, #ff000033);">
                                 <i data-lucide="gamepad-2" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -293,7 +307,8 @@
                             </div>
                             <div class="project-overlay">
                                 <a href="proyectos/hisque-games/" class="demo-btn">JUGAR</a>
-                                <a href="https://github.com/juantomoo/HISQUE-Games" target="_blank" class="repo-btn">CÓDIGO</a>
+                                <a href="https://github.com/juantomoo/HISQUE-Games" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
                             </div>
                         </div>
                         <div class="project-info">
@@ -308,7 +323,8 @@
                     <!-- Proyecto 3: Museo Viviente -->
                     <article class="project-card" data-category="webapp" data-demo="true">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(225deg, #ffd70033, #8b451333);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(225deg, #ffd70033, #8b451333);">
                                 <i data-lucide="landmark" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -317,12 +333,14 @@
                             </div>
                             <div class="project-overlay">
                                 <a href="proyectos/museo-viviente/" class="demo-btn">VISITAR</a>
-                                <a href="https://github.com/juantomoo/Museo-Viviente" target="_blank" class="repo-btn">CÓDIGO</a>
+                                <a href="https://github.com/juantomoo/Museo-Viviente" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
                             </div>
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">Museo Viviente</h3>
-                            <p class="project-desc">Museo virtual interactivo con narración por voz y exposiciones dinámicas.</p>
+                            <p class="project-desc">Museo virtual interactivo con narración por voz y exposiciones
+                                dinámicas.</p>
                             <div class="project-status">
                                 <span class="status-badge live">DEMO LIVE</span>
                             </div>
@@ -332,7 +350,8 @@
                     <!-- Proyecto 4: GIFtoArray -->
                     <article class="project-card" data-category="tool" data-demo="true">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(90deg, #ff00ff33, #00ffff33);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(90deg, #ff00ff33, #00ffff33);">
                                 <i data-lucide="film" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -341,12 +360,14 @@
                             </div>
                             <div class="project-overlay">
                                 <a href="proyectos/gif-to-array/" class="demo-btn">PROBAR</a>
-                                <a href="https://github.com/juantomoo/GIFtoArray" target="_blank" class="repo-btn">CÓDIGO</a>
+                                <a href="https://github.com/juantomoo/GIFtoArray" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
                             </div>
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">GIFtoArray</h3>
-                            <p class="project-desc">Librería para convertir GIFs animados a arrays de frames manipulables.</p>
+                            <p class="project-desc">Librería para convertir GIFs animados a arrays de frames
+                                manipulables.</p>
                             <div class="project-status">
                                 <span class="status-badge live">DEMO LIVE</span>
                             </div>
@@ -356,7 +377,8 @@
                     <!-- Proyecto 5: Antifa Music Downloader -->
                     <article class="project-card" data-category="tool" data-demo="false">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(135deg, #ff000033, #00000033);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(135deg, #ff000033, #00000033);">
                                 <i data-lucide="music" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -365,12 +387,14 @@
                             </div>
                             <div class="project-overlay">
                                 <a href="proyectos/antifa-music/" class="demo-btn">INFO</a>
-                                <a href="https://github.com/juantomoo/antifa-free-music-share" target="_blank" class="repo-btn">CÓDIGO</a>
+                                <a href="https://github.com/juantomoo/antifa-free-music-share" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
                             </div>
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">Antifa Music Downloader</h3>
-                            <p class="project-desc">Descargador de música con metadatos automáticos desde YouTube Music.</p>
+                            <p class="project-desc">Descargador de música con metadatos automáticos desde YouTube Music.
+                            </p>
                             <div class="project-status">
                                 <span class="status-badge desktop">DESKTOP APP</span>
                             </div>
@@ -380,7 +404,8 @@
                     <!-- Proyecto 6: GIFnimator -->
                     <article class="project-card" data-category="tool" data-demo="false">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(45deg, #ff009933, #00ff9933);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(45deg, #ff009933, #00ff9933);">
                                 <i data-lucide="sparkles" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -389,12 +414,14 @@
                             </div>
                             <div class="project-overlay">
                                 <a href="proyectos/gifnimator/" class="demo-btn">INFO</a>
-                                <a href="https://github.com/juantomoo/GIFnimator" target="_blank" class="repo-btn">CÓDIGO</a>
+                                <a href="https://github.com/juantomoo/GIFnimator" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
                             </div>
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">GIFnimator</h3>
-                            <p class="project-desc">Procesador de GIFs con estilos: Vaporwave, Cyberpunk, Glitch y más.</p>
+                            <p class="project-desc">Procesador de GIFs con estilos: Vaporwave, Cyberpunk, Glitch y más.
+                            </p>
                             <div class="project-status">
                                 <span class="status-badge server">REQUIERE SERVIDOR</span>
                             </div>
@@ -404,7 +431,8 @@
                     <!-- Proyecto 7: PDFtoODFOCR -->
                     <article class="project-card" data-category="tool" data-demo="false">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(135deg, #0066ff33, #ff660033);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(135deg, #0066ff33, #ff660033);">
                                 <i data-lucide="file-text" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -413,12 +441,14 @@
                             </div>
                             <div class="project-overlay">
                                 <a href="proyectos/pdf-ocr/" class="demo-btn">INFO</a>
-                                <a href="https://github.com/juantomoo/PDFtoODFOCR_GUI" target="_blank" class="repo-btn">CÓDIGO</a>
+                                <a href="https://github.com/juantomoo/PDFtoODFOCR_GUI" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
                             </div>
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">PDF to ODF OCR</h3>
-                            <p class="project-desc">Aplicación de escritorio para OCR de PDFs escaneados con interfaz gráfica.</p>
+                            <p class="project-desc">Aplicación de escritorio para OCR de PDFs escaneados con interfaz
+                                gráfica.</p>
                             <div class="project-status">
                                 <span class="status-badge desktop">DESKTOP APP</span>
                             </div>
@@ -428,7 +458,8 @@
                     <!-- Proyecto 8: TTS Abierto -->
                     <article class="project-card" data-category="tool" data-demo="false">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(225deg, #9900ff33, #ff990033);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(225deg, #9900ff33, #ff990033);">
                                 <i data-lucide="mic" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -437,12 +468,14 @@
                             </div>
                             <div class="project-overlay">
                                 <a href="proyectos/tts-abierto/" class="demo-btn">INFO</a>
-                                <a href="https://github.com/juantomoo/TTS-Abierto" target="_blank" class="repo-btn">CÓDIGO</a>
+                                <a href="https://github.com/juantomoo/TTS-Abierto" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
                             </div>
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">TTS Abierto</h3>
-                            <p class="project-desc">Sistema de texto a voz local usando Piper. Sin dependencias en la nube.</p>
+                            <p class="project-desc">Sistema de texto a voz local usando Piper. Sin dependencias en la
+                                nube.</p>
                             <div class="project-status">
                                 <span class="status-badge desktop">LOCAL APP</span>
                             </div>
@@ -452,7 +485,8 @@
                     <!-- Proyecto 9: PWA Music Player -->
                     <article class="project-card" data-category="webapp" data-demo="false">
                         <div class="project-image">
-                            <div class="project-placeholder" style="background: linear-gradient(90deg, #00ffff33, #ff00ff33);">
+                            <div class="project-placeholder"
+                                style="background: linear-gradient(90deg, #00ffff33, #ff00ff33);">
                                 <i data-lucide="headphones" class="project-icon"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -461,12 +495,14 @@
                             </div>
                             <div class="project-overlay">
                                 <a href="proyectos/pwa-player/" class="demo-btn">INFO</a>
-                                <a href="https://github.com/juantomoo/PWA-MusicPlayer" target="_blank" class="repo-btn">CÓDIGO</a>
+                                <a href="https://github.com/juantomoo/PWA-MusicPlayer" target="_blank"
+                                    class="repo-btn">CÓDIGO</a>
                             </div>
                         </div>
                         <div class="project-info">
                             <h3 class="project-title">PWA Music Player</h3>
-                            <p class="project-desc">Reproductor de música progresivo con Vue 3 y almacenamiento offline.</p>
+                            <p class="project-desc">Reproductor de música progresivo con Vue 3 y almacenamiento offline.
+                            </p>
                             <div class="project-status">
                                 <span class="status-badge build">REQUIERE BUILD</span>
                             </div>
@@ -496,7 +532,8 @@
                 </div>
 
                 <div class="gallery-instructions">
-                    <p><i data-lucide="info" class="inline-icon"></i> Las imágenes se cargan desde <code>assets/gallery/</code>. Configura tus obras en <code>media-config.json</code></p>
+                    <p><i data-lucide="info" class="inline-icon"></i> Las imágenes se cargan desde
+                        <code>assets/gallery/</code>. Configura tus obras en <code>media-config.json</code></p>
                 </div>
 
                 <div class="gallery-grid" id="gallery-container">
@@ -561,7 +598,8 @@
                 </div>
 
                 <div class="media-cta">
-                    <a href="https://www.youtube.com/channel/UChdPKkU5-f5rPdxctCzxOyg" target="_blank" class="platform-link youtube">
+                    <a href="https://www.youtube.com/channel/UChdPKkU5-f5rPdxctCzxOyg" target="_blank"
+                        class="platform-link youtube">
                         <span>YouTube</span>
                     </a>
                     <a href="https://soundcloud.com/juantomoo" target="_blank" class="platform-link soundcloud">
@@ -608,12 +646,25 @@
                             </h2>
                         </div>
                         <div class="bio-content">
-                            <p class="bio-intro">Hola, soy <span class="highlight">Juan Tomoo</span> (Juan Gómez Rivera). Artista visual, programador autodidacta y activista digital.</p>
-                            <p class="bio-text">Desde <span class="highlight">Santander, Colombia</span>, trabajo como consultor independiente para ONGs en temas de cultura digital, medio ambiente y tecnología cívica. Me especializo en transformación digital con herramientas libres y privadas.</p>
-                            <p class="bio-text">Mi práctica combina <span class="highlight">arte generativo, desarrollo full-stack y diseño de experiencias interactivas</span>, siempre buscando crear herramientas que empoderen comunidades y democraticen el acceso a la tecnología.</p>
+                            <p class="bio-intro">Hola, soy <span class="highlight">Juan Tomoo 杜茂男</span> (Juan Gómez).
+                                Nacido en Bogotá, actualmente en <span class="highlight">Santander, Colombia</span>.</p>
+                            <p class="bio-text">Generalista creativo con trayectoria híbrida en <span
+                                    class="highlight">dirección de arte e ilustración digital 2D</span>. Consultor para
+                                organizaciones sin ánimo de lucro (ESAL-ONG) en gestión de proyectos culturales,
+                                ambientales y tecnológicos.</p>
+                            <p class="bio-text">Director de arte en <span class="highlight">HISQUE Estudio</span> y
+                                diseño/desarrollo web en <span class="highlight">Machina Development</span>. Me
+                                especializo en narrativas visuales, fanzines, arte conceptual y curaduría artística.</p>
                             <div class="mission-box">
-                                <h4>ENFOQUE</h4>
-                                <p>Crear tecnología accesible y ética que empodere a las comunidades. Software libre, privacidad digital y cultura abierta como pilares para la transformación social a través del arte y el código.</p>
+                                <h4>PRODUCCIÓN ARTÍSTICA</h4>
+                                <ul style="margin:0;padding-left:1rem;font-size:0.9em;">
+                                    <li><strong>EN EL NIDO</strong> - Serie de cuentos cortos de ciencia ficción</li>
+                                    <li><strong>Cuerpos Que Despiertan</strong> - ISBN: 979-8244013757</li>
+                                    <li><strong>Historias Que Traen Las Nubes</strong> - Cosmogonía andina y ficción
+                                    </li>
+                                    <li><strong>Desperatio</strong> - 25 obras de arte digital en colecciones privadas
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                         <div class="tools-section">
@@ -654,7 +705,7 @@
                         <span class="machina-sub">DEVELOPMENT</span>
                     </div>
                     <p class="services-description">
-                        Transformamos ideas en soluciones digitales. Desarrollo web profesional para empresas, 
+                        Transformamos ideas en soluciones digitales. Desarrollo web profesional para empresas,
                         organizaciones y emprendedores.
                     </p>
                     <div class="services-list">
@@ -711,14 +762,16 @@
                                 <i data-lucide="mail" class="method-icon"></i>
                                 <div class="method-info">
                                     <span class="method-label">EMAIL</span>
-                                    <a href="mailto:machina.work@gmail.com" class="method-value">machina.work@gmail.com</a>
+                                    <a href="mailto:machina.work@gmail.com"
+                                        class="method-value">machina.work@gmail.com</a>
                                 </div>
                             </div>
                             <div class="contact-method">
                                 <i data-lucide="message-circle" class="method-icon"></i>
                                 <div class="method-info">
                                     <span class="method-label">WHATSAPP</span>
-                                    <a href="https://wa.me/573142827567" target="_blank" class="method-value">+57 314 282 7567</a>
+                                    <a href="https://wa.me/573142827567" target="_blank" class="method-value">+57 314
+                                        282 7567</a>
                                 </div>
                             </div>
                             <div class="contact-method">
@@ -731,16 +784,24 @@
                         </div>
                         <div class="social-links">
                             <a href="https://github.com/juantomoo" target="_blank" class="social-link">GITHUB</a>
-                            <a href="https://www.instagram.com/juantomoo/" target="_blank" class="social-link">INSTAGRAM</a>
-                            <a href="https://www.instagram.com/juantomooph/" target="_blank" class="social-link">FOTO IG</a>
-                            <a href="https://www.linkedin.com/in/juangomez451/" target="_blank" class="social-link">LINKEDIN</a>
-                            <a href="https://www.artstation.com/juantomoo" target="_blank" class="social-link">ARTSTATION</a>
-                            <a href="https://www.youtube.com/channel/UChdPKkU5-f5rPdxctCzxOyg" target="_blank" class="social-link">YOUTUBE</a>
-                            <a href="https://soundcloud.com/juantomoo" target="_blank" class="social-link">SOUNDCLOUD</a>
+                            <a href="https://www.instagram.com/juantomoo/" target="_blank"
+                                class="social-link">INSTAGRAM</a>
+                            <a href="https://www.instagram.com/juantomooph/" target="_blank" class="social-link">FOTO
+                                IG</a>
+                            <a href="https://www.linkedin.com/in/juangomez451/" target="_blank"
+                                class="social-link">LINKEDIN</a>
+                            <a href="https://juantomoo.substack.com" target="_blank" class="social-link">SUBSTACK</a>
+                            <a href="https://www.artstation.com/juantomoo" target="_blank"
+                                class="social-link">ARTSTATION</a>
+                            <a href="https://www.youtube.com/channel/UChdPKkU5-f5rPdxctCzxOyg" target="_blank"
+                                class="social-link">YOUTUBE</a>
+                            <a href="https://soundcloud.com/juantomoo" target="_blank"
+                                class="social-link">SOUNDCLOUD</a>
                         </div>
                     </div>
                     <div class="contact-form-panel">
-                        <form class="retro-form" id="contact-form" action="https://formspree.io/f/mwpeavod" method="POST">
+                        <form class="retro-form" id="contact-form" action="https://formspree.io/f/mwpeavod"
+                            method="POST">
                             <div class="form-group">
                                 <label for="name">NOMBRE</label>
                                 <input type="text" id="name" name="name" placeholder="Tu nombre..." required>
@@ -760,7 +821,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="message">MENSAJE</label>
-                                <textarea id="message" name="message" rows="5" placeholder="Escribe tu mensaje..." required></textarea>
+                                <textarea id="message" name="message" rows="5" placeholder="Escribe tu mensaje..."
+                                    required></textarea>
                             </div>
                             <button type="submit" class="submit-btn">
                                 <span>ENVIAR MENSAJE</span>
@@ -817,14 +879,9 @@
     </div>
 
     <!-- SoundCloud Embed (hidden, for audio) -->
-    <iframe id="soundcloud-player" 
-            width="0" 
-            height="0" 
-            scrolling="no" 
-            frameborder="no" 
-            allow="autoplay; encrypted-media" 
-            sandbox="allow-scripts allow-same-origin allow-presentation"
-            src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/a-travel&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
+    <iframe id="soundcloud-player" width="0" height="0" scrolling="no" frameborder="no"
+        allow="autoplay; encrypted-media" sandbox="allow-scripts allow-same-origin allow-presentation"
+        src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/a-travel&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
     </iframe>
 
     <script src="script.js"></script>
@@ -833,4 +890,5 @@
         lucide.createIcons();
     </script>
 </body>
+
 </html>

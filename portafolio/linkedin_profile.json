@@ -1,0 +1,94 @@
+{
+    "full_name": "Juan Gómez",
+    "alias_artistico": "tomOO / Tomoo 杜茂男",
+    "headline": "Dirección de arte e ilustración 2D | Consultor en proyectos de impacto social | Director en HISQUE Estudio",
+    "location": "Bucaramanga, Santander, Colombia",
+    "linkedin_url": "https://www.linkedin.com/in/juangomez451/",
+    "summary": "Generalista profesional con una trayectoria híbrida que abarca la dirección de arte, la ilustración digital y la consultoría estratégica para organizaciones del sector social (ESAL/ONG). Se especializa en la creación de narrativas visuales (fanzines, arte conceptual) y en la gestión de proyectos culturales. Posee una visión crítica sobre las estructuras organizacionales tradicionales, promoviendo modelos de gestión inspirados en sistemas naturales y sostenibilidad.",
+    "work_experience": [
+        {
+            "company": "HISQUE Estudio",
+            "role": "Director y Fundador",
+            "period": "Actualidad",
+            "description": "Liderazgo en proyectos de dirección de arte e ilustración digital 2D, integrando consultoría para iniciativas con impacto social y cultural."
+        },
+        {
+            "company": "Fundación Hola Pamplona",
+            "role": "Consultor de IT & Marketing",
+            "period": "Febrero 2014 - Actualidad",
+            "description": "Asesoría estratégica en herramientas digitales y posicionamiento para fortalecer la misión de la fundación."
+        },
+        {
+            "company": "Xplorer Pinchote",
+            "role": "Voluntario",
+            "period": "Enero 2019 - Actualidad",
+            "description": "Participación activa en proyectos de desarrollo local y comunitario."
+        }
+    ],
+    "education": [
+        {
+            "institution": "Universidad Autónoma de Bucaramanga",
+            "degree": "Profesional",
+            "location": "Bucaramanga, Colombia"
+        }
+    ],
+    "skills": [
+        "Dirección de arte",
+        "Ilustración digital 2D (naturaleza, personajes, paisajes)",
+        "Consultoría para ONGs y organizaciones sin ánimo de lucro",
+        "Gestión de proyectos culturales y TICs",
+        "Python",
+        "Diseño orientado a objetos",
+        "Curaduría artística"
+    ],
+    "certifications": [
+        {
+            "title": "English Test C1 (Advanced)",
+            "issuer": "EF Education First",
+            "date": "Enero 2023"
+        },
+        {
+            "title": "Fundamentos de la programación: Diseño orientado a objetos",
+            "issuer": "LinkedIn Learning",
+            "date": "Mayo 2021"
+        },
+        {
+            "title": "Python esencial",
+            "issuer": "LinkedIn Learning",
+            "date": "Mayo 2021"
+        }
+    ],
+    "projects_highlighted": [
+        {
+            "title": "Historias Que Traen Las Nubes",
+            "description": "Proyecto de memoria gráfica y narrativa sobre Nueva Pamplona."
+        },
+        {
+            "title": "Apps.Co Ideación y Prototipado",
+            "description": "Proyecto ganador en la categoría de Museo Digital."
+        },
+        {
+            "title": "Exposición 'De Fe y Devoción'",
+            "description": "Muestra individual artística presentada en el Museo de Pamplona."
+        },
+        {
+            "title": "Curaduría Exposición INDIGNADOS y JARDINES",
+            "description": "Gestión y montaje de espacios artísticos colectivos."
+        }
+    ],
+    "honors_awards": [
+        {
+            "title": "Ganador 1er Puesto - Concurso de Fotografía y Filminuto Pegaso",
+            "organization": "Museo Alado XI"
+        },
+        {
+            "title": "Resolución No. 052 de 2015",
+            "description": "Reconocimiento gubernamental por aportes a la cultura y fomento de las TICs en Pamplona."
+        }
+    ],
+    "languages": [
+        "Español (Nativo)",
+        "Inglés (C1 - Avanzado)",
+        "Japonés"
+    ]
+}
