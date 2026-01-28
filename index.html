@@ -47,7 +47,8 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     <!-- Three.js Library -->
-    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <!-- Three.js Library (Locked to 0.149.0 to maintain script compatibility) -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.149.0/build/three.min.js"></script>
     <!-- Favicon -->
     <link rel="icon" href="assets/favicon.png">
 
@@ -190,7 +191,7 @@
                     </h1>
                     <p class="welcome-subtitle">ARTE DIGITAL / CÓDIGO / ACTIVISMO</p>
                     <div class="welcome-description">
-                        <p>Nerd indisciplinado jugando a ser programador.</p>
+                        <p>Nerd con consciencia social y ambiental.</p>
                         <p class="highlight">Consultor para ONGs en cultura, medio ambiente y tecnología.</p>
                     </div>
                     <button class="start-btn" id="start-btn">
@@ -241,7 +242,7 @@
                         <div class="project-image">
                             <!-- Fondo cósmico dorado para destacar -->
                             <div class="project-placeholder"
-                                style="background: linear-gradient(135deg, #000000, #1a0b00); border: 1px solid rgba(212, 175, 55, 0.3);">
+                                style="background: linear-gradient(135deg, #00000033, #1a0b0033); border: 1px solid rgba(212, 175, 55, 0.3);">
                                 <i data-lucide="sun" class="project-icon" style="color: #d4af37;"></i>
                             </div>
                             <div class="project-tech-badges">
@@ -256,7 +257,8 @@
                         </div>
                         <div class="project-info">
                             <h3 class="project-title" style="color: #d4af37;">vn1v3r50</h3>
-                            <p class="project-desc">Multiverso Fractal Infinito. Obra de arte procedural 3D sobre la
+                            <p class="project-desc">Renovación de la obra de arte digital de 2010Multiverso Fractal
+                                Infinito. Arte procedural 3D sobre la
                                 geometría sagrada y la recursividad cósmica.</p>
                             <div class="project-status">
                                 <span class="status-badge live"
@@ -306,8 +308,9 @@
                             </div>
                         </div>
                         <div class="project-info">
-                            <h3 class="project-title">En el NIDO</h3>
-                            <p class="project-desc">Antología de ficciones cyberpunk. Experiencia inmersiva de lectura
+                            <h3 class="project-title">EN EL NIDO</h3>
+                            <p class="project-desc">Antología de ficciones cyberpunk+solarpunk. Experiencia inmersiva de
+                                lectura
                                 con estética MiCeLiCon.</p>
                             <div class="project-status">
                                 <span class="status-badge live">DEMO LIVE</span>
@@ -651,7 +654,7 @@
                         </div>
                         <div class="artist-stats">
                             <div class="stat">
-                                <span class="stat-value">2015</span>
+                                <span class="stat-value">2008</span>
                                 <span class="stat-label">INICIO</span>
                             </div>
                             <div class="stat">
@@ -672,8 +675,8 @@
                             </h2>
                         </div>
                         <div class="bio-content">
-                            <p class="bio-intro">Hola, soy <span class="highlight">Juan Tomoo</span> (Juan Gómez
-                                Rivera). Artista visual, programador autodidacta y activista digital.</p>
+                            <p class="bio-intro">Hola, soy <span class="highlight">Juan Gómez</span> (Juan Tomoo 「
+                                杜茂男」). Artista visual, programador autodidacta y activista digital.</p>
                             <p class="bio-text">Desde <span class="highlight">Santander, Colombia</span>, trabajo como
                                 consultor independiente para ONGs en temas de cultura digital, medio ambiente y
                                 tecnología cívica. Me especializo en transformación digital con herramientas libres y
@@ -899,8 +902,11 @@
     </div>
 
     <!-- SoundCloud Embed (hidden, for audio) -->
-    <iframe id="soundcloud-player" width="0" height="0" scrolling="no" frameborder="no"
-        allow="autoplay; encrypted-media" sandbox="allow-scripts allow-same-origin allow-presentation"
+    <!-- SoundCloud Embed (hidden, for audio) -->
+    <iframe id="soundcloud-player"
+        style="position: fixed; top: -100px; left: -100px; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
+        scrolling="no" frameborder="no" allow="autoplay; encrypted-media"
+        sandbox="allow-scripts allow-same-origin allow-presentation"
         src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/juantomoo/a-travel&auto_play=false&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false">
     </iframe>
 

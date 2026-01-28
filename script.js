@@ -32,18 +32,18 @@ const CONFIG = {
 async function safeFetch(url, options = {}) {
     try {
         const response = await fetch(url, options);
-        
+
         if (!response.ok) {
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
-        
+
         const contentType = response.headers.get('content-type');
         if (contentType && contentType.includes('application/json')) {
             return await response.json();
         }
-        
+
         return await response.text();
-        
+
     } catch (error) {
         console.error(`❌ Error fetching ${url}:`, error);
         throw error;
@@ -61,9 +61,9 @@ function showErrorNotification(message, duration = 5000) {
         <div class="error-message">${escapeHtml(message)}</div>
         <button class="error-close" onclick="this.parentElement.remove()">×</button>
     `;
-    
+
     document.body.appendChild(notification);
-    
+
     setTimeout(() => {
         if (notification.parentElement) {
             notification.classList.add('fade-out');
@@ -141,7 +141,7 @@ function init3D() {
         document.body.classList.add('no-threejs');
         return;
     }
-    
+
     const canvas = document.getElementById('canvas-3d');
 
     // Crear escena
@@ -442,6 +442,9 @@ function initUI() {
     // Filtros de proyectos
     initProjectFilters();
 
+    // Filtros de galería
+    initGalleryFilters();
+
     // Modal de galería
     initGalleryModal();
 
@@ -455,7 +458,7 @@ function initUI() {
 
 // Filtros de proyectos
 function initProjectFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
+    const filterBtns = document.querySelectorAll('.project-filters .filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
     filterBtns.forEach(btn => {
@@ -472,6 +475,36 @@ function initProjectFilters() {
                     card.classList.remove('hidden');
                 } else {
                     card.classList.add('hidden');
+                }
+            });
+        });
+    });
+}
+
+// Filtros de galería
+function initGalleryFilters() {
+    const filterBtns = document.querySelectorAll('.gallery-filters .filter-btn');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Actualizar botón activo
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filter = btn.dataset.filter.toLowerCase();
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            // Filtrar items de galería
+            galleryItems.forEach(item => {
+                const tags = (item.dataset.tags || '').toLowerCase().split(',');
+
+                if (filter === 'all' || tags.includes(filter)) {
+                    item.classList.remove('hidden');
+                    // Fade in effect
+                    item.style.opacity = '0';
+                    setTimeout(() => item.style.opacity = '1', 50);
+                } else {
+                    item.classList.add('hidden');
                 }
             });
         });
@@ -527,7 +560,7 @@ function openGalleryModal(item) {
     if (modalTitle) modalTitle.textContent = item.title || 'Sin título';
     if (modalYear) modalYear.textContent = item.year || '';
     if (modalDescription) modalDescription.textContent = item.description || '';
-    
+
     if (modalTags) {
         modalTags.innerHTML = '';
         if (item.tags && item.tags.length) {
@@ -599,34 +632,34 @@ function initContactForm() {
 async function loadMediaConfig() {
     try {
         const config = await safeFetch('media-config.json');
-        
+
         // Cargar galería
         if (config.gallery && config.gallery.length) {
             renderGallery(config.gallery);
         } else {
             showEmptyGalleryMessage();
         }
-        
+
         // Cargar videos
         if (config.videos && config.videos.length) {
             renderVideos(config.videos);
         }
-        
+
         // Cargar audio
         if (config.audio && config.audio.length) {
             renderAudio(config.audio);
         }
-        
+
         return config;
-        
+
     } catch (error) {
         console.error('Error cargando media config:', error);
         showErrorNotification('No se pudo cargar el contenido multimedia');
-        
+
         // Usar configuración por defecto
         const defaultConfig = getDefaultMediaConfig();
         showMediaInstructions();
-        
+
         return defaultConfig;
     }
 }
@@ -646,12 +679,16 @@ function showEmptyGalleryMessage() {
 function renderGallery(items) {
     const container = document.getElementById('gallery-container');
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
+
     items.forEach(item => {
         const article = document.createElement('article');
         article.className = 'gallery-item';
+        // Add tags for filtering
+        const tags = item.tags ? item.tags.join(',') : '';
+        article.dataset.tags = tags;
+
         article.innerHTML = `
             <img src="${item.image}" alt="${item.title || 'Obra'}" loading="lazy">
             <div class="gallery-item-overlay">
@@ -659,7 +696,7 @@ function renderGallery(items) {
                 ${item.description ? `<span class="gallery-item-desc">${item.description}</span>` : ''}
             </div>
         `;
-        
+
         article.addEventListener('click', () => openGalleryModal(item));
         container.appendChild(article);
     });
@@ -668,9 +705,9 @@ function renderGallery(items) {
 function renderVideos(items) {
     const container = document.getElementById('videos-container');
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
+
     items.forEach(item => {
         const article = document.createElement('article');
         article.className = 'media-item';
@@ -696,9 +733,9 @@ function renderVideos(items) {
 function renderAudio(items) {
     const container = document.getElementById('audio-container');
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
+
     items.forEach(item => {
         const article = document.createElement('article');
         article.className = 'media-item';
@@ -748,43 +785,43 @@ let scWidget;
 function initAudio() {
     const audioToggle = document.getElementById('audio-toggle');
     const scIframe = document.getElementById('soundcloud-player');
-    
+
     if (!audioToggle || !scIframe) return;
-    
+
     // Inicializar widget de SoundCloud
     if (window.SC && window.SC.Widget) {
         scWidget = SC.Widget(scIframe);
-        
+
         scWidget.bind(SC.Widget.Events.READY, () => {
             console.log('SoundCloud widget ready');
         });
-        
+
         scWidget.bind(SC.Widget.Events.PLAY, () => {
             appState.audioEnabled = true;
             audioToggle.classList.add('playing');
             updateAudioIcon(audioToggle, 'volume-2');
         });
-        
+
         scWidget.bind(SC.Widget.Events.PAUSE, () => {
             appState.audioEnabled = false;
             audioToggle.classList.remove('playing');
             updateAudioIcon(audioToggle, 'volume-x');
         });
-        
+
         scWidget.bind(SC.Widget.Events.FINISH, () => {
             // Loop
             scWidget.seekTo(0);
             scWidget.play();
         });
     }
-    
+
     audioToggle.addEventListener('click', toggleAudio);
 }
 
 function toggleAudio() {
     const audioToggle = document.getElementById('audio-toggle');
     const scIframe = document.getElementById('soundcloud-player');
-    
+
     if (scWidget) {
         if (appState.audioEnabled) {
             scWidget.pause();
@@ -861,22 +898,22 @@ function initCursorEffects() {
 function setupImageErrorHandling() {
     document.querySelectorAll('img').forEach(img => {
         if (img.dataset.errorHandled) return;
-        
+
         img.addEventListener('error', function handleImageError() {
             console.warn(`⚠️ Error cargando imagen: ${this.src}`);
-            
+
             if (this.dataset.fallbackUsed) {
                 console.error('❌ Fallback image también falló');
                 this.style.display = 'none';
                 return;
             }
-            
+
             this.dataset.fallbackUsed = 'true';
             this.src = 'assets/fallback-image.jpg';
             this.alt = 'Imagen no disponible';
             this.classList.add('fallback-image');
         }, { once: true });
-        
+
         img.dataset.errorHandled = 'true';
     });
 }
@@ -902,7 +939,7 @@ function initLazyLoading() {
         loadAllImages();
         return;
     }
-    
+
     const imageObserver = new IntersectionObserver(
         (entries, observer) => {
             entries.forEach(entry => {
@@ -919,7 +956,7 @@ function initLazyLoading() {
             threshold: 0.01
         }
     );
-    
+
     document.querySelectorAll('img.lazy').forEach(img => {
         imageObserver.observe(img);
     });
@@ -930,26 +967,26 @@ function initLazyLoading() {
  */
 function loadLazyImage(img) {
     const src = img.dataset.src;
-    
+
     if (!src) {
         console.warn('⚠️ Imagen lazy sin data-src:', img);
         return;
     }
-    
+
     const tempImg = new Image();
-    
-    tempImg.onload = function() {
+
+    tempImg.onload = function () {
         img.src = src;
         img.classList.remove('lazy');
         img.classList.add('lazy-loaded');
     };
-    
-    tempImg.onerror = function() {
+
+    tempImg.onerror = function () {
         console.error(`❌ Error cargando imagen lazy: ${src}`);
         img.classList.remove('lazy');
         img.classList.add('lazy-error');
     };
-    
+
     tempImg.src = src;
 }
 
@@ -974,33 +1011,33 @@ function loadAllImages() {
  */
 function setupMobileOptimizations() {
     const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-                     window.matchMedia('(max-width: 768px)').matches;
-    
+        window.matchMedia('(max-width: 768px)').matches;
+
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
+
     if (isMobile) {
         console.log('📱 Modo móvil detectado - Aplicando optimizaciones');
-        
+
         if (window.renderer) {
             renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
         }
-        
+
         CONFIG.starCount = 100;
-        
+
         if (window.renderer) {
             renderer.shadowMap.enabled = false;
         }
     }
-    
+
     if (prefersReducedMotion) {
         console.log('♿ Reducción de movimiento preferida - Desactivando animaciones');
-        
+
         CONFIG.enableAnimations = false;
-        
+
         if (window.animationId) {
             cancelAnimationFrame(window.animationId);
         }
-        
+
         document.body.classList.add('reduced-motion');
     }
 }
@@ -1015,12 +1052,12 @@ function setupMobileOptimizations() {
 function toggleMenuAria() {
     const menuBtn = document.getElementById('menu-btn');
     const navMenu = document.querySelector('.nav-menu');
-    
+
     if (!menuBtn || !navMenu) return;
-    
+
     const isExpanded = menuBtn.getAttribute('aria-expanded') === 'true';
     menuBtn.setAttribute('aria-expanded', !isExpanded);
-    
+
     if (!isExpanded) {
         const firstLink = navMenu.querySelector('a');
         if (firstLink) {
@@ -1036,17 +1073,17 @@ function trapFocusInModal(modalElement) {
     const focusableElements = modalElement.querySelectorAll(
         'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
     );
-    
+
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
-    
+
     if (!firstElement) return;
-    
-    modalElement.addEventListener('keydown', function(e) {
+
+    modalElement.addEventListener('keydown', function (e) {
         const isTabPressed = e.key === 'Tab';
-        
+
         if (!isTabPressed) return;
-        
+
         if (e.shiftKey) {
             if (document.activeElement === firstElement) {
                 lastElement.focus();
@@ -1059,7 +1096,7 @@ function trapFocusInModal(modalElement) {
             }
         }
     });
-    
+
     firstElement.focus();
 }
 
@@ -1073,7 +1110,7 @@ function setupKeyboardNavigation() {
             if (modal) {
                 modal.classList.remove('active');
             }
-            
+
             const menu = document.querySelector('.nav-menu.active');
             if (menu) {
                 menu.classList.remove('active');
@@ -1084,10 +1121,10 @@ function setupKeyboardNavigation() {
             }
         }
     });
-    
+
     const sections = document.querySelectorAll('section[id]');
     let currentSectionIndex = 0;
-    
+
     document.addEventListener('keydown', (e) => {
         if (e.ctrlKey || e.metaKey) {
             if (e.key === 'ArrowDown') {
@@ -1143,7 +1180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupMobileOptimizations();
     preloadFallbackImage();
     setupKeyboardNavigation();
-    
+
     // Inicializar elementos 3D
     init3D();
 
@@ -1158,7 +1195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicializar lazy loading
     initLazyLoading();
-    
+
     // Configurar manejo de errores de imágenes
     setupImageErrorHandling();
 
