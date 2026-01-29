@@ -1,0 +1,3416 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PixelScreenWave 500</title>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           PIXELSCREENWAVE 500 - HI-FI 80s AESTHETIC
+           Estética de Equipos de Sonido Hi-Fi de los Años 80
+           Plástico oscuro, pantallas monocromáticas digitales
+           ═══════════════════════════════════════════════════════════════════ */
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600&display=swap');
+
+        :root {
+            /* Base Hi-Fi 80s - Plástico Oscuro */
+            --bg-dark: #0a0a0a;
+            --bg-panel: rgba(18, 18, 18, 0.98);
+            --bg-panel-hover: rgba(28, 28, 28, 0.98);
+            --bg-button: #1a1a1a;
+            --bg-button-hover: #252525;
+
+            /* Bordes estilo biselado Hi-Fi */
+            --border-light: #2a2a2a;
+            --border-dark: #0c0c0c;
+
+            /* Colores Dinámicos - Se actualizan con JS */
+            --accent-primary: #39ff14;
+            --accent-secondary: #5a9945;
+
+            /* Colores de Fósforo Clásico */
+            --phosphor-green: #39ff14;
+            --phosphor-white: #f0f0f0;
+            --phosphor-amber: #ffcc00;
+            --phosphor-blue: #00aaff;
+            --phosphor-red: #ff3333;
+            --phosphor-orange: #ff6600;
+            --phosphor-cyan: #00cccc;
+            --phosphor-purple: #cc44ff;
+
+            /* Texto Monocromático */
+            --text-primary: #c0c0c0;
+            --text-secondary: #707070;
+            --text-muted: #404040;
+
+            /* Sombras Hi-Fi */
+            --shadow-inset: inset 2px 2px 4px var(--border-dark), inset -1px -1px 2px var(--border-light);
+            --shadow-raised: 2px 2px 4px var(--border-dark), -1px -1px 2px var(--border-light);
+            --shadow-glow: 0 0 8px var(--accent-primary);
+
+            /* Transiciones */
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', 'Inter', monospace;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           FONDO HI-FI 80s - TEXTURA PLÁSTICO
+           ═══════════════════════════════════════════════════════════════════ */
+        .background-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(ellipse at center, #0f0f0f 0%, #0a0a0a 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           CANVAS PRINCIPAL - PANTALLA COMPLETA
+           ═══════════════════════════════════════════════════════════════════ */
+        .main-canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
+        }
+
+        #mainCanvas {
+            display: block;
+            border: none;
+            box-shadow: none;
+            transition: all var(--transition-normal);
+        }
+
+        /* Debug HUD integrado en pantalla */
+        .integrated-debug {
+            position: fixed;
+            bottom: 12px;
+            left: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: var(--accent-primary);
+            opacity: 0.35;
+            z-index: 10;
+            pointer-events: none;
+            text-shadow: 0 0 4px var(--accent-primary);
+            letter-spacing: 1px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           ZONAS DE ACTIVACIÓN PARA PANELES OCULTOS
+           ═══════════════════════════════════════════════════════════════════ */
+        .trigger-zone {
+            position: fixed;
+            z-index: 50;
+            background: transparent;
+        }
+
+        .trigger-zone-top {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+        }
+
+        .trigger-zone-left {
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+        }
+
+        .trigger-zone-right {
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+        }
+
+        .trigger-zone-bottom {
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           PANELES OCULTOS - ESTILO HI-FI 80s
+           ═══════════════════════════════════════════════════════════════════ */
+        .hidden-panel {
+            position: fixed;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-raised);
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: all var(--transition-normal);
+        }
+
+        .hidden-panel.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Panel Superior */
+        .panel-top {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-radius: 0 0 8px 8px;
+            border-top: none;
+        }
+
+        .panel-top.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .app-name {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent-primary);
+            text-shadow: 0 0 8px var(--accent-primary);
+        }
+
+        /* Panel Izquierdo */
+        .panel-left {
+            left: 0;
+            top: 50%;
+            transform: translateX(-100%) translateY(-50%);
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border-radius: 0 8px 8px 0;
+            border-left: none;
+        }
+
+        .panel-left.visible {
+            transform: translateX(0) translateY(-50%);
+        }
+
+        /* Panel Derecho */
+        .panel-right {
+            right: 0;
+            top: 50%;
+            transform: translateX(100%) translateY(-50%);
+            width: 280px;
+            max-height: 80vh;
+            border-radius: 8px 0 0 8px;
+            border-right: none;
+            overflow: hidden;
+        }
+
+        .panel-right.visible {
+            transform: translateX(0) translateY(-50%);
+        }
+
+        /* Panel Inferior */
+        .panel-bottom {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-radius: 8px 8px 0 0;
+            border-bottom: none;
+        }
+
+        .panel-bottom.visible {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           BOTONES HI-FI 80s
+           ═══════════════════════════════════════════════════════════════════ */
+        .hifi-btn {
+            width: 44px;
+            height: 44px;
+            background: var(--bg-button);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            color: var(--accent-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-raised);
+        }
+
+        .hifi-btn:hover {
+            background: var(--bg-button-hover);
+            color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .hifi-btn.active {
+            background: var(--bg-button-hover);
+            color: var(--accent-primary);
+            box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5), var(--shadow-glow);
+            border-color: var(--accent-primary);
+        }
+
+        .hifi-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 1.5;
+        }
+
+        /* Botones de texto */
+        .hifi-btn-text {
+            padding: 8px 16px;
+            width: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            gap: 8px;
+        }
+
+        .hifi-btn-text svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           PESTAÑAS DEL PANEL DERECHO
+           ═══════════════════════════════════════════════════════════════════ */
+        .panel-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .panel-tab {
+            flex: 1;
+            padding: 12px;
+            background: var(--bg-button);
+            border: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .panel-tab:hover {
+            color: var(--text-primary);
+            background: var(--bg-button-hover);
+        }
+
+        .panel-tab.active {
+            color: var(--accent-primary);
+            background: var(--bg-panel);
+            box-shadow: inset 0 -2px 0 var(--accent-primary);
+        }
+
+        .tab-content {
+            padding: 16px;
+            max-height: calc(80vh - 50px);
+            overflow-y: auto;
+        }
+
+        .tab-content.hidden {
+            display: none;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SECCIONES DE CONFIGURACIÓN
+           ═══════════════════════════════════════════════════════════════════ */
+        .config-section {
+            margin-bottom: 20px;
+        }
+
+        .config-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--accent-primary);
+            margin-bottom: 10px;
+            opacity: 0.8;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SELECTOR DE COLOR HI-FI
+           ═══════════════════════════════════════════════════════════════════ */
+        .color-picker-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+
+        .color-option {
+            aspect-ratio: 1;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .color-option::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 60%;
+            border-radius: 50%;
+            background: currentColor;
+            box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .color-option.active {
+            border-color: #fff;
+            box-shadow: 0 0 20px currentColor;
+        }
+
+        .color-option[data-color="green"] {
+            color: var(--phosphor-green);
+        }
+
+        .color-option[data-color="white"] {
+            color: var(--phosphor-white);
+        }
+
+        .color-option[data-color="amber"] {
+            color: var(--phosphor-amber);
+        }
+
+        .color-option[data-color="blue"] {
+            color: var(--phosphor-blue);
+        }
+
+        .color-option[data-color="red"] {
+            color: var(--phosphor-red);
+        }
+
+        .color-option[data-color="orange"] {
+            color: var(--phosphor-orange);
+        }
+
+        .color-option[data-color="cyan"] {
+            color: var(--phosphor-cyan);
+        }
+
+        .color-option[data-color="purple"] {
+            color: var(--phosphor-purple);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           CONTROLES DE PANTALLA HI-FI
+           ═══════════════════════════════════════════════════════════════════ */
+        .aspect-ratio-btns {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+
+        .aspect-btn {
+            flex: 1;
+            padding: 8px 6px;
+            border: 1px solid var(--border-light);
+            background: var(--bg-button);
+            border-radius: 3px;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-raised);
+        }
+
+        .aspect-btn:hover {
+            background: var(--bg-button-hover);
+            color: var(--accent-primary);
+        }
+
+        .aspect-btn.active {
+            background: var(--bg-button-hover);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4), var(--shadow-glow);
+        }
+
+        .density-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .density-input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .density-input-group label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .density-input {
+            display: flex;
+            align-items: center;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-light);
+            border-radius: 3px;
+            overflow: hidden;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .density-input button {
+            width: 28px;
+            height: 32px;
+            border: none;
+            background: var(--bg-button);
+            color: var(--accent-secondary);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+        }
+
+        .density-input button:hover {
+            background: var(--bg-button-hover);
+            color: var(--accent-primary);
+        }
+
+        .density-input input {
+            flex: 1;
+            width: 40px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            color: var(--accent-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            padding: 6px 0;
+        }
+
+        .density-input input:focus {
+            outline: none;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SLIDERS HI-FI
+           ═══════════════════════════════════════════════════════════════════ */
+        .slider-control {
+            margin-bottom: 14px;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .slider-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .slider-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-primary);
+            text-shadow: 0 0 4px var(--accent-primary);
+        }
+
+        .slider-track {
+            position: relative;
+            height: 4px;
+            background: var(--bg-dark);
+            border-radius: 2px;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .slider-fill {
+            height: 100%;
+            background: var(--accent-primary);
+            border-radius: 2px;
+            transition: width var(--transition-fast);
+            box-shadow: 0 0 6px var(--accent-primary);
+        }
+
+        .slider-thumb {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 14px;
+            height: 14px;
+            background: var(--accent-primary);
+            border: 2px solid var(--bg-panel);
+            border-radius: 50%;
+            cursor: grab;
+            box-shadow: 0 0 6px var(--accent-primary);
+            transition: transform var(--transition-fast);
+        }
+
+        .slider-thumb:active {
+            cursor: grabbing;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           BOTONES DE PATRÓN HI-FI
+           ═══════════════════════════════════════════════════════════════════ */
+        .pattern-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+
+        .pattern-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            background: var(--bg-button);
+            border: 1px solid var(--border-light);
+            border-radius: 3px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-raised);
+        }
+
+        .pattern-btn:hover {
+            background: var(--bg-button-hover);
+            color: var(--accent-primary);
+        }
+
+        .pattern-btn.active {
+            background: var(--bg-button-hover);
+            border-color: var(--accent-primary);
+            box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4), var(--shadow-glow);
+        }
+
+        .pattern-btn.active .pattern-name {
+            color: var(--accent-primary);
+        }
+
+        .pattern-icon {
+            font-size: 1rem;
+            opacity: 0.7;
+        }
+
+        .pattern-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .pattern-name {
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .pattern-desc {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           DOCK DE HERRAMIENTAS (INFERIOR) - CYBERPUNK STYLE
+           ═══════════════════════════════════════════════════════════════════ */
+        .tool-dock {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: var(--bg-panel);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 50px;
+            box-shadow:
+                0 0 20px rgba(0, 243, 255, 0.2),
+                var(--shadow-panel);
+            z-index: 100;
+            transition: all var(--transition-normal);
+        }
+
+        .tool-dock.hidden {
+            transform: translateX(-50%) translateY(100px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .tool-dock.minimized {
+            padding: 8px;
+            border-radius: 50%;
+        }
+
+        .dock-btn {
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            background: rgba(0, 243, 255, 0.1);
+            border-radius: 50%;
+            color: var(--neon-cyan);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            position: relative;
+        }
+
+        .dock-btn::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            border: 1px solid transparent;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-magenta)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .dock-btn:hover::before {
+            opacity: 1;
+        }
+
+        .dock-btn:hover {
+            background: rgba(0, 243, 255, 0.2);
+            color: var(--text-primary);
+            transform: scale(1.1);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .dock-btn.active {
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.3), rgba(255, 0, 255, 0.3));
+            border-color: var(--neon-cyan);
+            box-shadow: var(--glow-cyan);
+        }
+
+        .dock-divider {
+            width: 1px;
+            height: 32px;
+            background: linear-gradient(to bottom, transparent, rgba(255, 0, 255, 0.5), transparent);
+        }
+
+        .dock-label {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            color: var(--neon-cyan);
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+            text-shadow: 0 0 5px var(--neon-cyan);
+        }
+
+        .dock-btn:hover .dock-label {
+            opacity: 1;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           BOTONES DE ESQUINA SUPERIOR - CYBERPUNK STYLE
+           ═══════════════════════════════════════════════════════════════════ */
+        .corner-controls {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .corner-btn {
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            background: rgba(255, 0, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            color: var(--neon-magenta);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .corner-btn::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: linear-gradient(45deg, var(--neon-magenta), var(--neon-cyan)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .corner-btn:hover::before {
+            opacity: 1;
+        }
+
+        .corner-btn:hover {
+            background: rgba(255, 0, 255, 0.2);
+            color: var(--neon-cyan);
+            transform: scale(1.05);
+            box-shadow: var(--glow-magenta);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           BOTONES DE DOCUMENTACIÓN E INSTRUCCIONES
+           ═══════════════════════════════════════════════════════════════════ */
+        .docs-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        .docs-btn {
+            padding: 10px 16px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 8px;
+            color: var(--neon-yellow);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: all var(--transition-fast);
+            position: relative;
+        }
+
+        .docs-btn::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: linear-gradient(45deg, var(--neon-yellow), var(--neon-orange)) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .docs-btn:hover::before {
+            opacity: 1;
+        }
+
+        .docs-btn:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .docs-btn .btn-icon {
+            font-size: 1rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUD MINIMALISTA (ESQUINA INFERIOR DERECHA)
+           ═══════════════════════════════════════════════════════════════════ */
+        .hud-display {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 16px;
+            background: var(--bg-panel);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            z-index: 100;
+            transition: all var(--transition-normal);
+        }
+
+        .hud-display.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        .hud-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .hud-value {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           EDITOR DE CÓDIGO (MODAL) - HI-FI 80s STYLE
+           ═══════════════════════════════════════════════════════════════════ */
+        .code-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-normal);
+        }
+
+        .code-modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .code-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg-panel);
+        }
+
+        .code-modal-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-primary);
+            text-shadow: 0 0 10px var(--accent-primary);
+        }
+
+        .code-editor-area {
+            flex: 1;
+            margin: 16px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow-inset);
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            padding: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            resize: none;
+            outline: none;
+            line-height: 1.6;
+        }
+
+        .code-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .code-modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-light);
+            background: var(--bg-panel);
+        }
+
+        .code-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .code-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .code-btn {
+            padding: 12px 24px;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-raised);
+        }
+
+        .code-btn.cancel {
+            background: var(--bg-button);
+            color: var(--text-secondary);
+        }
+
+        .code-btn.cancel:hover {
+            background: var(--bg-button-hover);
+            color: var(--text-primary);
+        }
+
+        .code-btn.run {
+            background: var(--bg-button-hover);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .code-btn.run:hover {
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           MODALES DE INSTRUCCIONES Y DOCUMENTACIÓN - HI-FI 80s STYLE
+           ═══════════════════════════════════════════════════════════════════ */
+        .info-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.98);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition-normal);
+        }
+
+        .info-modal.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .info-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-light);
+            background: var(--bg-panel);
+        }
+
+        .info-modal-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-primary);
+            text-shadow: 0 0 10px var(--accent-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-modal-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background: var(--bg-dark);
+        }
+
+        .info-section {
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+        }
+
+        .info-section h3 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .info-section h3::before {
+            content: '>';
+            color: var(--accent-secondary);
+        }
+
+        .info-section p,
+        .info-section li {
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .info-section li {
+            padding: 4px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .info-section li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: var(--accent-secondary);
+        }
+
+        .info-code {
+            background: var(--bg-dark);
+            padding: 12px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--accent-primary);
+            margin: 8px 0;
+            border-left: 2px solid var(--accent-primary);
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0;
+        }
+
+        .info-table th,
+        .info-table td {
+            padding: 8px 12px;
+            text-align: left;
+            border: 1px solid var(--border-light);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .info-table th {
+            background: var(--bg-button-hover);
+            color: var(--accent-primary);
+        }
+
+        .info-table td {
+            color: var(--text-primary);
+        }
+
+        .info-close {
+            padding: 12px 24px;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            background: var(--bg-button);
+            color: var(--accent-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            box-shadow: var(--shadow-raised);
+        }
+
+        .info-close:hover {
+            background: var(--bg-button-hover);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .info-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border-light);
+            background: var(--bg-panel);
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           RESPONSIVE DESIGN
+           ═══════════════════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            .config-panel {
+                width: calc(100% - 40px);
+                max-height: 60vh;
+            }
+
+            .corner-controls {
+                top: 10px;
+                left: 10px;
+            }
+
+            .docs-controls {
+                top: auto;
+                bottom: 90px;
+                right: 10px;
+                flex-direction: column;
+            }
+
+            .tool-dock {
+                bottom: 10px;
+                padding: 10px 16px;
+            }
+
+            .dock-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+
+            .density-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .aspect-ratio-btns {
+                flex-wrap: wrap;
+            }
+
+            .pattern-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           SCANLINES (MODO INMERSIVO)
+           ═══════════════════════════════════════════════════════════════════ */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            opacity: 0;
+            transition: opacity var(--transition-normal);
+        }
+
+        .scanlines.visible {
+            opacity: 1;
+        }
+
+        .scanlines::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 0, 0, 0.1) 2px,
+                    rgba(0, 0, 0, 0.1) 4px);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           COLLAPSIBLE CATEGORY SECTIONS
+           ═══════════════════════════════════════════════════════════════════ */
+        .category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            background: var(--bg-button);
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: all var(--transition-fast);
+        }
+
+        .category-header:hover {
+            background: var(--bg-button-hover);
+            border-color: var(--accent-primary);
+        }
+
+        .category-header.active {
+            background: var(--bg-button-hover);
+            border-color: var(--accent-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .category-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent-secondary);
+        }
+
+        .category-header.active .category-title {
+            color: var(--accent-primary);
+        }
+
+        .category-icon {
+            font-size: 0.8rem;
+            color: var(--accent-secondary);
+            transition: transform var(--transition-fast);
+        }
+
+        .category-header.active .category-icon {
+            transform: rotate(180deg);
+            color: var(--accent-primary);
+        }
+
+        .category-content {
+            display: none;
+            padding: 8px 0;
+        }
+
+        .category-content.visible {
+            display: block;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           TOAST NOTIFICATIONS
+           ═══════════════════════════════════════════════════════════════════ */
+        .toast-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .toast {
+            padding: 12px 20px;
+            background: var(--bg-panel);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--accent-primary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-raised);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all var(--transition-normal);
+        }
+
+        .toast.visible {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-color: var(--phosphor-green);
+        }
+
+        .toast.error {
+            border-color: #ff3333;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         FONDO HI-FI 80s
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="background-frame"></div>
+    <div class="scanlines" id="scanlines"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         ZONAS DE ACTIVACIÓN PARA PANELES OCULTOS
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="trigger-zone trigger-zone-top" id="triggerTop"></div>
+    <div class="trigger-zone trigger-zone-left" id="triggerLeft"></div>
+    <div class="trigger-zone trigger-zone-right" id="triggerRight"></div>
+    <div class="trigger-zone trigger-zone-bottom" id="triggerBottom"></div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PANEL SUPERIOR - Nombre App + Instrucciones + Docs
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="hidden-panel panel-top" id="panelTop">
+        <span class="app-name">PixelScreenWave 500</span>
+        <button class="hifi-btn hifi-btn-text" id="instructionsBtn" title="Instrucciones">
+            <i data-lucide="info"></i>
+            <span>Guía</span>
+        </button>
+        <button class="hifi-btn hifi-btn-text" id="docsBtn" title="Documentación">
+            <i data-lucide="book-open"></i>
+            <span>Docs</span>
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PANEL IZQUIERDO - Modos (Dibujo, Scanlines, Código)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="hidden-panel panel-left" id="panelLeft">
+        <button class="hifi-btn active" id="drawTool" title="Dibujar">
+            <i data-lucide="pencil"></i>
+        </button>
+        <button class="hifi-btn" id="eraseTool" title="Borrar">
+            <i data-lucide="eraser"></i>
+        </button>
+        <button class="hifi-btn" id="scanlinesTool" title="Scanlines">
+            <i data-lucide="monitor"></i>
+        </button>
+        <button class="hifi-btn" id="codeTool" title="Código">
+            <i data-lucide="code"></i>
+        </button>
+        <button class="hifi-btn" id="textTool" title="Texto Animado">
+            <i data-lucide="type"></i>
+        </button>
+        <button class="hifi-btn" id="clearTool" title="Limpiar">
+            <i data-lucide="trash-2"></i>
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PANEL DERECHO - Controles con Pestañas
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="hidden-panel panel-right" id="panelRight">
+        <div class="panel-tabs">
+            <button class="panel-tab active" data-tab="appearance">Apariencia</button>
+            <button class="panel-tab" data-tab="library">Biblioteca</button>
+            <button class="panel-tab" data-tab="text">Texto</button>
+        </div>
+
+        <!-- Tab: Apariencia -->
+        <div class="tab-content" id="appearanceTab">
+            <!-- Selector de Color -->
+            <div class="config-section">
+                <div class="section-label">Color del Fósforo</div>
+                <div class="color-picker-grid">
+                    <div class="color-option active" data-color="green" title="Verde Clásico"></div>
+                    <div class="color-option" data-color="white" title="Blanco"></div>
+                    <div class="color-option" data-color="amber" title="Ámbar"></div>
+                    <div class="color-option" data-color="blue" title="Azul"></div>
+                    <div class="color-option" data-color="red" title="Rojo"></div>
+                    <div class="color-option" data-color="orange" title="Naranja"></div>
+                    <div class="color-option" data-color="cyan" title="Cian"></div>
+                    <div class="color-option" data-color="purple" title="Púrpura"></div>
+                </div>
+            </div>
+
+            <!-- Relación de Aspecto -->
+            <div class="config-section">
+                <div class="section-label">Aspecto</div>
+                <div class="aspect-ratio-btns">
+                    <button class="aspect-btn" data-aspect="16:9">16:9</button>
+                    <button class="aspect-btn" data-aspect="4:3">4:3</button>
+                    <button class="aspect-btn active" data-aspect="1:1">1:1</button>
+                    <button class="aspect-btn" data-aspect="free">Free</button>
+                </div>
+            </div>
+
+            <!-- Densidad de Píxeles -->
+            <div class="config-section">
+                <div class="section-label">Densidad</div>
+                <div class="density-controls">
+                    <div class="density-input-group">
+                        <label>Columnas</label>
+                        <div class="density-input">
+                            <button class="density-dec">−</button>
+                            <input type="number" id="colsInput" value="50" min="16" max="100">
+                            <button class="density-inc">+</button>
+                        </div>
+                    </div>
+                    <div class="density-input-group">
+                        <label>Filas</label>
+                        <div class="density-input">
+                            <button class="density-dec">−</button>
+                            <input type="number" id="rowsInput" value="50" min="16" max="100">
+                            <button class="density-inc">+</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ajustes -->
+            <div class="config-section">
+                <div class="section-label">Ajustes</div>
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Brillo</span>
+                        <span class="slider-value" id="brightnessValue">100%</span>
+                    </div>
+                    <div class="slider-track">
+                        <div class="slider-fill" id="brightnessFill" style="width: 100%"></div>
+                        <div class="slider-thumb" id="brightnessThumb" style="left: 100%"></div>
+                    </div>
+                </div>
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Velocidad</span>
+                        <span class="slider-value" id="speedValue">60 FPS</span>
+                    </div>
+                    <div class="slider-track">
+                        <div class="slider-fill" id="speedFill" style="width: 100%"></div>
+                        <div class="slider-thumb" id="speedThumb" style="left: 100%"></div>
+                    </div>
+                </div>
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Glow</span>
+                        <span class="slider-value" id="glowValue">15px</span>
+                    </div>
+                    <div class="slider-track">
+                        <div class="slider-fill" id="glowFill" style="width: 50%"></div>
+                        <div class="slider-thumb" id="glowThumb" style="left: 50%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Texto -->
+        <div class="tab-content hidden" id="textTab">
+            <div class="config-section">
+                <div class="section-label">Apariencia del Texto</div>
+                <div class="color-picker-grid" id="textColorPicker">
+                    <!-- Same colors but for text -->
+                    <div class="color-option active" data-color="green" data-hex="#39ff14"
+                        style="background-color: #39ff14;"></div>
+                    <div class="color-option" data-color="white" data-hex="#f0f0f0" style="background-color: #f0f0f0;">
+                    </div>
+                    <div class="color-option" data-color="amber" data-hex="#ffcc00" style="background-color: #ffcc00;">
+                    </div>
+                    <div class="color-option" data-color="blue" data-hex="#00f3ff" style="background-color: #00f3ff;">
+                    </div>
+                    <div class="color-option" data-color="red" data-hex="#ff3333" style="background-color: #ff3333;">
+                    </div>
+                    <div class="color-option" data-color="orange" data-hex="#ff6600" style="background-color: #ff6600;">
+                    </div>
+                    <div class="color-option" data-color="cyan" data-hex="#00ffff" style="background-color: #00ffff;">
+                    </div>
+                    <div class="color-option" data-color="purple" data-hex="#ff00ff" style="background-color: #ff00ff;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <div class="section-label">Controles</div>
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Opacidad</span>
+                        <span class="slider-value" id="textOpacityValue">100%</span>
+                    </div>
+                    <div class="slider-track">
+                        <div class="slider-fill" id="textOpacityFill" style="width: 100%"></div>
+                        <div class="slider-thumb" id="textOpacityThumb" style="left: 100%"></div>
+                    </div>
+                </div>
+                <div class="toggle-control"
+                    style="margin-top: 15px; display: flex; align-items: center; justify-content: space-between;">
+                    <span class="toggle-label" style="color: var(--text-secondary); font-size: 0.8rem;">Pausar
+                        Animación</span>
+                    <label class="switch">
+                        <input type="checkbox" id="textPauseToggle">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+                <div class="slider-control" style="margin-top: 15px;">
+                    <div class="slider-header">
+                        <span class="slider-label">Velocidad Texto</span>
+                        <span class="slider-value" id="textSpeedValue">5</span>
+                    </div>
+                    <div class="slider-track">
+                        <div class="slider-fill" id="textSpeedFill" style="width: 50%"></div>
+                        <div class="slider-thumb" id="textSpeedThumb" style="left: 50%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <div class="config-section">
+                    <div class="section-label">Biblioteca de Textos</div>
+                    <div class="pattern-grid" id="textLibraryContainer" style="grid-template-columns: repeat(2, 1fr);">
+                        <!-- Se llena dinámicamente con loadTexts() -->
+                        <div class="pattern-btn">Loading...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab: Biblioteca -->
+        <div class="tab-content hidden" id="libraryTab">
+            <div class="config-section">
+                <div class="section-label">Patrones</div>
+                <div class="pattern-grid">
+                    <div class="pattern-btn active" data-pattern="scanner">
+                        <span class="pattern-icon">📡</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Scanner</span>
+                            <span class="pattern-desc">Línea oscilante</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="happy">
+                        <span class="pattern-icon">😊</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Cara Feliz</span>
+                            <span class="pattern-desc">Sonriente</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="car">
+                        <span class="pattern-icon">🚗</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Carrito</span>
+                            <span class="pattern-desc">Animado</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="heart">
+                        <span class="pattern-icon">💜</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Corazón</span>
+                            <span class="pattern-desc">Latiendo</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="dot">
+                        <span class="pattern-icon">🔵</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Punto</span>
+                            <span class="pattern-desc">Con estela</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="matrix">
+                        <span class="pattern-icon">🌧️</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Lluvia</span>
+                            <span class="pattern-desc">Dígitos</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="text">
+                        <span class="pattern-icon">💬</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Texto</span>
+                            <span class="pattern-desc">Deslizante</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="square">
+                        <span class="pattern-icon">⬜</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Cuadrado</span>
+                            <span class="pattern-desc">Parpadeando</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="spiral">
+                        <span class="pattern-icon">🌀</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Espiral</span>
+                            <span class="pattern-desc">Girando</span>
+                        </div>
+                    </div>
+                    <div class="pattern-btn" data-pattern="random">
+                        <span class="pattern-icon">🎲</span>
+                        <div class="pattern-info">
+                            <span class="pattern-name">Aleatorio</span>
+                            <span class="pattern-desc">Al azar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         PANEL INFERIOR - Controles de Reproducción
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="hidden-panel panel-bottom" id="panelBottom">
+        <button class="hifi-btn" id="stepBackward" title="Retroceso Cuadro">
+            <i data-lucide="skip-back"></i>
+        </button>
+        <button class="hifi-btn" id="rewindTool" title="Retroceso">
+            <i data-lucide="rewind"></i>
+        </button>
+        <button class="hifi-btn" id="pauseTool" title="Pausar/Reproducir">
+            <i data-lucide="pause"></i>
+        </button>
+        <button class="hifi-btn" id="fastForwardTool" title="Avance">
+            <i data-lucide="fast-forward"></i>
+        </button>
+        <button class="hifi-btn" id="stepForward" title="Avance Cuadro">
+            <i data-lucide="skip-forward"></i>
+        </button>
+        <button class="hifi-btn" id="fullscreenToggle" title="Pantalla Completa">
+            <i data-lucide="maximize"></i>
+        </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         CANVAS PRINCIPAL
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="main-canvas-container" id="canvasContainer">
+        <canvas id="mainCanvas"></canvas>
+    </div>
+
+    <!-- Debug HUD integrado en pantalla -->
+    <div class="integrated-debug" id="integratedDebug">
+        <span id="debugGrid">50×50</span> ▪ <span id="debugFps">60</span> FPS ▪ <span id="debugColor">VERDE</span> ▪
+        Hecho por @juantomoo
+    </div>
+    </div>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODAL DE CÓDIGO
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="code-modal" id="codeModal">
+        <div class="code-modal-header">
+            <span class="code-modal-title">💻 EDITOR DE CÓDIGO</span>
+            <button class="code-btn cancel" id="codeClose">✕</button>
+        </div>
+        <div class="code-editor-area">
+            <textarea class="code-textarea" id="codeInput" placeholder="// Escribe tu fórmula aquí...
+// x = columna, y = fila, t = tiempo
+// return 1 para encender, 0 para apagar
+
+const cx = cols / 2;
+const cy = rows / 2;
+const dist = Math.sqrt((x-cx)**2 + (y-cy)**2);
+return dist < 15 ? 1 : 0;"></textarea>
+        </div>
+        <div class="code-modal-footer">
+            <span class="code-hint">Ctrl + Enter para ejecutar</span>
+            <div class="code-actions">
+                <button class="code-btn cancel" id="codeCancel">Cancelar</button>
+                <button class="code-btn run" id="codeRun">▶ Ejecutar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODAL DE TEXTO ANIMADO
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="code-modal" id="textModal">
+        <div class="code-modal-header">
+            <span class="code-modal-title">💬 TEXTO ANIMADO (TYPEWRITER)</span>
+            <button class="code-btn cancel" id="textClose">✕</button>
+        </div>
+        <div class="code-editor-area">
+            <textarea class="code-textarea" id="textInput" placeholder="Escribe tu mensaje aquí...
+Se mostrará con efecto de máquina de escribir.
+Soporta múltiples líneas."></textarea>
+            <div class="text-controls"
+                style="margin-top: 10px; display: flex; gap: 10px; align-items: center; color: var(--text-primary); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+                <label><input type="checkbox" id="textCursor" checked> Cursor parpadeante</label>
+                <label>Velocidad: <input type="range" id="textSpeed" min="1" max="10" value="5"></label>
+            </div>
+        </div>
+        <div class="code-modal-footer">
+            <div class="code-actions">
+                <button class="code-btn cancel" id="textCancel">Cancelar</button>
+                <button class="code-btn run" id="textRun">▶ Animar Texto</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODAL DE INSTRUCCIONES
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="code-modal" id="instructionsModal">
+        <div class="code-modal-header">
+            <span class="code-modal-title">👾 MANUAL DE OPERACIONES</span>
+            <button class="code-btn cancel" id="instructionsClose">CERRAR</button>
+        </div>
+        <div class="code-editor-area" style="padding: 20px; overflow-y: auto; color: var(--text-primary);">
+            <div class="info-section">
+                <h3>CONTROLES BÁSICOS</h3>
+                <ul>
+                    <li><strong>Click / Touch:</strong> Dibujar píxeles</li>
+                    <li><strong>Panel Izquierdo:</strong> Herramientas (Dibujar, Borrar, FX)</li>
+                    <li><strong>Panel Derecho:</strong> Ajustes y Biblioteca</li>
+                    <li><strong>Tecla F:</strong> Pantalla Completa</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h3>MODOS</h3>
+                <ul>
+                    <li><strong>Scanner:</strong> Línea de barrido estilo radar.</li>
+                    <li><strong>Reactive:</strong> Píxeles reaccionan al mouse/toque.</li>
+                    <li><strong>Code:</strong> Escribe tus propias fórmulas matemáticas.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="code-modal-footer">
+            <div class="code-hint">PixelScreenWave 5000 v2.0</div>
+        </div>
+    </div>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MODAL DE DOCUMENTACIÓN
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="code-modal" id="docsModal">
+        <div class="code-modal-header">
+            <span class="code-modal-title">📖 DOCUMENTACIÓN</span>
+            <button class="code-btn cancel" id="docsClose">CERRAR</button>
+        </div>
+        <div class="code-editor-area" style="padding: 20px; overflow-y: auto; color: var(--text-primary);">
+            <div class="info-section">
+                <h3>PIXELSCREENWAVE 5000</h3>
+                <p>Una pantalla de píxeles estilo retro con animaciones y efectos personalizables.</p>
+            </div>
+
+            <div class="info-section">
+                <h3>BIBLIOTECA DE ANIMACIONES</h3>
+                <ul>
+                    <li><strong>Naturaleza y Clima:</strong> Lluvia, nieve, fuego, olas, viento, estrellas.</li>
+                    <li><strong>Emojis y Caras:</strong> Corazón latiente, carita feliz, fantasma, pacman.</li>
+                    <li><strong>Abstracto:</strong> Espiral, plasma, ajedrez, ripples, caleidoscopio.</li>
+                    <li><strong>UI y Utilidades:</strong> Reloj, spinner, batería, ECG, radar.</li>
+                    <li><strong>Sci-Fi:</strong> Agujero negro, láser, campo de fuerza, ADN, cohete.</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h3>BIBLIOTECA DE TEXTOS</h3>
+                <ul>
+                    <li><strong>Cuentos EN EL NIDO:</strong> Colección de microrrelatos de ciencia ficción por
+                        @juantomoo.</li>
+                    <li><strong>Demos:</strong> Frases retro, cyberpunk y divertidas para pruebas.</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h3>CONTROLES DE REPRODUCCIÓN</h3>
+                <ul>
+                    <li><strong>⏮ Retroceso Cuadro:</strong> Retrocede la animación un cuadro.</li>
+                    <li><strong>⏪ Retroceso:</strong> Reproduce la animación hacia atrás.</li>
+                    <li><strong>⏸ Pausar/Reproducir:</strong> Pausa o reanuda la animación.</li>
+                    <li><strong>⏩ Avance:</strong> Acelera la animación hacia adelante.</li>
+                    <li><strong>⏭ Avance Cuadro:</strong> Avanza la animación un cuadro.</li>
+                </ul>
+            </div>
+
+            <div class="info-section">
+                <h3>CÓDIGO PERSONALIZADO</h3>
+                <p>Escribe fórmulas matemáticas usando las variables:</p>
+                <div class="info-code">
+                    x = columna actual (0 a cols-1)
+                    y = fila actual (0 a rows-1)
+                    t = tiempo transcurrido
+                    cols = número de columnas
+                    rows = número de filas
+                    return valor 0-1 para intensidad del píxel
+                </div>
+            </div>
+        </div>
+        <div class="code-modal-footer">
+            <div class="code-hint">PixelScreenWave 5000 v2.0 - Hecho por @juantomoo</div>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         SCRIPTS Y UTILIDADES
+         ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- Animaciones locales (fallback) -->
+    <script src="animaciones.js"></script>
+    <script src="textos.js"></script>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════
+        // VAPORGRID 5000 v2.0 - MOTOR PRINCIPAL REDISEÑADO
+        // ═══════════════════════════════════════════════════════════════════
+
+        class VaporGrid5000 {
+            constructor() {
+                // Configuración por defecto
+                this.config = {
+                    cols: 50,
+                    rows: 50,
+                    aspectRatio: '1:1',
+                    brightness: 100,
+                    speed: 60,
+                    glow: 15,
+                    color: '#39ff14',
+                    isFullscreen: false,
+                    showHUD: true,
+                    showScanlines: false,
+                    isPaused: false,
+                    currentTool: 'draw',
+                    currentPattern: 'scanner'
+                };
+
+                // Colores de fósforo clásicos
+                this.phosphorColors = {
+                    green: '#39ff14',
+                    white: '#f0f0f0',
+                    amber: '#ffcc00',
+                    blue: '#00f3ff',
+                    red: '#ff3333',
+                    orange: '#ff6600',
+                    cyan: '#00ffff',
+                    purple: '#ff00ff'
+                };
+
+                // Canvas y contexto
+                this.canvas = document.getElementById('mainCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.pixels = [];
+                this.time = 0;
+                this.isRunning = true;
+                this.customFormula = null;
+                this.animationId = null;
+                this.lastFrameTime = 0;
+
+                // Canvas offscreen para texto
+                // FIX: willReadFrequently added to silence warning and improve performance
+                this.textCanvas = document.createElement('canvas');
+                this.textCtx = this.textCanvas.getContext('2d', { willReadFrequently: true });
+
+                // Configuración de texto
+                this.config.textMessage = "PIXEL\nSCREEN\nWAVE";
+                this.config.textSpeed = 5;
+                this.config.textCursor = true;
+                this.config.typewriterIndex = 0;
+                this.config.textColor = '#39ff14'; // Decoupled from main color
+                this.config.textOpacity = 1.0;     // New opacity control
+                this.config.textPaused = false;    // New pause control
+
+                // Estado de dibujo
+                this.isDrawing = false;
+                this.drawMode = 'draw'; // 'draw' o 'erase'
+
+                // FPS tracking
+                this.frameCount = 0;
+                this.lastFpsUpdate = 0;
+
+                this.init();
+            }
+
+            init() {
+                this.loadConfig();
+                this.setupCanvas();
+                this.initPixels();
+                this.setupEventListeners();
+                this.loadAnimations();
+                this.loadTexts();
+                this.start();
+                this.render();
+            }
+
+            async loadAnimations() {
+                let data;
+
+                // Prioritize local data if available (avoids CORS errors on file://)
+                if (window.ANIMATIONS_DATA) {
+                    data = window.ANIMATIONS_DATA;
+                } else {
+                    try {
+                        const response = await fetch('animaciones.json');
+                        data = await response.json();
+                    } catch (error) {
+                        console.warn('Fetch failed and no local fallback found:', error);
+                        this.showToast('No se pudieron cargar animaciones', 'error');
+                        return;
+                    }
+                }
+
+                const container = document.getElementById('libraryTab');
+                if (!container) return;
+                container.innerHTML = ''; // Limpiar contenido estático
+
+                Object.entries(data).forEach(([key, category]) => {
+                    // Crear sección colapsable
+                    const section = document.createElement('div');
+                    section.className = 'config-section';
+
+                    // Header colapsable
+                    const header = document.createElement('div');
+                    header.className = 'category-header';
+                    header.innerHTML = `
+                        <span class="category-title">${category.label}</span>
+                        <span class="category-icon">▼</span>
+                    `;
+
+                    // Contenido colapsable
+                    const content = document.createElement('div');
+                    content.className = 'category-content';
+
+                    const grid = document.createElement('div');
+                    grid.className = 'pattern-grid';
+
+                    category.effects.forEach(effect => {
+                        const btn = document.createElement('div');
+                        btn.className = 'pattern-btn';
+                        btn.dataset.pattern = effect.name;
+                        // Asignar icono basado en nombre o categoría
+                        const iconMap = {
+                            'Nature': '🌿', 'Emoji': '😀', 'Abstract': '🌀', 'UI': '🖥️', 'SciFi': '👽',
+                            'Lluvia': '🌧️', 'Fuego': '🔥', 'Nieve': '❄️', 'Corazón': '❤️', 'Fantasma': '👻'
+                        };
+                        let icon = '✨';
+                        for (const k in iconMap) {
+                            if (effect.name.includes(k) || category.label.includes(k)) icon = iconMap[k];
+                        }
+
+                        btn.innerHTML = `
+                                    <span class="pattern-icon">${icon}</span>
+                                    <div class="pattern-info">
+                                        <span class="pattern-name">${effect.name}</span>
+                                    </div>
+                                `;
+
+                        btn.addEventListener('click', () => {
+                            // Remover active de todos
+                            document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+
+                            // Compilar función
+                            try {
+                                const userFn = new Function('x', 'y', 't', 'cols', 'rows', effect.code);
+                                this.customFormula = userFn;
+                                this.config.currentPattern = 'custom';
+                                this.time = 0;
+                                this.isRunning = true;
+                                // Ensure app is not paused
+                                if (this.config.isPaused) document.getElementById('pauseTool')?.click();
+                            } catch (e) {
+                                console.error('Error compiling effect:', e);
+                                this.showToast('Error en animación', 'error');
+                            }
+                        });
+
+                        grid.appendChild(btn);
+                    });
+
+                    content.appendChild(grid);
+
+                    // Toggle colapsable
+                    header.addEventListener('click', () => {
+                        // Cerrar otros
+                        container.querySelectorAll('.category-header.active').forEach(h => {
+                            if (h !== header) {
+                                h.classList.remove('active');
+                                h.nextElementSibling?.classList.remove('visible');
+                            }
+                        });
+                        header.classList.toggle('active');
+                        content.classList.toggle('visible');
+                    });
+
+                    section.appendChild(header);
+                    section.appendChild(content);
+                    container.appendChild(section);
+                });
+            }
+
+            async loadTexts() {
+                let data;
+
+                // Prioritize local data
+                if (window.TEXTS_DATA) {
+                    data = window.TEXTS_DATA;
+                } else {
+                    try {
+                        const response = await fetch('textos.json');
+                        data = await response.json();
+                    } catch (error) {
+                        console.warn('Text fetch failed:', error);
+                        // Fallback simple si falla todo
+                        data = {
+                            "error": {
+                                "label": "Básicos",
+                                "texts": [{ "label": "Hola", "content": "HOLA" }]
+                            }
+                        };
+                    }
+                }
+
+                const container = document.getElementById('textLibraryContainer');
+                if (!container) return;
+                container.innerHTML = '';
+
+                Object.entries(data).forEach(([key, category]) => {
+                    // Crear sección colapsable
+                    const section = document.createElement('div');
+                    section.className = 'config-section';
+                    section.style.marginBottom = '8px';
+
+                    // Header colapsable
+                    const header = document.createElement('div');
+                    header.className = 'category-header';
+                    header.innerHTML = `
+                        <span class="category-title">${category.label}</span>
+                        <span class="category-icon">▼</span>
+                    `;
+
+                    // Contenido colapsable
+                    const content = document.createElement('div');
+                    content.className = 'category-content';
+
+                    category.texts.forEach(textItem => {
+                        const btn = document.createElement('div');
+                        btn.className = 'pattern-btn hifi-btn-text';
+                        btn.style.width = '100%';
+                        btn.style.marginBottom = '6px';
+                        btn.style.fontSize = '0.65rem';
+                        btn.style.border = '1px solid var(--border-light)';
+                        btn.style.display = 'flex';
+                        btn.style.justifyContent = 'space-between';
+                        btn.style.alignItems = 'center';
+                        btn.style.padding = '8px 12px';
+
+                        btn.innerHTML = `
+                            <span style="color: var(--accent-secondary); font-weight: 600;">${textItem.label}</span>
+                            <span style="color: var(--text-secondary); font-size: 0.55rem; font-family: 'JetBrains Mono'">"${textItem.content.substring(0, 10)}${textItem.content.length > 10 ? '...' : ''}"</span>
+                        `;
+
+                        btn.addEventListener('click', () => {
+                            const input = document.getElementById('textInput');
+                            if (input) input.value = textItem.content;
+
+                            this.config.textMessage = textItem.content;
+                            this.config.textOpacity = 100;
+                            this.config.textPaused = false;
+                            this.time = 0;
+                            this.saveConfig();
+
+                            // Visual feedback
+                            document.querySelectorAll('#textLibraryContainer .pattern-btn').forEach(b => b.classList.remove('active'));
+                            btn.classList.add('active');
+                            setTimeout(() => btn.classList.remove('active'), 500);
+
+                            this.showToast(`Texto cargado: ${textItem.label}`, 'success');
+                            this.render();
+                        });
+
+                        content.appendChild(btn);
+                    });
+
+                    // Toggle colapsable
+                    header.addEventListener('click', () => {
+                        // Cerrar otros
+                        container.querySelectorAll('.category-header.active').forEach(h => {
+                            if (h !== header) {
+                                h.classList.remove('active');
+                                h.nextElementSibling?.classList.remove('visible');
+                            }
+                        });
+                        header.classList.toggle('active');
+                        content.classList.toggle('visible');
+                    });
+
+                    section.appendChild(header);
+                    section.appendChild(content);
+                    container.appendChild(section);
+                });
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // CONFIGURACIÓN Y PERSISTENCIA
+            // ═══════════════════════════════════════════════════════════════
+
+            loadConfig() {
+                const saved = localStorage.getItem('pixelscreenwave500');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        this.config = { ...this.config, ...parsed };
+                        this.applyConfigToUI();
+                    } catch (e) {
+                        console.warn('Error loading config:', e);
+                    }
+                }
+            }
+
+            saveConfig() {
+                localStorage.setItem('pixelscreenwave500', JSON.stringify(this.config));
+            }
+
+            applyConfigToUI() {
+                document.getElementById('colsInput').value = this.config.cols;
+                document.getElementById('rowsInput').value = this.config.rows;
+
+                document.querySelectorAll('.aspect-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.aspect === this.config.aspectRatio);
+                });
+
+                document.querySelectorAll('.color-option').forEach(opt => {
+                    opt.classList.toggle('active', this.rgbToHex(this.config.color) === this.phosphorColors[opt.dataset.color]);
+                });
+
+                document.querySelectorAll('.pattern-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.pattern === this.config.currentPattern);
+                });
+
+                this.updateSliders();
+                this.updateHUD();
+            }
+
+            rgbToHex(color) {
+                if (color.startsWith('#')) return color;
+                const temp = document.createElement('div');
+                temp.style.color = color;
+                document.body.appendChild(temp);
+                const rgb = window.getComputedStyle(temp).color;
+                document.body.removeChild(temp);
+
+                const match = rgb.match(/(\d+),\s*(\d+),\s*(\d+)/);
+                if (!match) return color;
+
+                return '#' + match.slice(1).map(x => parseInt(x).toString(16).padStart(2, '0')).join('');
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // CONFIGURACIÓN DEL CANVAS
+            // ═══════════════════════════════════════════════════════════════
+
+            setupCanvas() {
+                const container = document.getElementById('canvasContainer');
+                let maxWidth, maxHeight;
+
+                if (this.config.isFullscreen) {
+                    maxWidth = window.innerWidth - 40;
+                    maxHeight = window.innerHeight - 40;
+                } else {
+                    const baseSize = Math.min(window.innerWidth, window.innerHeight) * 0.7;
+                    maxWidth = baseSize;
+                    maxHeight = baseSize;
+                }
+
+                // Aplicar relación de aspecto
+                const aspectRatios = {
+                    '16:9': { w: 16, h: 9 },
+                    '4:3': { w: 4, h: 3 },
+                    '1:1': { w: 1, h: 1 },
+                    'free': { w: maxWidth, h: maxHeight }
+                };
+
+                const ratio = aspectRatios[this.config.aspectRatio] || aspectRatios['1:1'];
+
+                if (this.config.aspectRatio === 'free') {
+                    this.canvas.width = maxWidth;
+                    this.canvas.height = maxHeight;
+                } else {
+                    const aspect = ratio.w / ratio.h;
+                    if (maxWidth / maxHeight > aspect) {
+                        this.canvas.height = maxHeight;
+                        this.canvas.width = maxHeight * aspect;
+                    } else {
+                        this.canvas.width = maxWidth;
+                        this.canvas.height = maxWidth / aspect;
+                    }
+                }
+
+                container.style.width = this.canvas.width + 'px';
+                container.style.height = this.canvas.height + 'px';
+
+                // Actualizar canvas de texto
+                this.textCanvas.width = this.config.cols;
+                this.textCanvas.height = this.config.rows;
+
+                this.updateSliders();
+            }
+
+            initPixels() {
+                this.pixels = new Array(this.config.rows * this.config.cols).fill(0);
+                this.textGrid = new Array(this.config.rows * this.config.cols).fill(0);
+            }
+
+            resizeGrid(newCols, newRows) {
+                const oldPixels = this.pixels;
+                const oldTextGrid = this.textGrid;
+                const oldCols = this.config.cols;
+                const oldRows = this.config.rows;
+
+                this.config.cols = newCols;
+                this.config.rows = newRows;
+                this.pixels = new Array(newRows * newCols).fill(0);
+                this.textGrid = new Array(newRows * newCols).fill(0);
+
+                // Intentar mantener el patrón anterior
+                const minCols = Math.min(oldCols, newCols);
+                const minRows = Math.min(oldRows, newRows);
+
+                for (let y = 0; y < minRows; y++) {
+                    for (let x = 0; x < minCols; x++) {
+                        this.pixels[y * newCols + x] = oldPixels[y * oldCols + x] || 0;
+                    }
+                }
+
+                this.setupCanvas();
+                this.updateHUD();
+                this.saveConfig();
+                this.showToast(`Grid: ${newCols}×${newRows}`, 'success');
+            }
+
+            // ... (Event listeners se actualizarán luego)
+
+            // ═══════════════════════════════════════════════════════════════
+            // PATRONES PRE-DEFINIDOS (PARCIAL)
+            // ═══════════════════════════════════════════════════════════════
+
+            // (Omitiendo otros patrones para enfocar en text)
+
+            // ...
+
+            // Reemplazo del método pattern.text dentro de setupEventListeners o donde esté definido
+            // Nota: Como 'patterns' es una propiedad de clase en este código (no método), debo ir a la definición.
+            // La definición está más abajo. Aquí solo actualizo setupCanvas.
+            // Espera, estoy reemplazando bloques. Mejor uso multi_replace o busco la definición de patterns.text.
+            // La herramienta view_file mostró patterns empezando en 2433.
+            // Voy a usar un replace separado para patterns.text.
+
+            // En este bloque solo actualizo setupCanvas.
+
+            setupCanvas() {
+                const container = document.getElementById('canvasContainer');
+
+                // Márgenes para UI (docks, headers)
+                const marginX = this.config.isFullscreen ? 0 : 40;
+                const marginY = this.config.isFullscreen ? 0 : 80; // Un poco más arriba/abajo para paneles
+
+                const maxWidth = window.innerWidth - marginX;
+                const maxHeight = window.innerHeight - marginY;
+
+                // Aplicar relación de aspecto
+                const aspectRatios = {
+                    '16:9': { w: 16, h: 9 },
+                    '4:3': { w: 4, h: 3 },
+                    '1:1': { w: 1, h: 1 },
+                    'free': { w: maxWidth, h: maxHeight }
+                };
+
+                const ratio = aspectRatios[this.config.aspectRatio] || aspectRatios['1:1'];
+
+                if (this.config.aspectRatio === 'free') {
+                    this.canvas.width = maxWidth;
+                    this.canvas.height = maxHeight;
+                } else {
+                    const targetAspect = ratio.w / ratio.h;
+                    const windowAspect = maxWidth / maxHeight;
+
+                    if (windowAspect > targetAspect) {
+                        // La ventana es más ancha que el objetivo: limitado por altura
+                        this.canvas.height = maxHeight;
+                        this.canvas.width = maxHeight * targetAspect;
+                    } else {
+                        // La ventana es más alta que el objetivo: limitado por ancho
+                        this.canvas.width = maxWidth;
+                        this.canvas.height = maxWidth / targetAspect;
+                    }
+                }
+                // Text Canvas Size
+                if (this.textCanvas) {
+                    this.textCanvas.width = this.config.cols;
+                    this.textCanvas.height = this.config.rows;
+                }
+
+                this.updateSliders();
+            }
+
+            initPixels() {
+                this.pixels = new Array(this.config.rows * this.config.cols).fill(0);
+                this.textGrid = new Array(this.config.rows * this.config.cols).fill(0); // Buffer para texto
+            }
+
+            resizeGrid(newCols, newRows) {
+                const oldPixels = this.pixels;
+                const oldTextGrid = this.textGrid; // Preserve text state
+                const oldCols = this.config.cols;
+                const oldRows = this.config.rows;
+
+                this.config.cols = newCols;
+                this.config.rows = newRows;
+                this.pixels = new Array(newRows * newCols).fill(0);
+                this.textGrid = new Array(newRows * newCols).fill(0);
+
+                // Intentar mantener el patrón anterior
+                const minCols = Math.min(oldCols, newCols);
+                const minRows = Math.min(oldRows, newRows);
+
+                for (let y = 0; y < minRows; y++) {
+                    for (let x = 0; x < minCols; x++) {
+                        this.pixels[y * newCols + x] = oldPixels[y * oldCols + x] || 0;
+                    }
+                }
+
+                this.setupCanvas();
+                this.updateHUD();
+                this.saveConfig();
+                this.showToast(`Grid: ${newCols}×${newRows}`, 'success');
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // EVENTOS
+            // ═══════════════════════════════════════════════════════════════
+
+            setupEventListeners() {
+                // Inicializar Lucide Icons
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+
+                // Redimensionar ventana
+                window.addEventListener('resize', () => {
+                    this.setupCanvas();
+                    this.render();
+                });
+
+                // ═══════════════════════════════════════════════════════════
+                // PANELES OCULTOS - HOVER REVEAL
+                // ═══════════════════════════════════════════════════════════
+                const panelMappings = [
+                    { trigger: 'triggerTop', panel: 'panelTop' },
+                    { trigger: 'triggerLeft', panel: 'panelLeft' },
+                    { trigger: 'triggerRight', panel: 'panelRight' },
+                    { trigger: 'triggerBottom', panel: 'panelBottom' }
+                ];
+
+                panelMappings.forEach(({ trigger, panel }) => {
+                    const triggerEl = document.getElementById(trigger);
+                    const panelEl = document.getElementById(panel);
+
+                    if (triggerEl && panelEl) {
+                        // Mostrar panel al entrar en zona de activación
+                        triggerEl.addEventListener('mouseenter', () => {
+                            panelEl.classList.add('visible');
+                        });
+
+                        // Mantener panel abierto mientras mouse esté sobre él
+                        panelEl.addEventListener('mouseenter', () => {
+                            panelEl.classList.add('visible');
+                        });
+
+                        panelEl.addEventListener('mouseleave', () => {
+                            panelEl.classList.remove('visible');
+                        });
+                    }
+                });
+
+                // ═══════════════════════════════════════════════════════════
+                // TABS DEL PANEL DERECHO
+                // ═══════════════════════════════════════════════════════════
+                document.querySelectorAll('.panel-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        document.querySelectorAll('.panel-tab').forEach(t => t.classList.remove('active'));
+                        tab.classList.add('active');
+
+                        const tabName = tab.dataset.tab;
+                        document.querySelectorAll('.tab-content').forEach(content => {
+                            content.classList.add('hidden');
+                        });
+
+                        const targetTab = document.getElementById(tabName + 'Tab');
+                        if (targetTab) targetTab.classList.remove('hidden');
+                    });
+                });
+
+                // ═══════════════════════════════════════════════════════════
+                // PANTALLA COMPLETA
+                // ═══════════════════════════════════════════════════════════
+                document.getElementById('fullscreenToggle')?.addEventListener('click', () => {
+                    this.toggleFullscreen();
+                });
+
+                document.addEventListener('fullscreenchange', () => {
+                    this.config.isFullscreen = !!document.fullscreenElement;
+                    document.getElementById('scanlines')?.classList.toggle('visible', this.config.showScanlines);
+                    this.setupCanvas();
+                    this.saveConfig();
+                });
+
+                // Toggle HUD (legacy - ahora es integrado)
+                document.getElementById('hudToggle')?.addEventListener('click', () => {
+                    this.config.showHUD = !this.config.showHUD;
+                    document.getElementById('hudDisplay')?.classList.toggle('hidden', !this.config.showHUD);
+                    document.getElementById('integratedDebug')?.classList.toggle('hidden', !this.config.showHUD);
+                    this.saveConfig();
+                });
+
+                // Botones de documentación
+                document.getElementById('instructionsBtn')?.addEventListener('click', () => {
+                    document.getElementById('instructionsModal')?.classList.add('visible');
+                });
+
+                document.getElementById('docsBtn')?.addEventListener('click', () => {
+                    document.getElementById('docsModal')?.classList.add('visible');
+                });
+
+                document.getElementById('instructionsClose')?.addEventListener('click', () => {
+                    document.getElementById('instructionsModal')?.classList.remove('visible');
+                });
+
+                document.getElementById('docsClose')?.addEventListener('click', () => {
+                    document.getElementById('docsModal')?.classList.remove('visible');
+                });
+
+                // Selector de color
+                document.querySelectorAll('.color-option').forEach(opt => {
+                    opt.addEventListener('click', () => {
+                        document.querySelectorAll('.color-option').forEach(o => o.classList.remove('active'));
+                        opt.classList.add('active');
+                        this.config.color = this.phosphorColors[opt.dataset.color];
+                        this.updateHUD(); // Actualiza colores dinámicos y debug
+                        this.saveConfig();
+                        this.render();
+                    });
+                });
+
+                // Relación de aspecto
+                document.querySelectorAll('.aspect-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.aspect-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.config.aspectRatio = btn.dataset.aspect;
+                        this.setupCanvas();
+                        this.render();
+                        this.saveConfig();
+                    });
+                });
+
+                // Densidad de píxeles
+                document.querySelectorAll('.density-input').forEach(group => {
+                    const input = group.querySelector('input');
+                    const decBtn = group.querySelector('.density-dec');
+                    const incBtn = group.querySelector('.density-inc');
+
+                    decBtn.addEventListener('click', () => {
+                        const val = Math.max(16, parseInt(input.value) - 1);
+                        input.value = val;
+                        this.handleDensityChange();
+                    });
+
+                    incBtn.addEventListener('click', () => {
+                        const val = Math.min(100, parseInt(input.value) + 1);
+                        input.value = val;
+                        this.handleDensityChange();
+                    });
+
+                    input.addEventListener('change', () => this.handleDensityChange());
+                });
+
+                // Sliders (brillo, velocidad, glow)
+                this.setupSlider('brightness', 10, 100, '%', (val) => {
+                    this.config.brightness = val;
+                    this.render();
+                });
+
+                this.setupSlider('speed', 5, 60, ' FPS', (val) => {
+                    this.config.speed = val;
+                });
+
+                this.setupSlider('glow', 0, 40, 'px', (val) => {
+                    this.config.glow = val;
+                    this.render();
+                });
+
+                // Slider Opacidad Texto
+                this.setupSlider('textOpacity', 0, 100, '%', (val) => {
+                    this.config.textOpacity = val;
+                    // No need to render immediately if loop is running, but good for feedback
+                    if (this.config.isPaused) this.render();
+                });
+
+                // Slider Velocidad Texto
+                this.setupSlider('textSpeed', 1, 10, '', (val) => {
+                    this.config.textSpeed = val;
+                });
+
+                // Toggle Pausa Texto
+                document.getElementById('textPauseToggle')?.addEventListener('change', (e) => {
+                    this.config.textPaused = e.target.checked;
+                });
+
+                // Selector Color Texto (reutilizando clase color-option pero en contenedor específico)
+                document.querySelectorAll('#textColorPicker .color-option').forEach(opt => {
+                    opt.addEventListener('click', () => {
+                        document.querySelectorAll('#textColorPicker .color-option').forEach(o => o.classList.remove('active'));
+                        opt.classList.add('active');
+                        this.config.textColor = opt.dataset.hex;
+                        this.saveConfig();
+                        if (this.config.isPaused) this.render();
+                    });
+                });
+
+                // Patrones
+                document.querySelectorAll('.pattern-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.config.currentPattern = btn.dataset.pattern;
+                        this.customFormula = null;
+                        this.time = 0;
+                        this.saveConfig();
+                    });
+                });
+
+                // Herramientas del dock
+                this.setupDockButtons();
+
+                // Canvas - dibujar
+                this.canvas.addEventListener('mousedown', (e) => this.startDrawing(e));
+                this.canvas.addEventListener('mousemove', (e) => this.drawAt(e));
+                this.canvas.addEventListener('mouseup', () => this.isDrawing = false);
+                this.canvas.addEventListener('mouseleave', () => this.isDrawing = false);
+
+                // Touch support
+                this.canvas.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    this.startDrawing(e);
+                });
+                this.canvas.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    this.drawAt(e);
+                });
+                this.canvas.addEventListener('touchend', () => this.isDrawing = false);
+
+                // Modal de código
+                document.getElementById('codeTool')?.addEventListener('click', () => {
+                    document.getElementById('codeModal')?.classList.add('visible');
+                });
+
+                document.getElementById('codeClose')?.addEventListener('click', () => {
+                    document.getElementById('codeModal')?.classList.remove('visible');
+                });
+
+                document.getElementById('codeCancel')?.addEventListener('click', () => {
+                    document.getElementById('codeModal')?.classList.remove('visible');
+                });
+
+                document.getElementById('codeRun')?.addEventListener('click', () => this.runCode());
+                document.getElementById('codeInput')?.addEventListener('keydown', (e) => {
+                    if (e.ctrlKey && e.key === 'Enter') this.runCode();
+                });
+
+                // Modal de Texto Animado
+                document.getElementById('textTool')?.addEventListener('click', () => {
+                    document.getElementById('textModal')?.classList.add('visible');
+                });
+
+                document.getElementById('textClose')?.addEventListener('click', () => {
+                    document.getElementById('textModal')?.classList.remove('visible');
+                });
+
+                document.getElementById('textCancel')?.addEventListener('click', () => {
+                    document.getElementById('textModal')?.classList.remove('visible');
+                });
+
+                document.getElementById('textRun')?.addEventListener('click', () => {
+                    this.config.textMessage = document.getElementById('textInput').value || "HELLO";
+                    this.config.textSpeed = parseInt(document.getElementById('textSpeed').value) || 5;
+                    this.config.textCursor = document.getElementById('textCursor').checked;
+
+                    // Reset text animation state
+                    this.time = 0;
+                    // Ensure opacity is visible if it was 0
+                    if (this.config.textOpacity === 0) this.config.textOpacity = 100;
+                    this.saveConfig();
+
+                    document.getElementById('textModal')?.classList.remove('visible');
+                    this.showToast('Texto actualizado', 'success');
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'F' || e.key === 'f') this.toggleFullscreen();
+                    if (e.key === 'Escape') {
+                        document.getElementById('codeModal')?.classList.remove('visible');
+                        document.getElementById('instructionsModal')?.classList.remove('visible');
+                        document.getElementById('docsModal')?.classList.remove('visible');
+                    }
+                });
+            }
+
+            setupSlider(name, min, max, unit, callback) {
+                const track = document.getElementById(name + 'Fill');
+                const thumb = document.getElementById(name + 'Thumb');
+                const valueEl = document.getElementById(name + 'Value');
+                let value = this.config[name];
+
+                const updatePosition = () => {
+                    const percent = ((value - min) / (max - min)) * 100;
+                    track.style.width = percent + '%';
+                    thumb.style.left = percent + '%';
+                    valueEl.textContent = Math.round(value) + unit;
+                };
+
+                let isDragging = false;
+
+                const onMove = (clientX) => {
+                    const rect = track.getBoundingClientRect();
+                    let percent = (clientX - rect.left) / rect.width;
+                    percent = Math.max(0, Math.min(1, percent));
+                    value = min + percent * (max - min);
+                    updatePosition();
+                    callback(Math.round(value));
+                };
+
+                thumb.addEventListener('mousedown', (e) => {
+                    isDragging = true;
+                    e.preventDefault();
+                });
+
+                document.addEventListener('mousemove', (e) => {
+                    if (isDragging) onMove(e.clientX);
+                });
+
+                document.addEventListener('mouseup', () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        this.saveConfig();
+                    }
+                });
+
+                updatePosition();
+            }
+
+            updateSliders() {
+                // Actualizar sliders según configuración
+                ['brightness', 'speed', 'glow'].forEach(name => {
+                    const fill = document.getElementById(name + 'Fill');
+                    const thumb = document.getElementById(name + 'Thumb');
+                    const valueEl = document.getElementById(name + 'Value');
+                    const mins = { brightness: 10, speed: 5, glow: 0 };
+                    const maxs = { brightness: 100, speed: 60, glow: 40 };
+                    const units = { brightness: '%', speed: ' FPS', glow: 'px' };
+
+                    const percent = ((this.config[name] - mins[name]) / (maxs[name] - mins[name])) * 100;
+                    fill.style.width = percent + '%';
+                    thumb.style.left = percent + '%';
+                    valueEl.textContent = Math.round(this.config[name]) + units[name];
+                });
+            }
+
+            setupDockButtons() {
+                // Dibujar
+                document.getElementById('drawTool')?.addEventListener('click', () => {
+                    this.drawMode = 'draw';
+                    this.updateDockButtons('drawTool');
+                });
+
+                // Borrar
+                document.getElementById('eraseTool')?.addEventListener('click', () => {
+                    this.drawMode = 'erase';
+                    this.updateDockButtons('eraseTool');
+                });
+
+                // Limpiar
+                document.getElementById('clearTool')?.addEventListener('click', () => {
+                    this.pixels.fill(0);
+                    this.render();
+                    this.showToast('Canvas limpiado', 'success');
+                });
+
+                // Pausar/Reanudar
+                document.getElementById('pauseTool')?.addEventListener('click', () => {
+                    this.config.isPaused = !this.config.isPaused;
+                    const pauseBtn = document.getElementById('pauseTool');
+                    if (pauseBtn) {
+                        pauseBtn.innerHTML = this.config.isPaused ? '<i data-lucide="play"></i>' : '<i data-lucide="pause"></i>';
+                        pauseBtn.title = this.config.isPaused ? 'Reanudar' : 'Pausar';
+                        if (typeof lucide !== 'undefined') lucide.createIcons();
+                    }
+                    if (!this.config.isPaused) {
+                        this.lastFrameTime = 0;
+                        this.loop(0);
+                    }
+                });
+
+                // Retroceso cuadro a cuadro
+                document.getElementById('stepBackward')?.addEventListener('click', () => {
+                    this.time = Math.max(0, this.time - 0.05);
+                    this.render();
+                    this.showToast('← Cuadro', 'success');
+                });
+
+                // Retroceso (reproducir hacia atrás)
+                document.getElementById('rewindTool')?.addEventListener('click', () => {
+                    if (!this.timeDirection) this.timeDirection = 1;
+                    this.timeDirection = -1;
+                    const btn = document.getElementById('rewindTool');
+                    btn?.classList.add('active');
+                    document.getElementById('fastForwardTool')?.classList.remove('active');
+                    this.showToast('⏪ Retroceso', 'success');
+                });
+
+                // Avance (reproducir hacia adelante)
+                document.getElementById('fastForwardTool')?.addEventListener('click', () => {
+                    if (!this.timeDirection) this.timeDirection = 1;
+                    this.timeDirection = 1;
+                    const btn = document.getElementById('fastForwardTool');
+                    btn?.classList.add('active');
+                    document.getElementById('rewindTool')?.classList.remove('active');
+                    this.showToast('⏩ Avance', 'success');
+                });
+
+                // Avance cuadro a cuadro
+                document.getElementById('stepForward')?.addEventListener('click', () => {
+                    this.time += 0.05;
+                    this.render();
+                    this.showToast('Cuadro →', 'success');
+                });
+
+                // Scanlines
+                document.getElementById('scanlinesTool')?.addEventListener('click', () => {
+                    this.config.showScanlines = !this.config.showScanlines;
+                    document.getElementById('scanlines')?.classList.toggle('visible', this.config.showScanlines);
+                    document.getElementById('scanlinesTool')?.classList.toggle('active', this.config.showScanlines);
+                    this.saveConfig();
+                });
+
+                this.updateDockButtons('drawTool');
+            }
+
+            updateDockButtons(activeId) {
+                document.querySelectorAll('.dock-btn, .hifi-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.getElementById(activeId)?.classList.add('active');
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // DIBUJAR EN EL CANVAS
+            // ═══════════════════════════════════════════════════════════════
+
+            getCanvasCoords(e) {
+                const rect = this.canvas.getBoundingClientRect();
+                let clientX, clientY;
+
+                if (e.touches) {
+                    clientX = e.touches[0].clientX;
+                    clientY = e.touches[0].clientY;
+                } else {
+                    clientX = e.clientX;
+                    clientY = e.clientY;
+                }
+
+                const x = Math.floor((clientX - rect.left) / (rect.width / this.config.cols));
+                const y = Math.floor((clientY - rect.top) / (rect.height / this.config.rows));
+                return { x, y };
+            }
+
+            startDrawing(e) {
+                this.isDrawing = true;
+                this.drawAt(e);
+            }
+
+            drawAt(e) {
+                if (!this.isDrawing) return;
+
+                const { x, y } = this.getCanvasCoords(e);
+                if (x >= 0 && x < this.config.cols && y >= 0 && y < this.config.rows) {
+                    const value = this.drawMode === 'draw' ? 1 : 0;
+                    this.pixels[y * this.config.cols + x] = value;
+                    this.render();
+                }
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // CÓDIGO PERSONALIZADO
+            // ═══════════════════════════════════════════════════════════════
+
+            runCode() {
+                const code = document.getElementById('codeInput').value.trim();
+
+                if (!code) {
+                    this.showToast('Escribe código primero', 'error');
+                    return;
+                }
+
+                try {
+                    const cols = this.config.cols;
+                    const rows = this.config.rows;
+                    const userFn = new Function('x', 'y', 't', 'cols', 'rows', code);
+
+                    // Probar la función
+                    const testResult = userFn(0, 0, 0, cols, rows);
+                    if (typeof testResult !== 'number' || isNaN(testResult)) {
+                        throw new Error('Debe retornar un número');
+                    }
+
+                    this.customFormula = userFn;
+                    this.config.currentPattern = 'custom';
+                    this.time = 0;
+                    this.isRunning = true;
+
+                    document.querySelectorAll('.pattern-btn').forEach(btn => {
+                        btn.classList.toggle('active', btn.dataset.pattern === 'scanner');
+                    });
+
+                    document.getElementById('codeModal').classList.remove('visible');
+                    this.showToast('Código ejecutado', 'success');
+
+                } catch (error) {
+                    this.showToast('Error: ' + error.message, 'error');
+                }
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // PATRONES PRE-DEFINIDOS
+            // ═══════════════════════════════════════════════════════════════
+
+            patterns = {
+                scanner: () => {
+                    const pos = Math.floor((Math.sin(this.time * 2) * 0.5 + 0.5) * (this.config.cols - 1));
+                    for (let y = 0; y < this.config.rows; y++) {
+                        for (let x = 0; x < this.config.cols; x++) {
+                            const dist = Math.abs(x - pos);
+                            this.pixels[y * this.config.cols + x] = dist < 3 ? 1 : 0;
+                        }
+                    }
+                },
+                happy: () => {
+                    this.pixels.fill(0);
+                    const cx = this.config.cols / 2;
+                    const cy = this.config.rows / 2;
+                    for (let y = 0; y < this.config.rows; y++) {
+                        for (let x = 0; x < this.config.cols; x++) {
+                            const dist = Math.sqrt((x - cx) ** 2 + (y - cy) ** 2);
+                            if (dist < Math.min(this.config.cols, this.config.rows) * 0.3) {
+                                this.pixels[y * this.config.cols + x] = 1;
+                            }
+                        }
+                    }
+                    this.setPixel(Math.floor(cx - 5), Math.floor(cy - 2), 1);
+                    this.setPixel(Math.floor(cx + 5), Math.floor(cy - 2), 1);
+                    for (let x = Math.floor(cx - 8); x < Math.floor(cx + 9); x++) {
+                        const y = Math.floor(cy + 3 + Math.sin((x - cx + 8) * 0.5) * 3);
+                        this.setPixel(x, y, 1);
+                    }
+                },
+                car: () => {
+                    this.pixels.fill(0);
+                    const carX = Math.floor((this.time * 3) % (this.config.cols + 40)) - 20;
+                    const wheelOffset = Math.abs(Math.sin(this.time * 10)) * 2;
+
+                    for (let y = 0; y < this.config.rows; y++) {
+                        for (let x = 0; x < this.config.cols; x++) {
+                            // Carrocería
+                            if (y > this.config.rows * 0.4 && y < this.config.rows * 0.65 &&
+                                x > carX && x < carX + 30) {
+                                this.pixels[y * this.config.cols + x] = 1;
+                            }
+                            // Techo
+                            if (y > this.config.rows * 0.25 && y < this.config.rows * 0.4 &&
+                                x > carX + 5 && x < carX + 22) {
+                                this.pixels[y * this.config.cols + x] = 1;
+                            }
+                        }
+                    }
+                    this.drawCircle(carX + 8, Math.floor(this.config.rows * 0.7) + wheelOffset, 4, 1);
+                    this.drawCircle(carX + 22, Math.floor(this.config.rows * 0.7) + wheelOffset, 4, 1);
+                },
+                heart: () => {
+                    this.pixels.fill(0);
+                    const beat = 1 + Math.sin(this.time * 4) * 0.15;
+                    const scale = Math.min(this.config.cols, this.config.rows) * 0.2 * beat;
+                    const cx = this.config.cols / 2;
+                    const cy = this.config.rows / 2 + 2;
+
+                    for (let y = 0; y < this.config.rows; y++) {
+                        for (let x = 0; x < this.config.cols; x++) {
+                            const px = (x - cx) / scale;
+                            const py = (y - cy) / scale;
+                            const equation = Math.pow(px * px + py * py - 1, 3) - px * px * py * py * py;
+                            if (equation <= 0) {
+                                this.pixels[y * this.config.cols + x] = 1;
+                            }
+                        }
+                    }
+                },
+                dot: () => {
+                    this.pixels.fill(0);
+                    const x = Math.floor((this.time * this.config.cols / 8) % this.config.cols);
+                    const y = Math.floor(this.config.rows / 2);
+                    this.setPixel(x, y, 1);
+                    for (let i = 1; i < 8; i++) {
+                        const trailX = (x - i + this.config.cols) % this.config.cols;
+                        this.setPixel(trailX, y, Math.max(0.1, 1 - i * 0.12));
+                    }
+                },
+                matrix: () => {
+                    for (let i = 0; i < this.pixels.length; i++) {
+                        if (Math.random() < 0.05) {
+                            this.pixels[i] = Math.max(0, this.pixels[i] - 0.2);
+                        }
+                    }
+                    for (let x = 0; x < this.config.cols; x++) {
+                        if (Math.random() < 0.03) {
+                            this.pixels[x] = 1;
+                        }
+                        for (let y = 0; y < this.config.rows - 1; y++) {
+                            if (this.pixels[y * this.config.cols + x] > 0.5) {
+                                this.pixels[(y + 1) * this.config.cols + x] = 0.7;
+                            }
+                        }
+                    }
+                },
+                text: () => {
+                    // Limpiar grid principal
+                    this.pixels.fill(0);
+
+                    // Params
+                    const fullText = this.config.textMessage || "PIXEL SCREEN TYPEWRITER";
+                    const speed = this.config.textSpeed || 5;
+
+                    // Ciclo typewriter
+                    const totalChars = fullText.length;
+                    const charTime = 20 / speed; // tiempo por caracter
+                    const waitTime = 30; // tiempo de espera al final
+                    const totalCycleTime = (totalChars * charTime) + waitTime;
+
+                    let cycleTime = (this.time * 20) % totalCycleTime;
+                    let visibleChars = Math.floor(cycleTime / charTime);
+
+                    if (visibleChars > totalChars) visibleChars = totalChars;
+
+                    const textToShow = fullText.substring(0, visibleChars);
+
+                    // Render en canvas offscreen
+                    const w = this.textCanvas.width;
+                    const h = this.textCanvas.height;
+                    this.textCtx.clearRect(0, 0, w, h);
+
+                    // Fuente pixelada ajustada al grid
+                    // Usamos una fuente pequeña de sistema o cargada
+                    this.textCtx.font = 'bold 8px "JetBrains Mono"';
+                    this.textCtx.fillStyle = '#ffffff';
+                    this.textCtx.textBaseline = 'middle';
+                    this.textCtx.textAlign = 'center';
+
+                    const lines = textToShow.split('\n');
+                    const lineHeight = 10;
+                    const totalHeight = lines.length * lineHeight;
+                    const startY = (h - totalHeight) / 2 + lineHeight / 2;
+
+                    lines.forEach((line, i) => {
+                        this.textCtx.fillText(line.toUpperCase(), w / 2, startY + i * lineHeight);
+                    });
+
+                    // Cursor parpadeante
+                    if (this.config.textCursor && visibleChars < totalChars && Math.floor(this.time * 4) % 2 === 0) {
+                        // Dibujar un bloque simple como cursor en la esquina inferior derecha si está escribiendo
+                        this.textCtx.fillStyle = '#ffffff';
+                        this.textCtx.fillRect(w - 4, h - 4, 3, 3);
+                    }
+
+                    // Copiar data al grid
+                    const imageData = this.textCtx.getImageData(0, 0, w, h);
+                    const data = imageData.data;
+
+                    for (let y = 0; y < this.config.rows; y++) {
+                        for (let x = 0; x < this.config.cols; x++) {
+                            const idx = (y * w + x) * 4;
+                            // Umbral de alpha
+                            if (data[idx + 3] > 64) {
+                                this.pixels[y * this.config.cols + x] = 1;
+                            }
+                        }
+                    }
+                },
+                square: () => {
+                    if (Math.sin(this.time * 3) > 0) {
+                        const size = Math.min(this.config.cols, this.config.rows) * 0.25;
+                        const startX = Math.floor((this.config.cols - size) / 2);
+                        const startY = Math.floor((this.config.rows - size) / 2);
+
+                        for (let y = startY; y < startY + size; y++) {
+                            for (let x = startX; x < startX + size; x++) {
+                                if (y === startY || y === startY + size - 1 || x === startX || x === startX + size - 1) {
+                                    this.pixels[y * this.config.cols + x] = 1;
+                                }
+                            }
+                        }
+                    }
+                },
+                spiral: () => {
+                    this.pixels.fill(0);
+                    const angle = this.time * 2;
+                    const turns = 3;
+
+                    for (let i = 0; i < Math.min(this.config.cols * this.config.rows / 3, 500); i++) {
+                        const t = i / 300;
+                        const r = t * Math.min(this.config.cols, this.config.rows) * 0.4;
+                        const a = angle + t * Math.PI * 2 * turns;
+                        const x = Math.floor(this.config.cols / 2 + r * Math.cos(a));
+                        const y = Math.floor(this.config.rows / 2 + r * Math.sin(a));
+                        this.setPixel(x, y, 1);
+                    }
+                },
+                random: () => {
+                    for (let i = 0; i < this.pixels.length; i++) {
+                        if (Math.random() < 0.005) {
+                            this.pixels[i] = Math.random() > 0.5 ? 1 : 0;
+                        }
+                    }
+                }
+            };
+
+            setPixel(x, y, value) {
+                if (x >= 0 && x < this.config.cols && y >= 0 && y < this.config.rows) {
+                    this.pixels[y * this.config.cols + x] = value;
+                }
+            }
+
+            drawCircle(cx, cy, radius, value) {
+                for (let angle = 0; angle < Math.PI * 2; angle += 0.15) {
+                    const x = Math.floor(cx + Math.cos(angle) * radius);
+                    const y = Math.floor(cy + Math.sin(angle) * radius);
+                    this.setPixel(x, y, value);
+                }
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // RENDERIZADO
+            // ═══════════════════════════════════════════════════════════════
+
+            render() {
+                this.ctx.fillStyle = '#000';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+                const cellWidth = this.canvas.width / this.config.cols;
+                const cellHeight = this.canvas.height / this.config.rows;
+                const cellSize = Math.min(cellWidth, cellHeight) * 0.8;
+
+                // Usar el color configurado
+                const color = this.config.color;
+
+                for (let y = 0; y < this.config.rows; y++) {
+                    for (let x = 0; x < this.config.cols; x++) {
+                        const intensity = this.pixels[y * this.config.cols + x];
+
+                        if (intensity > 0) {
+                            const centerX = x * cellWidth + cellWidth / 2;
+                            const centerY = y * cellHeight + cellHeight / 2;
+                            const radius = cellSize * 0.5 * intensity;
+                            const alpha = intensity * (this.config.brightness / 100);
+                            const glow = this.config.glow * intensity;
+
+                            this.ctx.fillStyle = color;
+                            this.ctx.globalAlpha = alpha;
+                            this.ctx.shadowColor = color;
+                            this.ctx.shadowBlur = glow;
+
+                            this.ctx.beginPath();
+                            this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                            this.ctx.fill();
+
+                            // Brillo extra para LEDs intensos
+                            if (intensity > 0.8) {
+                                this.ctx.shadowBlur = glow * 1.5;
+                                this.ctx.beginPath();
+                                this.ctx.arc(centerX, centerY, radius * 0.5, 0, Math.PI * 2);
+                                this.ctx.fill();
+                            }
+                        }
+                    }
+                }
+
+                // RENDERIZADO DE TEXTO (OVERLAY)
+                // Se dibuja por encima si la opacidad es > 0 y existe el grid de texto
+                if (this.config.textOpacity > 0 && this.textGrid) {
+                    const textAlpha = this.config.textOpacity / 100;
+                    const textColor = this.config.textColor || '#39ff14';
+
+                    for (let y = 0; y < this.config.rows; y++) {
+                        for (let x = 0; x < this.config.cols; x++) {
+                            const intensity = this.textGrid[y * this.config.cols + x];
+                            if (intensity > 0) {
+                                const centerX = x * cellWidth + cellWidth / 2;
+                                const centerY = y * cellHeight + cellHeight / 2;
+                                const radius = cellSize * 0.5 * intensity;
+
+                                this.ctx.fillStyle = textColor;
+                                this.ctx.globalAlpha = textAlpha * intensity;
+                                this.ctx.shadowColor = textColor;
+                                this.ctx.shadowBlur = this.config.glow * 0.5;
+
+                                this.ctx.beginPath();
+                                this.ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+                                this.ctx.fill();
+                            }
+                        }
+                    }
+                }
+
+                this.ctx.globalAlpha = 1;
+                this.ctx.shadowBlur = 0;
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // LOOP PRINCIPAL
+            // ═══════════════════════════════════════════════════════════════
+
+            loop(timestamp) {
+                if (this.config.isPaused) {
+                    this.animationId = requestAnimationFrame((t) => this.loop(t));
+                    return;
+                }
+
+                const interval = 1000 / this.config.speed;
+
+                if (timestamp - this.lastFrameTime >= interval) {
+                    this.lastFrameTime = timestamp;
+
+                    // Actualizar patrón
+                    if (this.customFormula) {
+                        for (let y = 0; y < this.config.rows; y++) {
+                            for (let x = 0; x < this.config.cols; x++) {
+                                try {
+                                    const result = this.customFormula(x, y, this.time, this.config.cols, this.config.rows);
+                                    this.pixels[y * this.config.cols + x] = Math.max(0, Math.min(1, result));
+                                } catch (e) {
+                                    this.customFormula = null;
+                                    this.showToast('Error en código', 'error');
+                                    return;
+                                }
+                            }
+                        }
+                    } else if (this.patterns[this.config.currentPattern]) {
+                        this.patterns[this.config.currentPattern]();
+                    }
+
+                    // Actualizar Texto Overlay (independiente del patrón de fondo)
+                    if (!this.config.textPaused && this.config.textOpacity > 0) {
+                        this.updateTextOverlay();
+                    }
+
+                    this.time += 0.05 * (this.timeDirection || 1);
+                    this.render();
+
+                    // Actualizar FPS counter
+                    this.frameCount++;
+                    if (timestamp - this.lastFpsUpdate >= 1000) {
+                        const fpsEl = document.getElementById('debugFps');
+                        if (fpsEl) fpsEl.textContent = this.frameCount;
+                        this.frameCount = 0;
+                        this.lastFpsUpdate = timestamp;
+                    }
+                }
+
+                this.animationId = requestAnimationFrame((t) => this.loop(t));
+            }
+
+            start() {
+                this.loop(0);
+            }
+
+            updateTextOverlay() {
+                if (!this.textGrid) return;
+
+                // Clear grid
+                this.textGrid.fill(0);
+
+                // Params
+                const fullText = this.config.textMessage || "PIXEL SCREEN TYPEWRITER";
+                const speed = this.config.textSpeed || 5;
+
+                // Ciclo typewriter
+                const totalChars = fullText.length;
+                const charTime = 20 / speed;
+                const waitTime = 30;
+                const totalCycleTime = (totalChars * charTime) + waitTime;
+
+                let cycleTime = (this.time * 20) % totalCycleTime;
+                let visibleChars = Math.floor(cycleTime / charTime);
+
+                if (visibleChars > totalChars) visibleChars = totalChars;
+                // If paused, show full text? No, respect pause state in loop, but if just logic update, respect time.
+
+                const textToShow = fullText.substring(0, visibleChars);
+
+                // Render en canvas offscreen
+                const w = this.textCanvas.width;
+                const h = this.textCanvas.height;
+                this.textCtx.clearRect(0, 0, w, h);
+
+                this.textCtx.font = 'bold 8px "JetBrains Mono"';
+                this.textCtx.fillStyle = '#ffffff'; // Always white on source, colorized in render
+                this.textCtx.textBaseline = 'middle';
+                this.textCtx.textAlign = 'center';
+
+                const lines = textToShow.split('\n');
+                const lineHeight = 10;
+                const totalHeight = lines.length * lineHeight;
+                const startY = (h - totalHeight) / 2 + lineHeight / 2;
+
+                lines.forEach((line, i) => {
+                    this.textCtx.fillText(line.toUpperCase(), w / 2, startY + i * lineHeight);
+                });
+
+                // Cursor
+                if (this.config.textCursor && visibleChars < totalChars && Math.floor(this.time * 4) % 2 === 0) {
+                    this.textCtx.fillRect(w - 4, h - 4, 3, 3);
+                }
+
+                // Map to grid
+                const imageData = this.textCtx.getImageData(0, 0, w, h);
+                const data = imageData.data;
+
+                for (let y = 0; y < this.config.rows; y++) {
+                    for (let x = 0; x < this.config.cols; x++) {
+                        const idx = (y * w + x) * 4;
+                        if (data[idx + 3] > 64) {
+                            // Use alpha data as intensity or just 1? 
+                            // Using just 1 for crisp pixels, or allow anti-aliasing logic if desired.
+                            // data[idx+3] is 0-255.
+                            this.textGrid[y * this.config.cols + x] = data[idx + 3] / 255;
+                        }
+                    }
+                }
+            }
+
+            // ═══════════════════════════════════════════════════════════════
+            // UTILIDADES
+            // ═══════════════════════════════════════════════════════════════
+
+            toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            }
+
+            handleDensityChange() {
+                const newCols = parseInt(document.getElementById('colsInput').value);
+                const newRows = parseInt(document.getElementById('rowsInput').value);
+
+                if (newCols !== this.config.cols || newRows !== this.config.rows) {
+                    this.resizeGrid(newCols, newRows);
+                }
+            }
+
+            updateHUD() {
+                // Actualizar debug integrado
+                const debugGrid = document.getElementById('debugGrid');
+                const debugFps = document.getElementById('debugFps');
+                const debugColor = document.getElementById('debugColor');
+
+                if (debugGrid) debugGrid.textContent = `${this.config.cols}×${this.config.rows}`;
+                if (debugFps) debugFps.textContent = this.config.speed;
+                if (debugColor) {
+                    // Obtener nombre del color actual
+                    const colorName = Object.entries(this.phosphorColors)
+                        .find(([name, hex]) => hex.toLowerCase() === this.config.color?.toLowerCase())?.[0] || 'CUSTOM';
+                    debugColor.textContent = colorName.toUpperCase();
+                }
+
+                // Actualizar colores dinámicos del CSS
+                this.updateDynamicColors();
+            }
+
+            updateDynamicColors() {
+                const root = document.documentElement;
+                root.style.setProperty('--accent-primary', this.config.color);
+
+                // Generar color secundario (desaturado, más claro)
+                const hex = this.config.color;
+                if (hex && hex.startsWith('#')) {
+                    const r = parseInt(hex.slice(1, 3), 16);
+                    const g = parseInt(hex.slice(3, 5), 16);
+                    const b = parseInt(hex.slice(5, 7), 16);
+
+                    // Desaturar y aclarar
+                    const gray = (r + g + b) / 3;
+                    const dr = Math.round(r + (gray - r) * 0.5);
+                    const dg = Math.round(g + (gray - g) * 0.5);
+                    const db = Math.round(b + (gray - b) * 0.5);
+
+                    const secondary = '#' + [dr, dg, db]
+                        .map(c => Math.min(255, c + 30).toString(16).padStart(2, '0'))
+                        .join('');
+
+                    root.style.setProperty('--accent-secondary', secondary);
+                }
+            }
+
+            showToast(message, type = 'success') {
+                const container = document.getElementById('toastContainer');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.textContent = message;
+                container.appendChild(toast);
+
+                requestAnimationFrame(() => toast.classList.add('visible'));
+
+                setTimeout(() => {
+                    toast.classList.remove('visible');
+                    setTimeout(() => toast.remove(), 300);
+                }, 2500);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // INICIALIZACIÓN
+        // ═══════════════════════════════════════════════════════════════════
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.app = new VaporGrid5000();
+        });
+    </script>
+</body>
+
+</html>
