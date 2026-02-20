@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2D4C39">
+    <title>18 Trinitarios — Tour Virtual 360°</title>
+
+    <!-- ═══ Google Fonts: Nunito + Playfair Display ═══ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- ═══ Leaflet CSS ═══ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- ═══ Photo Sphere Viewer v5 — Core + Plugin CSS ═══ -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin@5/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/plan-plugin@5/index.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin@5/index.min.css">
+
+    <!-- ═══ Phosphor Icons v2 (CSS-based, no JS init needed) ═══ -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2"></script>
+
+    <!-- ═══ Custom CSS ═══ -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- ═══ Import Map — PSV v5 ES Modules ═══ -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three":                                    "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+            "leaflet":                                  "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet-src.esm.js",
+            "@photo-sphere-viewer/core":                "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core@5/index.module.js",
+            "@photo-sphere-viewer/virtual-tour-plugin": "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/virtual-tour-plugin@5/index.module.js",
+            "@photo-sphere-viewer/markers-plugin":      "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/markers-plugin@5/index.module.js",
+            "@photo-sphere-viewer/gallery-plugin":      "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin@5/index.module.js",
+            "@photo-sphere-viewer/plan-plugin":         "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/plan-plugin@5/index.module.js",
+            "@photo-sphere-viewer/autorotate-plugin":   "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/autorotate-plugin@5/index.module.js"
+        }
+    }
+    </script>
+</head>
+<body>
+
+    <!-- ═══ LOADING SCREEN ═══ -->
+    <div id="loading-screen">
+        <div class="loader-content">
+            <img src="assets/img/logo-comfenalco.jpeg" alt="Comfenalco" class="loader-logo">
+            <div class="loader-ring">
+                <div class="ring-segment"></div>
+                <div class="ring-segment"></div>
+                <div class="ring-segment"></div>
+            </div>
+            <div class="loader-title">18 Trinitarios</div>
+            <div class="loader-subtitle">Cargando tour virtual…</div>
+        </div>
+    </div>
+
+    <!-- ═══ INTRO / WELCOME SCREEN ═══ -->
+    <div id="intro-screen" class="intro-overlay hidden">
+        <div class="intro-card">
+            <img src="assets/img/logo-comfenalco.jpeg" alt="Comfenalco Santander" class="intro-logo">
+            <h1 class="intro-title">Bienvenido</h1>
+            <h2 class="intro-subtitle">Centro Recreacional<br><span>18 Trinitarios</span></h2>
+            <p class="intro-desc">Explora nuestras instalaciones en un recorrido virtual 360° interactivo.</p>
+
+            <div class="intro-instructions">
+                <div class="intro-instruction-item">
+                    <i class="ph ph-arrows-out-cardinal"></i>
+                    <span>Arrastra para mirar alrededor</span>
+                </div>
+                <div class="intro-instruction-item">
+                    <i class="ph ph-magnifying-glass-plus"></i>
+                    <span>Pellizca o usa la rueda para hacer zoom</span>
+                </div>
+                <div class="intro-instruction-item">
+                    <i class="ph ph-navigation-arrow"></i>
+                    <span>Toca las flechas para moverte entre zonas</span>
+                </div>
+                <div class="intro-instruction-item">
+                    <i class="ph ph-hand-pointing"></i>
+                    <span>Toca los marcadores para más información</span>
+                </div>
+            </div>
+
+            <button id="intro-skip" class="intro-skip-btn">
+                <i class="ph ph-arrow-right"></i>
+                <span>Comenzar tour</span>
+            </button>
+
+            <div class="intro-timer">
+                <div class="intro-timer-bar" id="intro-timer-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ VIEWER ═══ -->
+    <div id="viewer"></div>
+
+    <!-- ═══ BRAND OVERLAY ═══ -->
+    <div class="brand-overlay">
+        <img src="assets/img/logo-comfenalco.jpeg" alt="Comfenalco">
+        <div class="brand-text">
+            <h1>18 Trinitarios</h1>
+            <p>Tour Virtual 360°</p>
+        </div>
+    </div>
+
+    <!-- ═══ FLOATING ACTION BUTTONS ═══ -->
+    <div class="fab-container">
+        <button class="fab fab-video" id="fab-video" aria-label="Video de presentación">
+            <i class="ph ph-play"></i>
+        </button>
+        <button class="fab fab-plan" id="fab-plan" aria-label="Ver plano del lugar">
+            <i class="ph ph-map-trifold"></i>
+        </button>
+    </div>
+
+    <!-- ═══ NODE TOAST ═══ -->
+    <div class="node-toast" id="node-toast">
+        <span class="node-toast-icon"><i class="ph ph-map-pin"></i></span>
+        <span id="node-toast-text"></span>
+    </div>
+
+    <!-- ═══ MODAL ═══ -->
+    <div class="modal-overlay hidden" id="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 id="modal-title"></h2>
+                <button class="modal-close" id="modal-close" aria-label="Cerrar">
+                    <i class="ph ph-x"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- ═══ TOUR SCRIPT (ES module) ═══ -->
+    <script type="module" src="tour.js"></script>
+</body>
+</html>
