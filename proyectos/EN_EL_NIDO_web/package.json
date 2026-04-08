@@ -1,7 +1,7 @@
 {
-  "name": "workspace",
+  "name": "en-el-nido",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "playwright": "^1.58.0"
+    "playwright": "^1.59.1"
   }
 }

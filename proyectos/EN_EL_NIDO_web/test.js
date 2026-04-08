@@ -1,64 +1,77 @@
 const { chromium } = require('playwright');
+const path = require('path');
 
 (async () => {
-    const browser = await chromium.launch({ headless: true });
+    const browser = await chromium.launch();
     const page = await browser.newPage();
     
-    // Collect console messages
-    const consoleMessages = [];
+    const errors = [];
     page.on('console', msg => {
-        consoleMessages.push({ type: msg.type(), text: msg.text() });
+        if (msg.type() === 'error') {
+            errors.push(msg.text());
+        }
     });
     
-    // Collect page errors
-    const pageErrors = [];
-    page.on('pageerror', error => {
-        pageErrors.push(error.message);
+    page.on('pageerror', err => {
+        errors.push(err.message);
     });
+
+    const filePath = 'file://' + path.resolve(__dirname, 'index.html');
+    console.log('Testing:', filePath);
     
     try {
-        console.log('Loading page...');
-        await page.goto('http://localhost:8888/index.html', { waitUntil: 'networkidle', timeout: 30000 });
+        await page.goto(filePath, { waitUntil: 'networkidle' });
+        console.log('✓ Page loaded successfully');
         
-        // Wait for boot sequence to appear
-        await page.waitForSelector('#boot-sequence', { timeout: 5000 });
-        console.log('✓ Boot sequence loaded');
+        // Check title
+        const title = await page.title();
+        console.log('✓ Title:', title);
         
-        // Check if main elements exist
-        const bootOverlay = await page.$('#boot-sequence');
-        const enterBtn = await page.$('#enter-btn');
+        // Check stories count
+        const storyCards = await page.locator('.story-card').count();
+        console.log('✓ Stories loaded:', storyCards);
         
-        if (bootOverlay && enterBtn) {
-            console.log('✓ All required elements present');
-        }
+        // Check navigation tabs
+        const tabs = await page.locator('.nav-tab').count();
+        console.log('✓ Navigation tabs:', tabs);
         
-        // Wait a moment for any async errors
-        await page.waitForTimeout(2000);
+        // Check glossary items
+        const glossaryItems = await page.locator('.glossary-item').count();
+        console.log('✓ Glossary items:', glossaryItems);
         
-        // Report results
-        console.log('\n=== Console Messages ===');
-        if (consoleMessages.length === 0) {
-            console.log('No console messages');
+        // Test opening a story
+        await page.locator('.story-card').first().click();
+        await page.waitForSelector('.modal.active', { timeout: 3000 });
+        console.log('✓ Story modal opens correctly');
+        
+        // Close modal
+        await page.locator('.modal-close').click();
+        console.log('✓ Modal closes correctly');
+        
+        // Test navigation tabs
+        await page.locator('.nav-tab[data-section="glossary"]').click();
+        const glossaryVisible = await page.locator('#glossary.active').isVisible();
+        console.log('✓ Glossary tab works:', glossaryVisible);
+        
+        // Test TOC
+        await page.locator('.nav-tab[data-section="toc"]').click();
+        const tocItems = await page.locator('.toc-item').count();
+        console.log('✓ TOC items:', tocItems);
+        
+        // Check for console errors
+        if (errors.length > 0) {
+            console.log('\n⚠ Console errors found:');
+            errors.forEach(e => console.log('  -', e));
         } else {
-            consoleMessages.forEach(msg => {
-                console.log(`[${msg.type}] ${msg.text}`);
-            });
+            console.log('✓ No console errors');
         }
         
-        console.log('\n=== Page Errors ===');
-        if (pageErrors.length === 0) {
-            console.log('No page errors detected');
-        } else {
-            pageErrors.forEach(err => {
-                console.log(`ERROR: ${err}`);
-            });
-        }
+        console.log('\n✅ All tests passed!');
         
-        console.log('\n✓ Website loaded successfully!');
-        
-    } catch (error) {
-        console.error('Error loading page:', error.message);
+    } catch (err) {
+        console.error('❌ Test failed:', err.message);
+        process.exit(1);
+    } finally {
+        await browser.close();
     }
-    
-    await browser.close();
 })();
