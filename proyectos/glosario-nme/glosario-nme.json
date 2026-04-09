@@ -1,0 +1,82 @@
+[
+  {
+    "id": "poliamor",
+    "term": "Poliamor",
+    "pos": "concepto",
+    "etym": "latín: poly (muchos) + amor",
+    "description": "Filosofía y práctica de mantener múltiples relaciones amorosas de forma simultánea, siempre con el conocimiento pleno y el consentimiento de todas las personas involucradas. El poliamor se distingue de otras formas de no monogamia ética por su énfasis en el amor y el vínculo afectivo profundo, más allá de lo meramente sexual. Quienes practican el poliamor suelen sostener acuerdos relacionales explícitos y valoran la comunicación honesta como pilar fundamental.",
+    "order": 0
+  },
+  {
+    "id": "compersion",
+    "term": "Compersión",
+    "pos": "emoción",
+    "etym": "inglés: compersion (neologismo)",
+    "description": "Sentimiento de alegría genuina y empática que se experimenta al ver a una pareja disfrutar de felicidad, amor o placer con otra persona. La compersión es frecuentemente descrita como la antítesis de los celos dentro de la práctica del poliamor y otras no monogamias éticas. No es una emoción que deba fingirse ni forzarse; más bien, emerge de manera natural cuando existe una base sólida de seguridad afectiva y comunicación honesta.",
+    "order": 1
+  },
+  {
+    "id": "celos",
+    "term": "Celos",
+    "pos": "emoción",
+    "etym": "latín: zelus",
+    "description": "Emoción compleja que surge cuando una persona percibe una amenaza real o imaginaria a una relación que valora. En el contexto del poliamor y las no monogamias éticas, los celos no son considerados defectos de carácter sino señales que invitan a la introspección. Explorar los celos con honestidad permite identificar necesidades insatisfechas, inseguridades personales o límites que requieren ser renegociados. La diferencia entre celos y la compersión ilustra uno de los grandes trabajos emocionales de la no monogamia.",
+    "order": 2
+  },
+  {
+    "id": "anarquia-relacional",
+    "term": "Anarquía Relacional",
+    "pos": "concepto",
+    "etym": "griego: anarchia (sin gobierno) + latín: relatio",
+    "description": "Enfoque filosófico que rechaza la existencia de jerarquías predeterminadas entre relaciones y aplica principios del anarquismo al ámbito de los vínculos afectivos. Quien practica la anarquía relacional no distingue entre relaciones 'importantes' y 'secundarias' basándose en si son románticas, sexuales o de amistad; en cambio, cada vínculo se define y valora por sus propios términos. Este modelo cuestiona la idea de que el poliamor deba replicar estructuras monógamas con más participantes.",
+    "order": 3
+  },
+  {
+    "id": "jerarquia-relacional",
+    "term": "Jerarquía Relacional",
+    "pos": "concepto",
+    "etym": "griego: hierarchia",
+    "description": "Estructura organizativa en la que ciertas relaciones reciben mayor prioridad, recursos o poder de decisión que otras. Dentro del poliamor jerárquico, existe típicamente una relación primaria que ocupa el lugar central, seguida de relaciones secundarias. La jerarquía relacional es un modelo legítimo siempre que sea consensuado y transparente; sin embargo, ha sido criticada por generar dinámicas de poder que pueden afectar la autonomía de quienes ocupan posiciones secundarias.",
+    "order": 4
+  },
+  {
+    "id": "relacion-primaria",
+    "term": "Relación Primaria",
+    "pos": "concepto",
+    "etym": "latín: primarius",
+    "description": "En el contexto de la jerarquía relacional, es la pareja a quien se le otorga mayor prioridad en términos de tiempo, decisiones de vida compartida, recursos y compromiso a largo plazo. La relación primaria suele implicar convivencia, proyectos comunes o un nivel de entrelazamiento vital más profundo. Es importante distinguir este concepto del de 'única pareja válida', pues en el poliamor la relación primaria coexiste con otros vínculos significativos.",
+    "order": 5
+  },
+  {
+    "id": "metamour",
+    "term": "Metamour",
+    "pos": "sustantivo",
+    "etym": "inglés: meta (más allá) + amour (amor, francés)",
+    "description": "Persona que es pareja de tu pareja, con quien no tienes una relación romántica o sexual directa. El término describe una figura relacional característica del poliamor: alguien que forma parte de tu red afectiva aunque no compartan un vínculo amoroso entre sí. La relación con un metamour puede variar desde la amistad cercana y el Kitchen Table Polyamory hasta el desconocimiento casi total en configuraciones más separadas.",
+    "order": 6
+  },
+  {
+    "id": "kitchen-table",
+    "term": "Kitchen Table Polyamory",
+    "pos": "práctica",
+    "etym": "inglés: mesa de cocina",
+    "description": "Estilo de vida poliamoroso en el que todas las personas de la red de vínculos se conocen entre sí, se sienten cómodas compartiendo espacios y podrían perfectamente desayunar juntas alrededor de una mesa de cocina. Este modelo valora la integración social y emocional de los metamours y demás personas de la red. Se distingue de los modelos más paralelos o independientes, donde cada relación se mantiene completamente separada del resto.",
+    "order": 7
+  },
+  {
+    "id": "acuerdo-relacional",
+    "term": "Acuerdo Relacional",
+    "pos": "acuerdo",
+    "etym": "latín: accordare",
+    "description": "Conjunto de compromisos, límites y expectativas que las personas involucradas en una relación no monógama negocian y pactan de manera explícita. Un acuerdo relacional puede cubrir aspectos como la comunicación, el uso de protección sexual, el grado de conocimiento sobre otras parejas o los protocolos ante situaciones nuevas. Los acuerdos relacionales son documentos vivos que deben revisarse con regularidad: el poliamor sano implica renegociar cuando las necesidades de cualquier persona cambian.",
+    "order": 8
+  },
+  {
+    "id": "nme",
+    "term": "No Monogamia Ética",
+    "pos": "concepto",
+    "etym": "latín: monogamia + ethica (griego)",
+    "description": "Término paraguas que engloba todas las formas de relación en las que más de dos personas participan de manera amorosa y/o sexual con el consentimiento informado de todas las partes. Incluye el poliamor, la anarquía relacional, las relaciones abiertas, el swing y otras configuraciones. La distinción 'ética' hace énfasis en que estas prácticas se fundamentan en la honestidad, el acuerdo relacional y el respeto mutuo, diferenciándose radicalmente de la infidelidad.",
+    "order": 9
+  }
+]

@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glosario · No Monogamias Éticas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0f1410;
+    --bg2:       #161d17;
+    --bg3:       #1d2820;
+    --bg4:       #243028;
+    --border:    #2e3d30;
+    --border2:   #3d5240;
+    --text:      #d8e4d0;
+    --text2:     #9eb89a;
+    --text3:     #6a8a66;
+    --accent:    #7eb87a;
+    --accent2:   #a8d4a4;
+    --amber:     #d4a853;
+    --amber2:    #e8c47a;
+    --red:       #c0645a;
+    --red2:      #e07a70;
+    --radius:    6px;
+    --radius2:   12px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Crimson Pro', Georgia, serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Fondo decorativo */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 20%, rgba(126,184,122,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 85% 75%, rgba(212,168,83,0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .app { 
+    position: relative; 
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+  }
+
+  /* ── HEADER ── */
+  header {
+    grid-column: 1 / -1;
+    padding: 24px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(15,20,16,0.85);
+    backdrop-filter: blur(12px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--accent2);
+    line-height: 1;
+  }
+
+  header .subtitle {
+    font-family: 'Crimson Pro', serif;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    grid-row: 2;
+    border-right: 1px solid var(--border);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: sticky;
+    top: 73px;
+    height: calc(100vh - 73px);
+    overflow-y: auto;
+  }
+
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-track { background: transparent; }
+  .sidebar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* Búsqueda */
+  .search-wrap {
+    position: relative;
+  }
+
+  .search-wrap input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap input::placeholder { color: var(--text3); }
+
+  .search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 0.85rem;
+    pointer-events: none;
+  }
+
+  /* Controles de orden */
+  .sort-section { display: flex; flex-direction: column; gap: 8px; }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding-left: 2px;
+  }
+
+  .sort-btns { display: flex; gap: 6px; }
+
+  .sort-btn {
+    flex: 1;
+    padding: 7px 10px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text2);
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-align: center;
+  }
+
+  .sort-btn:hover { border-color: var(--border2); color: var(--text); }
+  .sort-btn.active { background: var(--bg4); border-color: var(--accent); color: var(--accent2); }
+
+  /* Lista de términos */
+  .terms-nav { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+
+  .term-nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .term-nav-item:hover { background: var(--bg3); }
+  .term-nav-item.active { background: var(--bg4); border-color: var(--border2); }
+
+  .term-nav-item .name {
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.95rem;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .term-nav-item .letter-badge {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.75rem;
+    color: var(--text3);
+    font-style: italic;
+  }
+
+  .drag-handle {
+    cursor: grab;
+    color: var(--text3);
+    font-size: 0.7rem;
+    padding: 0 4px;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .term-nav-item:hover .drag-handle { opacity: 1; }
+  .term-nav-item.dragging { opacity: 0.4; }
+  .term-nav-item.drag-over { border-color: var(--accent) !important; background: var(--bg4) !important; }
+
+  /* ── MAIN CONTENT ── */
+  .main {
+    grid-row: 2;
+    padding: 36px 48px;
+    overflow-y: auto;
+    max-height: calc(100vh - 73px);
+  }
+
+  .main::-webkit-scrollbar { width: 5px; }
+  .main::-webkit-scrollbar-track { background: transparent; }
+  .main::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  /* Vista de término */
+  .term-view { display: none; animation: fadeIn 0.25s ease; }
+  .term-view.visible { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .term-view-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .term-view-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent2);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .term-view-actions { display: flex; gap: 8px; flex-shrink: 0; margin-top: 6px; }
+
+  .term-description {
+    font-size: 1.2rem;
+    line-height: 1.75;
+    color: var(--text);
+    margin-bottom: 32px;
+    max-width: 680px;
+  }
+
+  .term-description .cross-link {
+    color: var(--amber2);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--amber);
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+
+  .term-description .cross-link:hover {
+    color: var(--accent2);
+    border-color: var(--accent);
+  }
+
+  .term-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .tag {
+    padding: 4px 12px;
+    border-radius: 99px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  .tag-pos { background: rgba(126,184,122,0.12); border: 1px solid rgba(126,184,122,0.25); color: var(--accent); }
+  .tag-linked { background: rgba(212,168,83,0.1); border: 1px solid rgba(212,168,83,0.25); color: var(--amber); cursor: pointer; transition: all 0.15s; }
+  .tag-linked:hover { background: rgba(212,168,83,0.2); }
+
+  .meta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-right: 4px;
+  }
+
+  /* Vista de inicio / vacía */
+  .empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 20px;
+    text-align: center;
+    padding: 80px 40px;
+  }
+
+  .empty-glyph {
+    font-size: 4rem;
+    opacity: 0.15;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    line-height: 1;
+    color: var(--accent);
+    user-select: none;
+  }
+
+  .empty-state h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--text2);
+  }
+
+  .empty-state p {
+    color: var(--text3);
+    font-size: 1rem;
+    max-width: 380px;
+    line-height: 1.6;
+  }
+
+  /* ── BOTONES ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    border: 1px solid transparent;
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #0f1410;
+    font-weight: 600;
+  }
+  .btn-primary:hover { background: var(--accent2); }
+
+  .btn-ghost {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--text2);
+  }
+  .btn-ghost:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+
+  .btn-danger {
+    background: transparent;
+    border-color: var(--border);
+    color: var(--red);
+  }
+  .btn-danger:hover { background: rgba(192,100,90,0.12); border-color: var(--red); }
+
+  .btn-amber {
+    background: transparent;
+    border-color: rgba(212,168,83,0.3);
+    color: var(--amber);
+  }
+  .btn-amber:hover { background: rgba(212,168,83,0.1); }
+
+  .btn-sm { padding: 5px 11px; font-size: 0.85rem; }
+
+  .icon-btn {
+    width: 32px; height: 32px;
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text3);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 0.9rem;
+  }
+  .icon-btn:hover { border-color: var(--border2); color: var(--text); background: var(--bg3); }
+  .icon-btn.danger:hover { border-color: var(--red); color: var(--red); background: rgba(192,100,90,0.1); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,8,6,0.8);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+
+  .modal {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius2);
+    width: 100%;
+    max-width: 620px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+
+  .modal::-webkit-scrollbar { width: 4px; }
+  .modal::-webkit-scrollbar-thumb { background: var(--border2); }
+
+  .modal-header {
+    padding: 24px 28px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .modal-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--accent2);
+  }
+
+  .modal-body { padding: 20px 28px 28px; display: flex; flex-direction: column; gap: 18px; }
+
+  /* Formulario */
+  .field { display: flex; flex-direction: column; gap: 6px; }
+
+  .field label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  .field input, .field textarea, .field select {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text);
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); }
+  .field input::placeholder, .field textarea::placeholder { color: var(--text3); }
+  .field textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+
+  .field select option { background: var(--bg2); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+  .modal-footer {
+    padding: 0 28px 24px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  /* Hint de vínculos cruzados */
+  .crosslink-hint {
+    background: rgba(212,168,83,0.07);
+    border: 1px solid rgba(212,168,83,0.2);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    color: var(--amber);
+    font-style: italic;
+    line-height: 1.5;
+  }
+
+  /* Import/Export */
+  .json-panel {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text2);
+    white-space: pre;
+    overflow-x: auto;
+    max-height: 300px;
+    overflow-y: auto;
+    line-height: 1.6;
+  }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    background: var(--bg4);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    padding: 12px 20px;
+    font-family: 'Crimson Pro', serif;
+    font-size: 1rem;
+    color: var(--text);
+    z-index: 999;
+    transform: translateY(20px);
+    opacity: 0;
+    transition: all 0.25s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-color: rgba(126,184,122,0.4); }
+  .toast.success::before { content: '✓'; color: var(--accent); }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 0 32px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+  }
+
+  .stat { display: flex; flex-direction: column; gap: 2px; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--accent2);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+  }
+
+  .stat-divider { width: 1px; height: 40px; background: var(--border); }
+
+  /* Búsqueda resultados en main */
+  .search-results-title {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text3);
+    margin-bottom: 20px;
+  }
+
+  .search-result-item {
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius2);
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--bg2);
+  }
+
+  .search-result-item:hover { border-color: var(--border2); background: var(--bg3); }
+
+  .search-result-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+
+  .search-result-item p {
+    font-size: 0.95rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  mark {
+    background: rgba(212,168,83,0.25);
+    color: var(--amber2);
+    border-radius: 2px;
+    padding: 0 2px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { position: relative; top: 0; height: auto; border-right: none; border-bottom: 1px solid var(--border); }
+    .main { padding: 24px 20px; }
+    header { padding: 16px 20px; }
+  }
+
+  /* Confirm overlay */
+  .confirm-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,8,6,0.85);
+    z-index: 300;
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+  .confirm-overlay.open { display: flex; }
+  .confirm-box {
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius2);
+    padding: 32px;
+    max-width: 380px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .confirm-box h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--red2); }
+  .confirm-box p { color: var(--text2); font-size: 1rem; line-height: 1.5; }
+  .confirm-box .btn-row { display: flex; gap: 10px; justify-content: center; }
+
+  /* ── FOOTER ── */
+  .glossary-footer {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--border);
+    background: rgba(15,20,16,0.95);
+    backdrop-filter: blur(10px);
+    padding: 18px 36px;
+  }
+
+  .glossary-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    color: var(--text2);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .glossary-footer a {
+    color: var(--accent2);
+    text-decoration: none;
+  }
+
+  .glossary-footer a:hover {
+    text-decoration: underline;
+  }
+
+  .glossary-footer-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    align-items: center;
+  }
+
+  .glossary-footer-separator {
+    color: var(--text3);
+  }
+
+  .glossary-footer-badge {
+    padding: 4px 10px;
+    border: 1px solid var(--border2);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--amber2);
+    background: rgba(212,168,83,0.08);
+  }
+
+  @media (max-width: 768px) {
+    .glossary-footer {
+      padding: 16px 20px;
+    }
+
+    .glossary-footer-content {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <div class="header-title">
+      <h1>Glosario NME</h1>
+      <span class="subtitle">No Monogamias Éticas · Herramienta de vocabulario</span>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-ghost btn-sm" onclick="openImportExport()">⇅ JSON</button>
+      <button class="btn btn-primary btn-sm" onclick="openNewTerm()">+ Nuevo término</button>
+    </div>
+  </header>
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+
+    <!-- Búsqueda -->
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" placeholder="Buscar término..." oninput="handleSearch(this.value)">
+    </div>
+
+    <!-- Orden -->
+    <div class="sort-section">
+      <span class="section-label">Ordenar por</span>
+      <div class="sort-btns">
+        <button class="sort-btn active" id="sortAlpha" onclick="setSort('alpha')">A→Z</button>
+        <button class="sort-btn" id="sortCustom" onclick="setSort('custom')">✦ Personalizado</button>
+      </div>
+    </div>
+
+    <!-- Lista de términos -->
+    <div class="section-label">Términos <span id="termCount" style="color:var(--text3)"></span></div>
+    <div class="terms-nav" id="termsNav"></div>
+
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <main class="main" id="mainContent">
+
+    <!-- Estado vacío / bienvenida -->
+    <div id="welcomeView">
+      <div class="stats-bar" id="statsBar"></div>
+      <div class="empty-state">
+        <div class="empty-glyph">∞</div>
+        <h2>Selecciona un término para explorar</h2>
+        <p>O usa el buscador para encontrar un concepto. Puedes crear nuevos términos con el botón <em>+ Nuevo término</em>.</p>
+      </div>
+    </div>
+
+    <!-- Vista de término -->
+    <div class="term-view" id="termView">
+      <div class="term-view-header">
+        <div>
+          <div id="viewTitle" class="term-view-title"></div>
+          <div id="viewPos" style="margin-top:8px"></div>
+        </div>
+        <div class="term-view-actions">
+          <button class="icon-btn" title="Editar" onclick="editCurrentTerm()">✎</button>
+          <button class="icon-btn danger" title="Eliminar" onclick="deleteCurrentTerm()">✕</button>
+        </div>
+      </div>
+      <div id="viewDescription" class="term-description"></div>
+      <div id="viewMeta" class="term-meta"></div>
+    </div>
+
+  </main>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="glossary-footer">
+    <div class="glossary-footer-content">
+      <div class="glossary-footer-meta">
+        <span>Desarrollado por <a href="https://juantomoo.github.io/" target="_blank" rel="noopener noreferrer">Juan Tomoo</a></span>
+        <span class="glossary-footer-separator">◆</span>
+        <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">Licencia Creative Commons BY 4.0</a>
+      </div>
+      <span class="glossary-footer-badge">Licencia completamente abierta</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ══ MODAL: NUEVO / EDITAR ══ -->
+<div class="modal-overlay" id="termModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 id="modalTitle">Nuevo término</h2>
+      <button class="icon-btn" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field">
+        <label>Término *</label>
+        <input type="text" id="fieldTerm" placeholder="Ej. Compersión">
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Categoría gramatical</label>
+          <select id="fieldPos">
+            <option value="">— ninguna —</option>
+            <option value="sustantivo">Sustantivo</option>
+            <option value="verbo">Verbo</option>
+            <option value="adjetivo">Adjetivo</option>
+            <option value="concepto">Concepto</option>
+            <option value="práctica">Práctica</option>
+            <option value="emoción">Emoción</option>
+            <option value="acuerdo">Acuerdo</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Origen / etimología</label>
+          <input type="text" id="fieldEtym" placeholder="Ej. inglés / latín">
+        </div>
+      </div>
+      <div class="field">
+        <label>Definición *</label>
+        <textarea id="fieldDesc" placeholder="Escribe la definición del término. Los nombres de otros términos del glosario se vincularán automáticamente."></textarea>
+      </div>
+      <div class="crosslink-hint" id="crosslinkHint">
+        ✦ Los nombres de otros términos detectados en la definición se vincularán automáticamente al guardar.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="saveTerm()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL: IMPORT / EXPORT ══ -->
+<div class="modal-overlay" id="ioModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Gestión de datos JSON</h2>
+      <button class="icon-btn" onclick="closeIOModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--text2);font-size:1rem;line-height:1.6">Los datos se guardan en <code style="font-family:JetBrains Mono,monospace;color:var(--accent);font-size:0.85em">localStorage</code>. Puedes exportar el JSON para guardarlo como archivo o importar uno existente.</p>
+      <div class="field">
+        <label>JSON actual</label>
+        <div class="json-panel" id="jsonPanel"></div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-ghost btn-sm" onclick="copyJSON()">⎘ Copiar JSON</button>
+        <button class="btn btn-amber btn-sm" onclick="downloadJSON()">↓ Descargar .json</button>
+        <label class="btn btn-ghost btn-sm" style="cursor:pointer">
+          ↑ Importar archivo
+          <input type="file" accept=".json" style="display:none" onchange="importJSON(this)">
+        </label>
+      </div>
+      <div class="field">
+        <label>O pega un JSON aquí</label>
+        <textarea id="pasteJSON" style="font-family:JetBrains Mono,monospace;font-size:0.75rem;min-height:80px" placeholder='[{"id":"...","term":"...","description":"..."}]'></textarea>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="loadPastedJSON()">Cargar JSON pegado</button>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeIOModal()">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONFIRM ══ -->
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <h3>Eliminar término</h3>
+    <p id="confirmMsg">¿Estás seguro de que deseas eliminar este término? Esta acción no se puede deshacer.</p>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeConfirm()">Cancelar</button>
+      <button class="btn btn-danger" onclick="confirmDelete()">Eliminar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  DATOS INICIALES — 10 conceptos NME
+// ═══════════════════════════════════════════════════
+const SEED_DATA = [
+  {
+    id: "poliamor",
+    term: "Poliamor",
+    pos: "concepto",
+    etym: "latín: poly (muchos) + amor",
+    description: "Filosofía y práctica de mantener múltiples relaciones amorosas de forma simultánea, siempre con el conocimiento pleno y el consentimiento de todas las personas involucradas. El poliamor se distingue de otras formas de no monogamia ética por su énfasis en el amor y el vínculo afectivo profundo, más allá de lo meramente sexual. Quienes practican el poliamor suelen sostener acuerdos relacionales explícitos y valoran la comunicación honesta como pilar fundamental.",
+    order: 0
+  },
+  {
+    id: "compersion",
+    term: "Compersión",
+    pos: "emoción",
+    etym: "inglés: compersion (neologismo)",
+    description: "Sentimiento de alegría genuina y empática que se experimenta al ver a una pareja disfrutar de felicidad, amor o placer con otra persona. La compersión es frecuentemente descrita como la antítesis de los celos dentro de la práctica del poliamor y otras no monogamias éticas. No es una emoción que deba fingirse ni forzarse; más bien, emerge de manera natural cuando existe una base sólida de seguridad afectiva y comunicación honesta.",
+    order: 1
+  },
+  {
+    id: "celos",
+    term: "Celos",
+    pos: "emoción",
+    etym: "latín: zelus",
+    description: "Emoción compleja que surge cuando una persona percibe una amenaza real o imaginaria a una relación que valora. En el contexto del poliamor y las no monogamias éticas, los celos no son considerados defectos de carácter sino señales que invitan a la introspección. Explorar los celos con honestidad permite identificar necesidades insatisfechas, inseguridades personales o límites que requieren ser renegociados. La diferencia entre celos y la compersión ilustra uno de los grandes trabajos emocionales de la no monogamia.",
+    order: 2
+  },
+  {
+    id: "anarquia-relacional",
+    term: "Anarquía Relacional",
+    pos: "concepto",
+    etym: "griego: anarchia (sin gobierno) + latín: relatio",
+    description: "Enfoque filosófico que rechaza la existencia de jerarquías predeterminadas entre relaciones y aplica principios del anarquismo al ámbito de los vínculos afectivos. Quien practica la anarquía relacional no distingue entre relaciones 'importantes' y 'secundarias' basándose en si son románticas, sexuales o de amistad; en cambio, cada vínculo se define y valora por sus propios términos. Este modelo cuestiona la idea de que el poliamor deba replicar estructuras monógamas con más participantes.",
+    order: 3
+  },
+  {
+    id: "jerarquia-relacional",
+    term: "Jerarquía Relacional",
+    pos: "concepto",
+    etym: "griego: hierarchia",
+    description: "Estructura organizativa en la que ciertas relaciones reciben mayor prioridad, recursos o poder de decisión que otras. Dentro del poliamor jerárquico, existe típicamente una relación primaria que ocupa el lugar central, seguida de relaciones secundarias. La jerarquía relacional es un modelo legítimo siempre que sea consensuado y transparente; sin embargo, ha sido criticada por generar dinámicas de poder que pueden afectar la autonomía de quienes ocupan posiciones secundarias.",
+    order: 4
+  },
+  {
+    id: "relacion-primaria",
+    term: "Relación Primaria",
+    pos: "concepto",
+    etym: "latín: primarius",
+    description: "En el contexto de la jerarquía relacional, es la pareja a quien se le otorga mayor prioridad en términos de tiempo, decisiones de vida compartida, recursos y compromiso a largo plazo. La relación primaria suele implicar convivencia, proyectos comunes o un nivel de entrelazamiento vital más profundo. Es importante distinguir este concepto del de 'única pareja válida', pues en el poliamor la relación primaria coexiste con otros vínculos significativos.",
+    order: 5
+  },
+  {
+    id: "metamour",
+    term: "Metamour",
+    pos: "sustantivo",
+    etym: "inglés: meta (más allá) + amour (amor, francés)",
+    description: "Persona que es pareja de tu pareja, con quien no tienes una relación romántica o sexual directa. El término describe una figura relacional característica del poliamor: alguien que forma parte de tu red afectiva aunque no compartan un vínculo amoroso entre sí. La relación con un metamour puede variar desde la amistad cercana y el Kitchen Table Polyamory hasta el desconocimiento casi total en configuraciones más separadas.",
+    order: 6
+  },
+  {
+    id: "kitchen-table",
+    term: "Kitchen Table Polyamory",
+    pos: "práctica",
+    etym: "inglés: mesa de cocina",
+    description: "Estilo de vida poliamoroso en el que todas las personas de la red de vínculos se conocen entre sí, se sienten cómodas compartiendo espacios y podrían perfectamente desayunar juntas alrededor de una mesa de cocina. Este modelo valora la integración social y emocional de los metamours y demás personas de la red. Se distingue de los modelos más paralelos o independientes, donde cada relación se mantiene completamente separada del resto.",
+    order: 7
+  },
+  {
+    id: "acuerdo-relacional",
+    term: "Acuerdo Relacional",
+    pos: "acuerdo",
+    etym: "latín: accordare",
+    description: "Conjunto de compromisos, límites y expectativas que las personas involucradas en una relación no monógama negocian y pactan de manera explícita. Un acuerdo relacional puede cubrir aspectos como la comunicación, el uso de protección sexual, el grado de conocimiento sobre otras parejas o los protocolos ante situaciones nuevas. Los acuerdos relacionales son documentos vivos que deben revisarse con regularidad: el poliamor sano implica renegociar cuando las necesidades de cualquier persona cambian.",
+    order: 8
+  },
+  {
+    id: "nme",
+    term: "No Monogamia Ética",
+    pos: "concepto",
+    etym: "latín: monogamia + ethica (griego)",
+    description: "Término paraguas que engloba todas las formas de relación en las que más de dos personas participan de manera amorosa y/o sexual con el consentimiento informado de todas las partes. Incluye el poliamor, la anarquía relacional, las relaciones abiertas, el swing y otras configuraciones. La distinción 'ética' hace énfasis en que estas prácticas se fundamentan en la honestidad, el acuerdo relacional y el respeto mutuo, diferenciándose radicalmente de la infidelidad.",
+    order: 9
+  }
+];
+
+// ═══════════════════════════════════════════════════
+//  ESTADO DE LA APP
+// ═══════════════════════════════════════════════════
+let glossary = [];
+let currentTermId = null;
+let editingId = null;
+let sortMode = 'alpha'; // 'alpha' | 'custom'
+let pendingDeleteId = null;
+let searchQuery = '';
+
+// ═══════════════════════════════════════════════════
+//  PERSISTENCIA
+// ═══════════════════════════════════════════════════
+function loadData() {
+  const stored = localStorage.getItem('nme_glossary');
+  if (stored) {
+    try { glossary = JSON.parse(stored); }
+    catch { glossary = [...SEED_DATA]; }
+  } else {
+    glossary = [...SEED_DATA];
+    saveData();
+  }
+}
+
+function saveData() {
+  localStorage.setItem('nme_glossary', JSON.stringify(glossary));
+}
+
+// ═══════════════════════════════════════════════════
+//  ORDEN
+// ═══════════════════════════════════════════════════
+function getSorted() {
+  if (sortMode === 'alpha') {
+    return [...glossary].sort((a, b) =>
+      a.term.localeCompare(b.term, 'es', { sensitivity: 'base' })
+    );
+  }
+  return [...glossary].sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+}
+
+function setSort(mode) {
+  sortMode = mode;
+  document.getElementById('sortAlpha').classList.toggle('active', mode === 'alpha');
+  document.getElementById('sortCustom').classList.toggle('active', mode === 'custom');
+  renderNav();
+}
+
+// ═══════════════════════════════════════════════════
+//  RENDER SIDEBAR
+// ═══════════════════════════════════════════════════
+function renderNav() {
+  const nav = document.getElementById('termsNav');
+  const terms = getSorted();
+  const q = searchQuery.toLowerCase();
+
+  const filtered = q
+    ? terms.filter(t =>
+        t.term.toLowerCase().includes(q) ||
+        (t.description || '').toLowerCase().includes(q)
+      )
+    : terms;
+
+  document.getElementById('termCount').textContent = `(${filtered.length})`;
+
+  nav.innerHTML = filtered.map(t => `
+    <div class="term-nav-item ${t.id === currentTermId ? 'active' : ''}"
+         id="nav-${t.id}"
+         onclick="selectTerm('${t.id}')"
+         draggable="${sortMode === 'custom'}"
+         ondragstart="dragStart(event, '${t.id}')"
+         ondragover="dragOver(event, '${t.id}')"
+         ondrop="dragDrop(event, '${t.id}')"
+         ondragend="dragEnd()">
+      ${sortMode === 'custom' ? '<span class="drag-handle">⣿</span>' : ''}
+      <span class="name">${highlight(t.term, q)}</span>
+      <span class="letter-badge">${t.term[0].toUpperCase()}</span>
+    </div>
+  `).join('');
+
+  renderStats();
+}
+
+function highlight(text, q) {
+  if (!q) return text;
+  const re = new RegExp(`(${escRe(q)})`, 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function escRe(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// ═══════════════════════════════════════════════════
+//  STATS
+// ═══════════════════════════════════════════════════
+function renderStats() {
+  const total = glossary.length;
+  const linked = glossary.filter(t => countLinks(t) > 0).length;
+  const categories = [...new Set(glossary.map(t => t.pos).filter(Boolean))].length;
+  document.getElementById('statsBar').innerHTML = `
+    <div class="stat"><span class="stat-num">${total}</span><span class="stat-label">términos</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">${linked}</span><span class="stat-label">vinculados</span></div>
+    <div class="stat-divider"></div>
+    <div class="stat"><span class="stat-num">${categories}</span><span class="stat-label">categorías</span></div>
+  `;
+}
+
+function countLinks(term) {
+  if (!term.description) return 0;
+  const others = glossary.filter(t => t.id !== term.id);
+  return others.filter(t =>
+    term.description.toLowerCase().includes(t.term.toLowerCase())
+  ).length;
+}
+
+// ═══════════════════════════════════════════════════
+//  SELECCIONAR TÉRMINO
+// ═══════════════════════════════════════════════════
+function selectTerm(id) {
+  currentTermId = id;
+  const term = glossary.find(t => t.id === id);
+  if (!term) return;
+
+  document.getElementById('welcomeView').style.display = 'none';
+  const view = document.getElementById('termView');
+  view.classList.add('visible');
+
+  document.getElementById('viewTitle').textContent = term.term;
+  document.getElementById('viewPos').innerHTML = term.pos
+    ? `<span class="tag tag-pos">${term.pos}${term.etym ? ' · ' + term.etym : ''}</span>`
+    : '';
+
+  // Descripción con vínculos cruzados
+  document.getElementById('viewDescription').innerHTML = renderWithLinks(term.description, term.id);
+
+  // Meta: términos vinculados
+  const linked = getLinkedTerms(term);
+  const linksHtml = linked.length
+    ? `<span class="meta-label">vincula a →</span>` +
+      linked.map(l => `<span class="tag tag-linked" onclick="selectTerm('${l.id}')">${l.term}</span>`).join('')
+    : '';
+
+  const backlinked = getBacklinkedTerms(term);
+  const backHtml = backlinked.length
+    ? `<span class="meta-label" style="margin-left:16px">← citado por</span>` +
+      backlinked.map(l => `<span class="tag tag-linked" onclick="selectTerm('${l.id}')">${l.term}</span>`).join('')
+    : '';
+
+  document.getElementById('viewMeta').innerHTML = linksHtml + backHtml;
+
+  renderNav(); // resalta activo
+}
+
+function renderWithLinks(text, ownId) {
+  if (!text) return '';
+  const others = glossary.filter(t => t.id !== ownId);
+  // Sort by length desc to avoid partial replacement
+  const sorted = [...others].sort((a, b) => b.term.length - a.term.length);
+  let result = escHTML(text);
+  sorted.forEach(t => {
+    const re = new RegExp(`(?<![a-záéíóúüñA-ZÁÉÍÓÚÜÑ])(${escRe(t.term)})(?![a-záéíóúüñA-ZÁÉÍÓÚÜÑ])`, 'gi');
+    result = result.replace(re, `<a class="cross-link" onclick="selectTerm('${t.id}')">$1</a>`);
+  });
+  return result;
+}
+
+function escHTML(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function getLinkedTerms(term) {
+  return glossary.filter(t =>
+    t.id !== term.id &&
+    term.description &&
+    term.description.toLowerCase().includes(t.term.toLowerCase())
+  );
+}
+
+function getBacklinkedTerms(term) {
+  return glossary.filter(t =>
+    t.id !== term.id &&
+    t.description &&
+    t.description.toLowerCase().includes(term.term.toLowerCase())
+  );
+}
+
+// ═══════════════════════════════════════════════════
+//  BÚSQUEDA
+// ═══════════════════════════════════════════════════
+function handleSearch(q) {
+  searchQuery = q.trim();
+  renderNav();
+
+  if (searchQuery) {
+    showSearchResults(searchQuery);
+  } else {
+    // Volver a la vista anterior
+    if (currentTermId) {
+      selectTerm(currentTermId);
+    } else {
+      showWelcome();
+    }
+  }
+}
+
+function showSearchResults(q) {
+  const terms = getSorted();
+  const ql = q.toLowerCase();
+  const results = terms.filter(t =>
+    t.term.toLowerCase().includes(ql) ||
+    (t.description || '').toLowerCase().includes(ql)
+  );
+
+  document.getElementById('welcomeView').style.display = 'block';
+  document.getElementById('statsBar').style.display = 'none';
+  document.getElementById('termView').classList.remove('visible');
+
+  const wv = document.getElementById('welcomeView');
+  const existingResults = wv.querySelector('.search-results-container');
+  if (existingResults) existingResults.remove();
+
+  const container = document.createElement('div');
+  container.className = 'search-results-container';
+  container.innerHTML = `
+    <div class="search-results-title">
+      ${results.length} resultado${results.length !== 1 ? 's' : ''} para "<em>${q}</em>"
+    </div>
+    ${results.length === 0 ? '<p style="color:var(--text3);font-style:italic">No se encontraron términos.</p>' : ''}
+    ${results.map(t => `
+      <div class="search-result-item" onclick="clearSearchAndSelect('${t.id}')">
+        <h3>${highlight(t.term, ql)}</h3>
+        <p>${snippetHighlight(t.description || '', ql)}</p>
+      </div>
+    `).join('')}
+  `;
+  wv.appendChild(container);
+}
+
+function snippetHighlight(text, q) {
+  if (!text) return '';
+  const idx = text.toLowerCase().indexOf(q.toLowerCase());
+  const start = Math.max(0, idx - 60);
+  const end = Math.min(text.length, idx + q.length + 100);
+  let snippet = (start > 0 ? '…' : '') + escHTML(text.slice(start, end)) + (end < text.length ? '…' : '');
+  return snippet.replace(new RegExp(`(${escRe(escHTML(q))})`, 'gi'), '<mark>$1</mark>');
+}
+
+function clearSearchAndSelect(id) {
+  searchQuery = '';
+  document.getElementById('searchInput').value = '';
+  document.getElementById('statsBar').style.display = '';
+  const wv = document.getElementById('welcomeView');
+  const existingResults = wv.querySelector('.search-results-container');
+  if (existingResults) existingResults.remove();
+  selectTerm(id);
+}
+
+function showWelcome() {
+  document.getElementById('welcomeView').style.display = 'block';
+  document.getElementById('statsBar').style.display = '';
+  const wv = document.getElementById('welcomeView');
+  const existingResults = wv.querySelector('.search-results-container');
+  if (existingResults) existingResults.remove();
+}
+
+// ═══════════════════════════════════════════════════
+//  CREAR / EDITAR
+// ═══════════════════════════════════════════════════
+function openNewTerm() {
+  editingId = null;
+  document.getElementById('modalTitle').textContent = 'Nuevo término';
+  document.getElementById('fieldTerm').value = '';
+  document.getElementById('fieldPos').value = '';
+  document.getElementById('fieldEtym').value = '';
+  document.getElementById('fieldDesc').value = '';
+  updateCrosslinkHint();
+  document.getElementById('termModal').classList.add('open');
+  document.getElementById('fieldTerm').focus();
+}
+
+function editCurrentTerm() {
+  if (!currentTermId) return;
+  const term = glossary.find(t => t.id === currentTermId);
+  if (!term) return;
+  editingId = term.id;
+  document.getElementById('modalTitle').textContent = 'Editar término';
+  document.getElementById('fieldTerm').value = term.term;
+  document.getElementById('fieldPos').value = term.pos || '';
+  document.getElementById('fieldEtym').value = term.etym || '';
+  document.getElementById('fieldDesc').value = term.description || '';
+  updateCrosslinkHint();
+  document.getElementById('termModal').classList.add('open');
+}
+
+function updateCrosslinkHint() {
+  const desc = document.getElementById('fieldDesc').value.toLowerCase();
+  const own = (document.getElementById('fieldTerm').value || '').toLowerCase();
+  const found = glossary
+    .filter(t => t.id !== editingId && t.term.toLowerCase() !== own)
+    .filter(t => desc.includes(t.term.toLowerCase()))
+    .map(t => t.term);
+  const hint = document.getElementById('crosslinkHint');
+  if (found.length) {
+    hint.innerHTML = `✦ Vínculos detectados: <strong>${found.join(', ')}</strong>`;
+    hint.style.background = 'rgba(212,168,83,0.12)';
+  } else {
+    hint.innerHTML = '✦ Los nombres de otros términos detectados en la definición se vincularán automáticamente al guardar.';
+    hint.style.background = '';
+  }
+}
+
+document.getElementById('fieldDesc').addEventListener('input', updateCrosslinkHint);
+document.getElementById('fieldTerm').addEventListener('input', updateCrosslinkHint);
+
+function saveTerm() {
+  const term = document.getElementById('fieldTerm').value.trim();
+  const pos = document.getElementById('fieldPos').value;
+  const etym = document.getElementById('fieldEtym').value.trim();
+  const description = document.getElementById('fieldDesc').value.trim();
+
+  if (!term) { showToast('El término no puede estar vacío.'); return; }
+  if (!description) { showToast('La definición no puede estar vacía.'); return; }
+
+  if (editingId) {
+    const idx = glossary.findIndex(t => t.id === editingId);
+    if (idx !== -1) {
+      glossary[idx] = { ...glossary[idx], term, pos, etym, description };
+    }
+    showToast(`"${term}" actualizado`);
+    currentTermId = editingId;
+  } else {
+    const id = slugify(term) + '-' + Date.now();
+    const maxOrder = glossary.reduce((m, t) => Math.max(m, t.order ?? 0), 0);
+    glossary.push({ id, term, pos, etym, description, order: maxOrder + 1 });
+    showToast(`"${term}" creado`);
+    currentTermId = id;
+  }
+
+  saveData();
+  closeModal();
+  renderNav();
+  selectTerm(currentTermId);
+}
+
+function closeModal() {
+  document.getElementById('termModal').classList.remove('open');
+  editingId = null;
+}
+
+function slugify(s) {
+  return s.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+// ═══════════════════════════════════════════════════
+//  ELIMINAR
+// ═══════════════════════════════════════════════════
+function deleteCurrentTerm() {
+  if (!currentTermId) return;
+  const term = glossary.find(t => t.id === currentTermId);
+  if (!term) return;
+  pendingDeleteId = currentTermId;
+  document.getElementById('confirmMsg').textContent =
+    `¿Eliminar el término "${term.term}"? Esta acción no se puede deshacer.`;
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+
+function closeConfirm() {
+  document.getElementById('confirmOverlay').classList.remove('open');
+  pendingDeleteId = null;
+}
+
+function confirmDelete() {
+  if (!pendingDeleteId) return;
+  const term = glossary.find(t => t.id === pendingDeleteId);
+  glossary = glossary.filter(t => t.id !== pendingDeleteId);
+  saveData();
+  currentTermId = null;
+  closeConfirm();
+  renderNav();
+  document.getElementById('termView').classList.remove('visible');
+  document.getElementById('welcomeView').style.display = 'block';
+  showToast(`"${term?.term}" eliminado`);
+}
+
+// ═══════════════════════════════════════════════════
+//  DRAG & DROP (orden personalizado)
+// ═══════════════════════════════════════════════════
+let dragSrcId = null;
+
+function dragStart(e, id) {
+  dragSrcId = id;
+  setTimeout(() => {
+    const el = document.getElementById('nav-' + id);
+    if (el) el.classList.add('dragging');
+  }, 0);
+}
+
+function dragOver(e, id) {
+  e.preventDefault();
+  document.querySelectorAll('.term-nav-item').forEach(el => el.classList.remove('drag-over'));
+  if (id !== dragSrcId) {
+    const el = document.getElementById('nav-' + id);
+    if (el) el.classList.add('drag-over');
+  }
+}
+
+function dragDrop(e, targetId) {
+  e.preventDefault();
+  if (dragSrcId === targetId) return;
+
+  const sorted = getSorted();
+  const srcIdx = sorted.findIndex(t => t.id === dragSrcId);
+  const tgtIdx = sorted.findIndex(t => t.id === targetId);
+
+  const reordered = [...sorted];
+  const [removed] = reordered.splice(srcIdx, 1);
+  reordered.splice(tgtIdx, 0, removed);
+
+  reordered.forEach((t, i) => {
+    const g = glossary.find(x => x.id === t.id);
+    if (g) g.order = i;
+  });
+
+  saveData();
+  renderNav();
+}
+
+function dragEnd() {
+  dragSrcId = null;
+  document.querySelectorAll('.term-nav-item').forEach(el => {
+    el.classList.remove('dragging', 'drag-over');
+  });
+}
+
+// ═══════════════════════════════════════════════════
+//  IMPORT / EXPORT
+// ═══════════════════════════════════════════════════
+function openImportExport() {
+  document.getElementById('jsonPanel').textContent = JSON.stringify(glossary, null, 2);
+  document.getElementById('pasteJSON').value = '';
+  document.getElementById('ioModal').classList.add('open');
+}
+
+function closeIOModal() {
+  document.getElementById('ioModal').classList.remove('open');
+}
+
+function copyJSON() {
+  const text = JSON.stringify(glossary, null, 2);
+  navigator.clipboard.writeText(text).then(() => showToast('JSON copiado al portapapeles'));
+}
+
+function downloadJSON() {
+  const blob = new Blob([JSON.stringify(glossary, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'glosario-nme.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast('Descargando glosario-nme.json');
+}
+
+function importJSON(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (Array.isArray(data)) {
+        glossary = data;
+        saveData();
+        renderNav();
+        currentTermId = null;
+        document.getElementById('termView').classList.remove('visible');
+        showWelcome();
+        document.getElementById('jsonPanel').textContent = JSON.stringify(glossary, null, 2);
+        showToast(`${data.length} términos importados`);
+      } else {
+        showToast('El JSON no tiene el formato esperado.');
+      }
+    } catch {
+      showToast('Error al parsear el archivo JSON.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function loadPastedJSON() {
+  const raw = document.getElementById('pasteJSON').value.trim();
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    if (Array.isArray(data)) {
+      glossary = data;
+      saveData();
+      renderNav();
+      currentTermId = null;
+      document.getElementById('termView').classList.remove('visible');
+      showWelcome();
+      closeIOModal();
+      showToast(`${data.length} términos cargados desde JSON`);
+    } else {
+      showToast('El JSON debe ser un arreglo de términos.');
+    }
+  } catch {
+    showToast('JSON inválido. Revisa la sintaxis.');
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════
+let toastTimer = null;
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show', 'success');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show', 'success'), 2800);
+}
+
+// Cerrar modal con Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeIOModal();
+    closeConfirm();
+  }
+});
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+loadData();
+renderNav();
+renderStats();
+</script>
+</body>
+</html>

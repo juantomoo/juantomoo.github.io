@@ -1773,6 +1773,7 @@ body.no-threejs #canvas-3d {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     gap: 1rem;
     font-family: var(--font-retro);
     font-size: 0.9rem;
@@ -1789,6 +1790,17 @@ body.no-threejs #canvas-3d {
 .tagline {
     color: var(--color-cyan);
     opacity: 0.7;
+}
+
+.footer-link {
+    color: var(--color-yellow);
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.footer-link:hover {
+    opacity: 0.85;
+    text-decoration: underline;
 }
 
 /* =============================================
