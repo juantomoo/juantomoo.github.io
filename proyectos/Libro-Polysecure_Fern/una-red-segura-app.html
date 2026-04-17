@@ -1,0 +1,1849 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Una Red Segura - Lector</title>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600&display=swap');
+
+      :root {
+        --ui-font: 'Manrope', 'Segoe UI', sans-serif;
+        --reading-font: 'Literata', Georgia, serif;
+        --radius-xl: 22px;
+        --radius-lg: 16px;
+        --radius-md: 12px;
+        --shadow-soft: 0 10px 28px rgba(18, 28, 45, 0.08);
+        --transition-fast: 160ms;
+        --transition-mid: 280ms;
+        --focus-ring: 2px solid #005fcc;
+        --scroll-track: color-mix(in srgb, #7c8aa8 20%, transparent);
+        --scroll-thumb: color-mix(in srgb, #7c8aa8 55%, #2f3b57 45%);
+        --scroll-thumb-hover: color-mix(in srgb, #86b1ff 65%, #2f3b57 35%);
+      }
+
+      body[data-theme='light'] {
+        --bg-main: #f7f8fb;
+        --bg-surface: #ffffff;
+        --bg-panel: #f0f3f8;
+        --text-main: #12151f;
+        --text-muted: #55607a;
+        --text-subtle: #6b7690;
+        --border: #d9dfec;
+        --accent: #0b5ad6;
+        --accent-2: #0e8f6b;
+        --progress-track: #dee7f8;
+      }
+
+      body[data-theme='dark'] {
+        --bg-main: #171a22;
+        --bg-surface: #1f2430;
+        --bg-panel: #242b3a;
+        --text-main: #eef2ff;
+        --text-muted: #bdc7de;
+        --text-subtle: #99a4bf;
+        --border: #3a445b;
+        --accent: #78a8ff;
+        --accent-2: #45d5a5;
+        --progress-track: #303b54;
+      }
+
+      body[data-theme='sepia'] {
+        --bg-main: #efe4d4;
+        --bg-surface: #f7eedf;
+        --bg-panel: #ead9c1;
+        --text-main: #3a2b1f;
+        --text-muted: #5f4d38;
+        --text-subtle: #7a654b;
+        --border: #cdb99b;
+        --accent: #9f4a16;
+        --accent-2: #326f5c;
+        --progress-track: #dcc7aa;
+      }
+
+      body[data-theme='highcontrast'] {
+        --bg-main: #000000;
+        --bg-surface: #080808;
+        --bg-panel: #111111;
+        --text-main: #ffffff;
+        --text-muted: #f2f2f2;
+        --text-subtle: #d4d4d4;
+        --border: #ffffff;
+        --accent: #ffe600;
+        --accent-2: #00ffd0;
+        --progress-track: #3f3f3f;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+      }
+
+      body {
+        font-family: var(--ui-font);
+        color: var(--text-main);
+        background:
+          radial-gradient(circle at 10% 5%, rgba(15, 94, 255, 0.12), transparent 40%),
+          radial-gradient(circle at 90% 95%, rgba(14, 143, 107, 0.1), transparent 35%),
+          var(--bg-main);
+        transition: background-color var(--transition-mid), color var(--transition-mid);
+      }
+
+      body[data-contrast='normal'] {
+        --ui-border-width: 1px;
+        --reader-opacity: 1;
+        --reader-line-height: 1.65;
+        --app-filter: none;
+      }
+
+      body[data-contrast='medio'] {
+        --ui-border-width: 2px;
+        --reader-opacity: 1;
+        --reader-line-height: 1.72;
+        --app-filter: contrast(1.08) saturate(1.03);
+      }
+
+      body[data-contrast='alto'] {
+        --ui-border-width: 2px;
+        --reader-opacity: 1;
+        --reader-line-height: 1.78;
+        --app-filter: contrast(1.18) saturate(1.08);
+      }
+
+      .app {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        min-height: 100dvh;
+        filter: var(--app-filter);
+      }
+
+      .sidebar {
+        background: linear-gradient(170deg, var(--bg-surface), var(--bg-panel));
+        border-right: var(--ui-border-width) solid var(--border);
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        height: 100dvh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable both-edges;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+      }
+
+      /* Unifica estilo de scroll para panel lateral y zonas de lectura/listados. */
+      .sidebar,
+      .reader,
+      .tab-content,
+      .search-results {
+        scrollbar-width: thin;
+        scrollbar-color: var(--scroll-thumb) var(--scroll-track);
+      }
+
+      .sidebar::-webkit-scrollbar,
+      .reader::-webkit-scrollbar,
+      .tab-content::-webkit-scrollbar,
+      .search-results::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+      }
+
+      .sidebar::-webkit-scrollbar-track,
+      .reader::-webkit-scrollbar-track,
+      .tab-content::-webkit-scrollbar-track,
+      .search-results::-webkit-scrollbar-track {
+        background: var(--scroll-track);
+        border-radius: 999px;
+      }
+
+      .sidebar::-webkit-scrollbar-thumb,
+      .reader::-webkit-scrollbar-thumb,
+      .tab-content::-webkit-scrollbar-thumb,
+      .search-results::-webkit-scrollbar-thumb {
+        background: var(--scroll-thumb);
+        border-radius: 999px;
+        border: 2px solid transparent;
+        background-clip: padding-box;
+      }
+
+      .sidebar::-webkit-scrollbar-thumb:hover,
+      .reader::-webkit-scrollbar-thumb:hover,
+      .tab-content::-webkit-scrollbar-thumb:hover,
+      .search-results::-webkit-scrollbar-thumb:hover {
+        background: var(--scroll-thumb-hover);
+      }
+
+      .sidebar-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .sidebar-close {
+        display: none;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-mark {
+        width: 40px;
+        height: 40px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        box-shadow: var(--shadow-soft);
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 1rem;
+      }
+
+      .brand p {
+        margin: 0;
+        color: var(--text-subtle);
+        font-size: 0.8rem;
+      }
+
+      .panel {
+        background: var(--bg-surface);
+        border: var(--ui-border-width) solid var(--border);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-soft);
+        padding: 12px;
+      }
+
+      .panel h2 {
+        margin: 0 0 10px;
+        font-size: 0.92rem;
+      }
+
+      .main {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        gap: 12px;
+        padding: 16px;
+      }
+
+      .top-progress {
+        height: 4px;
+        background: var(--progress-track);
+        border-radius: 999px;
+        overflow: hidden;
+      }
+
+      .top-progress-bar {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transition: width var(--transition-mid) ease;
+      }
+
+      .topbar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .topbar-left,
+      .topbar-right {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+      }
+
+      .chip,
+      button,
+      select,
+      input[type='search'] {
+        font-family: inherit;
+        border: var(--ui-border-width) solid var(--border);
+        background: var(--bg-surface);
+        color: var(--text-main);
+        border-radius: 999px;
+        padding: 10px 14px;
+        min-height: 44px;
+        font-size: 0.9rem;
+      }
+
+      button {
+        cursor: pointer;
+      }
+
+      button:hover {
+        filter: brightness(0.98);
+      }
+
+      button[data-active='true'] {
+        border-color: transparent;
+        background: linear-gradient(135deg, var(--accent), var(--accent-2));
+        color: #fff;
+      }
+
+      button:focus-visible,
+      select:focus-visible,
+      input:focus-visible,
+      .chapter-btn:focus-visible,
+      .tab-btn:focus-visible {
+        outline: var(--focus-ring);
+        outline-offset: 2px;
+      }
+
+      .reading-shell {
+        background: var(--bg-surface);
+        border: var(--ui-border-width) solid var(--border);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow-soft);
+        display: grid;
+        grid-template-rows: auto 1fr;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .reading-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 12px 18px;
+        border-bottom: var(--ui-border-width) solid var(--border);
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .reader {
+        padding: clamp(18px, 3vw, 48px);
+        font-family: var(--reading-font);
+        font-size: var(--reader-font-size, 18px);
+        line-height: var(--reader-line-height, 1.65);
+        letter-spacing: 0;
+        word-spacing: 0.15em;
+        max-width: min(68ch, 640px);
+        margin: 0 auto;
+        width: 100%;
+        overflow-y: auto;
+        opacity: var(--reader-opacity);
+      }
+
+      .reader p {
+        margin: 0 0 1.05em;
+        text-align: justify;
+        hyphens: auto;
+      }
+
+      .reader .dropcap {
+        float: left;
+        font-size: 2.5em;
+        line-height: 0.9;
+        margin-right: 0.18em;
+      }
+
+      .highlight {
+        border-radius: 6px;
+        padding: 0 0.08em;
+      }
+
+      .highlight.amarillo {
+        background: rgba(255, 224, 62, 0.6);
+      }
+
+      .highlight.verde {
+        background: rgba(93, 230, 160, 0.45);
+      }
+
+      .highlight.azul {
+        background: rgba(102, 182, 255, 0.45);
+      }
+
+      .highlight.rojo {
+        background: rgba(255, 119, 119, 0.42);
+      }
+
+      .search-hit {
+        outline: 2px dashed var(--accent);
+        outline-offset: 1px;
+      }
+
+      .bottom-nav {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .bottom-nav .left {
+        justify-self: start;
+      }
+
+      .bottom-nav .center {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+      }
+
+      .bottom-nav .right {
+        justify-self: end;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 6px;
+      }
+
+      .tab-btn {
+        flex: 1;
+        border-radius: 10px;
+        min-height: 40px;
+        padding: 8px;
+      }
+
+      .tab-content {
+        max-height: 36dvh;
+        overflow: auto;
+        overscroll-behavior: contain;
+      }
+
+      .chapter-list,
+      .bookmark-list,
+      .notes-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 6px;
+      }
+
+      .search-results {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 6px;
+        max-height: 26dvh;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+      }
+
+      .floating-nav {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        z-index: 8;
+      }
+
+      .floating-nav .floating-btn {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        min-width: 52px;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        font-size: 1.2rem;
+        font-weight: 700;
+        padding: 0;
+        pointer-events: auto;
+        backdrop-filter: blur(6px);
+      }
+
+      .floating-nav .floating-btn.left {
+        left: 12px;
+      }
+
+      .floating-nav .floating-btn.right {
+        right: 12px;
+      }
+
+      .chapter-btn,
+      .jump-btn {
+        width: 100%;
+        text-align: left;
+        border: var(--ui-border-width) solid var(--border);
+        background: var(--bg-panel);
+        border-radius: 10px;
+        min-height: 44px;
+        padding: 10px;
+      }
+
+      .chapter-btn[data-active='true'] {
+        background: color-mix(in srgb, var(--accent) 16%, var(--bg-surface));
+        border-color: var(--accent);
+      }
+
+      .small-meta {
+        color: var(--text-subtle);
+        font-size: 0.8rem;
+      }
+
+      .mini-progress {
+        margin-top: 8px;
+        width: 100%;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--progress-track);
+        overflow: hidden;
+      }
+
+      .mini-progress span {
+        display: block;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(90deg, var(--accent), var(--accent-2));
+        transition: width var(--transition-mid);
+      }
+
+      .tts-controls {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .search-input {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      .selection-popup {
+        position: fixed;
+        z-index: 60;
+        display: none;
+        background: var(--bg-surface);
+        border: var(--ui-border-width) solid var(--border);
+        border-radius: 12px;
+        padding: 6px;
+        box-shadow: var(--shadow-soft);
+        gap: 6px;
+      }
+
+      .reader.summary-mode {
+        border-left: 4px solid color-mix(in srgb, var(--accent) 65%, transparent);
+      }
+
+      .reader.summary-mode p::before {
+        content: '▸ ';
+        color: var(--accent);
+      }
+
+      .credits {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.45;
+      }
+
+      .credits p {
+        margin: 0 0 8px;
+      }
+
+      .credits ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .credits a {
+        color: var(--accent);
+      }
+
+      .sidebar-backdrop {
+        display: none;
+      }
+
+      .selection-popup button {
+        min-height: 36px;
+        border-radius: 8px;
+        padding: 6px 10px;
+      }
+
+      .mobile-toggle {
+        display: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+          scroll-behavior: auto !important;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .app {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: fixed;
+          inset: 0 auto 0 0;
+          width: min(84vw, 330px);
+          z-index: 80;
+          transform: translateX(-104%);
+          transition: transform var(--transition-mid) ease;
+          padding: 14px;
+        }
+
+        .sidebar[data-open='true'] {
+          transform: translateX(0);
+        }
+
+        .sidebar-close {
+          display: inline-flex;
+        }
+
+        .sidebar-backdrop {
+          display: block;
+          position: fixed;
+          inset: 0;
+          background: rgba(0, 0, 0, 0.45);
+          opacity: 0;
+          pointer-events: none;
+          transition: opacity var(--transition-mid);
+          z-index: 70;
+        }
+
+        .sidebar-backdrop[data-open='true'] {
+          opacity: 1;
+          pointer-events: auto;
+        }
+
+        .mobile-toggle {
+          display: inline-flex;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .main {
+          padding: 10px;
+        }
+
+        .sidebar {
+          width: min(88vw, 300px);
+          padding: 12px;
+        }
+
+        .sidebar .panel {
+          padding: 10px;
+        }
+
+        .sidebar .panel h2 {
+          font-size: 0.86rem;
+        }
+
+        .sidebar .brand h1 {
+          font-size: 0.96rem;
+        }
+
+        .sidebar .brand p,
+        .small-meta {
+          font-size: 0.76rem;
+        }
+
+        .tabs {
+          gap: 4px;
+          flex-wrap: wrap;
+        }
+
+        .tab-btn {
+          min-height: 36px;
+          padding: 7px 9px;
+          font-size: 0.83rem;
+        }
+
+        .chapter-btn,
+        .jump-btn,
+        .chip,
+        button,
+        select,
+        input[type='search'] {
+          min-height: 40px;
+          padding: 8px 10px;
+          font-size: 0.84rem;
+        }
+
+        .reader {
+          padding: 16px;
+          max-width: 100%;
+          font-size: var(--reader-font-size, 17px);
+        }
+
+        .bottom-nav {
+          grid-template-columns: 1fr;
+        }
+
+        .bottom-nav .left,
+        .bottom-nav .center,
+        .bottom-nav .right {
+          justify-self: stretch;
+          text-align: center;
+        }
+
+        .tts-controls {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .floating-nav .floating-btn {
+          width: 46px;
+          height: 46px;
+          min-width: 46px;
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body data-theme="dark" data-contrast="normal">
+    <div class="app">
+      <aside class="sidebar" id="sidebar" aria-label="Navegación del libro" data-open="false">
+        <div class="sidebar-top">
+          <div class="brand">
+            <div class="brand-mark" aria-hidden="true"></div>
+            <div>
+              <h1>Una Red Segura</h1>
+              <p>Apoyo de lectura</p>
+            </div>
+          </div>
+          <button class="sidebar-close" type="button" id="closeSidebar" aria-label="Cerrar panel lateral">✕</button>
+        </div>
+
+        <section class="panel" aria-label="Estado de lectura">
+          <h2>Progreso</h2>
+          <div class="small-meta" id="overallProgressText">0% del libro</div>
+          <div class="mini-progress"><span id="overallProgressBar"></span></div>
+          <div class="small-meta" id="chapterProgressText" style="margin-top: 8px">0% del capítulo</div>
+          <div class="mini-progress"><span id="chapterProgressBar"></span></div>
+        </section>
+
+        <section class="panel" aria-label="Pestañas de navegación">
+          <div class="tabs" role="tablist" aria-label="Secciones del panel lateral">
+            <button class="tab-btn" type="button" data-tab="chapters" data-active="true" role="tab" aria-selected="true">Capítulos</button>
+            <button class="tab-btn" type="button" data-tab="bookmarks" role="tab" aria-selected="false">Marcadores</button>
+            <button class="tab-btn" type="button" data-tab="notes" role="tab" aria-selected="false">Notas</button>
+          </div>
+          <div class="tab-content" id="tabContent"></div>
+        </section>
+
+        <section class="panel" aria-label="Búsqueda global">
+          <h2>Búsqueda global</h2>
+          <input id="searchInput" class="search-input" type="search" placeholder="Buscar en todo el libro" aria-label="Buscar en todo el libro" />
+          <div class="small-meta" id="searchMeta" style="margin-top: 8px">Sin búsqueda activa.</div>
+          <ul class="search-results" id="searchResults" style="margin-top: 8px"></ul>
+        </section>
+
+        <section class="panel" aria-label="Lectura en voz alta">
+          <h2>TTS</h2>
+          <label class="small-meta" for="voiceSelect">Voz</label>
+          <select id="voiceSelect" style="width: 100%; margin: 6px 0 8px" aria-label="Seleccionar voz"></select>
+          <label class="small-meta" for="ttsRate">Velocidad</label>
+          <input id="ttsRate" type="range" min="0.7" max="1.4" step="0.1" value="1" aria-label="Velocidad de lectura en voz" style="width: 100%" />
+          <div class="tts-controls" style="margin-top: 8px">
+            <button type="button" id="ttsPlay">Leer</button>
+            <button type="button" id="ttsPause">Pausa</button>
+            <button type="button" id="ttsResume">Seguir</button>
+            <button type="button" id="ttsStop">Parar</button>
+          </div>
+        </section>
+
+        <section class="panel" aria-label="Créditos y licencia">
+          <h2>Créditos</h2>
+          <div class="credits">
+            <p>Desarrollado por Juan Tomoo (<a href="https://juantomoo.github.io" target="_blank" rel="noopener noreferrer">juantomoo.github.io</a>).</p>
+            <p>Este lector se distribuye con licencia abierta MIT para su código (<a href="./LICENSE" target="_blank" rel="noopener noreferrer">ver licencia</a>).</p>
+            <p>Uso interno del Club de Lectura Poliamor. Este proyecto no busca reemplazar ni vulnerar los derechos de autor de la obra original.</p>
+            <ul>
+              <li><a href="https://www.jessicafern.com/books" target="_blank" rel="noopener noreferrer">Sitio oficial de la autora</a></li>
+              <li><a href="https://thornapplepress.ca/books/polysecure/" target="_blank" rel="noopener noreferrer">Ficha editorial (Thornapple Press)</a></li>
+              <li><a href="https://a.co/d/06u4ffGw" target="_blank" rel="noopener noreferrer">Comprar en Amazon</a></li>
+              <li><a href="https://www.barnesandnoble.com/s/polysecure%20jessica%20fern" target="_blank" rel="noopener noreferrer">Comprar en Barnes &amp; Noble</a></li>
+              <li><a href="https://www.kobo.com/us/en/search?query=Polysecure%20Jessica%20Fern" target="_blank" rel="noopener noreferrer">Comprar en Kobo</a></li>
+            </ul>
+          </div>
+        </section>
+      </aside>
+      <div class="sidebar-backdrop" id="sidebarBackdrop" data-open="false" aria-hidden="true"></div>
+
+      <main class="main" role="main">
+        <div class="top-progress" aria-label="Progreso total de lectura"><div class="top-progress-bar" id="topProgressBar"></div></div>
+
+        <header class="topbar">
+          <div class="topbar-left">
+            <button class="mobile-toggle" type="button" id="openSidebar" aria-label="Abrir panel lateral">☰</button>
+            <span class="chip" id="chapterTitleChip">Cargando libro...</span>
+            <span class="chip" id="chapterPageChip">Página 0/0</span>
+          </div>
+          <div class="topbar-right">
+            <button type="button" id="summaryModeBtn" aria-label="Activar o desactivar modo resumen">Resumen: OFF</button>
+            <button type="button" id="bookmarkBtn" aria-label="Marcar o desmarcar página">☆ Marcador</button>
+            <button type="button" id="resetProgressBtn" aria-label="Resetear avances y notas">Resetear avance</button>
+            <button type="button" id="fontMinus" aria-label="Reducir tamaño de letra">A-</button>
+            <button type="button" id="fontPlus" aria-label="Aumentar tamaño de letra">A+</button>
+            <select id="themeSelect" aria-label="Tema visual">
+              <option value="light">Claro</option>
+              <option value="dark">Oscuro</option>
+              <option value="sepia">Sepia</option>
+              <option value="highcontrast">Alto contraste</option>
+            </select>
+            <select id="contrastSelect" aria-label="Nivel de contraste">
+              <option value="normal">Contraste normal</option>
+              <option value="medio">Contraste medio</option>
+              <option value="alto">Contraste alto</option>
+            </select>
+          </div>
+        </header>
+
+        <section class="reading-shell" aria-label="Contenido de lectura">
+          <div class="reading-header">
+            <span id="chapterHeaderMeta">Capítulo</span>
+            <span id="readingTimeMeta">Tiempo restante: --</span>
+          </div>
+          <article id="reader" class="reader" tabindex="0" aria-label="Texto del libro"></article>
+
+          <div class="floating-nav" aria-hidden="false">
+            <button type="button" class="floating-btn left" id="prevPageFloating" aria-label="Página anterior">◀</button>
+            <button type="button" class="floating-btn right" id="nextPageFloating" aria-label="Página siguiente">▶</button>
+          </div>
+        </section>
+
+        <footer class="bottom-nav" aria-label="Controles de navegación">
+          <div class="left">
+            <button type="button" id="prevPage" aria-label="Página anterior">← Anterior</button>
+          </div>
+          <div class="center" id="footerProgressLive" aria-live="polite">Página 0 de 0</div>
+          <div class="right">
+            <button type="button" id="nextPage" aria-label="Página siguiente">Siguiente →</button>
+          </div>
+        </footer>
+      </main>
+    </div>
+
+    <div id="selectionPopup" class="selection-popup" role="dialog" aria-label="Acciones de resaltado">
+      <button type="button" data-color="amarillo">🟡</button>
+      <button type="button" data-color="verde">🟢</button>
+      <button type="button" data-color="azul">🔵</button>
+      <button type="button" data-color="rojo">🔴</button>
+    </div>
+
+    <script>
+      'use strict';
+
+      // Clave única de almacenamiento local para no mezclar este lector con otros proyectos.
+      const STORAGE_KEY = 'reader-una-red-segura-v2';
+
+      // Estado global de toda la aplicación de lectura.
+      const state = {
+        book: null,
+        chapters: [],
+        pagesByChapter: [],
+        summaryPagesByChapter: [],
+        currentChapterIndex: 0,
+        currentPageIndex: 0,
+        theme: 'dark',
+        contrast: 'normal',
+        fontSizeLevel: 2,
+        highlights: [],
+        bookmarks: [],
+        searchTerm: '',
+        searchResults: [],
+        activeTab: 'chapters',
+        summaryMode: false,
+        ttsVoiceName: '',
+        ttsRate: 1,
+      };
+
+      // Referencias de nodos para manipular la UI sin repetir búsquedas en el DOM.
+      const dom = {
+        body: document.body,
+        sidebar: document.getElementById('sidebar'),
+        closeSidebar: document.getElementById('closeSidebar'),
+        sidebarBackdrop: document.getElementById('sidebarBackdrop'),
+        openSidebar: document.getElementById('openSidebar'),
+        tabContent: document.getElementById('tabContent'),
+        tabButtons: Array.from(document.querySelectorAll('.tab-btn')),
+        reader: document.getElementById('reader'),
+        chapterTitleChip: document.getElementById('chapterTitleChip'),
+        chapterPageChip: document.getElementById('chapterPageChip'),
+        chapterHeaderMeta: document.getElementById('chapterHeaderMeta'),
+        readingTimeMeta: document.getElementById('readingTimeMeta'),
+        footerProgressLive: document.getElementById('footerProgressLive'),
+        prevPage: document.getElementById('prevPage'),
+        nextPage: document.getElementById('nextPage'),
+        prevPageFloating: document.getElementById('prevPageFloating'),
+        nextPageFloating: document.getElementById('nextPageFloating'),
+        bookmarkBtn: document.getElementById('bookmarkBtn'),
+        summaryModeBtn: document.getElementById('summaryModeBtn'),
+        resetProgressBtn: document.getElementById('resetProgressBtn'),
+        fontMinus: document.getElementById('fontMinus'),
+        fontPlus: document.getElementById('fontPlus'),
+        themeSelect: document.getElementById('themeSelect'),
+        contrastSelect: document.getElementById('contrastSelect'),
+        overallProgressText: document.getElementById('overallProgressText'),
+        chapterProgressText: document.getElementById('chapterProgressText'),
+        overallProgressBar: document.getElementById('overallProgressBar'),
+        chapterProgressBar: document.getElementById('chapterProgressBar'),
+        topProgressBar: document.getElementById('topProgressBar'),
+        searchInput: document.getElementById('searchInput'),
+        searchMeta: document.getElementById('searchMeta'),
+        searchResults: document.getElementById('searchResults'),
+        selectionPopup: document.getElementById('selectionPopup'),
+        voiceSelect: document.getElementById('voiceSelect'),
+        ttsRate: document.getElementById('ttsRate'),
+        ttsPlay: document.getElementById('ttsPlay'),
+        ttsPause: document.getElementById('ttsPause'),
+        ttsResume: document.getElementById('ttsResume'),
+        ttsStop: document.getElementById('ttsStop'),
+      };
+
+      // Perfiles de paginación por pantalla y tamaño para mantener lectura cómoda.
+      const PAGE_TARGETS = {
+        mobile: [900, 820, 760, 700, 640],
+        desktop: [1550, 1450, 1320, 1200, 1080],
+      };
+
+      // Escapa caracteres especiales antes de inyectar texto en HTML.
+      function escapeHtml(text) {
+        return text
+          .replaceAll('&', '&amp;')
+          .replaceAll('<', '&lt;')
+          .replaceAll('>', '&gt;')
+          .replaceAll('"', '&quot;')
+          .replaceAll("'", '&#39;');
+      }
+
+      // Limpia saltos y espacios excesivos para mejorar búsqueda y paginación.
+      function normalizeText(text) {
+        return String(text || '')
+          .replaceAll('\r\n', '\n')
+          .replaceAll('\r', '\n')
+          .replace(/\n{3,}/g, '\n\n')
+          .trim();
+      }
+
+      // Carga estado persistido si existe en localStorage.
+      function hydrateState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) {
+            return;
+          }
+          const parsed = JSON.parse(raw);
+          state.currentChapterIndex = Number(parsed.currentChapterIndex || 0);
+          state.currentPageIndex = Number(parsed.currentPageIndex || 0);
+          state.theme = parsed.theme || 'dark';
+          state.contrast = parsed.contrast || 'normal';
+          state.fontSizeLevel = Number.isInteger(parsed.fontSizeLevel) ? parsed.fontSizeLevel : 2;
+          state.highlights = Array.isArray(parsed.highlights) ? parsed.highlights : [];
+          state.bookmarks = Array.isArray(parsed.bookmarks) ? parsed.bookmarks : [];
+          state.activeTab = parsed.activeTab || 'chapters';
+          state.summaryMode = Boolean(parsed.summaryMode);
+          state.ttsVoiceName = parsed.ttsVoiceName || '';
+          state.ttsRate = Number(parsed.ttsRate || 1);
+        } catch (_error) {
+          // Si falla la deserialización se continúa con estado limpio.
+        }
+      }
+
+      // Guarda estado esencial de lectura para retomar sesión.
+      function persistState() {
+        const payload = {
+          currentChapterIndex: state.currentChapterIndex,
+          currentPageIndex: state.currentPageIndex,
+          theme: state.theme,
+          contrast: state.contrast,
+          fontSizeLevel: state.fontSizeLevel,
+          highlights: state.highlights,
+          bookmarks: state.bookmarks,
+          activeTab: state.activeTab,
+          summaryMode: state.summaryMode,
+          ttsVoiceName: state.ttsVoiceName,
+          ttsRate: state.ttsRate,
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      }
+
+      // Obtiene la colección de páginas activa según el modo de lectura.
+      function getActivePagesByChapter() {
+        return state.summaryMode ? state.summaryPagesByChapter : state.pagesByChapter;
+      }
+
+      // Detecta contexto móvil para ajustar paginación y panel lateral.
+      function isMobileScreen() {
+        return window.matchMedia('(max-width: 768px)').matches;
+      }
+
+      // Define cantidad objetivo de caracteres por página según configuración.
+      function getTargetCharsPerPage() {
+        const mode = isMobileScreen() ? 'mobile' : 'desktop';
+        return PAGE_TARGETS[mode][state.fontSizeLevel] || PAGE_TARGETS[mode][2];
+      }
+
+      // Repagina todos los capítulos en función de tamaño de letra y pantalla.
+      function repaginateAllChapters() {
+        const target = getTargetCharsPerPage();
+        state.pagesByChapter = state.chapters.map((chapter) => paginateChapter(chapter.fullText, target));
+        state.summaryPagesByChapter = state.chapters.map((chapter) => buildThreePageSummary(chapter.fullText));
+        clampChapterAndPage();
+      }
+
+      // Construye un resumen extractivo fijo de 3 páginas para un capítulo.
+      function buildThreePageSummary(fullText) {
+        const text = normalizeText(fullText);
+        if (!text) {
+          return [
+            { start: 0, end: 0, text: 'Resumen no disponible para este capítulo.' },
+            { start: 0, end: 0, text: 'Resumen no disponible para este capítulo.' },
+            { start: 0, end: 0, text: 'Resumen no disponible para este capítulo.' },
+          ];
+        }
+
+        const third = Math.floor(text.length / 3);
+        const segments = [text.slice(0, third), text.slice(third, third * 2), text.slice(third * 2)];
+        return segments.map((segment, idx) => {
+          const summary = summarizeSegment(segment, idx + 1);
+          return { start: 0, end: summary.length, text: summary };
+        });
+      }
+
+      // Resume un segmento con enfoque en frases clave y cierre accionable.
+      function summarizeSegment(segment, sectionNumber) {
+        const clean = normalizeText(segment);
+        const sentences = clean
+          .split(/(?<=[.!?])\s+/)
+          .map((s) => s.trim())
+          .filter((s) => s.length > 35);
+
+        if (!sentences.length) {
+          return `Resumen ${sectionNumber}: ${clean.slice(0, 1200)}`;
+        }
+
+        const keywordScores = new Map();
+        const words = normalizeForSearch(clean).split(/\W+/).filter((w) => w.length >= 5);
+        for (const word of words) {
+          keywordScores.set(word, (keywordScores.get(word) || 0) + 1);
+        }
+
+        const scored = sentences.map((sentence, idx) => {
+          const tokenized = normalizeForSearch(sentence).split(/\W+/);
+          const score = tokenized.reduce((acc, token) => acc + (keywordScores.get(token) || 0), 0) + (idx < 2 ? 20 : 0);
+          return { sentence, idx, score };
+        });
+
+        const selected = scored
+          .sort((a, b) => b.score - a.score)
+          .slice(0, Math.min(10, scored.length))
+          .sort((a, b) => a.idx - b.idx)
+          .map((item) => item.sentence);
+
+        const prefix = `Resumen ${sectionNumber} de 3:`;
+        const body = selected.join(' ');
+        return `${prefix} ${body}`.slice(0, 2200);
+      }
+
+      // Divide un capítulo en páginas por longitud objetivo, priorizando cortes naturales.
+      function paginateChapter(fullText, targetChars) {
+        const text = normalizeText(fullText);
+        if (!text) {
+          return [{ start: 0, end: 0, text: '' }];
+        }
+
+        const pages = [];
+        let cursor = 0;
+
+        while (cursor < text.length) {
+          const roughEnd = Math.min(cursor + targetChars, text.length);
+          let end = roughEnd;
+
+          if (roughEnd < text.length) {
+            const chunk = text.slice(cursor, roughEnd);
+            const paraBreak = chunk.lastIndexOf('\n\n');
+            const sentenceBreak = Math.max(chunk.lastIndexOf('. '), chunk.lastIndexOf('? '), chunk.lastIndexOf('! '));
+            if (paraBreak > targetChars * 0.45) {
+              end = cursor + paraBreak + 2;
+            } else if (sentenceBreak > targetChars * 0.55) {
+              end = cursor + sentenceBreak + 2;
+            }
+          }
+
+          pages.push({ start: cursor, end, text: text.slice(cursor, end).trim() });
+          cursor = end;
+        }
+
+        return pages;
+      }
+
+      // Evita índices inválidos cuando cambia paginación o capítulo.
+      function clampChapterAndPage() {
+        if (!state.chapters.length) {
+          state.currentChapterIndex = 0;
+          state.currentPageIndex = 0;
+          return;
+        }
+
+        state.currentChapterIndex = Math.max(0, Math.min(state.currentChapterIndex, state.chapters.length - 1));
+        const pages = getActivePagesByChapter()[state.currentChapterIndex] || [];
+        state.currentPageIndex = Math.max(0, Math.min(state.currentPageIndex, Math.max(0, pages.length - 1)));
+      }
+
+      // Obtiene la página activa actual con fallback robusto.
+      function getCurrentPage() {
+        const pages = getActivePagesByChapter()[state.currentChapterIndex] || [];
+        return pages[state.currentPageIndex] || { start: 0, end: 0, text: '' };
+      }
+
+      // Aplica tema y contraste sobre el documento y controles.
+      function applyThemeAndContrast() {
+        dom.body.dataset.theme = state.theme;
+        dom.body.dataset.contrast = state.contrast;
+        dom.themeSelect.value = state.theme;
+        dom.contrastSelect.value = state.contrast;
+      }
+
+      // Aplica tamaño de lectura según nivel configurado.
+      function applyFontSize() {
+        const sizes = [14, 16, 18, 20, 22];
+        const size = sizes[state.fontSizeLevel] || 18;
+        dom.reader.style.setProperty('--reader-font-size', `${size}px`);
+      }
+
+      // Estima tiempo restante de lectura por página con 200 palabras por minuto.
+      function estimateReadingTime(pageText) {
+        const words = pageText.trim() ? pageText.trim().split(/\s+/).length : 0;
+        const minutes = Math.max(1, Math.ceil(words / 200));
+        return `${minutes} min`;
+      }
+
+      // Filtra resaltados correspondientes al capítulo y página actual.
+      function getHighlightsForCurrentPage(page) {
+        return state.highlights.filter(
+          (h) =>
+            h.chapterIndex === state.currentChapterIndex &&
+            typeof h.start === 'number' &&
+            typeof h.end === 'number' &&
+            h.end > page.start &&
+            h.start < page.end
+        );
+      }
+
+      // Genera HTML de la página actual aplicando resaltados guardados.
+      function buildPageHtml(page) {
+        const source = page.text || '';
+        if (!source) {
+          return '<p>Sin contenido disponible para esta página.</p>';
+        }
+
+        if (state.summaryMode) {
+          const paragraphs = source
+            .split(/\n\n+/)
+            .filter((p) => p.trim().length > 0);
+          return paragraphs.map((p) => `<p>${escapeHtml(p).replaceAll('\n', '<br />')}</p>`).join('');
+        }
+
+        const pageHighlights = getHighlightsForCurrentPage(page)
+          .map((h) => ({
+            ...h,
+            localStart: Math.max(0, h.start - page.start),
+            localEnd: Math.min(source.length, h.end - page.start),
+          }))
+          .filter((h) => h.localEnd > h.localStart)
+          .sort((a, b) => a.localStart - b.localStart);
+
+        let html = '';
+        let cursor = 0;
+
+        for (const h of pageHighlights) {
+          if (h.localStart > cursor) {
+            html += escapeHtml(source.slice(cursor, h.localStart));
+          }
+          const fragment = escapeHtml(source.slice(h.localStart, h.localEnd));
+          const noteFlag = h.note ? ' data-note="true"' : '';
+          html += `<span class="highlight ${h.color}" data-highlight-id="${h.id}"${noteFlag}>${fragment}</span>`;
+          cursor = h.localEnd;
+        }
+
+        if (cursor < source.length) {
+          html += escapeHtml(source.slice(cursor));
+        }
+
+        const paragraphs = html
+          .split(/\n\n+/)
+          .map((p) => p.replaceAll('\n', '<br />'))
+          .filter((p) => p.trim().length > 0);
+
+        if (!paragraphs.length) {
+          return '<p>Sin contenido disponible para esta página.</p>';
+        }
+
+        return paragraphs.map((p) => `<p>${p}</p>`).join('');
+      }
+
+      // Renderiza contenido de lectura, metadatos y progreso.
+      function renderReadingView() {
+        clampChapterAndPage();
+        const chapter = state.chapters[state.currentChapterIndex];
+        const pages = getActivePagesByChapter()[state.currentChapterIndex] || [];
+        const page = getCurrentPage();
+        const chapterLabel = chapter ? `${chapter.num}. ${chapter.title}` : 'Sin capítulo';
+        const pagePrefix = state.summaryMode ? 'Resumen' : 'Página';
+
+        dom.chapterTitleChip.textContent = chapterLabel;
+        dom.chapterPageChip.textContent = `${pagePrefix} ${state.currentPageIndex + 1}/${pages.length || 1}`;
+        dom.chapterHeaderMeta.textContent = state.summaryMode ? `Capítulo ${chapterLabel} · Modo resumen` : `Capítulo ${chapterLabel}`;
+        dom.readingTimeMeta.textContent = `Tiempo restante: ${estimateReadingTime(page.text || '')}`;
+        dom.reader.innerHTML = buildPageHtml(page);
+        dom.reader.classList.toggle('summary-mode', state.summaryMode);
+        dom.footerProgressLive.textContent = `${pagePrefix} ${state.currentPageIndex + 1} de ${pages.length || 1}`;
+        const isFirstPage = state.currentPageIndex === 0 && state.currentChapterIndex === 0;
+        const isLastPage = state.currentChapterIndex === state.chapters.length - 1 && state.currentPageIndex === pages.length - 1;
+        dom.prevPage.disabled = isFirstPage;
+        dom.nextPage.disabled = isLastPage;
+        dom.prevPageFloating.disabled = isFirstPage;
+        dom.nextPageFloating.disabled = isLastPage;
+        dom.summaryModeBtn.textContent = state.summaryMode ? 'Resumen: ON' : 'Resumen: OFF';
+        dom.summaryModeBtn.dataset.active = String(state.summaryMode);
+
+        updateBookmarkButton();
+        updateProgressBars();
+        updateTabs();
+        renderSearchResults();
+        persistState();
+      }
+
+      // Actualiza barras e indicadores de progreso general y por capítulo.
+      function updateProgressBars() {
+        const activePages = getActivePagesByChapter();
+        const totalPages = activePages.reduce((acc, pages) => acc + pages.length, 0) || 1;
+        const passedPages =
+          activePages.slice(0, state.currentChapterIndex).reduce((acc, pages) => acc + pages.length, 0) + state.currentPageIndex + 1;
+
+        const chapterPages = activePages[state.currentChapterIndex]?.length || 1;
+        const chapterPercent = Math.round(((state.currentPageIndex + 1) / chapterPages) * 100);
+        const totalPercent = Math.round((passedPages / totalPages) * 100);
+
+        dom.chapterProgressText.textContent = `${chapterPercent}% del capítulo`;
+        dom.overallProgressText.textContent = `${totalPercent}% del libro`;
+        dom.chapterProgressBar.style.width = `${chapterPercent}%`;
+        dom.overallProgressBar.style.width = `${totalPercent}%`;
+        dom.topProgressBar.style.width = `${totalPercent}%`;
+      }
+
+      // Dibuja panel lateral según pestaña activa: capítulos, marcadores o notas.
+      function updateTabs() {
+        dom.tabButtons.forEach((btn) => {
+          const active = btn.dataset.tab === state.activeTab;
+          btn.dataset.active = String(active);
+          btn.setAttribute('aria-selected', String(active));
+        });
+
+        if (state.activeTab === 'chapters') {
+          dom.tabContent.innerHTML = `<ul class="chapter-list">${state.chapters
+            .map((ch, index) => {
+              const active = index === state.currentChapterIndex;
+              const pct = getChapterCompletion(index);
+              return `<li>
+                <button class="chapter-btn" data-chapter-index="${index}" data-active="${active}">
+                  <strong>${escapeHtml(ch.num)}. ${escapeHtml(ch.title)}</strong>
+                  <div class="small-meta">${pct}% leído</div>
+                </button>
+              </li>`;
+            })
+            .join('')}</ul>`;
+        } else if (state.activeTab === 'bookmarks') {
+          const items = state.bookmarks
+            .slice()
+            .sort((a, b) => b.savedAt - a.savedAt)
+            .map((bm) => {
+              const ch = state.chapters[bm.chapterIndex];
+              if (!ch) {
+                return '';
+              }
+              return `<li>
+                <button class="jump-btn" data-jump-chapter="${bm.chapterIndex}" data-jump-page="${bm.pageIndex}">
+                  <strong>${escapeHtml(ch.num)}. ${escapeHtml(ch.title)}</strong>
+                  <div class="small-meta">Página ${bm.pageIndex + 1}</div>
+                </button>
+              </li>`;
+            })
+            .join('');
+          dom.tabContent.innerHTML = `<ul class="bookmark-list">${items || '<li class="small-meta">Aún no tienes marcadores.</li>'}</ul>`;
+        } else {
+          const withNotes = state.highlights.filter((h) => h.note && h.note.trim());
+          const items = withNotes
+            .slice()
+            .sort((a, b) => b.createdAt - a.createdAt)
+            .map((note) => {
+              const ch = state.chapters[note.chapterIndex];
+              if (!ch) {
+                return '';
+              }
+              return `<li>
+                <button class="jump-btn" data-jump-chapter="${note.chapterIndex}" data-jump-page="${note.pageIndex}">
+                  <strong>${escapeHtml(ch.num)}. ${escapeHtml(ch.title)}</strong>
+                  <div class="small-meta">"${escapeHtml(note.text.slice(0, 80))}"</div>
+                  <div class="small-meta">${escapeHtml(note.note)}</div>
+                </button>
+              </li>`;
+            })
+            .join('');
+          dom.tabContent.innerHTML = `<ul class="notes-list">${items || '<li class="small-meta">Aún no hay notas.</li>'}</ul>`;
+        }
+      }
+
+      // Calcula avance de lectura para pintar en listado de capítulos.
+      function getChapterCompletion(chapterIndex) {
+        if (chapterIndex < state.currentChapterIndex) {
+          return 100;
+        }
+        if (chapterIndex > state.currentChapterIndex) {
+          return 0;
+        }
+        const total = getActivePagesByChapter()[chapterIndex]?.length || 1;
+        return Math.round(((state.currentPageIndex + 1) / total) * 100);
+      }
+
+      // Refresca estado visual del botón de marcador en la página actual.
+      function updateBookmarkButton() {
+        const exists = state.bookmarks.some((b) => b.chapterIndex === state.currentChapterIndex && b.pageIndex === state.currentPageIndex);
+        dom.bookmarkBtn.textContent = exists ? '★ Marcado' : '☆ Marcador';
+        dom.bookmarkBtn.dataset.active = String(exists);
+      }
+
+      // Añade o quita marcador de la página actual.
+      function toggleBookmark() {
+        const idx = state.bookmarks.findIndex((b) => b.chapterIndex === state.currentChapterIndex && b.pageIndex === state.currentPageIndex);
+        if (idx >= 0) {
+          state.bookmarks.splice(idx, 1);
+        } else {
+          state.bookmarks.push({ chapterIndex: state.currentChapterIndex, pageIndex: state.currentPageIndex, savedAt: Date.now() });
+        }
+        renderReadingView();
+      }
+
+      // Navega a la siguiente página o al siguiente capítulo automáticamente.
+      function goToNextPage() {
+        const pages = getActivePagesByChapter()[state.currentChapterIndex] || [];
+        if (state.currentPageIndex < pages.length - 1) {
+          state.currentPageIndex += 1;
+          renderReadingView();
+          return;
+        }
+        if (state.currentChapterIndex < state.chapters.length - 1) {
+          state.currentChapterIndex += 1;
+          state.currentPageIndex = 0;
+          renderReadingView();
+        }
+      }
+
+      // Navega a la página anterior o al capítulo anterior automáticamente.
+      function goToPrevPage() {
+        if (state.currentPageIndex > 0) {
+          state.currentPageIndex -= 1;
+          renderReadingView();
+          return;
+        }
+        if (state.currentChapterIndex > 0) {
+          state.currentChapterIndex -= 1;
+          const prevPages = getActivePagesByChapter()[state.currentChapterIndex] || [];
+          state.currentPageIndex = Math.max(0, prevPages.length - 1);
+          renderReadingView();
+        }
+      }
+
+      // Activa/desactiva modo resumen preservando posición relativa del capítulo.
+      function toggleSummaryMode() {
+        const chapterIndex = state.currentChapterIndex;
+        const fromPages = getActivePagesByChapter()[chapterIndex] || [];
+        const fromLen = Math.max(1, fromPages.length);
+        const ratio = state.currentPageIndex / fromLen;
+
+        state.summaryMode = !state.summaryMode;
+
+        const toPages = getActivePagesByChapter()[chapterIndex] || [];
+        const toLen = Math.max(1, toPages.length);
+        state.currentPageIndex = Math.max(0, Math.min(toLen - 1, Math.floor(ratio * toLen)));
+        renderReadingView();
+      }
+
+      // Resetea avances, marcadores, notas y preferencias mediante doble confirmación.
+      function resetUserProgress() {
+        const first = confirm('Esta acción eliminará avances, marcadores, notas y resaltados guardados localmente. ¿Quieres continuar?');
+        if (!first) {
+          return;
+        }
+        const second = confirm('Confirmación final: esta operación no se puede deshacer. ¿Borrar todos tus datos ahora?');
+        if (!second) {
+          return;
+        }
+
+        state.currentChapterIndex = 0;
+        state.currentPageIndex = 0;
+        state.theme = 'dark';
+        state.contrast = 'normal';
+        state.fontSizeLevel = 2;
+        state.highlights = [];
+        state.bookmarks = [];
+        state.searchTerm = '';
+        state.searchResults = [];
+        state.activeTab = 'chapters';
+        state.summaryMode = false;
+        state.ttsRate = 1;
+        localStorage.removeItem(STORAGE_KEY);
+
+        applyThemeAndContrast();
+        applyFontSize();
+        dom.searchInput.value = '';
+        dom.ttsRate.value = '1';
+        hideSelectionPopup();
+        if (window.speechSynthesis) {
+          window.speechSynthesis.cancel();
+        }
+
+        repaginateAllChapters();
+        renderReadingView();
+      }
+
+      // Abre/cierra sidebar móvil con sincronización de backdrop y scroll.
+      function setSidebarOpen(open) {
+        const shouldOpen = Boolean(open);
+        dom.sidebar.dataset.open = String(shouldOpen);
+        dom.sidebarBackdrop.dataset.open = String(shouldOpen);
+        if (isMobileScreen()) {
+          dom.body.style.overflow = shouldOpen ? 'hidden' : '';
+        }
+      }
+
+      // Salta directamente a capítulo y página concretos.
+      function jumpTo(chapterIndex, pageIndex = 0) {
+        state.currentChapterIndex = Number(chapterIndex);
+        state.currentPageIndex = Number(pageIndex);
+        clampChapterAndPage();
+        renderReadingView();
+      }
+
+      // Normaliza texto para búsqueda robusta sin sensibilidad a acentos.
+      function normalizeForSearch(text) {
+        return text
+          .toLocaleLowerCase('es')
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '');
+      }
+
+      // Ejecuta búsqueda global en todos los capítulos.
+      function runGlobalSearch(term) {
+        state.searchTerm = term.trim();
+        state.searchResults = [];
+
+        if (!state.searchTerm) {
+          renderSearchResults();
+          return;
+        }
+
+        const needle = normalizeForSearch(state.searchTerm);
+        state.chapters.forEach((ch, chapterIndex) => {
+          const chapterNorm = normalizeForSearch(ch.fullText);
+          let idx = chapterNorm.indexOf(needle);
+          while (idx >= 0) {
+            const pageIndex = findPageByAbsoluteOffset(chapterIndex, idx);
+            const contextStart = Math.max(0, idx - 40);
+            const contextEnd = Math.min(ch.fullText.length, idx + needle.length + 40);
+            state.searchResults.push({
+              chapterIndex,
+              pageIndex,
+              start: idx,
+              end: idx + needle.length,
+              context: ch.fullText.slice(contextStart, contextEnd).replace(/\s+/g, ' ').trim(),
+            });
+            idx = chapterNorm.indexOf(needle, idx + needle.length);
+          }
+        });
+
+        renderSearchResults();
+      }
+
+      // Determina la página donde cae un offset absoluto de texto.
+      function findPageByAbsoluteOffset(chapterIndex, absoluteOffset) {
+        const pages = state.pagesByChapter[chapterIndex] || [];
+        const found = pages.findIndex((p) => absoluteOffset >= p.start && absoluteOffset < p.end);
+        return found >= 0 ? found : 0;
+      }
+
+      // Dibuja resultados de búsqueda en panel lateral.
+      function renderSearchResults() {
+        if (!state.searchTerm) {
+          dom.searchMeta.textContent = 'Sin búsqueda activa.';
+          dom.searchResults.innerHTML = '';
+          return;
+        }
+
+        dom.searchMeta.textContent = `${state.searchResults.length} coincidencias para "${state.searchTerm}"`;
+        const top = state.searchResults.slice(0, 30);
+        dom.searchResults.innerHTML = top
+          .map((r) => {
+            const ch = state.chapters[r.chapterIndex];
+            return `<li>
+              <button class="jump-btn" data-jump-chapter="${r.chapterIndex}" data-jump-page="${r.pageIndex}">
+                <strong>${escapeHtml(ch.num)}. ${escapeHtml(ch.title)}</strong>
+                <div class="small-meta">${escapeHtml(r.context)}</div>
+              </button>
+            </li>`;
+          })
+          .join('');
+      }
+
+      // Crea resaltado en base a selección del texto visible.
+      function addHighlightFromSelection(color) {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
+          return;
+        }
+
+        const range = selection.getRangeAt(0);
+        if (!dom.reader.contains(range.commonAncestorContainer)) {
+          return;
+        }
+
+        const page = getCurrentPage();
+        const startLocal = getTextOffsetWithin(dom.reader, range.startContainer, range.startOffset);
+        const endLocal = getTextOffsetWithin(dom.reader, range.endContainer, range.endOffset);
+
+        if (endLocal <= startLocal) {
+          return;
+        }
+
+        const absoluteStart = page.start + startLocal;
+        const absoluteEnd = page.start + endLocal;
+        const chapterText = state.chapters[state.currentChapterIndex].fullText;
+        const selectedText = chapterText.slice(absoluteStart, absoluteEnd);
+        const note = prompt('Añade una nota opcional para este resaltado (puedes dejarlo vacío):', '') || '';
+
+        state.highlights.push({
+          id: `hl-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+          chapterIndex: state.currentChapterIndex,
+          pageIndex: state.currentPageIndex,
+          start: absoluteStart,
+          end: absoluteEnd,
+          text: selectedText,
+          color,
+          note: note.trim(),
+          createdAt: Date.now(),
+        });
+
+        selection.removeAllRanges();
+        hideSelectionPopup();
+        renderReadingView();
+      }
+
+      // Convierte posición de nodo de texto en offset relativo al contenedor lector.
+      function getTextOffsetWithin(root, node, nodeOffset) {
+        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+        let total = 0;
+        while (walker.nextNode()) {
+          const current = walker.currentNode;
+          if (current === node) {
+            return total + nodeOffset;
+          }
+          total += current.textContent.length;
+        }
+        return total;
+      }
+
+      // Muestra popup de colores para crear resaltado.
+      function showSelectionPopup(x, y) {
+        dom.selectionPopup.style.display = 'grid';
+        dom.selectionPopup.style.left = `${Math.max(8, x)}px`;
+        dom.selectionPopup.style.top = `${Math.max(8, y - 48)}px`;
+      }
+
+      // Oculta popup de selección.
+      function hideSelectionPopup() {
+        dom.selectionPopup.style.display = 'none';
+      }
+
+      // Carga voces disponibles del navegador para TTS.
+      function setupVoices() {
+        const voices = window.speechSynthesis ? window.speechSynthesis.getVoices() : [];
+        dom.voiceSelect.innerHTML = voices
+          .filter((v) => v.lang.startsWith('es') || v.lang.startsWith('en'))
+          .map((v) => `<option value="${escapeHtml(v.name)}">${escapeHtml(v.name)} (${escapeHtml(v.lang)})</option>`)
+          .join('');
+
+        if (!voices.length) {
+          return;
+        }
+
+        const exists = voices.some((v) => v.name === state.ttsVoiceName);
+        if (!exists) {
+          const esVoice = voices.find((v) => v.lang.startsWith('es'));
+          state.ttsVoiceName = esVoice ? esVoice.name : voices[0].name;
+        }
+        dom.voiceSelect.value = state.ttsVoiceName;
+      }
+
+      // Inicia TTS para la página actual usando voz y velocidad elegidas.
+      function playTts() {
+        if (!window.speechSynthesis || !window.SpeechSynthesisUtterance) {
+          alert('Tu navegador no soporta la API de lectura en voz.');
+          return;
+        }
+
+        const page = getCurrentPage();
+        const text = page.text || '';
+        if (!text.trim()) {
+          return;
+        }
+
+        window.speechSynthesis.cancel();
+        const utt = new SpeechSynthesisUtterance(text);
+        const voices = window.speechSynthesis.getVoices();
+        const selected = voices.find((v) => v.name === state.ttsVoiceName);
+        if (selected) {
+          utt.voice = selected;
+          utt.lang = selected.lang;
+        } else {
+          utt.lang = 'es-ES';
+        }
+        utt.rate = state.ttsRate;
+        window.speechSynthesis.speak(utt);
+      }
+
+      // Registra eventos de UI y accesibilidad de teclado.
+      function bindEvents() {
+        dom.prevPage.addEventListener('click', goToPrevPage);
+        dom.nextPage.addEventListener('click', goToNextPage);
+        dom.prevPageFloating.addEventListener('click', goToPrevPage);
+        dom.nextPageFloating.addEventListener('click', goToNextPage);
+        dom.bookmarkBtn.addEventListener('click', toggleBookmark);
+
+        dom.themeSelect.addEventListener('change', (event) => {
+          state.theme = event.target.value;
+          applyThemeAndContrast();
+          persistState();
+        });
+
+        dom.contrastSelect.addEventListener('change', (event) => {
+          state.contrast = event.target.value;
+          applyThemeAndContrast();
+          persistState();
+        });
+
+        dom.fontMinus.addEventListener('click', () => {
+          state.fontSizeLevel = Math.max(0, state.fontSizeLevel - 1);
+          applyFontSize();
+          repaginateAllChapters();
+          renderReadingView();
+        });
+
+        dom.fontPlus.addEventListener('click', () => {
+          state.fontSizeLevel = Math.min(4, state.fontSizeLevel + 1);
+          applyFontSize();
+          repaginateAllChapters();
+          renderReadingView();
+        });
+
+        dom.tabButtons.forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.activeTab = btn.dataset.tab;
+            updateTabs();
+            persistState();
+          });
+        });
+
+        dom.tabContent.addEventListener('click', (event) => {
+          const chapterBtn = event.target.closest('[data-chapter-index]');
+          if (chapterBtn) {
+            jumpTo(Number(chapterBtn.dataset.chapterIndex), 0);
+            if (isMobileScreen()) {
+              setSidebarOpen(false);
+            }
+            return;
+          }
+          const jumpBtn = event.target.closest('[data-jump-chapter]');
+          if (jumpBtn) {
+            jumpTo(Number(jumpBtn.dataset.jumpChapter), Number(jumpBtn.dataset.jumpPage || 0));
+            if (isMobileScreen()) {
+              setSidebarOpen(false);
+            }
+          }
+        });
+
+        dom.searchInput.addEventListener('input', (event) => {
+          runGlobalSearch(event.target.value || '');
+        });
+
+        dom.searchResults.addEventListener('click', (event) => {
+          const jumpBtn = event.target.closest('[data-jump-chapter]');
+          if (!jumpBtn) {
+            return;
+          }
+          jumpTo(Number(jumpBtn.dataset.jumpChapter), Number(jumpBtn.dataset.jumpPage || 0));
+          if (isMobileScreen()) {
+            setSidebarOpen(false);
+          }
+        });
+
+        dom.openSidebar.addEventListener('click', () => {
+          const open = dom.sidebar.dataset.open === 'true';
+          setSidebarOpen(!open);
+        });
+
+        dom.closeSidebar.addEventListener('click', () => setSidebarOpen(false));
+        dom.sidebarBackdrop.addEventListener('click', () => setSidebarOpen(false));
+
+        dom.summaryModeBtn.addEventListener('click', toggleSummaryMode);
+        dom.resetProgressBtn.addEventListener('click', resetUserProgress);
+
+        dom.reader.addEventListener('mouseup', () => {
+          const selection = window.getSelection();
+          if (!selection || selection.isCollapsed || !dom.reader.contains(selection.anchorNode)) {
+            hideSelectionPopup();
+            return;
+          }
+          const rect = selection.getRangeAt(0).getBoundingClientRect();
+          showSelectionPopup(rect.left + window.scrollX, rect.top + window.scrollY);
+        });
+
+        document.addEventListener('mousedown', (event) => {
+          if (!dom.selectionPopup.contains(event.target)) {
+            hideSelectionPopup();
+          }
+        });
+
+        dom.selectionPopup.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-color]');
+          if (!button) {
+            return;
+          }
+          addHighlightFromSelection(button.dataset.color);
+        });
+
+        dom.reader.addEventListener('click', (event) => {
+          const highlight = event.target.closest('.highlight[data-highlight-id]');
+          if (!highlight) {
+            return;
+          }
+          const id = highlight.dataset.highlightId;
+          const item = state.highlights.find((h) => h.id === id);
+          if (!item) {
+            return;
+          }
+          const existing = item.note || '';
+          const note = prompt('Editar nota (deja vacío para eliminar nota):', existing);
+          if (note === null) {
+            return;
+          }
+          item.note = note.trim();
+          renderReadingView();
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'f') {
+            event.preventDefault();
+            dom.searchInput.focus();
+            return;
+          }
+
+          if (event.key === 'ArrowRight') {
+            goToNextPage();
+          }
+
+          if (event.key === 'ArrowLeft') {
+            goToPrevPage();
+          }
+
+          if (event.key === 'Escape') {
+            setSidebarOpen(false);
+            hideSelectionPopup();
+          }
+        });
+
+        dom.voiceSelect.addEventListener('change', (event) => {
+          state.ttsVoiceName = event.target.value;
+          persistState();
+        });
+        dom.ttsRate.addEventListener('input', (event) => {
+          state.ttsRate = Number(event.target.value || 1);
+          persistState();
+        });
+        dom.ttsPlay.addEventListener('click', playTts);
+        dom.ttsPause.addEventListener('click', () => window.speechSynthesis && window.speechSynthesis.pause());
+        dom.ttsResume.addEventListener('click', () => window.speechSynthesis && window.speechSynthesis.resume());
+        dom.ttsStop.addEventListener('click', () => window.speechSynthesis && window.speechSynthesis.cancel());
+
+        if (window.speechSynthesis) {
+          window.speechSynthesis.onvoiceschanged = setupVoices;
+        }
+
+        window.addEventListener('resize', () => {
+          const chapter = state.currentChapterIndex;
+          const pageAbsoluteOffset = getCurrentPage().start;
+          repaginateAllChapters();
+          state.currentChapterIndex = chapter;
+          if (state.summaryMode) {
+            const summaryPages = getActivePagesByChapter()[chapter] || [];
+            state.currentPageIndex = Math.max(0, Math.min(state.currentPageIndex, Math.max(0, summaryPages.length - 1)));
+          } else {
+            state.currentPageIndex = findPageByAbsoluteOffset(chapter, pageAbsoluteOffset);
+          }
+          if (!isMobileScreen()) {
+            setSidebarOpen(false);
+          }
+          renderReadingView();
+        });
+      }
+
+      // Carga libro desde JSON local (sin backend).
+      async function loadBookData() {
+        const response = await fetch('./book-data.json', { cache: 'no-store' });
+        if (!response.ok) {
+          throw new Error(`No se pudo cargar book-data.json (${response.status})`);
+        }
+        const data = await response.json();
+        if (!data || !Array.isArray(data.chapters)) {
+          throw new Error('book-data.json no tiene el formato esperado.');
+        }
+        state.book = data;
+        state.chapters = data.chapters.map((chapter) => ({
+          ...chapter,
+          fullText: normalizeText(chapter.fullText),
+        }));
+      }
+
+      // Inicializa toda la aplicación de lectura.
+      async function init() {
+        hydrateState();
+        applyThemeAndContrast();
+        applyFontSize();
+        dom.ttsRate.value = String(state.ttsRate || 1);
+
+        try {
+          await loadBookData();
+        } catch (error) {
+          dom.chapterTitleChip.textContent = 'Error al cargar el libro';
+          dom.reader.innerHTML = `<p>No se pudo cargar el contenido completo del libro.</p>
+            <p><strong>Detalle:</strong> ${escapeHtml(error.message)}</p>
+            <p>Para usar la app, ejecuta un servidor estático en esta carpeta, por ejemplo:</p>
+            <p><code>python3 -m http.server 8000</code> y abre <code>http://localhost:8000/una-red-segura-app.html</code></p>`;
+          return;
+        }
+
+        repaginateAllChapters();
+        setupVoices();
+        bindEvents();
+
+        if (state.currentChapterIndex >= state.chapters.length) {
+          state.currentChapterIndex = 0;
+          state.currentPageIndex = 0;
+        }
+
+        renderReadingView();
+      }
+
+      init();
+    </script>
+  </body>
+</html>
