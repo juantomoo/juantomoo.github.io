@@ -39,6 +39,7 @@ const GLOSSARY_CATEGORY_META = {
 // Estado global de interacción
 // -----------------------------------------------------------------------------
 let currentStoryId = null;
+let currentGlossaryItem = null;
 let fontSize = loadPersistedFontSize();
 let currentTheme = 'dark';
 
@@ -268,6 +269,25 @@ function collectGlossaryItems(glossaryData) {
 }
 
 const glossaryItems = collectGlossaryItems(glossary);
+const glossaryItemByTerm = new Map();
+
+function buildGlossaryLookup(items) {
+    // Permite resolver rápidamente un término o cualquiera de sus alias.
+    items.forEach((item) => {
+        const variants = [item.term, ...item.aliases];
+
+        variants.forEach((variant) => {
+            const normalized = normalizeText(variant);
+            if (!normalized || glossaryItemByTerm.has(normalized)) {
+                return;
+            }
+
+            glossaryItemByTerm.set(normalized, item);
+        });
+    });
+}
+
+buildGlossaryLookup(glossaryItems);
 
 function buildInlineTermCandidates(items) {
     // Prepara variantes para resaltado contextual dentro de cuentos.
@@ -371,7 +391,7 @@ function renderParagraphWithHighlights(paragraphText) {
         html += formatEscapedText(paragraphText.slice(cursor, match.start));
 
         const visibleLabel = paragraphText.slice(match.start, match.end);
-        html += `<button type="button" class="inline-term" data-term="${escapeAttribute(match.canonical)}" title="Ir al glosario">${formatEscapedText(visibleLabel)}</button>`;
+        html += `<button type="button" class="inline-term" data-term="${escapeAttribute(match.canonical)}" title="Abrir glosario contextual">${formatEscapedText(visibleLabel)}</button>`;
 
         cursor = match.end;
     });
@@ -470,6 +490,58 @@ function renderGlossary() {
     }).join('');
 }
 
+function getGlossaryItem(term) {
+    const normalizedTerm = normalizeText(term);
+    if (!normalizedTerm) {
+        return null;
+    }
+
+    return glossaryItemByTerm.get(normalizedTerm) || null;
+}
+
+function renderGlossaryItemDetails(item) {
+    const aliases = Array.isArray(item.aliases) ? item.aliases.filter(Boolean) : [];
+    const related = Array.isArray(item.related) ? item.related.filter(Boolean) : [];
+
+    return `
+        <div class="glossary-modal-kicker">Glosario contextual</div>
+        <h3 class="glossary-modal-title" id="glossaryModalTerm">${escapeHtml(item.term)}</h3>
+        ${item.narrative ? `<p class="glossary-modal-narrative">${escapeHtml(item.narrative)}</p>` : ''}
+        ${item.scientific ? `<p class="glossary-modal-scientific">${escapeHtml(item.scientific)}</p>` : ''}
+        ${aliases.length > 0 ? `<p class="glossary-modal-aliases"><strong>Alias:</strong> ${escapeHtml(aliases.join(', '))}</p>` : ''}
+        ${related.length > 0 ? `<p class="glossary-modal-related"><strong>Relacionados:</strong> ${escapeHtml(related.join(', '))}</p>` : ''}
+        ${item.quote ? `<blockquote class="glossary-modal-quote">${escapeHtml(item.quote)}</blockquote>` : ''}
+    `;
+}
+
+function syncBodyScrollLock() {
+    const storyModalActive = document.getElementById('storyModal').classList.contains('active');
+    const glossaryModalActive = document.getElementById('glossaryTermModal').classList.contains('active');
+
+    document.body.style.overflow = storyModalActive || glossaryModalActive ? 'hidden' : '';
+}
+
+function openGlossaryModal(term, options = {}) {
+    const item = getGlossaryItem(term);
+    if (!item) {
+        if (options.silent !== true) {
+            showToast('No se encontró ese término en el glosario.', 'warning');
+        }
+        return;
+    }
+
+    currentGlossaryItem = item;
+    document.getElementById('glossaryModalBody').innerHTML = renderGlossaryItemDetails(item);
+    document.getElementById('glossaryTermModal').classList.add('active');
+    syncBodyScrollLock();
+}
+
+function closeGlossaryModal() {
+    currentGlossaryItem = null;
+    document.getElementById('glossaryTermModal').classList.remove('active');
+    syncBodyScrollLock();
+}
+
 function updateStoryCount() {
     const countNode = document.getElementById('storyCount');
     if (!countNode) {
@@ -491,6 +563,7 @@ function openStory(id, options = {}) {
     const modalBody = document.getElementById('modalBody');
     const updateHistory = options.updateHistory !== false;
 
+    closeGlossaryModal();
     currentStoryId = story.id;
 
     document.getElementById('modalTitle').textContent = story.title;
@@ -499,7 +572,7 @@ function openStory(id, options = {}) {
     modalBody.innerHTML = renderStoryBody(story.content);
     document.getElementById('modalSignature').textContent = `_${story.signature}_`;
     document.getElementById('storyModal').classList.add('active');
-    document.body.style.overflow = 'hidden';
+    syncBodyScrollLock();
 
     persistLastStoryId(story.id);
 
@@ -512,8 +585,9 @@ function closeStoryModal(options = {}) {
     const clearHash = options.clearHash !== false;
 
     document.getElementById('storyModal').classList.remove('active');
-    document.body.style.overflow = '';
     currentStoryId = null;
+    closeGlossaryModal();
+    syncBodyScrollLock();
 
     if (clearHash && /^#story-\d+$/u.test(window.location.hash)) {
         history.pushState({}, '', `${window.location.pathname}${window.location.search}`);
@@ -642,21 +716,7 @@ function filterGlossary(rawQuery) {
 }
 
 function jumpToGlossaryTerm(term) {
-    // Lleva al usuario al glosario y aplica filtro inmediato contextual.
-    activateSection('glossary');
-
-    const searchInput = document.getElementById('glossarySearch');
-    searchInput.value = term;
-    filterGlossary(term);
-
-    const normalizedTerm = normalizeText(term);
-    const targetItem = Array.from(document.querySelectorAll('.glossary-item')).find((item) => {
-        return item.dataset.term === normalizedTerm && !item.classList.contains('hidden');
-    });
-
-    if (targetItem) {
-        targetItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    openGlossaryModal(term);
 }
 
 // -----------------------------------------------------------------------------
@@ -858,8 +918,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        closeStoryModal();
-        jumpToGlossaryTerm(term);
+        openGlossaryModal(term);
     });
 
     // Click en términos relacionados del glosario (si el contenido los incluyera).
@@ -868,7 +927,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!button) {
             return;
         }
-        jumpToGlossaryTerm(button.dataset.term || '');
+        openGlossaryModal(button.dataset.term || '');
+    });
+
+    document.getElementById('glossaryModalClose').addEventListener('click', () => {
+        closeGlossaryModal();
+    });
+
+    document.getElementById('glossaryTermModal').addEventListener('click', (event) => {
+        if (event.target.id === 'glossaryTermModal') {
+            closeGlossaryModal();
+        }
     });
 
     // Cierre de modal por botón.
@@ -878,13 +947,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Atajos de teclado preservados: ESC y navegación lateral.
     document.addEventListener('keydown', (event) => {
+        const glossaryModalActive = document.getElementById('glossaryTermModal').classList.contains('active');
         const modalActive = document.getElementById('storyModal').classList.contains('active');
-        if (!modalActive) {
+        if (!modalActive && !glossaryModalActive) {
             return;
         }
 
         if (event.key === 'Escape') {
+            if (glossaryModalActive) {
+                closeGlossaryModal();
+                return;
+            }
             closeStoryModal();
+            return;
+        }
+
+        if (glossaryModalActive) {
+            return;
         } else if (event.key === 'ArrowLeft') {
             navigateStory(-1);
         } else if (event.key === 'ArrowRight') {

@@ -291,6 +291,7 @@
             line-height: 1.5;
             display: -webkit-box;
             -webkit-line-clamp: 3;
+            line-clamp: 3;
             -webkit-box-orient: vertical;
             overflow: hidden;
         }
@@ -375,6 +376,84 @@
             color: var(--text-secondary);
             white-space: pre-wrap;
             text-align: justify;
+        }
+
+        .glossary-modal {
+            z-index: 1100;
+            background: rgba(0, 0, 0, 0.72);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+
+        .glossary-modal.active {
+            display: flex;
+        }
+
+        .glossary-modal-content {
+            width: min(760px, calc(100vw - 32px));
+            max-height: min(78vh, 760px);
+            overflow-y: auto;
+            border-color: var(--purple-neon);
+            box-shadow: 0 0 30px var(--purple-glow), inset 0 0 60px rgba(191, 0, 255, 0.06);
+        }
+
+        .glossary-modal-kicker {
+            display: inline-block;
+            font-size: 0.75rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--purple-neon);
+            border: 1px solid var(--purple-neon-dim);
+            padding: 6px 10px;
+            margin-bottom: 18px;
+        }
+
+        .glossary-modal-title {
+            font-size: 1.7rem;
+            color: var(--neon-green);
+            margin-bottom: 14px;
+            text-shadow: 0 0 8px var(--green-glow);
+        }
+
+        .glossary-modal-narrative,
+        .glossary-modal-scientific,
+        .glossary-modal-aliases,
+        .glossary-modal-related {
+            font-size: 0.95rem;
+            line-height: 1.7;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+        }
+
+        .glossary-modal-scientific {
+            color: var(--text-dim);
+            font-style: italic;
+            border-left: 2px solid var(--forest-green);
+            padding-left: 14px;
+        }
+
+        .glossary-modal-quote {
+            margin: 18px 0 0;
+            padding: 14px 16px;
+            border-left: 3px solid var(--purple-neon);
+            background: rgba(191, 0, 255, 0.08);
+            color: #f0ddff;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 640px) {
+            .glossary-modal-content {
+                width: calc(100vw - 24px);
+                max-height: 82vh;
+                padding: 30px 20px;
+            }
+
+            .glossary-modal-title {
+                font-size: 1.4rem;
+            }
         }
 
         .modal-body p {
@@ -1107,6 +1186,14 @@
                     </svg>
                 </button>
             </div>
+        </div>
+    </div>
+
+    <!-- Contextual Glossary Modal -->
+    <div class="modal glossary-modal" id="glossaryTermModal" aria-hidden="true">
+        <div class="modal-content glossary-modal-content" role="dialog" aria-modal="true" aria-labelledby="glossaryModalTerm">
+            <button class="modal-close" id="glossaryModalClose" type="button" aria-label="Cerrar glosario contextual">&times;</button>
+            <div id="glossaryModalBody"></div>
         </div>
     </div>
 
