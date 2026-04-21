@@ -1,8 +1,15 @@
 /*
  * Motor de audio generativo Synthwave para SunSetting.
+ * VERSIÓN OPTIMIZADA para dispositivos móviles.
  *
  * Este archivo esta aislado de la logica visual para no interferir con draw()/canvas.
  * Toda la sincronizacion musical usa AudioContext.currentTime con patron Scheduler + Lookahead.
+ * 
+ * Optimizaciones:
+ * - Buffer de reverb reducido en móviles (2.8s → 1.2s)
+ * - Noise buffer lazy-loaded
+ * - Impulse response más corta en low-end
+ * - Lookahead adaptado al dispositivo
  */
 (function () {
     'use strict';
@@ -88,13 +95,19 @@
      */
     class SynthwaveAudioEngine {
         /**
-         * @param {{documentRef?: Document}} [config] Configuracion opcional.
+         * @param {{documentRef?: Document, isMobile?: boolean, isLowEnd?: boolean}} [config] Configuracion opcional.
          */
         constructor(config) {
             const safeConfig = config || {};
 
             /** @type {Document} */
             this.documentRef = safeConfig.documentRef || document;
+
+            /** @type {boolean} */
+            this.isMobile = safeConfig.isMobile || false;
+
+            /** @type {boolean} */
+            this.isLowEnd = safeConfig.isLowEnd || false;
 
             /** @type {AudioContext|null} */
             this.audioCtx = null;
@@ -109,7 +122,10 @@
             this.visualTimerIds = [];
 
             /** @type {AudioBuffer|null} */
-            this.noiseBuffer = null;
+            this._noiseBuffer = null;
+
+            /** @type {boolean} */
+            this._noiseBufferCreated = false;
 
             /**
              * Estado principal del secuenciador y mezcla.
@@ -117,8 +133,9 @@
              */
             this.state = {
                 bpm: 90,
-                lookaheadMs: 25,
-                scheduleAheadTime: 0.12,
+                // Lookahead adaptado al dispositivo
+                lookaheadMs: this.isLowEnd ? 50 : (this.isMobile ? 35 : 25),
+                scheduleAheadTime: this.isLowEnd ? 0.1 : 0.12,
                 patternLength: 16,
                 currentStep: 0,
                 nextNoteTime: 0,
@@ -188,6 +205,23 @@
             this.bootstrapStateFromUi();
             this.bindUiEvents();
             this.refreshAllUi();
+        }
+
+        /**
+         * Getter para noiseBuffer con lazy loading.
+         * @returns {AudioBuffer|null}
+         */
+        get noiseBuffer() {
+            return this._noiseBuffer;
+        }
+
+        /**
+         * Setter que crea el buffer solo cuando se necesita.
+         * @param {AudioBuffer|null} value
+         */
+        set noiseBuffer(value) {
+            this._noiseBuffer = value;
+            this._noiseBufferCreated = value !== null;
         }
 
         /**
@@ -522,11 +556,13 @@
             this.nodes.limiter.attack.value = 0.003;
             this.nodes.limiter.release.value = 0.1;
 
-            // Impulso de reverb generado de forma algoritmica.
-            this.nodes.reverbConvolver.buffer = this.createImpulseResponse(2.8, 2.6);
+            // Impulso de reverb - OPTIMIZADO: más corto en móviles
+            const reverbSeconds = this.isLowEnd ? 1.0 : (this.isMobile ? 1.5 : 2.8);
+            const reverbDecay = this.isLowEnd ? 2.0 : (this.isMobile ? 2.2 : 2.6);
+            this.nodes.reverbConvolver.buffer = this.createImpulseResponse(reverbSeconds, reverbDecay);
 
-            // Buffer de ruido blanco para la caja retro.
-            this.noiseBuffer = this.createNoiseBuffer();
+            // Noise buffer se crea lazily solo cuando se necesita
+            this._noiseBufferCreated = false;
 
             // Enrutamiento de cadena FX.
             this.nodes.musicBus.connect(this.nodes.dryGain);
@@ -551,14 +587,22 @@
 
         /**
          * Crea un buffer de ruido blanco para la snare.
+         * OPTIMIZADO: Más corto en low-end, lazy-loaded.
          * @returns {AudioBuffer} Buffer de ruido.
          */
         createNoiseBuffer() {
             const ctx = this.audioCtx;
-            const length = ctx.sampleRate;
+            // Reducir duración del buffer en dispositivos lentos
+            const length = this.isLowEnd 
+                ? Math.floor(ctx.sampleRate * 0.5)   // 0.5s en low-end
+                : (this.isMobile 
+                    ? Math.floor(ctx.sampleRate * 0.75) // 0.75s en móvil
+                    : ctx.sampleRate);                   // 1s en desktop
+            
             const noiseBuffer = ctx.createBuffer(1, length, ctx.sampleRate);
             const channel = noiseBuffer.getChannelData(0);
 
+            // Usar typed array operations para mejor rendimiento
             for (let i = 0; i < length; i += 1) {
                 channel[i] = Math.random() * 2 - 1;
             }
@@ -568,6 +612,7 @@
 
         /**
          * Crea un impulso de reverb para ConvolverNode.
+         * OPTIMIZADO: Parametros adaptados al dispositivo.
          * @param {number} seconds Duracion del impulso.
          * @param {number} decay Curva de decaimiento.
          * @returns {AudioBuffer} Impulso estereo.
@@ -580,13 +625,27 @@
             for (let channelIndex = 0; channelIndex < 2; channelIndex += 1) {
                 const channel = impulse.getChannelData(channelIndex);
 
+                // Pre-calcular envolvente para reducir cálculos
+                const invLength = 1 / length;
                 for (let i = 0; i < length; i += 1) {
-                    const envelope = Math.pow(1 - i / length, decay);
+                    const envelope = Math.pow(1 - i * invLength, decay);
                     channel[i] = (Math.random() * 2 - 1) * envelope;
                 }
             }
 
             return impulse;
+        }
+
+        /**
+         * Obtiene o crea el buffer de ruido (lazy loading).
+         * @returns {AudioBuffer}
+         */
+        getNoiseBuffer() {
+            if (!this._noiseBufferCreated || !this._noiseBuffer) {
+                this._noiseBuffer = this.createNoiseBuffer();
+                this._noiseBufferCreated = true;
+            }
+            return this._noiseBuffer;
         }
 
         /**
@@ -645,7 +704,8 @@
             }
 
             this.audioCtx = null;
-            this.noiseBuffer = null;
+            this._noiseBuffer = null;
+            this._noiseBufferCreated = false;
             this.refreshTransportLabel();
         }
 
@@ -864,7 +924,7 @@
         playSnare(when) {
             const ctx = this.audioCtx;
             const level = this.state.channelVolume.snare;
-            if (!ctx || !this.noiseBuffer || level <= 0) {
+            if (!ctx || level <= 0) {
                 return;
             }
 
@@ -872,7 +932,8 @@
             const noiseFilter = ctx.createBiquadFilter();
             const noiseGain = ctx.createGain();
 
-            noise.buffer = this.noiseBuffer;
+            // Usar lazy-loaded noise buffer
+            noise.buffer = this.getNoiseBuffer();
             noiseFilter.type = 'highpass';
             noiseFilter.frequency.setValueAtTime(1900, when);
             noiseFilter.Q.value = 0.7;
@@ -1066,7 +1127,9 @@
 
             this.visualTimerIds.push(timer);
 
-            if (this.visualTimerIds.length > 64) {
+            // Limitar timers acumulados (reducido en móvil)
+            const maxTimers = this.isLowEnd ? 32 : 64;
+            if (this.visualTimerIds.length > maxTimers) {
                 const oldTimer = this.visualTimerIds.shift();
                 if (oldTimer !== undefined) {
                     window.clearTimeout(oldTimer);

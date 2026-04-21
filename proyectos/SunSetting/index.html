@@ -87,6 +87,7 @@
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
             background-size: 100% 4px; pointer-events: none; z-index: 10;
+            will-change: background-position;
         }
 
         .hud-header { font-size: 1rem; border-bottom: 1px solid #ff00ff; padding-bottom: 8px; color: #ff00ff; margin-bottom: 5px; flex-shrink: 0; }
@@ -168,6 +169,14 @@
             transition: all 0.3s;
         }
         #btn-start:hover { background: #00ffff; color: #05020a; box-shadow: 0 0 30px #00ffff; }
+
+        /* Performance indicator */
+        #perf-indicator {
+            position: absolute; top: 10px; left: 10px; z-index: 50;
+            font-family: 'VT323', monospace; font-size: 0.8rem;
+            color: #00ffff; opacity: 0.7;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -373,7 +382,106 @@
     <script src="./synthwave-audio.js"></script>
     <script>
         // ==========================================
-        // 1. SISTEMA VISUAL (Tu código original 100% restaurado)
+        // SISTEMA DE DETECCIÓN DE RENDIMIENTO
+        // ==========================================
+        const PerformanceManager = {
+            isMobile: false,
+            isLowEnd: false,
+            targetFPS: 60,
+            frameTime: 1000 / 60,
+            lastFrameTime: 0,
+            frameCount: 0,
+            fpsCheckInterval: 500,
+            lastFPSCheck: 0,
+            currentFPS: 60,
+            skipFrames: 0,
+            
+            // Detectar capacidades del dispositivo
+            detectCapabilities() {
+                // Detectar móvil por heuristics
+                const ua = navigator.userAgent.toLowerCase();
+                this.isMobile = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(ua);
+                
+                // Detectar baja memoria o baja potencia
+                const memory = navigator.deviceMemory || 4;
+                const cores = navigator.hardwareConcurrency || 4;
+                
+                // Clasificar como low-end si:
+                // - Menos de 4GB de RAM
+                // - Menos de 4 cores
+                // - Dispositivo móvil con baja memoria
+                this.isLowEnd = (memory < 4) || (cores < 4) || (this.isMobile && memory < 6);
+                
+                // En móviles, reducir resolución máxima por defecto
+                if (this.isMobile) {
+                    const resSlider = document.getElementById('param-res');
+                    if (resSlider) {
+                        resSlider.max = '320'; // Limitar máximo en móviles
+                        if (parseInt(resSlider.value) > 320) {
+                            resSlider.value = '240';
+                        }
+                    }
+                }
+                
+                // Ajustar FPS objetivo
+                if (this.isLowEnd) {
+                    this.targetFPS = 30;
+                    this.frameTime = 1000 / 30;
+                } else if (this.isMobile) {
+                    this.targetFPS = 45;
+                    this.frameTime = 1000 / 45;
+                }
+                
+                console.log(`[Performance] Device: ${this.isMobile ? 'Mobile' : 'Desktop'}, Low-end: ${this.isLowEnd}, Target FPS: ${this.targetFPS}`);
+                return this;
+            },
+            
+            // Verificar si debemos saltarnos este frame
+            shouldSkipFrame(timestamp) {
+                const elapsed = timestamp - this.lastFrameTime;
+                
+                // Contar frames para medir FPS real
+                this.frameCount++;
+                if (timestamp - this.lastFPSCheck >= this.fpsCheckInterval) {
+                    this.currentFPS = (this.frameCount * 1000) / (timestamp - this.lastFPSCheck);
+                    this.frameCount = 0;
+                    this.lastFPSCheck = timestamp;
+                    
+                    // Auto-ajustar si FPS real es muy bajo
+                    if (this.currentFPS < this.targetFPS * 0.6 && this.targetFPS > 24) {
+                        this.targetFPS = Math.max(24, this.targetFPS - 5);
+                        this.frameTime = 1000 / this.targetFPS;
+                        console.log(`[Performance] Reducing to ${this.targetFPS} FPS`);
+                    }
+                }
+                
+                // Skip si no ha pasado suficiente tiempo
+                if (elapsed < this.frameTime) {
+                    this.skipFrames++;
+                    return true;
+                }
+                
+                // Calcular drift
+                if (elapsed >= this.frameTime) {
+                    this.lastFrameTime = timestamp - (elapsed % this.frameTime);
+                }
+                
+                return false;
+            },
+            
+            // Obtener factor de calidad según dispositivo
+            getQualityMultiplier() {
+                if (this.isLowEnd) return 0.5;
+                if (this.isMobile) return 0.7;
+                return 1.0;
+            }
+        };
+
+        // Inicializar detección
+        PerformanceManager.detectCapabilities();
+
+        // ==========================================
+        // 1. SISTEMA VISUAL (OPTIMIZADO)
         // ==========================================
         const canvas = document.getElementById('screen');
         const ctx = canvas.getContext('2d', { alpha: false });
@@ -413,31 +521,101 @@
             width: 320,
             height: 180,
             mouse: { x: 0.5, y: 0.5 },
-            stars: Array.from({length: 300}, () => ({ x: Math.random(), y: Math.random(), s: Math.random() * 1.2, t: Math.random() * 10 })),
-            mtns: Array.from({length: 5}, (_, i) => ({ 
-                h: (25 + Math.random() * 35) / 180, 
-                x: i * 0.2, 
-                w: 0.25 + Math.random() * 0.2
-            }))
+            stars: [],
+            mtns: [],
+            // Cache de valores pre-calculados
+            starCache: [],
+            reflectionCache: null,
+            lastResValue: 0,
+            needsFullRedraw: true,
+            lastGlitchTime: 0,
+            glitchInterval: 5000 // Mínimo 5s entre glitches
         };
+
+        // Inicializar estrellas con cache
+        function initStars(count) {
+            state.stars = [];
+            state.starCache = [];
+            for (let i = 0; i < count; i++) {
+                const star = { 
+                    x: Math.random(), 
+                    y: Math.random(), 
+                    s: Math.random() * 1.2 + 0.5, 
+                    t: Math.random() * 10 
+                };
+                state.stars.push(star);
+                // Pre-calcular valores de brillo
+                state.starCache.push({
+                    baseAlpha: Math.random() * 0.5 + 0.3,
+                    twinkleSpeed: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        // Inicializar montañas
+        function initMountains() {
+            state.mtns = [];
+            for (let i = 0; i < 5; i++) {
+                state.mtns.push({ 
+                    h: (25 + Math.random() * 35) / 180, 
+                    x: i * 0.2, 
+                    w: 0.25 + Math.random() * 0.2
+                });
+            }
+        }
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            state.width = parseInt(inputs.res.value);
-            state.height = Math.round(state.width * (canvas.height / canvas.width));
+            const resValue = parseInt(inputs.res.value);
+            
+            // Limitar resolución en móviles
+            const maxRes = PerformanceManager.isMobile ? 320 : 600;
+            const clampedRes = Math.min(resValue, maxRes);
+            
+            state.width = clampedRes;
+            state.height = Math.round(clampedRes * (canvas.height / canvas.width));
             buffer.width = state.width;
             buffer.height = state.height;
             ctx.imageSmoothingEnabled = false;
+            
+            // Re-inicializar elementos si cambió la resolución significativamente
+            if (Math.abs(state.lastResValue - clampedRes) > 50) {
+                state.lastResValue = clampedRes;
+                state.needsFullRedraw = true;
+                
+                // Ajustar cantidad de estrellas según resolución
+                const qualityMult = PerformanceManager.getQualityMultiplier();
+                const starCount = Math.round(300 * qualityMult);
+                initStars(starCount);
+                initMountains();
+            }
+            
+            // Limpiar caches
+            state.reflectionCache = null;
         }
 
         window.addEventListener('resize', resize);
-        inputs.res.oninput = resize;
+        inputs.res.oninput = () => {
+            state.needsFullRedraw = true;
+            resize();
+        };
 
         window.addEventListener('mousemove', e => {
             state.mouse.x = e.clientX / window.innerWidth;
             state.mouse.y = e.clientY / window.innerHeight;
         });
+
+        // Touch events para móvil (throttled)
+        let touchThrottle = 0;
+        window.addEventListener('touchmove', e => {
+            const now = Date.now();
+            if (now - touchThrottle > 50) { // Throttle touch a 20fps
+                touchThrottle = now;
+                state.mouse.x = e.touches[0].clientX / window.innerWidth;
+                state.mouse.y = e.touches[0].clientY / window.innerHeight;
+            }
+        }, { passive: true });
 
         function parseToRgb(color) {
             if (color.startsWith('#')) {
@@ -465,7 +643,21 @@
             return `rgb(${isNaN(r)?0:r},${isNaN(g)?0:g},${isNaN(b)?0:b})`;
         }
 
-        function draw() {
+        // Pre-calcular valores de brillo de estrellas
+        function precomputeStarAlpha(animTime) {
+            return state.stars.map((s, i) => {
+                const cache = state.starCache[i];
+                return cache.baseAlpha * (Math.sin(animTime * cache.twinkleSpeed + s.t) * 0.5 + 0.5);
+            });
+        }
+
+        function draw(timestamp) {
+            // Performance: Frame skipping
+            if (PerformanceManager.shouldSkipFrame(timestamp)) {
+                requestAnimationFrame(draw);
+                return;
+            }
+
             state.animTime += 0.012;
 
             if (inputs.sync.checked) {
@@ -514,14 +706,19 @@
             skyGrad.addColorStop(0, skyTop); skyGrad.addColorStop(1, skyBot);
             bCtx.fillStyle = skyGrad; bCtx.fillRect(0, 0, state.width, horizonY);
 
-            // Estrellas
+            // Estrellas - Optimizado con pre-cálculo
             const starAlpha = Math.max(0, -orbitY);
             if (starAlpha > 0.05) {
                 bCtx.fillStyle = pal.neonCyan;
-                state.stars.forEach(s => {
-                    bCtx.globalAlpha = starAlpha * (Math.sin(state.animTime + s.t) * 0.5 + 0.5);
+                const alphas = precomputeStarAlpha(state.animTime);
+                const qualityMult = PerformanceManager.getQualityMultiplier();
+                const step = qualityMult < 0.7 ? 2 : 1; // Saltar estrellas en low-end
+                
+                for (let i = 0; i < state.stars.length; i += step) {
+                    const s = state.stars[i];
+                    bCtx.globalAlpha = starAlpha * alphas[i];
                     bCtx.fillRect(s.x * state.width, s.y * horizonY, s.s, s.s);
-                });
+                }
                 bCtx.globalAlpha = 1;
             }
 
@@ -551,18 +748,20 @@
                     bCtx.globalAlpha = flareAlpha * 0.3;
                     const fx = state.width - sx;
                     const fy = state.height - sy;
-                    for(let j=1; j<4; j++) {
+                    const flareStep = PerformanceManager.isLowEnd ? 2 : 1;
+                    for(let j=1; j<4; j+=flareStep) {
                         bCtx.fillStyle = j % 2 === 0 ? pal.neonCyan : pal.hotPink;
                         bCtx.beginPath(); bCtx.arc(sx + (fx-sx)*j*0.2, sy + (fy-sy)*j*0.2, sunR*(0.1*j), 0, Math.PI*2); bCtx.fill();
                     }
                     bCtx.restore();
                 }
 
-                // Sol con Líneas
+                // Sol con Líneas - Optimizado
                 bCtx.save();
                 bCtx.beginPath(); bCtx.arc(sx, sy, sunR, 0, Math.PI * 2); bCtx.clip();
                 bCtx.fillStyle = sunColor;
-                for(let i = -sunR; i < sunR; i += 1.5) {
+                const lineStep = PerformanceManager.isLowEnd ? 3 : 1.5;
+                for(let i = -sunR; i < sunR; i += lineStep) {
                     const py = sy + i;
                     if (py > horizonY) continue;
                     let alpha = 1;
@@ -583,7 +782,12 @@
                 const mtnBase = lerpCol(skyBot, pal.night, 0.9); 
                 const mtnTop = lerpCol(skyBot, pal.night, 1.0);
 
-                state.mtns.forEach((m, i) => {
+                // Reducir iteraciones en low-end
+                const mtnStep = PerformanceManager.isLowEnd ? 2 : 1;
+                const mtnCount = PerformanceManager.isLowEnd ? 3 : 5;
+                
+                for (let i = 0; i < mtnCount; i++) {
+                    const m = state.mtns[i * mtnStep] || state.mtns[0];
                     const parallaxFactor = 1 + i * 0.6;
                     const mx = ((m.x + lookX * parallaxFactor) % 1) * state.width;
                     const mw = m.w * state.width;
@@ -605,7 +809,7 @@
                     drawMtn(0);
                     drawMtn(state.width);
                     drawMtn(-state.width);
-                });
+                }
                 bCtx.restore();
             }
 
@@ -614,12 +818,14 @@
             oceanGrad.addColorStop(0, '#0a0020'); oceanGrad.addColorStop(1, '#150030');
             bCtx.fillStyle = oceanGrad; bCtx.fillRect(0, horizonY, state.width, state.height - horizonY);
 
-            // Reflejo en Agua
+            // Reflejo en Agua - Optimizado con menos iteraciones
             if (z >= 0 && z <= 1) {
                 bCtx.save();
                 bCtx.globalCompositeOperation = 'screen';
-                for(let i = 0; i < 40; i++) {
-                    const f = i / 40;
+                // Reducir iteraciones en dispositivos lentos
+                const reflSteps = PerformanceManager.isLowEnd ? 20 : (PerformanceManager.isMobile ? 25 : 40);
+                for(let i = 0; i < reflSteps; i++) {
+                    const f = i / reflSteps;
                     const ry = horizonY + f * (state.height - horizonY);
                     const wave = Math.sin(state.animTime * 3.5 + i * 0.4) * 5 * (1-f);
                     const rw = (state.height * 0.1 + z * state.height * 0.5) * (1 - f * 0.7);
@@ -630,18 +836,24 @@
                 bCtx.restore();
             }
 
-            // Grid 
+            // Grid - Optimizado
             bCtx.strokeStyle = pal.neonCyan;
             bCtx.globalAlpha = 0.15; bCtx.lineWidth = 0.5;
             bCtx.beginPath();
             const gridCX = state.width / 2 + (lookX * state.width * 4);
-            for(let i = -20; i <= 20; i++) {
+            
+            // Reducir líneas en low-end
+            const lineCount = PerformanceManager.isLowEnd ? 15 : 20;
+            const lineStep = PerformanceManager.isLowEnd ? 5 : 4;
+            for(let i = -lineCount; i <= lineCount; i+=lineStep) {
                 bCtx.moveTo(gridCX + i*4, horizonY);
                 bCtx.lineTo(gridCX + i*500, state.height);
             }
+            
             const lineSpacing = 15;
             const gridSpeed = (state.animTime * 50) % lineSpacing;
-            for(let i = 0; i < 20; i++) {
+            const horizLines = PerformanceManager.isLowEnd ? 10 : 20;
+            for(let i = 0; i < horizLines; i++) {
                 const dist = i * lineSpacing + gridSpeed;
                 const pz = dist / 250;
                 if (pz > 1) continue;
@@ -662,19 +874,27 @@
             // Render Final
             ctx.drawImage(buffer, 0, 0, canvas.width, canvas.height);
             
-            // Aberración cromática / CRT Glitch
-            if (Math.random() > 0.99) {
-                ctx.globalAlpha = 0.1;
-                ctx.drawImage(canvas, 3, 0);
-                ctx.drawImage(canvas, -3, 0);
-                ctx.globalAlpha = 1.0;
+            // Aberración cromática / CRT Glitch - Throttled y optimizado
+            const now = Date.now();
+            if (now - state.lastGlitchTime > state.glitchInterval) {
+                if (Math.random() > 0.99) {
+                    ctx.globalAlpha = 0.1;
+                    ctx.drawImage(canvas, 3, 0);
+                    ctx.drawImage(canvas, -3, 0);
+                    ctx.globalAlpha = 1.0;
+                    state.lastGlitchTime = now;
+                    state.glitchInterval = 5000 + Math.random() * 10000; // 5-15s entre glitches
+                }
             }
 
             requestAnimationFrame(draw);
         }
 
+        // Inicializar con calidad adaptada
+        initStars(Math.round(300 * PerformanceManager.getQualityMultiplier()));
+        initMountains();
         resize();
-        draw();
+        draw(0);
 
         // ==========================================
         // 2. SISTEMA DE AUDIO GENERATIVO (MODULAR)
@@ -684,7 +904,9 @@
 
         // El motor de audio vive en un archivo separado para proteger la logica de canvas.
         const synthEngine = new window.SynthwaveAudioEngine({
-            documentRef: document
+            documentRef: document,
+            isMobile: PerformanceManager.isMobile,
+            isLowEnd: PerformanceManager.isLowEnd
         });
 
         // Se expone para depuracion manual desde consola sin afectar el render visual.
