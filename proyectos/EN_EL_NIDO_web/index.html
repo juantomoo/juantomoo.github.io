@@ -770,6 +770,34 @@
             box-shadow: 0 0 20px var(--green-glow);
         }
 
+        /* Language Toggle */
+        .lang-toggle {
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            background: var(--bg-terminal);
+            border: 2px solid var(--purple-neon);
+            color: var(--purple-neon);
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+        }
+
+        .lang-toggle:hover {
+            background: var(--purple-neon);
+            color: var(--bg-dark);
+            box-shadow: 0 0 20px var(--purple-glow);
+        }
+
         /* Table of Contents */
         .toc-container {
             max-width: 800px;
@@ -1029,17 +1057,17 @@
         <!-- Header -->
         <header class="header">
             <h1 class="title">EN EL NIDO</h1>
-            <p class="subtitle">Cuentos de Ciencia Ficción Cyberpunk-Solarpunk</p>
-            <p class="subtitle" style="margin-top: 10px;">Por Juan Tomoo</p>
+            <p class="subtitle" id="headerSubtitle" data-i18n="headerSubtitle">Cuentos de Ciencia Ficción Cyberpunk-Solarpunk</p>
+            <p class="subtitle" id="headerAuthor" style="margin-top: 10px;" data-i18n="headerAuthor">Por Juan Tomoo</p>
         </header>
 
         <!-- Navigation -->
         <nav class="nav-container">
             <div class="nav-tabs">
-                <button class="nav-tab active" data-section="stories">Cuentos</button>
-                <button class="nav-tab" data-section="toc">Índice</button>
-                <button class="nav-tab" data-section="glossary">Glosario</button>
-                <button class="nav-tab" data-section="about">Acerca de</button>
+                <button class="nav-tab active" data-section="stories" data-i18n="navStories">Cuentos</button>
+                <button class="nav-tab" data-section="toc" data-i18n="navToc">Índice</button>
+                <button class="nav-tab" data-section="glossary" data-i18n="navGlossary">Glosario</button>
+                <button class="nav-tab" data-section="about" data-i18n="navAbout">Acerca de</button>
             </div>
         </nav>
 
@@ -1048,15 +1076,15 @@
             <div class="stats-bar">
                 <div class="stat-item">
                     <div class="stat-value" id="storyCount">26</div>
-                    <div class="stat-label">Cuentos</div>
+                    <div class="stat-label" data-i18n="statStories">Cuentos</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value">2025</div>
-                    <div class="stat-label">Año</div>
+                    <div class="stat-label" data-i18n="statYear">Año</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-value">∞</div>
-                    <div class="stat-label">Conexiones</div>
+                    <div class="stat-label" data-i18n="statConnections">Conexiones</div>
                 </div>
             </div>
             <div class="stories-grid" id="storiesGrid">
@@ -1067,7 +1095,7 @@
         <!-- Table of Contents Section -->
         <section id="toc" class="section">
             <div class="toc-container">
-                <h2 class="toc-title">Índice de Cuentos</h2>
+                <h2 class="toc-title" data-i18n="tocTitle">Índice de Cuentos</h2>
                 <div class="toc-list" id="tocList">
                     <!-- TOC will be populated by JavaScript -->
                 </div>
@@ -1077,7 +1105,7 @@
         <!-- Glossary Section -->
         <section id="glossary" class="section">
             <div class="glossary-container">
-                <input type="text" class="glossary-search" id="glossarySearch" placeholder="Buscar en el glosario...">
+                <input type="text" class="glossary-search" id="glossarySearch" placeholder="Buscar en el glosario..." data-i18n-placeholder="glossarySearchPlaceholder">
                 <div id="glossaryContent">
                     <!-- Glossary will be populated by JavaScript -->
                 </div>
@@ -1087,21 +1115,21 @@
         <!-- About Section -->
         <section id="about" class="section">
             <div class="about-content">
-                <h2 style="color: var(--purple-neon); margin-bottom: 30px; text-align: center;">Acerca de la Obra</h2>
-                <p>
+                <h2 style="color: var(--purple-neon); margin-bottom: 30px; text-align: center;" data-i18n="aboutTitle">Acerca de la Obra</h2>
+                <p data-i18n-html="aboutP1">
                     <em>En el Nido</em> es una colección de cuentos de ciencia ficción que exploran los límites entre la realidad y la 
                     ficción, entre lo orgánico y lo digital, en un mundo donde un sistema neofascista intenta normalizar a todos los seres.
                 </p>
-                <p>
+                <p data-i18n-html="aboutP2">
                     El protagonista, un ser híbrido orgánico-digital que experimenta fallas neurológicas, vive aislado en un apartamento 
                     urbano pero conectado a las redes. A través de estas conexiones, descubre una falla en el sistema: un simbionte de hongo, 
                     máquina y otras formas de vida que se filtra en la red y lucha por preservar la diversidad de la vida.
                 </p>
-                <p>
+                <p data-i18n-html="aboutP3">
                     Esta falla representa la revolución silenciosa de cada ser en su nido —sus hogares, intimidades, soledades y mentes— 
                     una resistencia desde el amor y la interconexión que desafía la homogeneización del sistema.
                 </p>
-                <p>
+                <p data-i18n-html="aboutP4">
                     Los cuentos funcionan como un diario que cruza los límites de la realidad del protagonista con el sistema que intenta 
                     controlarlo todo, creando una narrativa inmersiva donde lo personal se entrelaza con lo cósmico.
                 </p>
@@ -1110,13 +1138,13 @@
 
         <!-- Credits -->
         <footer class="credits-section">
-            <h2 class="credits-title">Créditos</h2>
-            <p style="color: var(--neon-green); margin-bottom: 20px;">Una experiencia digital de</p>
+            <h2 class="credits-title" data-i18n="creditsTitle">Créditos</h2>
+            <p style="color: var(--neon-green); margin-bottom: 20px;" data-i18n="creditsBy">Una experiencia digital de</p>
             <a href="https://juantomoo.github.io/" target="_blank" rel="noopener noreferrer" class="credits-link">
                 Juan Tomoo
             </a>
-            <p class="copyright">© 2025 Juan Tomoo. Todos los derechos reservados.</p>
-            <p style="color: var(--text-dim); margin-top: 20px; font-size: 0.8rem;">
+            <p class="copyright" data-i18n="copyright">© 2025 Juan Tomoo. Todos los derechos reservados.</p>
+            <p style="color: var(--text-dim); margin-top: 20px; font-size: 0.8rem;" data-i18n="creditsLove">
                 Generado con amor desde el micelio
             </p>
         </footer>
@@ -1133,7 +1161,7 @@
             <h2 class="modal-title" id="modalTitle"></h2>
             <p class="modal-date" id="modalDate"></p>
             <div class="font-controls">
-                <span class="font-size-display">Tamaño:</span>
+                <span class="font-size-display" data-i18n="fontSizeLabel">Tamaño:</span>
                 <button class="font-btn" onclick="changeFontSize(-2)">A-</button>
                 <button class="font-btn" onclick="changeFontSize(2)">A+</button>
                 <button class="audio-toggle" id="audioToggle" title="Modo lectura">
@@ -1152,7 +1180,7 @@
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="15 18 9 12 15 6"></polyline>
                     </svg>
-                    Anterior
+                    <span data-i18n="btnPrevious">Anterior</span>
                 </button>
                 <button class="control-btn" onclick="printStory()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1160,14 +1188,14 @@
                         <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
                         <rect x="6" y="14" width="12" height="8"></rect>
                     </svg>
-                    Imprimir
+                    <span data-i18n="btnPrint">Imprimir</span>
                 </button>
                 <button class="control-btn" onclick="copyStory()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                         <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                     </svg>
-                    Copiar
+                    <span data-i18n="btnCopy">Copiar</span>
                 </button>
                 <button class="control-btn" onclick="shareStory()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1177,10 +1205,10 @@
                         <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
                         <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
                     </svg>
-                    Compartir
+                    <span data-i18n="btnShare">Compartir</span>
                 </button>
                 <button class="control-btn" onclick="navigateStory(1)">
-                    Siguiente
+                    <span data-i18n="btnNext">Siguiente</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="9 18 15 12 9 6"></polyline>
                     </svg>
@@ -1192,12 +1220,15 @@
     <!-- Contextual Glossary Modal -->
     <div class="modal glossary-modal" id="glossaryTermModal" aria-hidden="true">
         <div class="modal-content glossary-modal-content" role="dialog" aria-modal="true" aria-labelledby="glossaryModalTerm">
-            <button class="modal-close" id="glossaryModalClose" type="button" aria-label="Cerrar glosario contextual">&times;</button>
+            <button class="modal-close" id="glossaryModalClose" type="button" aria-label="Cerrar glosario contextual" data-i18n-aria="closeGlossaryAria">&times;</button>
             <div id="glossaryModalBody"></div>
         </div>
     </div>
 
     <!-- Theme Toggle -->
+    <!-- Language Toggle -->
+    <button class="lang-toggle" id="langToggle" title="Switch to English">ES</button>
+
     <button class="theme-toggle" id="themeToggle" title="Cambiar tema">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="5"></circle>
@@ -1214,6 +1245,9 @@
 
     <script src="./stories-data.js"></script>
     <script src="./glossary-data.js"></script>
+    <script src="./stories-data-en.js"></script>
+    <script src="./glossary-data-en.js"></script>
+    <script src="./i18n.js"></script>
     <script src="./app.js"></script>
 </body>
 </html>

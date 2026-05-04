@@ -24,15 +24,15 @@ const STORAGE_KEYS = {
 // Metadatos de categorías del glosario (mantiene secciones existentes)
 // -----------------------------------------------------------------------------
 const GLOSSARY_CATEGORY_META = {
-    personajes: { title: 'Personajes y Entidades', icon: '👤' },
-    conceptos_tecnologicos: { title: 'Conceptos Tecnológicos y Científicos', icon: '⚙️' },
-    conceptos_biologicos: { title: 'Conceptos Biológicos', icon: '🌿' },
-    conceptos_quimicos: { title: 'Conceptos Químicos y Atmosféricos', icon: '🧪' },
-    conceptos_filosoficos: { title: 'Conceptos Filosóficos y Sociológicos', icon: '🧠' },
-    conceptos_economicos: { title: 'Conceptos Económicos y Políticos', icon: '📊' },
-    conceptos_fisicos: { title: 'Conceptos Físicos y Cosmológicos', icon: '🌌' },
-    conceptos_neurologicos: { title: 'Conceptos Neurológicos', icon: '🔬' },
-    elementos_literarios: { title: 'Elementos Literarios y Estéticos', icon: '📚' }
+    personajes: { i18nKey: 'catPersonajes', icon: '👤' },
+    conceptos_tecnologicos: { i18nKey: 'catConceptosTecnologicos', icon: '⚙️' },
+    conceptos_biologicos: { i18nKey: 'catConceptosBiologicos', icon: '🌿' },
+    conceptos_quimicos: { i18nKey: 'catConceptosQuimicos', icon: '🧪' },
+    conceptos_filosoficos: { i18nKey: 'catConceptosFilosoficos', icon: '🧠' },
+    conceptos_economicos: { i18nKey: 'catConceptosEconomicos', icon: '📊' },
+    conceptos_fisicos: { i18nKey: 'catConceptosFisicos', icon: '🌌' },
+    conceptos_neurologicos: { i18nKey: 'catConceptosNeurologicos', icon: '🔬' },
+    elementos_literarios: { i18nKey: 'catElementosLiterarios', icon: '📚' }
 };
 
 // -----------------------------------------------------------------------------
@@ -75,12 +75,37 @@ function normalizeStory(rawStory, index) {
 }
 
 // -----------------------------------------------------------------------------
-// Carga de datasets externos
+// i18n helper
 // -----------------------------------------------------------------------------
-const stories = (Array.isArray(window.EN_EL_NIDO_STORIES) ? window.EN_EL_NIDO_STORIES : []).map(normalizeStory);
-const glossary = window.EN_EL_NIDO_GLOSSARY && typeof window.EN_EL_NIDO_GLOSSARY === 'object'
-    ? window.EN_EL_NIDO_GLOSSARY
-    : {};
+function t(key) {
+    return (typeof EN_EL_NIDO_I18N !== 'undefined') ? EN_EL_NIDO_I18N.t(key) : key;
+}
+
+function currentLang() {
+    return (typeof EN_EL_NIDO_I18N !== 'undefined') ? EN_EL_NIDO_I18N.getCurrentLang() : 'es';
+}
+
+// -----------------------------------------------------------------------------
+// Carga de datasets externos (language-aware)
+// -----------------------------------------------------------------------------
+function loadStories() {
+    const lang = currentLang();
+    const raw = lang === 'en' && Array.isArray(window.EN_EL_NIDO_STORIES_EN)
+        ? window.EN_EL_NIDO_STORIES_EN
+        : (Array.isArray(window.EN_EL_NIDO_STORIES) ? window.EN_EL_NIDO_STORIES : []);
+    return raw.map(normalizeStory);
+}
+
+function loadGlossary() {
+    const lang = currentLang();
+    const g = lang === 'en' && window.EN_EL_NIDO_GLOSSARY_EN && typeof window.EN_EL_NIDO_GLOSSARY_EN === 'object'
+        ? window.EN_EL_NIDO_GLOSSARY_EN
+        : (window.EN_EL_NIDO_GLOSSARY && typeof window.EN_EL_NIDO_GLOSSARY === 'object' ? window.EN_EL_NIDO_GLOSSARY : {});
+    return g;
+}
+
+let stories = loadStories();
+let glossary = loadGlossary();
 
 // -----------------------------------------------------------------------------
 // Helpers generales de texto y seguridad HTML
@@ -268,11 +293,11 @@ function collectGlossaryItems(glossaryData) {
     return items;
 }
 
-const glossaryItems = collectGlossaryItems(glossary);
-const glossaryItemByTerm = new Map();
+let glossaryItems = collectGlossaryItems(glossary);
+let glossaryItemByTerm = new Map();
 
 function buildGlossaryLookup(items) {
-    // Permite resolver rápidamente un término o cualquiera de sus alias.
+    glossaryItemByTerm = new Map();
     items.forEach((item) => {
         const variants = [item.term, ...item.aliases];
 
@@ -290,7 +315,6 @@ function buildGlossaryLookup(items) {
 buildGlossaryLookup(glossaryItems);
 
 function buildInlineTermCandidates(items) {
-    // Prepara variantes para resaltado contextual dentro de cuentos.
     const candidates = [];
     const seen = new Set();
 
@@ -313,12 +337,60 @@ function buildInlineTermCandidates(items) {
         });
     });
 
-    // Se ordena por longitud para priorizar términos compuestos sobre subcadenas.
     candidates.sort((a, b) => b.variant.length - a.variant.length);
     return candidates;
 }
 
-const inlineTermCandidates = buildInlineTermCandidates(glossaryItems);
+let inlineTermCandidates = buildInlineTermCandidates(glossaryItems);
+
+// -----------------------------------------------------------------------------
+// Recarga de datos y re-render completo al cambiar idioma
+// -----------------------------------------------------------------------------
+function reloadDataForCurrentLang() {
+    stories = loadStories();
+    glossary = loadGlossary();
+    glossaryItems = collectGlossaryItems(glossary);
+    buildGlossaryLookup(glossaryItems);
+    inlineTermCandidates = buildInlineTermCandidates(glossaryItems);
+}
+
+function applyI18nToDOM() {
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+        el.textContent = t(el.dataset.i18n);
+    });
+    document.querySelectorAll('[data-i18n-html]').forEach((el) => {
+        el.innerHTML = t(el.dataset.i18nHtml);
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+        el.placeholder = t(el.dataset.i18nPlaceholder);
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+        el.setAttribute('aria-label', t(el.dataset.i18nAria));
+    });
+    document.documentElement.lang = currentLang();
+}
+
+function switchLanguage() {
+    if (typeof EN_EL_NIDO_I18N === 'undefined') return;
+    const newLang = EN_EL_NIDO_I18N.toggleLang();
+    reloadDataForCurrentLang();
+    applyI18nToDOM();
+    renderStories();
+    renderTOC();
+    renderGlossary();
+    updateStoryCount();
+    // Update lang toggle button
+    const btn = document.getElementById('langToggle');
+    if (btn) {
+        btn.textContent = t('langLabel');
+        btn.title = t('langToggleTitle');
+    }
+    // Re-open current story if modal is active
+    if (currentStoryId != null && document.getElementById('storyModal').classList.contains('active')) {
+        openStory(currentStoryId, { updateHistory: false });
+    }
+    showToast(newLang === 'en' ? 'Language: English' : 'Idioma: Español', 'success');
+}
 
 function findTermMatches(text) {
     // Encuentra coincidencias de términos sin romper palabras adyacentes.
@@ -391,7 +463,7 @@ function renderParagraphWithHighlights(paragraphText) {
         html += formatEscapedText(paragraphText.slice(cursor, match.start));
 
         const visibleLabel = paragraphText.slice(match.start, match.end);
-        html += `<button type="button" class="inline-term" data-term="${escapeAttribute(match.canonical)}" title="Abrir glosario contextual">${formatEscapedText(visibleLabel)}</button>`;
+        html += `<button type="button" class="inline-term" data-term="${escapeAttribute(match.canonical)}" title="${escapeAttribute(t('inlineTermTooltip'))}">${formatEscapedText(visibleLabel)}</button>`;
 
         cursor = match.end;
     });
@@ -454,7 +526,8 @@ function renderGlossary() {
     }
 
     container.innerHTML = Object.entries(glossary).map(([key, items]) => {
-        const meta = GLOSSARY_CATEGORY_META[key] || { title: key, icon: '' };
+        const meta = GLOSSARY_CATEGORY_META[key] || { i18nKey: key, icon: '' };
+        const categoryTitle = meta.i18nKey ? t(meta.i18nKey) : key;
         const normalizedItems = Array.isArray(items) ? items : [];
 
         const itemsHtml = normalizedItems.map((item) => {
@@ -475,7 +548,7 @@ function renderGlossary() {
                     <h4 class="term-name">${escapeHtml(item.term)}</h4>
                     ${item.narrative ? `<p class="term-narrative">${escapeHtml(item.narrative)}</p>` : ''}
                     ${item.scientific ? `<p class="term-scientific">${escapeHtml(item.scientific)}</p>` : ''}
-                    ${related.length > 0 ? `<p class="term-related"><strong>Relacionados:</strong> ${escapeHtml(related.join(', '))}</p>` : ''}
+                    ${related.length > 0 ? `<p class="term-related"><strong>${escapeHtml(t('glossaryRelated'))}:</strong> ${escapeHtml(related.join(', '))}</p>` : ''}
                     ${item.quote ? `<p class="term-quote">"${escapeHtml(item.quote)}"</p>` : ''}
                 </div>
             `;
@@ -483,7 +556,7 @@ function renderGlossary() {
 
         return `
             <div class="glossary-category" data-category="${escapeAttribute(key)}">
-                <h3 class="category-title">${meta.icon} ${escapeHtml(meta.title)}</h3>
+                <h3 class="category-title">${meta.icon} ${escapeHtml(categoryTitle)}</h3>
                 ${itemsHtml}
             </div>
         `;
@@ -504,12 +577,12 @@ function renderGlossaryItemDetails(item) {
     const related = Array.isArray(item.related) ? item.related.filter(Boolean) : [];
 
     return `
-        <div class="glossary-modal-kicker">Glosario contextual</div>
+        <div class="glossary-modal-kicker">${escapeHtml(t('glossaryContextualKicker'))}</div>
         <h3 class="glossary-modal-title" id="glossaryModalTerm">${escapeHtml(item.term)}</h3>
         ${item.narrative ? `<p class="glossary-modal-narrative">${escapeHtml(item.narrative)}</p>` : ''}
         ${item.scientific ? `<p class="glossary-modal-scientific">${escapeHtml(item.scientific)}</p>` : ''}
-        ${aliases.length > 0 ? `<p class="glossary-modal-aliases"><strong>Alias:</strong> ${escapeHtml(aliases.join(', '))}</p>` : ''}
-        ${related.length > 0 ? `<p class="glossary-modal-related"><strong>Relacionados:</strong> ${escapeHtml(related.join(', '))}</p>` : ''}
+        ${aliases.length > 0 ? `<p class="glossary-modal-aliases"><strong>${escapeHtml(t('glossaryAliases'))}:</strong> ${escapeHtml(aliases.join(', '))}</p>` : ''}
+        ${related.length > 0 ? `<p class="glossary-modal-related"><strong>${escapeHtml(t('glossaryRelated'))}:</strong> ${escapeHtml(related.join(', '))}</p>` : ''}
         ${item.quote ? `<blockquote class="glossary-modal-quote">${escapeHtml(item.quote)}</blockquote>` : ''}
     `;
 }
@@ -525,7 +598,7 @@ function openGlossaryModal(term, options = {}) {
     const item = getGlossaryItem(term);
     if (!item) {
         if (options.silent !== true) {
-            showToast('No se encontró ese término en el glosario.', 'warning');
+            showToast(t('toastTermNotFound'), 'warning');
         }
         return;
     }
@@ -556,7 +629,7 @@ function updateStoryCount() {
 function openStory(id, options = {}) {
     const story = getStoryById(Number(id));
     if (!story) {
-        showToast('No se encontró el cuento solicitado.', 'warning');
+        showToast(t('toastStoryNotFound'), 'warning');
         return;
     }
 
@@ -612,7 +685,7 @@ function changeFontSize(delta) {
     const modalBody = document.getElementById('modalBody');
     modalBody.style.fontSize = `${fontSize}px`;
 
-    showToast(`Tamaño de lectura: ${fontSize}px`, 'success');
+    showToast(`${t('toastFontSize')} ${fontSize}px`, 'success');
 }
 
 function printStory() {
@@ -650,7 +723,7 @@ async function copyTextToClipboard(text) {
 async function copyStory() {
     const story = getStoryById(currentStoryId);
     if (!story) {
-        showToast('Abre un cuento antes de copiar.', 'warning');
+        showToast(t('toastCopyFirst'), 'warning');
         return;
     }
 
@@ -658,16 +731,16 @@ async function copyStory() {
     const copied = await copyTextToClipboard(text);
 
     if (copied) {
-        showToast('Cuento copiado al portapapeles.', 'success');
+        showToast(t('toastCopied'), 'success');
     } else {
-        showToast('No fue posible copiar el cuento.', 'error');
+        showToast(t('toastCopyFail'), 'error');
     }
 }
 
 async function shareStory() {
     const story = getStoryById(currentStoryId);
     if (!story) {
-        showToast('Abre un cuento antes de compartir.', 'warning');
+        showToast(t('toastShareFirst'), 'warning');
         return;
     }
 
@@ -680,7 +753,7 @@ async function shareStory() {
     if (navigator.share) {
         try {
             await navigator.share(payload);
-            showToast('Compartido correctamente.', 'success');
+            showToast(t('toastShared'), 'success');
             return;
         } catch (error) {
             if (error && error.name === 'AbortError') {
@@ -974,15 +1047,38 @@ document.addEventListener('DOMContentLoaded', () => {
     // Toggle de tema: se conserva botón, se cambia a feedback no bloqueante.
     document.getElementById('themeToggle').addEventListener('click', () => {
         currentTheme = currentTheme === 'dark' ? 'dark' : 'dark';
-        showToast('El nido funciona mejor en la oscuridad...', 'warning');
+        showToast(t('toastTheme'), 'warning');
     });
 
+    // Language toggle
+    document.getElementById('langToggle').addEventListener('click', () => {
+        switchLanguage();
+    });
+
+    // Apply saved language on load
+    if (typeof EN_EL_NIDO_I18N !== 'undefined') {
+        const savedLang = EN_EL_NIDO_I18N.getCurrentLang();
+        if (savedLang === 'en') {
+            reloadDataForCurrentLang();
+            renderStories();
+            renderTOC();
+            renderGlossary();
+            updateStoryCount();
+        }
+        applyI18nToDOM();
+        const btn = document.getElementById('langToggle');
+        if (btn) {
+            btn.textContent = t('langLabel');
+            btn.title = t('langToggleTitle');
+        }
+    }
+
     if (stories.length === 0) {
-        showToast('No se cargaron cuentos desde stories-data.js.', 'error');
+        showToast(t('toastNoStories'), 'error');
     }
 
     if (glossaryItems.length === 0) {
-        showToast('No se cargó el glosario desde glossary-data.js.', 'warning');
+        showToast(t('toastNoGlossary'), 'warning');
     }
 
     openInitialStoryContext();
