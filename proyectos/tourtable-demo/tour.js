@@ -114,9 +114,21 @@ const BASE_CAPTIONS = {
     'pano-03': 'Zonas Verdes y Senderos — 18 Trinitarios',
 };
 
+// Detect if the device is a mobile device or tablet to load a lighter panorama (4K vs 8K)
+const isMobile = (() => {
+    if (typeof window === 'undefined') return false;
+    if (window.innerWidth <= 768 || window.innerHeight <= 768) return true;
+    const ua = navigator.userAgent.toLowerCase();
+    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|ipad|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm(os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i.test(ua)) return true;
+    return ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+})();
+
+const panoFolder = isMobile ? 'low' : 'high';
+console.log(`[TourTable] Device: ${isMobile ? 'Mobile/Tablet' : 'Desktop'}. Loading 360° textures from: ${panoFolder}`);
+
 const NODES = NODES_TABLE.map((entry, index) => ({
     id: entry.id,
-    panorama: `assets/panoramas/${entry.file}`,
+    panorama: `assets/panoramas/${panoFolder}/${entry.file}`,
     thumbnail: `assets/thumbnails/${entry.thumbnail}`,
     name: entry.name,
     caption: BASE_CAPTIONS[entry.id] || `${entry.name} — Recorrido complementario`,
