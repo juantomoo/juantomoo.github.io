@@ -8,115 +8,199 @@ import { AutorotatePlugin }   from '@photo-sphere-viewer/autorotate-plugin';
 /* ═══════════════════════════════════════════════════════
    NODE DATA
    GPS en formato [longitud, latitud] (convención GeoJSON / PSV v5).
-   Coordenadas separadas ~60 m en triángulo para que las flechas
-   3D apunten en direcciones claramente distintas.
+   Los puntos se gestionan desde points.json.
    ═══════════════════════════════════════════════════════ */
 
-const NODES = [
-    {
-        id: 'pano-01',
-        panorama: 'assets/panoramas/pano-01.jpg',
-        thumbnail: 'assets/thumbnails/thumb-01.jpg',
-        name: 'Zona de Piscinas',
-        caption: 'Zona de Piscinas — 18 Trinitarios',
-        gps: [-73.36640, 7.00640],          // ← NW del predio
-        markers: [
-            {
-                id: 'info-piscinas',
-                position: { yaw: '45deg', pitch: '-5deg' },
-                html: `<div class="marker-info">
-                    <h3><i class="ph ph-waves" style="font-size:16px"></i> Zona Acuática</h3>
-                    <p>Piscinas para adultos y niños con toboganes</p>
-                </div>`,
-                anchor: 'center center',
-                data: { modal: 'piscinas' },
-            },
-            {
-                id: 'badge-restaurante',
-                position: { yaw: '160deg', pitch: '-8deg' },
-                html: `<div class="marker-badge">
-                    <i class="ph ph-fork-knife" style="font-size:14px"></i> Restaurante
-                </div>`,
-                anchor: 'center center',
-                data: { modal: 'restaurante' },
-            },
-        ],
-        links: [
-            { nodeId: 'pano-02' },   // → Este  (~90°, auto-calculado por GPS)
-            { nodeId: 'pano-03' },   // → SE    (~150°, auto-calculado por GPS)
-        ],
-    },
-    {
-        id: 'pano-02',
-        panorama: 'assets/panoramas/pano-02.jpg',
-        thumbnail: 'assets/thumbnails/thumb-02.jpg',
-        name: 'Canchas Deportivas',
-        caption: 'Canchas Deportivas — 18 Trinitarios',
-        gps: [-73.36580, 7.00640],          // ← NE del predio
-        markers: [
-            {
-                id: 'info-canchas',
-                position: { yaw: '-30deg', pitch: '-5deg' },
-                html: `<div class="marker-info">
-                    <h3><i class="ph ph-trophy" style="font-size:16px"></i> Canchas Múltiples</h3>
-                    <p>Fútbol, baloncesto y voleibol disponibles</p>
-                </div>`,
-                anchor: 'center center',
-                data: { modal: 'canchas' },
-            },
-            {
-                id: 'badge-juegos',
-                position: { yaw: '120deg', pitch: '-10deg' },
-                html: `<div class="marker-badge accent">
-                    <i class="ph ph-puzzle-piece" style="font-size:14px"></i> Zona Infantil
-                </div>`,
-                anchor: 'center center',
-                data: { modal: 'juegos' },
-            },
-        ],
-        links: [
-            { nodeId: 'pano-01' },   // → Oeste (~270°)
-            { nodeId: 'pano-03' },   // → SW   (~210°)
-        ],
-    },
-    {
-        id: 'pano-03',
-        panorama: 'assets/panoramas/pano-03.jpg',
-        thumbnail: 'assets/thumbnails/thumb-03.jpg',
-        name: 'Zonas Verdes',
-        caption: 'Zonas Verdes y Senderos — 18 Trinitarios',
-        gps: [-73.36610, 7.00580],          // ← Sur centro del predio
-        markers: [
-            {
-                id: 'info-senderos',
-                position: { yaw: '0deg', pitch: '-8deg' },
-                html: `<div class="marker-info">
-                    <h3><i class="ph ph-tree" style="font-size:16px"></i> Senderos Ecológicos</h3>
-                    <p>Recorridos guiados por la naturaleza del centro</p>
-                </div>`,
-                anchor: 'center center',
-                data: { modal: 'senderos' },
-            },
-            {
-                id: 'cta-reservas',
-                position: { yaw: '-120deg', pitch: '0deg' },
-                html: `<div class="marker-cta">
-                    <i class="ph ph-calendar-check" style="font-size:16px"></i> Reserva tu visita
-                </div>`,
-                anchor: 'center center',
-                data: { modal: 'reservas' },
-            },
-        ],
-        links: [
-            { nodeId: 'pano-01' },   // → NW  (~330°)
-            { nodeId: 'pano-02' },   // → NE  (~30°)
-        ],
-    },
-];
+async function loadPoints() {
+    const response = await fetch('points.json', { cache: 'no-store' });
+
+    if (!response.ok) {
+        throw new Error(`No se pudo cargar points.json (${response.status})`);
+    }
+
+    const points = await response.json();
+
+    if (!Array.isArray(points) || points.length === 0) {
+        throw new Error('points.json debe contener una lista de puntos.');
+    }
+
+    points.forEach((point, index) => {
+        const required = ['id', 'file', 'thumbnail', 'name', 'gps'];
+        const missing = required.filter((key) => point[key] === undefined);
+
+        if (missing.length > 0) {
+            throw new Error(`El punto ${index + 1} no tiene: ${missing.join(', ')}`);
+        }
+
+        if (!Array.isArray(point.gps) || point.gps.length !== 2) {
+            throw new Error(`El punto ${point.id} debe tener gps en formato [longitud, latitud].`);
+        }
+    });
+
+    return points;
+}
+
+const NODES_TABLE = await loadPoints();
+
+const BASE_MARKERS = {
+    'pano-01': [
+        {
+            id: 'info-piscinas',
+            position: { yaw: '45deg', pitch: '-5deg' },
+            html: `<div class="marker-info">
+                <h3><i class="ph ph-waves" style="font-size:16px"></i> Zona Acuática</h3>
+                <p>Piscinas para adultos y niños con toboganes</p>
+            </div>`,
+            anchor: 'center center',
+            data: { modal: 'piscinas' },
+        },
+        {
+            id: 'badge-restaurante',
+            position: { yaw: '160deg', pitch: '-8deg' },
+            html: `<div class="marker-badge">
+                <i class="ph ph-fork-knife" style="font-size:14px"></i> Restaurante
+            </div>`,
+            anchor: 'center center',
+            data: { modal: 'restaurante' },
+        },
+    ],
+    'pano-02': [
+        {
+            id: 'info-canchas',
+            position: { yaw: '-30deg', pitch: '-5deg' },
+            html: `<div class="marker-info">
+                <h3><i class="ph ph-trophy" style="font-size:16px"></i> Canchas Múltiples</h3>
+                <p>Fútbol, baloncesto y voleibol disponibles</p>
+            </div>`,
+            anchor: 'center center',
+            data: { modal: 'canchas' },
+        },
+        {
+            id: 'badge-juegos',
+            position: { yaw: '120deg', pitch: '-10deg' },
+            html: `<div class="marker-badge accent">
+                <i class="ph ph-puzzle-piece" style="font-size:14px"></i> Zona Infantil
+            </div>`,
+            anchor: 'center center',
+            data: { modal: 'juegos' },
+        },
+    ],
+    'pano-03': [
+        {
+            id: 'info-senderos',
+            position: { yaw: '0deg', pitch: '-8deg' },
+            html: `<div class="marker-info">
+                <h3><i class="ph ph-tree" style="font-size:16px"></i> Senderos Ecológicos</h3>
+                <p>Recorridos guiados por la naturaleza del centro</p>
+            </div>`,
+            anchor: 'center center',
+            data: { modal: 'senderos' },
+        },
+        {
+            id: 'cta-reservas',
+            position: { yaw: '-120deg', pitch: '0deg' },
+            html: `<div class="marker-cta">
+                <i class="ph ph-calendar-check" style="font-size:16px"></i> Reserva tu visita
+            </div>`,
+            anchor: 'center center',
+            data: { modal: 'reservas' },
+        },
+    ],
+};
+
+const BASE_CAPTIONS = {
+    'pano-01': 'Zona de Piscinas — 18 Trinitarios',
+    'pano-02': 'Canchas Deportivas — 18 Trinitarios',
+    'pano-03': 'Zonas Verdes y Senderos — 18 Trinitarios',
+};
+
+const NODES = NODES_TABLE.map((entry, index) => ({
+    id: entry.id,
+    panorama: `assets/panoramas/${entry.file}`,
+    thumbnail: `assets/thumbnails/${entry.thumbnail}`,
+    name: entry.name,
+    caption: BASE_CAPTIONS[entry.id] || `${entry.name} — Recorrido complementario`,
+    gps: entry.gps,
+    markers: BASE_MARKERS[entry.id] || [
+        {
+            id: `info-${entry.id}`,
+            position: { yaw: `${(index * 37) % 360}deg`, pitch: '-6deg' },
+            html: `<div class="marker-info">
+                <h3><i class="ph ph-map-pin" style="font-size:16px"></i> ${entry.name}</h3>
+                <p>Punto complementario del recorrido extendido.</p>
+            </div>`,
+            anchor: 'center center',
+            data: { modal: `extra-${entry.id}` },
+        },
+    ],
+    links: [],
+}));
+
+const NODE_IDS = new Set(NODES.map((node) => node.id));
+
+function buildLinks(nodes, neighbors = 6) {
+    const linksByNode = new Map(nodes.map((node) => [node.id, new Set()]));
+
+    function linkBoth(fromId, toId) {
+        if (!linksByNode.has(fromId) || !linksByNode.has(toId) || fromId === toId) return;
+
+        linksByNode.get(fromId).add(toId);
+        linksByNode.get(toId).add(fromId);
+    }
+
+    nodes.forEach((node) => {
+        const distances = nodes
+            .filter((candidate) => candidate.id !== node.id)
+            .map((candidate) => {
+                const dx = candidate.gps[0] - node.gps[0];
+                const dy = candidate.gps[1] - node.gps[1];
+                return { id: candidate.id, dist: dx * dx + dy * dy };
+            })
+            .sort((a, b) => a.dist - b.dist)
+            .slice(0, neighbors);
+
+        distances.forEach((item) => linkBoth(node.id, item.id));
+    });
+
+    nodes.forEach((node, index) => {
+        if (index > 0) linkBoth(node.id, nodes[index - 1].id);
+        if (index < nodes.length - 1) linkBoth(node.id, nodes[index + 1].id);
+    });
+
+    nodes.forEach((node) => {
+        node.links = Array.from(linksByNode.get(node.id)).map((nodeId) => ({ nodeId }));
+    });
+}
+
+buildLinks(NODES, 6);
+
+const PLAN_CENTER = NODES.reduce((center, node) => {
+    center[0] += node.gps[0] / NODES.length;
+    center[1] += node.gps[1] / NODES.length;
+    return center;
+}, [0, 0]);
 
 /* ═══════════════════════════════════════════════════════
    MODAL CONTENT
    ═══════════════════════════════════════════════════════ */
+
+const EXTRA_MODAL_CONTENT = Object.fromEntries(
+    NODES_TABLE.filter((entry) => !BASE_CAPTIONS[entry.id]).map((entry) => ([
+        `extra-${entry.id}`,
+        {
+            title: entry.name,
+            body: `<div class="modal-content-card">
+                <h2>${entry.name}</h2>
+                <p>Información adicional del recorrido extendido. Ajusta este texto con la descripción real del punto.</p>
+                <ul>
+                    <li>Ubicación cercana a las zonas principales</li>
+                    <li>Fotografía 360° complementaria</li>
+                    <li>Espacio ideal para señalización y contenidos</li>
+                </ul>
+            </div>`,
+        },
+    ])),
+);
 
 const MODAL_CONTENT = {
     piscinas: {
@@ -199,6 +283,7 @@ const MODAL_CONTENT = {
             <div class="modal-tip">Contacta a Comfenalco Santander para tarifas actualizadas y disponibilidad.</div>
         </div>`,
     },
+    ...EXTRA_MODAL_CONTENT,
 };
 
 /* ═══════════════════════════════════════════════════════
@@ -245,7 +330,7 @@ const viewer = new Viewer({
 
         /* PlanPlugin — mini-mapa Leaflet con hotspots */
         PlanPlugin.withConfig({
-            coordinates: [-73.36610, 7.00620],      // centro del triángulo
+            coordinates: PLAN_CENTER,
             bearing: '0deg',
             size: { width: '220px', height: '180px' },
             position: 'bottom left',
@@ -278,9 +363,12 @@ virtualTour.addEventListener('node-changed', ({ node }) => {
 
 if (plan) {
     plan.addEventListener('select-hotspot', ({ hotspotId }) => {
+        const nodeId = String(hotspotId).replace(/^__tour-link__/, '');
         const current = virtualTour.getCurrentNode();
-        if (current && current.id !== hotspotId) {
-            virtualTour.setCurrentNode(hotspotId);
+        if (NODE_IDS.has(nodeId) && current && current.id !== nodeId) {
+            virtualTour.setCurrentNode(nodeId).catch((error) => {
+                console.error(`No se pudo abrir el nodo ${nodeId}`, error);
+            });
         }
     });
 }

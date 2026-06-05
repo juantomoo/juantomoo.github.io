@@ -1,0 +1,1405 @@
+[
+    {
+        "id": "pano-01",
+        "file": "pano-01.jpg",
+        "thumbnail": "thumb-01.jpg",
+        "name": "Zona de Piscinas",
+        "gps": [
+            -73.366219,
+            7.0064
+        ]
+    },
+    {
+        "id": "pano-02",
+        "file": "pano-02.jpg",
+        "thumbnail": "thumb-02.jpg",
+        "name": "Canchas Deportivas",
+        "gps": [
+            -73.366151,
+            7.006481
+        ]
+    },
+    {
+        "id": "pano-03",
+        "file": "pano-03.jpg",
+        "thumbnail": "thumb-03.jpg",
+        "name": "Zonas Verdes",
+        "gps": [
+            -73.366124,
+            7.006602
+        ]
+    },
+    {
+        "id": "pano-04",
+        "file": "pano-04.jpg",
+        "thumbnail": "thumb-04.jpg",
+        "name": "Punto original 001",
+        "gps": [
+            -73.366030555556,
+            7.005886111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_102403_00_001.insp",
+        "capturedAt": "2026:04:29 10:24:11"
+    },
+    {
+        "id": "pano-05",
+        "file": "pano-05.jpg",
+        "thumbnail": "thumb-05.jpg",
+        "name": "Punto original 002",
+        "gps": [
+            -73.366030555556,
+            7.005886111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_102603_00_002.insp",
+        "capturedAt": "2026:04:29 10:26:11"
+    },
+    {
+        "id": "pano-06",
+        "file": "pano-06.jpg",
+        "thumbnail": "thumb-06.jpg",
+        "name": "Punto original 003",
+        "gps": [
+            -73.366030555556,
+            7.005886111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_102800_00_003.insp",
+        "capturedAt": "2026:04:29 10:28:08"
+    },
+    {
+        "id": "pano-07",
+        "file": "pano-07.jpg",
+        "thumbnail": "thumb-07.jpg",
+        "name": "Punto original 004",
+        "gps": [
+            -73.366030555556,
+            7.005886111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_103022_00_004.insp",
+        "capturedAt": "2026:04:29 10:30:30"
+    },
+    {
+        "id": "pano-08",
+        "file": "pano-08.jpg",
+        "thumbnail": "thumb-08.jpg",
+        "name": "Punto original 005",
+        "gps": [
+            -73.366030555556,
+            7.005886111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_103303_00_005.insp",
+        "capturedAt": "2026:04:29 10:33:10"
+    },
+    {
+        "id": "pano-09",
+        "file": "pano-09.jpg",
+        "thumbnail": "thumb-09.jpg",
+        "name": "Punto original 006",
+        "gps": [
+            -73.367061111111,
+            7.005930555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_104641_00_006.insp",
+        "capturedAt": "2026:04:29 10:46:49"
+    },
+    {
+        "id": "pano-10",
+        "file": "pano-10.jpg",
+        "thumbnail": "thumb-10.jpg",
+        "name": "Punto original 007",
+        "gps": [
+            -73.367061111111,
+            7.005930555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_104847_00_007.insp",
+        "capturedAt": "2026:04:29 10:48:55"
+    },
+    {
+        "id": "pano-11",
+        "file": "pano-11.jpg",
+        "thumbnail": "thumb-11.jpg",
+        "name": "Punto original 008",
+        "gps": [
+            -73.367061111111,
+            7.005930555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_104944_00_008.insp",
+        "capturedAt": "2026:04:29 10:49:52"
+    },
+    {
+        "id": "pano-12",
+        "file": "pano-12.jpg",
+        "thumbnail": "thumb-12.jpg",
+        "name": "Punto original 009",
+        "gps": [
+            -73.367061111111,
+            7.005930555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_105101_00_009.insp",
+        "capturedAt": "2026:04:29 10:51:08"
+    },
+    {
+        "id": "pano-13",
+        "file": "pano-13.jpg",
+        "thumbnail": "thumb-13.jpg",
+        "name": "Punto original 010",
+        "gps": [
+            -73.367116666667,
+            7.005833333333
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_110336_00_010.insp",
+        "capturedAt": "2026:04:29 11:03:44"
+    },
+    {
+        "id": "pano-14",
+        "file": "pano-14.jpg",
+        "thumbnail": "thumb-14.jpg",
+        "name": "Punto original 011",
+        "gps": [
+            -73.367116666667,
+            7.005833333333
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_110453_00_011.insp",
+        "capturedAt": "2026:04:29 11:05:01"
+    },
+    {
+        "id": "pano-15",
+        "file": "pano-15.jpg",
+        "thumbnail": "thumb-15.jpg",
+        "name": "Punto original 012",
+        "gps": [
+            -73.367116666667,
+            7.005833333333
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_110557_00_012.insp",
+        "capturedAt": "2026:04:29 11:06:04"
+    },
+    {
+        "id": "pano-16",
+        "file": "pano-16.jpg",
+        "thumbnail": "thumb-16.jpg",
+        "name": "Punto original 013",
+        "gps": [
+            -73.367116666667,
+            7.005833333333
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_110728_00_013.insp",
+        "capturedAt": "2026:04:29 11:07:36"
+    },
+    {
+        "id": "pano-17",
+        "file": "pano-17.jpg",
+        "thumbnail": "thumb-17.jpg",
+        "name": "Punto original 014",
+        "gps": [
+            -73.367116666667,
+            7.005833333333
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_110905_00_014.insp",
+        "capturedAt": "2026:04:29 11:09:13"
+    },
+    {
+        "id": "pano-18",
+        "file": "pano-18.jpg",
+        "thumbnail": "thumb-18.jpg",
+        "name": "Punto original 015",
+        "gps": [
+            -73.367116666667,
+            7.005833333333
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_111027_00_015.insp",
+        "capturedAt": "2026:04:29 11:10:35"
+    },
+    {
+        "id": "pano-19",
+        "file": "pano-19.jpg",
+        "thumbnail": "thumb-19.jpg",
+        "name": "Punto original 016",
+        "gps": [
+            -73.366611111111,
+            7.006575
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_111738_00_016.insp",
+        "capturedAt": "2026:04:29 11:17:46"
+    },
+    {
+        "id": "pano-20",
+        "file": "pano-20.jpg",
+        "thumbnail": "thumb-20.jpg",
+        "name": "Punto original 017",
+        "gps": [
+            -73.366611111111,
+            7.006575
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_111845_00_017.insp",
+        "capturedAt": "2026:04:29 11:18:53"
+    },
+    {
+        "id": "pano-21",
+        "file": "pano-21.jpg",
+        "thumbnail": "thumb-21.jpg",
+        "name": "Punto original 018",
+        "gps": [
+            -73.366611111111,
+            7.006575
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_111945_00_018.insp",
+        "capturedAt": "2026:04:29 11:19:52"
+    },
+    {
+        "id": "pano-22",
+        "file": "pano-22.jpg",
+        "thumbnail": "thumb-22.jpg",
+        "name": "Punto original 019",
+        "gps": [
+            -73.366611111111,
+            7.006575
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_113036_00_019.insp",
+        "capturedAt": "2026:04:29 11:30:44"
+    },
+    {
+        "id": "pano-23",
+        "file": "pano-23.jpg",
+        "thumbnail": "thumb-23.jpg",
+        "name": "Punto original 020",
+        "gps": [
+            -73.366611111111,
+            7.006575
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_113205_00_020.insp",
+        "capturedAt": "2026:04:29 11:32:13"
+    },
+    {
+        "id": "pano-24",
+        "file": "pano-24.jpg",
+        "thumbnail": "thumb-24.jpg",
+        "name": "Punto original 021",
+        "gps": [
+            -73.366611111111,
+            7.006575
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_113634_00_021.insp",
+        "capturedAt": "2026:04:29 11:36:42"
+    },
+    {
+        "id": "pano-25",
+        "file": "pano-25.jpg",
+        "thumbnail": "thumb-25.jpg",
+        "name": "Punto original 022",
+        "gps": [
+            -73.366830555556,
+            7.006561111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_114529_00_022.insp",
+        "capturedAt": "2026:04:29 11:45:37"
+    },
+    {
+        "id": "pano-26",
+        "file": "pano-26.jpg",
+        "thumbnail": "thumb-26.jpg",
+        "name": "Punto original 023",
+        "gps": [
+            -73.366866666667,
+            7.006405555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_114615_00_023.insp",
+        "capturedAt": "2026:04:29 11:46:23"
+    },
+    {
+        "id": "pano-27",
+        "file": "pano-27.jpg",
+        "thumbnail": "thumb-27.jpg",
+        "name": "Punto original 024",
+        "gps": [
+            -73.366775,
+            7.006336111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_114804_00_024.insp",
+        "capturedAt": "2026:04:29 11:48:12"
+    },
+    {
+        "id": "pano-28",
+        "file": "pano-28.jpg",
+        "thumbnail": "thumb-28.jpg",
+        "name": "Punto original 025",
+        "gps": [
+            -73.36675,
+            7.006236111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_114849_00_025.insp",
+        "capturedAt": "2026:04:29 11:48:57"
+    },
+    {
+        "id": "pano-29",
+        "file": "pano-29.jpg",
+        "thumbnail": "thumb-29.jpg",
+        "name": "Punto original 026",
+        "gps": [
+            -73.366813888889,
+            7.006258333333
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_115004_00_026.insp",
+        "capturedAt": "2026:04:29 11:50:11"
+    },
+    {
+        "id": "pano-30",
+        "file": "pano-30.jpg",
+        "thumbnail": "thumb-30.jpg",
+        "name": "Punto original 027",
+        "gps": [
+            -73.366816666667,
+            7.006258333333
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_115125_00_027.insp",
+        "capturedAt": "2026:04:29 11:51:32"
+    },
+    {
+        "id": "pano-31",
+        "file": "pano-31.jpg",
+        "thumbnail": "thumb-31.jpg",
+        "name": "Punto original 028",
+        "gps": [
+            -73.366008333333,
+            7.006105555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_120830_00_028.insp",
+        "capturedAt": "2026:04:29 12:08:37"
+    },
+    {
+        "id": "pano-32",
+        "file": "pano-32.jpg",
+        "thumbnail": "thumb-32.jpg",
+        "name": "Punto original 029",
+        "gps": [
+            -73.366569444444,
+            7.006736111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_121616_00_029.insp",
+        "capturedAt": "2026:04:29 12:16:24"
+    },
+    {
+        "id": "pano-33",
+        "file": "pano-33.jpg",
+        "thumbnail": "thumb-33.jpg",
+        "name": "Punto original 030",
+        "gps": [
+            -73.366569444444,
+            7.006736111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_121715_00_030.insp",
+        "capturedAt": "2026:04:29 12:17:23"
+    },
+    {
+        "id": "pano-34",
+        "file": "pano-34.jpg",
+        "thumbnail": "thumb-34.jpg",
+        "name": "Punto original 031",
+        "gps": [
+            -73.366569444444,
+            7.006736111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_121814_00_031.insp",
+        "capturedAt": "2026:04:29 12:18:22"
+    },
+    {
+        "id": "pano-35",
+        "file": "pano-35.jpg",
+        "thumbnail": "thumb-35.jpg",
+        "name": "Punto original 032",
+        "gps": [
+            -73.366497222222,
+            7.006988888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_122133_00_032.insp",
+        "capturedAt": "2026:04:29 12:21:40"
+    },
+    {
+        "id": "pano-36",
+        "file": "pano-36.jpg",
+        "thumbnail": "thumb-36.jpg",
+        "name": "Punto original 033",
+        "gps": [
+            -73.366377777778,
+            7.007113888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_122212_00_033.insp",
+        "capturedAt": "2026:04:29 12:22:21"
+    },
+    {
+        "id": "pano-37",
+        "file": "pano-37.jpg",
+        "thumbnail": "thumb-37.jpg",
+        "name": "Punto original 034",
+        "gps": [
+            -73.366358333333,
+            7.007144444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_122413_00_034.insp",
+        "capturedAt": "2026:04:29 12:24:22"
+    },
+    {
+        "id": "pano-38",
+        "file": "pano-38.jpg",
+        "thumbnail": "thumb-38.jpg",
+        "name": "Punto original 035",
+        "gps": [
+            -73.366333333333,
+            7.007216666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_122526_00_035.insp",
+        "capturedAt": "2026:04:29 12:25:34"
+    },
+    {
+        "id": "pano-39",
+        "file": "pano-39.jpg",
+        "thumbnail": "thumb-39.jpg",
+        "name": "Punto original 036",
+        "gps": [
+            -73.366280555556,
+            7.007205555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_122803_00_036.insp",
+        "capturedAt": "2026:04:29 12:28:11"
+    },
+    {
+        "id": "pano-40",
+        "file": "pano-40.jpg",
+        "thumbnail": "thumb-40.jpg",
+        "name": "Punto original 037",
+        "gps": [
+            -73.36615,
+            7.007186111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_122852_00_037.insp",
+        "capturedAt": "2026:04:29 12:29:00"
+    },
+    {
+        "id": "pano-41",
+        "file": "pano-41.jpg",
+        "thumbnail": "thumb-41.jpg",
+        "name": "Punto original 038",
+        "gps": [
+            -73.366161111111,
+            7.007169444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_122957_00_038.insp",
+        "capturedAt": "2026:04:29 12:30:05"
+    },
+    {
+        "id": "pano-42",
+        "file": "pano-42.jpg",
+        "thumbnail": "thumb-42.jpg",
+        "name": "Punto original 039",
+        "gps": [
+            -73.366180555556,
+            7.007141666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_123109_00_039.insp",
+        "capturedAt": "2026:04:29 12:31:17"
+    },
+    {
+        "id": "pano-43",
+        "file": "pano-43.jpg",
+        "thumbnail": "thumb-43.jpg",
+        "name": "Punto original 040",
+        "gps": [
+            -73.366244444444,
+            7.006975
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_123250_00_040.insp",
+        "capturedAt": "2026:04:29 12:32:58"
+    },
+    {
+        "id": "pano-44",
+        "file": "pano-44.jpg",
+        "thumbnail": "thumb-44.jpg",
+        "name": "Punto original 041",
+        "gps": [
+            -73.366233333333,
+            7.006963888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_123337_00_041.insp",
+        "capturedAt": "2026:04:29 12:33:46"
+    },
+    {
+        "id": "pano-45",
+        "file": "pano-45.jpg",
+        "thumbnail": "thumb-45.jpg",
+        "name": "Punto original 042",
+        "gps": [
+            -73.366202777778,
+            7.006816666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_123446_00_042.insp",
+        "capturedAt": "2026:04:29 12:34:55"
+    },
+    {
+        "id": "pano-46",
+        "file": "pano-46.jpg",
+        "thumbnail": "thumb-46.jpg",
+        "name": "Punto original 043",
+        "gps": [
+            -73.366377777778,
+            7.006963888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_124831_00_043.insp",
+        "capturedAt": "2026:04:29 12:48:40"
+    },
+    {
+        "id": "pano-47",
+        "file": "pano-47.jpg",
+        "thumbnail": "thumb-47.jpg",
+        "name": "Punto original 044",
+        "gps": [
+            -73.366377777778,
+            7.006963888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_125152_00_044.insp",
+        "capturedAt": "2026:04:29 12:52:00"
+    },
+    {
+        "id": "pano-48",
+        "file": "pano-48.jpg",
+        "thumbnail": "thumb-48.jpg",
+        "name": "Punto original 045",
+        "gps": [
+            -73.366377777778,
+            7.006963888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_125254_00_045.insp",
+        "capturedAt": "2026:04:29 12:53:02"
+    },
+    {
+        "id": "pano-49",
+        "file": "pano-49.jpg",
+        "thumbnail": "thumb-49.jpg",
+        "name": "Punto original 046",
+        "gps": [
+            -73.366341666667,
+            7.007272222222
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_125439_00_046.insp",
+        "capturedAt": "2026:04:29 12:54:48"
+    },
+    {
+        "id": "pano-50",
+        "file": "pano-50.jpg",
+        "thumbnail": "thumb-50.jpg",
+        "name": "Punto original 047",
+        "gps": [
+            -73.366277777778,
+            7.007075
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_125542_00_047.insp",
+        "capturedAt": "2026:04:29 12:55:50"
+    },
+    {
+        "id": "pano-51",
+        "file": "pano-51.jpg",
+        "thumbnail": "thumb-51.jpg",
+        "name": "Punto original 048",
+        "gps": [
+            -73.366480555556,
+            7.006686111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_125659_00_048.insp",
+        "capturedAt": "2026:04:29 12:57:07"
+    },
+    {
+        "id": "pano-52",
+        "file": "pano-52.jpg",
+        "thumbnail": "thumb-52.jpg",
+        "name": "Punto original 049",
+        "gps": [
+            -73.366472222222,
+            7.006711111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_125800_00_049.insp",
+        "capturedAt": "2026:04:29 12:58:08"
+    },
+    {
+        "id": "pano-53",
+        "file": "pano-53.jpg",
+        "thumbnail": "thumb-53.jpg",
+        "name": "Punto original 050",
+        "gps": [
+            -73.366477777778,
+            7.006716666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260429_125926_00_050.insp",
+        "capturedAt": "2026:04:29 12:59:34"
+    },
+    {
+        "id": "pano-54",
+        "file": "pano-54.jpg",
+        "thumbnail": "thumb-54.jpg",
+        "name": "Punto original 051",
+        "gps": [
+            -73.366477777778,
+            7.006716666667
+        ],
+        "gpsSource": "fallback-nearest-exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_094821_00_051.jpg",
+        "fallbackSourceFile": "Fotos 360/Camera01/IMG_20260429_125926_00_050.insp",
+        "capturedAt": "2026:05:03 09:48:30"
+    },
+    {
+        "id": "pano-55",
+        "file": "pano-55.jpg",
+        "thumbnail": "thumb-55.jpg",
+        "name": "Punto original 052",
+        "gps": [
+            -73.366477777778,
+            7.006716666667
+        ],
+        "gpsSource": "fallback-nearest-exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_095137_00_052.jpg",
+        "fallbackSourceFile": "Fotos 360/Camera01/IMG_20260429_125926_00_050.insp",
+        "capturedAt": "2026:05:03 09:51:46"
+    },
+    {
+        "id": "pano-56",
+        "file": "pano-56.jpg",
+        "thumbnail": "thumb-56.jpg",
+        "name": "Punto original 053",
+        "gps": [
+            -73.366477777778,
+            7.006716666667
+        ],
+        "gpsSource": "fallback-nearest-exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_095447_00_053.jpg",
+        "fallbackSourceFile": "Fotos 360/Camera01/IMG_20260429_125926_00_050.insp",
+        "capturedAt": "2026:05:03 09:54:56"
+    },
+    {
+        "id": "pano-57",
+        "file": "pano-57.jpg",
+        "thumbnail": "thumb-57.jpg",
+        "name": "Punto original 054",
+        "gps": [
+            -73.366477777778,
+            7.006716666667
+        ],
+        "gpsSource": "fallback-nearest-exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_095719_00_054.jpg",
+        "fallbackSourceFile": "Fotos 360/Camera01/IMG_20260429_125926_00_050.insp",
+        "capturedAt": "2026:05:03 09:57:29"
+    },
+    {
+        "id": "pano-58",
+        "file": "pano-58.jpg",
+        "thumbnail": "thumb-58.jpg",
+        "name": "Punto original 055",
+        "gps": [
+            -73.366308333333,
+            7.006044444444
+        ],
+        "gpsSource": "fallback-nearest-exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_100008_00_055.jpg",
+        "fallbackSourceFile": "Fotos 360/Camera01/IMG_20260503_105436_00_059.jpg",
+        "capturedAt": "2026:05:03 10:00:17"
+    },
+    {
+        "id": "pano-59",
+        "file": "pano-59.jpg",
+        "thumbnail": "thumb-59.jpg",
+        "name": "Punto original 056",
+        "gps": [
+            -73.366308333333,
+            7.006044444444
+        ],
+        "gpsSource": "fallback-nearest-exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_100206_00_056.jpg",
+        "fallbackSourceFile": "Fotos 360/Camera01/IMG_20260503_105436_00_059.jpg",
+        "capturedAt": "2026:05:03 10:02:15"
+    },
+    {
+        "id": "pano-60",
+        "file": "pano-60.jpg",
+        "thumbnail": "thumb-60.jpg",
+        "name": "Punto original 057",
+        "gps": [
+            -73.366308333333,
+            7.006044444444
+        ],
+        "gpsSource": "fallback-nearest-exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_100322_00_057.jpg",
+        "fallbackSourceFile": "Fotos 360/Camera01/IMG_20260503_105436_00_059.jpg",
+        "capturedAt": "2026:05:03 10:03:31"
+    },
+    {
+        "id": "pano-61",
+        "file": "pano-61.jpg",
+        "thumbnail": "thumb-61.jpg",
+        "name": "Punto original 058",
+        "gps": [
+            -73.366308333333,
+            7.006044444444
+        ],
+        "gpsSource": "fallback-nearest-exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_100433_00_058.jpg",
+        "fallbackSourceFile": "Fotos 360/Camera01/IMG_20260503_105436_00_059.jpg",
+        "capturedAt": "2026:05:03 10:04:42"
+    },
+    {
+        "id": "pano-62",
+        "file": "pano-62.jpg",
+        "thumbnail": "thumb-62.jpg",
+        "name": "Punto original 059",
+        "gps": [
+            -73.366308333333,
+            7.006044444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_105436_00_059.jpg",
+        "capturedAt": "2026:05:03 10:54:45"
+    },
+    {
+        "id": "pano-63",
+        "file": "pano-63.jpg",
+        "thumbnail": "thumb-63.jpg",
+        "name": "Punto original 060",
+        "gps": [
+            -73.3668,
+            7.005988888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_105618_00_060.jpg",
+        "capturedAt": "2026:05:03 10:56:27"
+    },
+    {
+        "id": "pano-64",
+        "file": "pano-64.jpg",
+        "thumbnail": "thumb-64.jpg",
+        "name": "Punto original 061",
+        "gps": [
+            -73.366919444444,
+            7.006216666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_105722_00_061.jpg",
+        "capturedAt": "2026:05:03 10:57:31"
+    },
+    {
+        "id": "pano-65",
+        "file": "pano-65.jpg",
+        "thumbnail": "thumb-65.jpg",
+        "name": "Punto original 062",
+        "gps": [
+            -73.366908333333,
+            7.006241666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_105832_00_062.jpg",
+        "capturedAt": "2026:05:03 10:58:40"
+    },
+    {
+        "id": "pano-66",
+        "file": "pano-66.jpg",
+        "thumbnail": "thumb-66.jpg",
+        "name": "Punto original 063",
+        "gps": [
+            -73.366983333333,
+            7.006325
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_105914_00_063.jpg",
+        "capturedAt": "2026:05:03 10:59:23"
+    },
+    {
+        "id": "pano-67",
+        "file": "pano-67.jpg",
+        "thumbnail": "thumb-67.jpg",
+        "name": "Punto original 064",
+        "gps": [
+            -73.366936111111,
+            7.006311111111
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110015_00_064.jpg",
+        "capturedAt": "2026:05:03 11:00:24"
+    },
+    {
+        "id": "pano-68",
+        "file": "pano-68.jpg",
+        "thumbnail": "thumb-68.jpg",
+        "name": "Punto original 065",
+        "gps": [
+            -73.366891666667,
+            7.006255555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110052_00_065.jpg",
+        "capturedAt": "2026:05:03 11:01:01"
+    },
+    {
+        "id": "pano-69",
+        "file": "pano-69.jpg",
+        "thumbnail": "thumb-69.jpg",
+        "name": "Punto original 066",
+        "gps": [
+            -73.366819444444,
+            7.006247222222
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110157_00_066.jpg",
+        "capturedAt": "2026:05:03 11:01:59"
+    },
+    {
+        "id": "pano-70",
+        "file": "pano-70.jpg",
+        "thumbnail": "thumb-70.jpg",
+        "name": "Punto original 067",
+        "gps": [
+            -73.366841666667,
+            7.006155555556
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110202_00_067.jpg",
+        "capturedAt": "2026:05:03 11:02:04"
+    },
+    {
+        "id": "pano-71",
+        "file": "pano-71.jpg",
+        "thumbnail": "thumb-71.jpg",
+        "name": "Punto original 068",
+        "gps": [
+            -73.366811111111,
+            7.006113888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110253_00_068.jpg",
+        "capturedAt": "2026:05:03 11:02:55"
+    },
+    {
+        "id": "pano-72",
+        "file": "pano-72.jpg",
+        "thumbnail": "thumb-72.jpg",
+        "name": "Punto original 069",
+        "gps": [
+            -73.366805555556,
+            7.006072222222
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110324_00_069.jpg",
+        "capturedAt": "2026:05:03 11:03:26"
+    },
+    {
+        "id": "pano-73",
+        "file": "pano-73.jpg",
+        "thumbnail": "thumb-73.jpg",
+        "name": "Punto original 070",
+        "gps": [
+            -73.366866666667,
+            7.006088888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110344_00_070.jpg",
+        "capturedAt": "2026:05:03 11:03:46"
+    },
+    {
+        "id": "pano-74",
+        "file": "pano-74.jpg",
+        "thumbnail": "thumb-74.jpg",
+        "name": "Punto original 071",
+        "gps": [
+            -73.3669,
+            7.006125
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110407_00_071.jpg",
+        "capturedAt": "2026:05:03 11:04:09"
+    },
+    {
+        "id": "pano-75",
+        "file": "pano-75.jpg",
+        "thumbnail": "thumb-75.jpg",
+        "name": "Punto original 072",
+        "gps": [
+            -73.3669,
+            7.006125
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110411_00_072.jpg",
+        "capturedAt": "2026:05:03 11:04:13"
+    },
+    {
+        "id": "pano-76",
+        "file": "pano-76.jpg",
+        "thumbnail": "thumb-76.jpg",
+        "name": "Punto original 073",
+        "gps": [
+            -73.366930555556,
+            7.006263888889
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110433_00_073.jpg",
+        "capturedAt": "2026:05:03 11:04:35"
+    },
+    {
+        "id": "pano-77",
+        "file": "pano-77.jpg",
+        "thumbnail": "thumb-77.jpg",
+        "name": "Punto original 074",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110437_00_074.jpg",
+        "capturedAt": "2026:05:03 11:04:39"
+    },
+    {
+        "id": "pano-78",
+        "file": "pano-78.jpg",
+        "thumbnail": "thumb-78.jpg",
+        "name": "Punto original 075",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110442_00_075.jpg",
+        "capturedAt": "2026:05:03 11:04:44"
+    },
+    {
+        "id": "pano-79",
+        "file": "pano-79.jpg",
+        "thumbnail": "thumb-79.jpg",
+        "name": "Punto original 076",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_110730_00_076.jpg",
+        "capturedAt": "2026:05:03 11:07:39"
+    },
+    {
+        "id": "pano-80",
+        "file": "pano-80.jpg",
+        "thumbnail": "thumb-80.jpg",
+        "name": "Punto original 077",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_111004_00_077.jpg",
+        "capturedAt": "2026:05:03 11:10:13"
+    },
+    {
+        "id": "pano-81",
+        "file": "pano-81.jpg",
+        "thumbnail": "thumb-81.jpg",
+        "name": "Punto original 078",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_111059_00_078.jpg",
+        "capturedAt": "2026:05:03 11:11:08"
+    },
+    {
+        "id": "pano-82",
+        "file": "pano-82.jpg",
+        "thumbnail": "thumb-82.jpg",
+        "name": "Punto original 079",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_111312_00_079.jpg",
+        "capturedAt": "2026:05:03 11:13:22"
+    },
+    {
+        "id": "pano-83",
+        "file": "pano-83.jpg",
+        "thumbnail": "thumb-83.jpg",
+        "name": "Punto original 080",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_111655_00_080.jpg",
+        "capturedAt": "2026:05:03 11:17:04"
+    },
+    {
+        "id": "pano-84",
+        "file": "pano-84.jpg",
+        "thumbnail": "thumb-84.jpg",
+        "name": "Punto original 081",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_112057_00_081.jpg",
+        "capturedAt": "2026:05:03 11:21:07"
+    },
+    {
+        "id": "pano-85",
+        "file": "pano-85.jpg",
+        "thumbnail": "thumb-85.jpg",
+        "name": "Punto original 082",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_112145_00_082.jpg",
+        "capturedAt": "2026:05:03 11:21:55"
+    },
+    {
+        "id": "pano-86",
+        "file": "pano-86.jpg",
+        "thumbnail": "thumb-86.jpg",
+        "name": "Punto original 083",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_112324_00_083.jpg",
+        "capturedAt": "2026:05:03 11:23:33"
+    },
+    {
+        "id": "pano-87",
+        "file": "pano-87.jpg",
+        "thumbnail": "thumb-87.jpg",
+        "name": "Punto original 084",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_112455_00_084.jpg",
+        "capturedAt": "2026:05:03 11:25:04"
+    },
+    {
+        "id": "pano-88",
+        "file": "pano-88.jpg",
+        "thumbnail": "thumb-88.jpg",
+        "name": "Punto original 085",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_112633_00_085.jpg",
+        "capturedAt": "2026:05:03 11:26:43"
+    },
+    {
+        "id": "pano-89",
+        "file": "pano-89.jpg",
+        "thumbnail": "thumb-89.jpg",
+        "name": "Punto original 086",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_112828_00_086.jpg",
+        "capturedAt": "2026:05:03 11:28:37"
+    },
+    {
+        "id": "pano-90",
+        "file": "pano-90.jpg",
+        "thumbnail": "thumb-90.jpg",
+        "name": "Punto original 087",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_112938_00_087.jpg",
+        "capturedAt": "2026:05:03 11:29:47"
+    },
+    {
+        "id": "pano-91",
+        "file": "pano-91.jpg",
+        "thumbnail": "thumb-91.jpg",
+        "name": "Punto original 088",
+        "gps": [
+            -73.366936111111,
+            7.006266666667
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_113103_00_088.jpg",
+        "capturedAt": "2026:05:03 11:31:12"
+    },
+    {
+        "id": "pano-92",
+        "file": "pano-92.jpg",
+        "thumbnail": "thumb-92.jpg",
+        "name": "Punto original 089",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_113554_00_089.jpg",
+        "capturedAt": "2026:05:03 11:36:03"
+    },
+    {
+        "id": "pano-93",
+        "file": "pano-93.jpg",
+        "thumbnail": "thumb-93.jpg",
+        "name": "Punto original 090",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_113700_00_090.jpg",
+        "capturedAt": "2026:05:03 11:37:09"
+    },
+    {
+        "id": "pano-94",
+        "file": "pano-94.jpg",
+        "thumbnail": "thumb-94.jpg",
+        "name": "Punto original 091",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_113716_00_091.jpg",
+        "capturedAt": "2026:05:03 11:37:25"
+    },
+    {
+        "id": "pano-95",
+        "file": "pano-95.jpg",
+        "thumbnail": "thumb-95.jpg",
+        "name": "Punto original 092",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_113904_00_092.jpg",
+        "capturedAt": "2026:05:03 11:39:13"
+    },
+    {
+        "id": "pano-96",
+        "file": "pano-96.jpg",
+        "thumbnail": "thumb-96.jpg",
+        "name": "Punto original 093",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_114135_00_093.jpg",
+        "capturedAt": "2026:05:03 11:41:45"
+    },
+    {
+        "id": "pano-97",
+        "file": "pano-97.jpg",
+        "thumbnail": "thumb-97.jpg",
+        "name": "Punto original 094",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_114230_00_094.jpg",
+        "capturedAt": "2026:05:03 11:42:40"
+    },
+    {
+        "id": "pano-98",
+        "file": "pano-98.jpg",
+        "thumbnail": "thumb-98.jpg",
+        "name": "Punto original 095",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_114307_00_095.jpg",
+        "capturedAt": "2026:05:03 11:43:16"
+    },
+    {
+        "id": "pano-99",
+        "file": "pano-99.jpg",
+        "thumbnail": "thumb-99.jpg",
+        "name": "Punto original 096",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_114347_00_096.jpg",
+        "capturedAt": "2026:05:03 11:43:56"
+    },
+    {
+        "id": "pano-100",
+        "file": "pano-100.jpg",
+        "thumbnail": "thumb-100.jpg",
+        "name": "Punto original 097",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_114606_00_097.jpg",
+        "capturedAt": "2026:05:03 11:46:15"
+    },
+    {
+        "id": "pano-101",
+        "file": "pano-101.jpg",
+        "thumbnail": "thumb-101.jpg",
+        "name": "Punto original 098",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_114651_00_098.jpg",
+        "capturedAt": "2026:05:03 11:46:59"
+    },
+    {
+        "id": "pano-102",
+        "file": "pano-102.jpg",
+        "thumbnail": "thumb-102.jpg",
+        "name": "Punto original 099",
+        "gps": [
+            -73.366013888889,
+            7.006844444444
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_114754_00_099.jpg",
+        "capturedAt": "2026:05:03 11:48:02"
+    },
+    {
+        "id": "pano-103",
+        "file": "pano-103.jpg",
+        "thumbnail": "thumb-103.jpg",
+        "name": "Punto original 100",
+        "gps": [
+            -73.364969444444,
+            7.006602777778
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_120435_00_100.jpg",
+        "capturedAt": "2026:05:03 12:04:44"
+    },
+    {
+        "id": "pano-104",
+        "file": "pano-104.jpg",
+        "thumbnail": "thumb-104.jpg",
+        "name": "Punto original 101",
+        "gps": [
+            -73.364969444444,
+            7.006602777778
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_120601_00_101.jpg",
+        "capturedAt": "2026:05:03 12:06:11"
+    },
+    {
+        "id": "pano-105",
+        "file": "pano-105.jpg",
+        "thumbnail": "thumb-105.jpg",
+        "name": "Punto original 102",
+        "gps": [
+            -73.364969444444,
+            7.006602777778
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_120937_00_102.jpg",
+        "capturedAt": "2026:05:03 12:09:46"
+    },
+    {
+        "id": "pano-106",
+        "file": "pano-106.jpg",
+        "thumbnail": "thumb-106.jpg",
+        "name": "Punto original 103",
+        "gps": [
+            -73.364969444444,
+            7.006602777778
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_121040_00_103.jpg",
+        "capturedAt": "2026:05:03 12:10:49"
+    },
+    {
+        "id": "pano-107",
+        "file": "pano-107.jpg",
+        "thumbnail": "thumb-107.jpg",
+        "name": "Punto original 104",
+        "gps": [
+            -73.364969444444,
+            7.006602777778
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_121202_00_104.jpg",
+        "capturedAt": "2026:05:03 12:12:11"
+    },
+    {
+        "id": "pano-108",
+        "file": "pano-108.jpg",
+        "thumbnail": "thumb-108.jpg",
+        "name": "Punto original 105",
+        "gps": [
+            -73.364969444444,
+            7.006602777778
+        ],
+        "gpsSource": "exif",
+        "sourceFile": "Fotos 360/Camera01/IMG_20260503_121236_00_105.jpg",
+        "capturedAt": "2026:05:03 12:12:45"
+    }
+]
