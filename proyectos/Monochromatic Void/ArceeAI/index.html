@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Monochromatic Void - Experiencia Liminal Zen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        canvas {
+            display: block;
+            image-rendering: crisp-edges;
+            image-rendering: pixelated;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.1)),
+                        linear-gradient(-45deg, rgba(0,0,0,0.1) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.1) 75%, rgba(0,0,0,0.1));
+            background-size: 20px 20px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .info {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.6;
+            z-index: 10;
+        }
+        
+        .info a {
+            color: #fff;
+            text-decoration: none;
+            border-bottom: 1px solid #fff;
+            transition: opacity 0.3s ease;
+        }
+        
+        .info a:hover {
+            opacity: 0.7;
+        }
+        
+        .accessibility {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 11px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 20;
+        }
+        
+        .accessibility.visible {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="overlay" id="overlay"></div>
+    <div class="accessibility" id="accessibility" role="status" aria-live="polite">
+        Experiencia de arte generativo: The Monochromatic Void. Una exploración visual de geometría espectral y arquitectura fluida. La obra reacciona al movimiento del cursor.
+    </div>
+    <div class="info">
+        <p>The Monochromatic Void - Experiencia Liminal Zen</p>
+        <p><a href="#" onclick="toggleAccessibility()">Información de accesibilidad</a></p>
+    </div>
+
+    <script>
+        // Configuración del lienzo
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const overlay = document.getElementById('overlay');
+        const accessibility = document.getElementById('accessibility');
+        
+        let width, height;
+        let time = 0;
+        let mouseX = 0;
+        let mouseY = 0;
+        let isInteracting = false;
+        
+        // Parámetros de la experiencia
+        const PARAMS = {
+            // Geometría espectral
+            spectralDensity: 0.003,
+            spectralFrequency: 0.02,
+            spectralAmplitude: 0.5,
+            
+            // Arquitectura fluida
+            fluidTension: 0.015,
+            fluidFlow: 0.01,
+            fluidTurbulence: 0.002,
+            
+            // Respuesta al movimiento
+            mouseSensitivity: 0.0008,
+            interactionThreshold: 100,
+            
+            // Rendimiento
+            particleCount: 120,
+            maxVelocity: 2,
+            trailLength: 0.92
+        };
+        
+        // Clase para partículas de geometría espectral
+        class SpectralParticle {
+            constructor() {
+                this.reset();
+            }
+            
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * PARAMS.maxVelocity;
+                this.vy = (Math.random() - 0.5) * PARAMS.maxVelocity;
+                this.size = Math.random() * 2 + 1;
+                this.life = Math.random() * 100 + 50;
+                this.maxLife = this.life;
+                this.angle = Math.random() * Math.PI * 2;
+            }
+            
+            update() {
+                // Movimiento base con flujo fluido
+                this.vx += Math.sin(time * PARAMS.fluidFlow + this.angle) * PARAMS.fluidTension;
+                this.vy += Math.cos(time * PARAMS.fluidFlow + this.angle) * PARAMS.fluidTension;
+                
+                // Añadir turbulencia espectral
+                const turbulence = Math.sin(this.x * PARAMS.spectralDensity + time * PARAMS.spectralFrequency) * 
+                                   Math.cos(this.y * PARAMS.spectralDensity + time * PARAMS.spectralFrequency);
+                this.vx += turbulence * PARAMS.fluidTurbulence;
+                this.vy += turbulence * PARAMS.fluidTurbulence;
+                
+                // Límites de velocidad
+                this.vx = Math.max(-PARAMS.maxVelocity, Math.min(PARAMS.maxVelocity, this.vx));
+                this.vy = Math.max(-PARAMS.maxVelocity, Math.min(PARAMS.maxVelocity, this.vy));
+                
+                // Actualizar posición
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Envolvente de vida
+                this.life--;
+                if (this.life <= 0) {
+                    this.reset();
+                }
+                
+                // Rotación continua
+                this.angle += 0.02;
+            }
+            
+            draw() {
+                const alpha = this.life / this.maxLife;
+                const intensity = Math.sin(time * 0.001 + this.angle) * 0.5 + 0.5;
+                const brightness = Math.floor(intensity * 200 + 55);
+                
+                ctx.fillStyle = `rgba(${brightness}, ${brightness}, ${brightness}, ${alpha * 0.3})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Dibujar rastro sutil
+                ctx.strokeStyle = `rgba(${brightness}, ${brightness}, ${brightness}, ${alpha * 0.1})`;
+                ctx.lineWidth = this.size * 0.5;
+                ctx.beginPath();
+                ctx.moveTo(this.x - this.vx * 3, this.y - this.vy * 3);
+                ctx.lineTo(this.x, this.y);
+                ctx.stroke();
+            }
+        }
+        
+        // Clase para arquitectura fluida
+        class FluidStructure {
+            constructor() {
+                this.points = [];
+                this.initStructure();
+            }
+            
+            initStructure() {
+                const rows = 8;
+                const cols = 8;
+                const spacingX = width / (cols - 1);
+                const spacingY = height / (rows - 1);
+                
+                for (let y = 0; y < rows; y++) {
+                    for (let x = 0; x < cols; x++) {
+                        this.points.push({
+                            baseX: x * spacingX,
+                            baseY: y * spacingY,
+                            offsetX: 0,
+                            offsetY: 0,
+                            velocityX: 0,
+                            velocityY: 0
+                        });
+                    }
+                }
+            }
+            
+            update() {
+                const timeFactor = time * PARAMS.spectralFrequency;
+                
+                this.points.forEach((point, index) => {
+                    // Posición base con movimiento orgánico
+                    const spectralX = Math.sin(index + timeFactor) * PARAMS.spectralAmplitude;
+                    const spectralY = Math.cos(index * 1.5 + timeFactor * 0.7) * PARAMS.spectralAmplitude;
+                    
+                    // Respuesta al mouse
+                    const dx = mouseX - point.baseX;
+                    const dy = mouseY - point.baseY;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < PARAMS.interactionThreshold) {
+                        const force = (PARAMS.interactionThreshold - distance) * PARAMS.mouseSensitivity;
+                        point.velocityX += (dx / distance) * force;
+                        point.velocityY += (dy / distance) * force;
+                    }
+                    
+                    // Aplicar movimiento fluido
+                    point.velocityX += spectralX * PARAMS.fluidTension;
+                    point.velocityY += spectralY * PARAMS.fluidTension;
+                    
+                    // Amortiguación
+                    point.velocityX *= 0.95;
+                    point.velocityY *= 0.95;
+                    
+                    // Actualizar posición
+                    point.offsetX += point.velocityX;
+                    point.offsetY += point.velocityY;
+                    
+                    // Límites suaves
+                    const maxX = width * 0.3;
+                    const maxY = height * 0.3;
+                    point.offsetX = Math.max(-maxX, Math.min(maxX, point.offsetX));
+                    point.offsetY = Math.max(-maxY, Math.min(maxY, point.offsetY));
+                });
+            }
+            
+            draw() {
+                // Dibujar estructura principal
+                ctx.strokeStyle = 'rgba(200, 200, 200, 0.15)';
+                ctx.lineWidth = 1;
+                
+                // Dibujar conexiones horizontales
+                for (let y = 0; y < 8; y++) {
+                    ctx.beginPath();
+                    for (let x = 0; x < 8; x++) {
+                        const point = this.points[y * 8 + x];
+                        const posX = point.baseX + point.offsetX;
+                        const posY = point.baseY + point.offsetY;
+                        
+                        if (x === 0) {
+                            ctx.moveTo(posX, posY);
+                        } else {
+                            ctx.lineTo(posX, posY);
+                        }
+                    }
+                    ctx.stroke();
+                }
+                
+                // Dibujar conexiones verticales
+                for (let x = 0; x < 8; x++) {
+                    ctx.beginPath();
+                    for (let y = 0; y < 8; y++) {
+                        const point = this.points[y * 8 + x];
+                        const posX = point.baseX + point.offsetX;
+                        const posY = point.baseY + point.offsetY;
+                        
+                        if (y === 0) {
+                            ctx.moveTo(posX, posY);
+                        } else {
+                            ctx.lineTo(posX, posY);
+                        }
+                    }
+                    ctx.stroke();
+                }
+                
+                // Dibujar nodos centrales con mayor intensidad
+                this.points.forEach((point, index) => {
+                    const posX = point.baseX + point.offsetX;
+                    const posY = point.baseY + point.offsetY;
+                    const distanceToCenter = Math.sqrt(Math.pow(posX - width/2, 2) + Math.pow(posY - height/2, 2));
+                    const intensity = Math.max(0, 1 - distanceToCenter / (width/2));
+                    const brightness = Math.floor(150 + intensity * 100);
+                    
+                    ctx.fillStyle = `rgba(${brightness}, ${brightness}, ${brightness}, 0.3)`;
+                    ctx.beginPath();
+                    ctx.arc(posX, posY, 2 + intensity * 3, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+            }
+        }
+        
+        // Inicialización
+        function init() {
+            resizeCanvas();
+            createParticles();
+            createStructure();
+            
+            // Event listeners
+            window.addEventListener('resize', resizeCanvas);
+            window.addEventListener('mousemove', handleMouseMove);
+            window.addEventListener('touchmove', handleTouchMove);
+            window.addEventListener('touchstart', handleTouchStart);
+            
+            // Comenzar animación
+            requestAnimationFrame(animate);
+        }
+        
+        // Crear partículas
+        const particles = [];
+        function createParticles() {
+            for (let i = 0; i < PARAMS.particleCount; i++) {
+                particles.push(new SpectralParticle());
+            }
+        }
+        
+        // Crear estructura fluida
+        let fluidStructure;
+        function createStructure() {
+            fluidStructure = new FluidStructure();
+        }
+        
+        // Manejo de redimensionado
+        function resizeCanvas() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Actualizar estructura si existe
+            if (fluidStructure) {
+                fluidStructure.initStructure();
+            }
+        }
+        
+        // Manejo de movimiento del mouse
+        function handleMouseMove(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            isInteracting = true;
+            overlay.style.opacity = '1';
+        }
+        
+        function handleTouchMove(e) {
+            e.preventDefault();
+            if (e.touches.length > 0) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+                isInteracting = true;
+                overlay.style.opacity = '1';
+            }
+        }
+        
+        function handleTouchStart(e) {
+            if (e.touches.length > 0) {
+                isInteracting = true;
+                overlay.style.opacity = '1';
+            }
+        }
+        
+        // Animación principal
+        function animate() {
+            time++;
+            
+            // Limpiar con rastro sutil
+            ctx.fillStyle = `rgba(0, 0, 0, ${1 - PARAMS.trailLength})`;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Actualizar y dibujar partículas
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // Actualizar y dibujar estructura fluida
+            fluidStructure.update();
+            fluidStructure.draw();
+            
+            // Efecto de pulso central si no hay interacción
+            if (!isInteracting) {
+                const pulse = Math.sin(time * 0.005) * 0.5 + 0.5;
+                const centerX = width / 2;
+                const centerY = height / 2;
+                const pulseSize = 50 + pulse * 30;
+                
+                ctx.fillStyle = `rgba(255, 255, 255, ${0.05 * pulse})`;
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, pulseSize, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            
+            // Resetear interacción después de un tiempo
+            if (isInteracting && Date.now() - time > 5000) {
+                isInteracting = false;
+                overlay.style.opacity = '0';
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // Función de accesibilidad
+        function toggleAccessibility() {
+            accessibility.classList.toggle('visible');
+        }
+        
+        // Inicializar al cargar
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

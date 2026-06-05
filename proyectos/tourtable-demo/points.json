@@ -1,5 +1,181 @@
 [
     {
+        "id": "pano-109",
+        "file": "pano-109.jpg",
+        "thumbnail": "thumb-109.jpg",
+        "name": "Toma A\u00e9rea 1",
+        "gps": [
+            -73.36519397222222,
+            7.006484472222223
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0044.JPG"
+    },
+    {
+        "id": "pano-110",
+        "file": "pano-110.jpg",
+        "thumbnail": "thumb-110.jpg",
+        "name": "Toma A\u00e9rea 2",
+        "gps": [
+            -73.36502408333332,
+            7.005913361111111
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0045.JPG"
+    },
+    {
+        "id": "pano-111",
+        "file": "pano-111.jpg",
+        "thumbnail": "thumb-111.jpg",
+        "name": "Toma A\u00e9rea 3",
+        "gps": [
+            -73.36502875,
+            7.005916666666667
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0046.JPG"
+    },
+    {
+        "id": "pano-112",
+        "file": "pano-112.jpg",
+        "thumbnail": "thumb-112.jpg",
+        "name": "Toma A\u00e9rea 4",
+        "gps": [
+            -73.36469091666666,
+            7.006578305555555
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0047.JPG"
+    },
+    {
+        "id": "pano-113",
+        "file": "pano-113.jpg",
+        "thumbnail": "thumb-113.jpg",
+        "name": "Toma A\u00e9rea 5",
+        "gps": [
+            -73.36653644444444,
+            7.005221027777778
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0048.JPG"
+    },
+    {
+        "id": "pano-114",
+        "file": "pano-114.jpg",
+        "thumbnail": "thumb-114.jpg",
+        "name": "Toma A\u00e9rea 6",
+        "gps": [
+            -73.36596869444443,
+            7.006337833333333
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0049.JPG"
+    },
+    {
+        "id": "pano-115",
+        "file": "pano-115.jpg",
+        "thumbnail": "thumb-115.jpg",
+        "name": "Toma A\u00e9rea 7",
+        "gps": [
+            -73.36691638888888,
+            7.007304416666667
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0050.JPG"
+    },
+    {
+        "id": "pano-116",
+        "file": "pano-116.jpg",
+        "thumbnail": "thumb-116.jpg",
+        "name": "Toma A\u00e9rea 8",
+        "gps": [
+            -73.36668727777777,
+            7.007064527777778
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0051.JPG"
+    },
+    {
+        "id": "pano-117",
+        "file": "pano-117.jpg",
+        "thumbnail": "thumb-117.jpg",
+        "name": "Toma A\u00e9rea 9",
+        "gps": [
+            -73.36489566666665,
+            7.006054527777778
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0052.JPG"
+    },
+    {
+        "id": "pano-118",
+        "file": "pano-118.jpg",
+        "thumbnail": "thumb-118.jpg",
+        "name": "Toma A\u00e9rea 10",
+        "gps": [
+            -73.36490438888889,
+            7.006053
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0053.JPG"
+    },
+    {
+        "id": "pano-119",
+        "file": "pano-119.jpg",
+        "thumbnail": "thumb-119.jpg",
+        "name": "Toma A\u00e9rea 11",
+        "gps": [
+            -73.36490783333333,
+            7.006051833333333
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0054.JPG"
+    },
+    {
+        "id": "pano-120",
+        "file": "pano-120.jpg",
+        "thumbnail": "thumb-120.jpg",
+        "name": "Toma A\u00e9rea 12",
+        "gps": [
+            -73.36716947222222,
+            7.00629725
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0055.JPG"
+    },
+    {
+        "id": "pano-121",
+        "file": "pano-121.jpg",
+        "thumbnail": "thumb-121.jpg",
+        "name": "Toma A\u00e9rea 13",
+        "gps": [
+            -73.36372324999999,
+            7.009696
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0056.JPG"
+    },
+    {
+        "id": "pano-122",
+        "file": "pano-122.jpg",
+        "thumbnail": "thumb-122.jpg",
+        "name": "Toma A\u00e9rea 14",
+        "gps": [
+            -73.36544819444444,
+            7.006679972222222
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0057.JPG"
+    },
+    {
+        "id": "pano-123",
+        "file": "pano-123.jpg",
+        "thumbnail": "thumb-123.jpg",
+        "name": "Toma A\u00e9rea 15",
+        "gps": [
+            -73.36611613888888,
+            7.006459472222223
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0058.JPG"
+    },
+    {
+        "id": "pano-124",
+        "file": "pano-124.jpg",
+        "thumbnail": "thumb-124.jpg",
+        "name": "Toma A\u00e9rea 16",
+        "gps": [
+            -73.36499630555555,
+            7.007236583333333
+        ],
+        "sourceFile": "Fotos 360/DJI/DJI_0059.JPG"
+    },
+    {
         "id": "pano-01",
         "file": "pano-01.jpg",
         "thumbnail": "thumb-01.jpg",
