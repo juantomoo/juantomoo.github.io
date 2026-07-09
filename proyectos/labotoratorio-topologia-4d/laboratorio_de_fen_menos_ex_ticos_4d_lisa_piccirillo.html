@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laboratorio 4D: Topología y Fenómenos Exóticos</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Three.js y dependencias para post-procesamiento (Bloom) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #050510;
+            font-family: 'Inter', system-ui, sans-serif;
+            user-select: none;
+            color: #e2e8f0;
+        }
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .pointer-events-auto { pointer-events: auto; }
+        
+        /* UI Glassmorphism */
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .tab-btn {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .tab-btn.active {
+            background: rgba(59, 130, 246, 0.2);
+            border-color: #3b82f6;
+            color: #60a5fa;
+        }
+        .tab-btn.active::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 2px;
+            background: #3b82f6;
+            box-shadow: 0 0 10px #3b82f6;
+        }
+
+        /* Animaciones */
+        @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+        
+        #loading {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 1.5rem; font-weight: bold; color: #3b82f6; z-index: 100;
+        }
+
+        /* Scrollbar personalizado para el modal */
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); rounded: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
+    </style>
+</head>
+<body>
+
+    <div id="loading">Inicializando Laboratorio 4D...</div>
+
+    <!-- PANEL EDUCATIVO OVERLAY (Oculto por defecto) -->
+    <div id="learn-modal" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-500 flex items-center justify-center p-4 sm:p-8 pointer-events-none">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-md pointer-events-auto" onclick="toggleLearnModal()"></div>
+        <div class="relative glass-panel border border-blue-500/30 rounded-2xl w-full max-w-4xl max-h-full overflow-y-auto custom-scrollbar p-6 md:p-10 pointer-events-auto shadow-[0_0_50px_rgba(59,130,246,0.15)]">
+            
+            <button onclick="toggleLearnModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white bg-slate-800 hover:bg-slate-700 p-2 rounded-full transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+
+            <h2 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 mb-6">
+                🚀 Topología 4D: Explicada para curiosos (y niños de 5 años)
+            </h2>
+
+            <div class="space-y-6 text-slate-300 text-lg leading-relaxed">
+                
+                <!-- Conceptos Base -->
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="text-2xl font-bold text-white mb-3">🧩 ¿Qué es la Topología? (El juego de la plastilina)</h3>
+                    <p>Imagina que todo en el universo está hecho de una plastilina mágica infinita. En geometría normal, nos importa si algo mide 2 metros o si tiene esquinas. En <b>Topología</b>, no nos importa el tamaño. ¡Solo nos importa si tiene agujeros!</p>
+                    <p class="mt-2">Para un topólogo, una taza de café y una dona 🍩 son exactamente lo mismo porque ambas tienen un solo agujero. Puedes estirar la plastilina de la dona hasta darle forma de taza sin romperla. La regla sagrada es: <b>Puedes estirar y doblar todo lo que quieras, pero no puedes hacer cortes ni pegar cosas nuevas sin avisar.</b></p>
+                </div>
+
+                <div class="bg-slate-800/50 p-6 rounded-xl border border-slate-700">
+                    <h3 class="text-2xl font-bold text-white mb-3">👻 La 4ª Dimensión (El dedo mágico)</h3>
+                    <p>Nosotros vivimos en 3D (arriba-abajo, izquierda-derecha, adelante-atrás). Imagina un dibujo de una hormiga en una hoja de papel (2D). Si pones tu dedo sobre el papel, para la hormiga, tu dedo apareció "mágicamente" de la nada.</p>
+                    <p class="mt-2">La 4ª dimensión es una dirección extra que no podemos señalar. Si un objeto 4D pasara por nuestro mundo, veríamos cómo cambia de forma mágicamente (como si viéramos rodar una esfera a través del papel de la hormiga: vería un punto, luego un círculo que crece y luego desaparece). Aquí usamos "Diagramas de Kirby" para dibujar las sombras 3D de esos objetos 4D.</p>
+                </div>
+
+                <!-- Explicación de los 3 Modelos Interactivos -->
+                <h3 class="text-3xl font-bold text-blue-300 mt-8 mb-4 border-b border-blue-500/30 pb-2">🔬 Las 3 Estaciones del Laboratorio</h3>
+
+                <div class="grid md:grid-cols-3 gap-4">
+                    <div class="bg-slate-900 p-5 rounded-xl border border-blue-500/20">
+                        <h4 class="text-xl font-bold text-blue-400 mb-2">1. Esfera de Poincaré</h4>
+                        <p class="text-sm"><b>La Receta del Universo:</b> Mira el nudo rojo trébol en la primera pestaña. En topología, usamos nudos como "instrucciones" (planos de construcción) para decirle a los matemáticos cómo inyectar plastilina extra desde la 4ª dimensión. El resultado es un universo que por fuera parece normal, pero está retorcido por dentro.</p>
+                    </div>
+                    
+                    <div class="bg-slate-900 p-5 rounded-xl border border-emerald-500/20">
+                        <h4 class="text-xl font-bold text-emerald-400 mb-2">2. Cork Twisting</h4>
+                        <p class="text-sm"><b>El Truco de Magia Exótico:</b> Mira los dos anillos (azul vacío y verde sólido). Si los cortamos, los giramos y los volvemos a pegar intercambiados (presiona el botón), nadie por fuera nota que el universo cambió de forma. Sin embargo, las reglas de la física de ese universo ahora son diferentes. ¡A esto se le llama un Universo Exótico!</p>
+                    </div>
+
+                    <div class="bg-slate-900 p-5 rounded-xl border border-purple-500/20">
+                        <h4 class="text-xl font-bold text-purple-400 mb-2">3. Superficies Slice</h4>
+                        <p class="text-sm"><b>Las Burbujas de Lisa Piccirillo:</b> Imagina sumergir el nudo azul en agua jabonosa. Lisa demostró problemas dificilísimos viendo si esa película de jabón (el cono morado) puede extenderse hacia la 4ª dimensión <b>sin tocarse a sí misma</b>. ¡Pruébalo hundiendo el disco con el botón!</p>
+                    </div>
+                </div>
+
+                <!-- Para qué sirve -->
+                <div class="bg-blue-900/30 p-6 rounded-xl border border-blue-500/50 mt-6">
+                    <h3 class="text-xl font-bold text-blue-300 mb-3">🤔 ¿Para qué sirve todo esto?</h3>
+                    <ul class="list-disc pl-5 space-y-2 text-base">
+                        <li><b>Física Cuántica y Teoría de Cuerdas:</b> Los físicos teóricos creen que el universo tiene más de 4 dimensiones. Entender estas "formas exóticas" ayuda a crear modelos matemáticos de cómo funciona la gravedad, los agujeros negros y el universo a nivel microscópico.</li>
+                        <li><b>Análisis de Datos (TDA):</b> Las matemáticas de los "agujeros" (topología) se usan hoy en Inteligencia Artificial para buscar patrones complejos en cantidades gigantescas de datos médicos (como escanear el genoma o las conexiones del cerebro).</li>
+                        <li><b>ADN y Biología:</b> Nuestro ADN es literalmente un hilo que se anuda. La teoría de nudos topológicos la usan los biólogos para entender cómo las enzimas cortan y desenredan nuestro ADN para que las células se reproduzcan.</li>
+                    </ul>
+                </div>
+
+                <!-- Referencias Académicas -->
+                <div class="mt-8 pt-6 border-t border-slate-700">
+                    <h3 class="text-xl font-bold text-slate-400 mb-4">📚 Referencias para mentes curiosas</h3>
+                    <ul class="space-y-4 text-sm md:text-base">
+                        <li class="flex gap-3">
+                            <span class="text-2xl">📄</span>
+                            <div>
+                                <b class="text-white">Piccirillo, L. (2020).</b> <i>The Conway knot is not slice.</i> Annals of Mathematics. <br>
+                                <span class="text-slate-400">El artículo donde Lisa resolvió el misterio del Nudo de Conway (un problema que llevaba 50 años sin resolverse) en menos de una semana usando nudos de traza.</span>
+                            </div>
+                        </li>
+                        <li class="flex gap-3">
+                            <span class="text-2xl">📘</span>
+                            <div>
+                                <b class="text-white">Gompf, R. & Stipsicz, A. (1999).</b> <i>4-Manifolds and Kirby Calculus.</i> <br>
+                                <span class="text-slate-400">El libro fundamental. Explica cómo dibujar y calcular diagramas de Kirby (las matemáticas detrás de los modelos 3D interactivos de este laboratorio).</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="ui-layer" class="p-4 md:p-6 opacity-0 transition-opacity duration-1000">
+        
+        <!-- Top Nav & Tabs -->
+        <div class="pointer-events-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4 w-full max-w-6xl mx-auto">
+            <div class="glass-panel p-4 rounded-xl flex items-center justify-between gap-6 w-full md:w-auto">
+                <div>
+                    <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                        Laboratorio de Topología 4D
+                    </h1>
+                    <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Inspirado en L. Piccirillo</p>
+                </div>
+                <button onclick="toggleLearnModal()" class="flex items-center gap-2 bg-blue-600/20 hover:bg-blue-500/40 text-blue-300 border border-blue-500/50 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:scale-105 shrink-0">
+                    <span>💡</span> Aprender
+                </button>
+            </div>
+
+            <!-- Tabs de Navegación Restaurados -->
+            <div class="glass-panel p-2 rounded-xl flex gap-2 overflow-x-auto w-full md:w-auto custom-scrollbar">
+                <button onclick="switchMode(0)" id="tab-0" class="pointer-events-auto tab-btn active px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+                    Esfera de Poincaré
+                </button>
+                <button onclick="switchMode(1)" id="tab-1" class="pointer-events-auto tab-btn px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+                    Cork Twisting
+                </button>
+                <button onclick="switchMode(2)" id="tab-2" class="pointer-events-auto tab-btn px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+                    Superficies Slice
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Panels (Dynamic) -->
+        <div class="w-full max-w-6xl mx-auto flex justify-between items-end mt-auto pb-4 gap-4">
+            
+            <!-- Left Info Box -->
+            <div id="info-panel" class="pointer-events-auto glass-panel p-5 rounded-2xl max-w-md animate-fade-in">
+                <!-- El contenido se inyecta por JS -->
+            </div>
+
+            <!-- Right Action Box -->
+            <div id="action-panel" class="pointer-events-auto flex flex-col items-end gap-3">
+                <button id="action-btn" class="hidden glass-panel bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 border border-blue-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all transform hover:scale-105 active:scale-95">
+                    Ejecutar Acción
+                </button>
+                <div class="glass-panel px-4 py-2 rounded-lg text-xs text-slate-400">
+                    🖱️ Arrastrar para rotar | 📜 Scroll para zoom
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="canvas-container"></div>
+
+    <script>
+        // --- TEXTOS INFORMATIVOS DINÁMICOS ---
+        const modeInfo = [
+            {
+                title: "Esfera de Homología de Poincaré",
+                subtitle: "Cirugía de Dehn en S³",
+                text: "Observas un nudo trébol con <i>framing +1</i>. En topología, esto representa las instrucciones (un 2-handle) para construir una variedad de 4 dimensiones. El material sólido y brillante indica la adición de topología.",
+                actionText: null
+            },
+            {
+                title: "Involución en un 'Cork'",
+                subtitle: "El origen del exotismo",
+                text: "Un 'Cork' es un subespacio contráctil. Si lo cortamos de una variedad 4D y lo pegamos torcido (intercambiando el 1-handle azul vacío por el 2-handle rojo sólido), cambiamos la estructura suave del universo sin alterar su topología externa.",
+                actionText: "🔄 Ejecutar Cork Twist"
+            },
+            {
+                title: "Nudos Slice y Fronteras 4D",
+                subtitle: "El método de Piccirillo",
+                text: "Lisa Piccirillo demostró propiedades de nudos estudiando sus <b>trazas</b>. Un nudo es <i>'Slice'</i> si es la frontera 3D de un disco suave y sin cruces que se hunde en la 4ª dimensión ($B^4$). Empuja el nudo para revelar su disco slice interior.",
+                actionText: "🌀 Extraer Disco a 4D"
+            }
+        ];
+
+        // --- CONFIGURACIÓN BÁSICA THREE.JS ---
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        scene.fog = new THREE.FogExp2(0x050510, 0.015);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 2, 25);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+        controls.maxDistance = 50;
+        controls.minDistance = 5;
+
+        // --- POST-PROCESAMIENTO (BLOOM MAGNÉTICO/NEÓN) ---
+        // Para darle aspecto "cuántico" o matemático de alta energía
+        const renderScene = new THREE.RenderPass(scene, camera);
+        const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+        bloomPass.threshold = 0.2;
+        bloomPass.strength = 1.2;
+        bloomPass.radius = 0.5;
+
+        const composer = new THREE.EffectComposer(renderer);
+        composer.addPass(renderScene);
+        composer.addPass(bloomPass);
+
+        // --- LUCES ---
+        scene.add(new THREE.AmbientLight(0xffffff, 0.2));
+        const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
+        
+        const centerLight = new THREE.PointLight(0x60a5fa, 2, 30);
+        scene.add(centerLight);
+
+        // --- MATERIALES TOPOLÓGICOS ---
+        // 1-handle: Túnel, remoción de material. Azul, transparente, wireframe.
+        const mat1Handle = new THREE.MeshPhysicalMaterial({
+            color: 0x1e3a8a, emissive: 0x3b82f6, emissiveIntensity: 0.5,
+            wireframe: true, transparent: true, opacity: 0.4,
+            side: THREE.DoubleSide
+        });
+
+        // 2-handle (Activo): Inyección de material. Rojo/Magenta brillante.
+        const mat2HandleRed = new THREE.MeshPhysicalMaterial({
+            color: 0x9f1239, emissive: 0xe11d48, emissiveIntensity: 0.8,
+            roughness: 0.1, metalness: 0.8, clearcoat: 1.0
+        });
+
+        // 2-handle (Variante Cork): Verde Esmeralda para contrastar.
+        const mat2HandleGreen = new THREE.MeshPhysicalMaterial({
+            color: 0x064e3b, emissive: 0x10b981, emissiveIntensity: 0.7,
+            roughness: 0.2, metalness: 0.8, clearcoat: 1.0
+        });
+
+        // Superficie Slice (Membrana 4D): Morada, etérea.
+        const matSliceDisk = new THREE.MeshPhysicalMaterial({
+            color: 0x4c1d95, emissive: 0x8b5cf6, emissiveIntensity: 0.4,
+            transparent: true, opacity: 0.0, // Inicialmente invisible
+            side: THREE.DoubleSide, roughness: 0.1, transmission: 0.9, thickness: 0.5
+        });
+
+        // --- GRUPOS PARA CADA MODO ---
+        const groupPoincare = new THREE.Group();
+        const groupCork = new THREE.Group();
+        const groupSlice = new THREE.Group();
+        scene.add(groupPoincare);
+        scene.add(groupCork);
+        scene.add(groupSlice);
+
+        // --- GEOMETRÍAS ---
+
+        // 1. Esfera de Poincaré (Nudo Trébol)
+        class TrefoilCurve extends THREE.Curve {
+            getPoint(t, optionalTarget = new THREE.Vector3()) {
+                t *= Math.PI * 2;
+                return optionalTarget.set(
+                    Math.sin(t) + 2 * Math.sin(2 * t),
+                    Math.cos(t) - 2 * Math.cos(2 * t),
+                    -Math.sin(3 * t)
+                ).multiplyScalar(1.5);
+            }
+        }
+        const trefoilGeo = new THREE.TubeGeometry(new TrefoilCurve(), 200, 0.5, 32, true);
+        const poincareMesh = new THREE.Mesh(trefoilGeo, mat2HandleRed);
+        groupPoincare.add(poincareMesh);
+
+        // 2. Cork (Enlace de Hopf modificado)
+        const torusGeo = new THREE.TorusGeometry(3, 0.4, 32, 100);
+        const corkRingA = new THREE.Mesh(torusGeo, mat1Handle.clone()); // El wireframe
+        const corkRingB = new THREE.Mesh(torusGeo, mat2HandleGreen.clone()); // El sólido
+        corkRingB.rotation.x = Math.PI / 2;
+        corkRingB.position.x = 3;
+        
+        // Centrar el grupo
+        const corkCenter = new THREE.Group();
+        corkRingA.position.x = -1.5;
+        corkRingB.position.x = 1.5;
+        corkCenter.add(corkRingA);
+        corkCenter.add(corkRingB);
+        groupCork.add(corkCenter);
+
+        // 3. Nudo Slice y Superficie (Representación conceptual de un disco slice)
+        // Usaremos un Nudo Figura en 8 (paramétrico simple)
+        class FigureEightKnot extends THREE.Curve {
+            getPoint(t, optionalTarget = new THREE.Vector3()) {
+                t *= Math.PI * 2;
+                return optionalTarget.set(
+                    (2 + Math.cos(2*t)) * Math.cos(3*t),
+                    (2 + Math.cos(2*t)) * Math.sin(3*t),
+                    Math.sin(4*t)
+                ).multiplyScalar(1.2);
+            }
+        }
+        
+        const knotPath = new FigureEightKnot();
+        const sliceKnotGeo = new THREE.TubeGeometry(knotPath, 200, 0.3, 16, true);
+        const sliceKnotMesh = new THREE.Mesh(sliceKnotGeo, mat2HandleRed.clone());
+        sliceKnotMesh.material.color.setHex(0x3b82f6); // Azul eléctrico
+        sliceKnotMesh.material.emissive.setHex(0x2563eb);
+        
+        // Construcción de la superficie Slice (Cono topológico que baja en Y)
+        // Simulando que se hunde en la 4ta dimensión (eje Y negativo en nuestra proy 3D)
+        const sliceDiskGeo = new THREE.BufferGeometry();
+        const pts = knotPath.getPoints(100);
+        const vertices = [];
+        const indices = [];
+        
+        // Vértice central en el "fondo" de la 4ta dimensión
+        const bottomY = -8; 
+        vertices.push(0, bottomY, 0); // Índice 0
+        
+        // Vértices del nudo exterior
+        for(let i=0; i<pts.length; i++) {
+            vertices.push(pts[i].x, pts[i].y, pts[i].z);
+        }
+        
+        // Caras conectando el borde con el vértice central
+        for(let i=1; i<=pts.length; i++) {
+            let next = (i === pts.length) ? 1 : i + 1;
+            indices.push(0, i, next);
+            // Hacerlo de doble cara para seguridad aunque el material sea DoubleSide
+            indices.push(0, next, i); 
+        }
+        
+        sliceDiskGeo.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+        sliceDiskGeo.setIndex(indices);
+        sliceDiskGeo.computeVertexNormals();
+        
+        const sliceDiskMesh = new THREE.Mesh(sliceDiskGeo, matSliceDisk);
+        
+        const sliceSubGroup = new THREE.Group();
+        sliceSubGroup.add(sliceKnotMesh);
+        sliceSubGroup.add(sliceDiskMesh);
+        groupSlice.add(sliceSubGroup);
+
+        // Partículas de fondo
+        const particlesGeo = new THREE.BufferGeometry();
+        const pCount = 1000;
+        const pPos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount*3; i++) pPos[i] = (Math.random() - 0.5) * 80;
+        particlesGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ color: 0x475569, size: 0.1, transparent: true, opacity: 0.5 });
+        const particles = new THREE.Points(particlesGeo, pMat);
+        scene.add(particles);
+
+        // --- LÓGICA DE ESTADO Y UI ---
+        let currentMode = 0;
+        let isAnimatingAction = false;
+        
+        // Variables de estado específicas
+        let isTwisted = false;
+        let isSliced = false;
+        let sliceAnimProgress = 0;
+
+        // Variables de interacción del ratón (Efecto Paralaje)
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetX = 0;
+        let targetY = 0;
+        const windowHalfX = window.innerWidth / 2;
+        const windowHalfY = window.innerHeight / 2;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - windowHalfX) * 0.001;
+            mouseY = (event.clientY - windowHalfY) * 0.001;
+        });
+
+        const infoPanel = document.getElementById('info-panel');
+        const actionBtn = document.getElementById('action-btn');
+        const learnModal = document.getElementById('learn-modal');
+
+        // Función para mostrar/ocultar el modal educativo
+        window.toggleLearnModal = function() {
+            if (learnModal.classList.contains('hidden')) {
+                learnModal.classList.remove('hidden');
+                setTimeout(() => learnModal.classList.remove('opacity-0'), 10);
+            } else {
+                learnModal.classList.add('opacity-0');
+                setTimeout(() => learnModal.classList.add('hidden'), 500);
+            }
+        };
+
+        function updateUI(modeIndex) {
+            const info = modeInfo[modeIndex];
+            
+            // Animación de cambio de texto
+            infoPanel.classList.remove('animate-fade-in');
+            void infoPanel.offsetWidth; // Trigger reflow
+            infoPanel.classList.add('animate-fade-in');
+            
+            infoPanel.innerHTML = `
+                <h2 class="text-xl font-bold text-white mb-1">${info.title}</h2>
+                <h3 class="text-xs text-blue-400 uppercase tracking-wider mb-3 font-semibold">${info.subtitle}</h3>
+                <p class="text-sm text-slate-300 leading-relaxed">${info.text}</p>
+            `;
+
+            if (info.actionText) {
+                actionBtn.textContent = info.actionText;
+                actionBtn.classList.remove('hidden');
+                
+                // Reset states button colors
+                if(modeIndex === 1) actionBtn.className = "glass-panel bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all transform hover:scale-105 active:scale-95";
+                if(modeIndex === 2) actionBtn.className = "glass-panel bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(139,92,246,0.5)] transition-all transform hover:scale-105 active:scale-95";
+                
+            } else {
+                actionBtn.classList.add('hidden');
+            }
+
+            // Actualizar botones Tabs
+            document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+                if(idx === modeIndex) btn.classList.add('active');
+                else btn.classList.remove('active');
+            });
+        }
+
+        window.switchMode = function(index) {
+            currentMode = index;
+            updateUI(index);
+
+            // Ocultar todos, mostrar el seleccionado
+            groupPoincare.visible = (index === 0);
+            groupCork.visible = (index === 1);
+            groupSlice.visible = (index === 2);
+
+            // Reset rotaciones
+            groupPoincare.rotation.set(0,0,0);
+            corkCenter.rotation.set(0,0,0);
+            sliceSubGroup.rotation.set(0,0,0);
+            
+            // Reset cámara suavemente (simulado moviéndola cerca del origen)
+            camera.position.set(0, (index===2)? 8 : 2, (index===2)? 30 : 25);
+            controls.target.set(0, (index===2)? -3 : 0, 0);
+        };
+
+        // --- ACCIONES ESPECÍFICAS ---
+        actionBtn.addEventListener('click', () => {
+            if(isAnimatingAction) return;
+
+            if(currentMode === 1) {
+                // Cork Twist Action
+                isAnimatingAction = true;
+                isTwisted = !isTwisted;
+                
+                // Rotar físicamente el corcho en 3D (Involución)
+                let startRot = corkCenter.rotation.y;
+                let targetRot = startRot + Math.PI;
+                let step = 0;
+                
+                function twistAnim() {
+                    step += 0.05;
+                    corkCenter.rotation.y = THREE.MathUtils.lerp(startRot, targetRot, Math.min(step, 1));
+                    corkCenter.rotation.x = Math.sin(step * Math.PI) * 0.5; // Efecto de giro visual
+                    
+                    // A mitad de camino, intercambiamos los materiales (la involución real)
+                    if(step >= 0.5 && step < 0.55) {
+                        if(isTwisted) {
+                            corkRingA.material = mat2HandleGreen;
+                            corkRingB.material = mat1Handle;
+                        } else {
+                            corkRingA.material = mat1Handle;
+                            corkRingB.material = mat2HandleGreen;
+                        }
+                    }
+
+                    if(step < 1) requestAnimationFrame(twistAnim);
+                    else isAnimatingAction = false;
+                }
+                twistAnim();
+            } 
+            else if(currentMode === 2) {
+                // Slice Surface Reveal
+                isAnimatingAction = true;
+                isSliced = !isSliced;
+                
+                function sliceAnim() {
+                    if(isSliced) {
+                        sliceAnimProgress += 0.02;
+                        if(sliceAnimProgress > 1) sliceAnimProgress = 1;
+                    } else {
+                        sliceAnimProgress -= 0.02;
+                        if(sliceAnimProgress < 0) sliceAnimProgress = 0;
+                    }
+                    
+                    // Modificamos opacidad y posición Y para "desplegar" el disco
+                    sliceDiskMesh.material.opacity = sliceAnimProgress * 0.8;
+                    sliceKnotMesh.position.y = sliceAnimProgress * 3; // El nudo sube un poco
+                    sliceDiskMesh.position.y = sliceAnimProgress * 3;
+                    
+                    if((isSliced && sliceAnimProgress < 1) || (!isSliced && sliceAnimProgress > 0)) {
+                        requestAnimationFrame(sliceAnim);
+                    } else {
+                        isAnimatingAction = false;
+                        actionBtn.textContent = isSliced ? "⬆️ Ocultar Disco (Regresar a S³)" : "🌀 Extraer Disco a 4D";
+                    }
+                }
+                sliceAnim();
+            }
+        });
+
+        // --- BUCLE DE RENDERIZADO ---
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const time = clock.getElapsedTime();
+
+            // Interacción del ratón (Suavizado de movimiento)
+            targetX = mouseX * 0.5;
+            targetY = mouseY * 0.5;
+
+            // Movimiento fluido de la cámara/escena para paralaje
+            scene.rotation.y += 0.05 * (targetX - scene.rotation.y);
+            scene.rotation.x += 0.05 * (targetY - scene.rotation.x);
+
+            particles.rotation.y = time * 0.02;
+            particles.position.y = Math.sin(time * 0.1) * 2;
+
+            if(currentMode === 0) {
+                // Animación suave del Trébol
+                groupPoincare.rotation.y = time * 0.2;
+                groupPoincare.rotation.x = Math.sin(time * 0.5) * 0.1;
+                // Efecto de pulso en la emisión (framing energy)
+                poincareMesh.material.emissiveIntensity = 0.5 + Math.sin(time * 2) * 0.3;
+            } 
+            else if(currentMode === 1 && !isAnimatingAction) {
+                // Rotación de idle del cork
+                corkCenter.rotation.y += 0.005;
+                corkCenter.rotation.z = Math.sin(time * 0.5) * 0.1;
+            }
+            else if(currentMode === 2) {
+                // Rotación lenta para apreciar la superficie
+                sliceSubGroup.rotation.y = time * 0.15;
+            }
+
+            controls.update();
+            // Usamos composer en lugar de renderer para aplicar el efecto Bloom
+            composer.render();
+        }
+
+        // Remover pantalla de carga e iniciar
+        window.onload = () => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('ui-layer').classList.remove('opacity-0');
+            switchMode(0);
+            animate();
+        };
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            composer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+    </script>
+</body>
+</html>
