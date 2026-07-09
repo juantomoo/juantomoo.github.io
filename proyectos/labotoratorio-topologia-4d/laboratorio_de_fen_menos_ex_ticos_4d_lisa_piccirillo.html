@@ -51,11 +51,11 @@
         
         /* UI Glassmorphism */
         .glass-panel {
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
         }
 
         .tab-btn {
@@ -76,6 +76,30 @@
             box-shadow: 0 0 10px #3b82f6;
         }
 
+        /* Custom styling for sleek inputs */
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            height: 6px;
+            border-radius: 9999px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+            transition: transform 0.1s ease;
+        }
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
         /* Animaciones */
         @keyframes fade-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
@@ -87,7 +111,7 @@
 
         /* Scrollbar personalizado para el modal */
         .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); rounded: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.5); border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 10px; }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #60a5fa; }
     </style>
@@ -95,6 +119,11 @@
 <body>
 
     <div id="loading">Inicializando Laboratorio 4D...</div>
+
+    <!-- BOTÓN GLOBAL: MOSTRAR/OCULTAR INTERFAZ -->
+    <button onclick="toggleUI()" class="fixed top-4 right-4 z-50 pointer-events-auto glass-panel p-3 rounded-full text-slate-300 hover:text-white hover:bg-slate-800 transition-all shadow-lg flex items-center justify-center border border-slate-700/50" title="Mostrar/Ocultar Interfaz">
+        <span id="ui-toggle-icon" class="text-xl">👁️</span>
+    </button>
 
     <!-- PANEL EDUCATIVO OVERLAY (Oculto por defecto) -->
     <div id="learn-modal" class="fixed inset-0 z-50 hidden opacity-0 transition-opacity duration-500 flex items-center justify-center p-4 sm:p-8 pointer-events-none">
@@ -169,7 +198,7 @@
                             <span class="text-2xl">📘</span>
                             <div>
                                 <b class="text-white">Gompf, R. & Stipsicz, A. (1999).</b> <i>4-Manifolds and Kirby Calculus.</i> <br>
-                                <span class="text-slate-400">El libro fundamental. Explica cómo dibujar y calcular diagramas de Kirby (las matemáticas detrás de los modelos 3D interactivos de este laboratorio).</span>
+                                <span class="text-slate-400">El libro fundamental. Explica cómo drawing y calcular diagramas de Kirby (las matemáticas detrás de los modelos 3D interactivos de este laboratorio).</span>
                             </div>
                         </li>
                     </ul>
@@ -179,61 +208,111 @@
         </div>
     </div>
 
+    <!-- UI LAYER OVERLAY -->
     <div id="ui-layer" class="p-4 md:p-6 opacity-0 transition-opacity duration-1000">
         
-        <!-- Top Nav & Tabs -->
-        <div class="pointer-events-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4 w-full max-w-6xl mx-auto">
-            <div class="glass-panel p-4 rounded-xl flex items-center justify-between gap-6 w-full md:w-auto">
-                <div>
-                    <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
-                        Laboratorio de Topología 4D
-                    </h1>
-                    <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Inspirado en L. Piccirillo</p>
-                </div>
-                <button onclick="toggleLearnModal()" class="flex items-center gap-2 bg-blue-600/20 hover:bg-blue-500/40 text-blue-300 border border-blue-500/50 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:scale-105 shrink-0">
-                    <span>💡</span> Aprender
-                </button>
-            </div>
-
-            <!-- Tabs de Navegación Restaurados -->
-            <div class="glass-panel p-2 rounded-xl flex gap-2 overflow-x-auto w-full md:w-auto custom-scrollbar">
-                <button onclick="switchMode(0)" id="tab-0" class="pointer-events-auto tab-btn active px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
-                    Esfera de Poincaré
-                </button>
-                <button onclick="switchMode(1)" id="tab-1" class="pointer-events-auto tab-btn px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
-                    Cork Twisting
-                </button>
-                <button onclick="switchMode(2)" id="tab-2" class="pointer-events-auto tab-btn px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
-                    Superficies Slice
-                </button>
-            </div>
-        </div>
-
-        <!-- Info Panels (Dynamic) -->
-        <div class="w-full max-w-6xl mx-auto flex justify-between items-end mt-auto pb-4 gap-4">
+        <!-- CONTENEDOR INTERNO DE LA UI (Ocultable por el botón de ojo) -->
+        <div id="ui-wrapper" class="w-full h-full flex flex-col justify-between pointer-events-none">
             
-            <!-- Left Info Box -->
-            <div id="info-panel" class="pointer-events-auto glass-panel p-5 rounded-2xl max-w-md animate-fade-in">
-                <!-- El contenido se inyecta por JS -->
-            </div>
+            <!-- Top Nav & Tabs -->
+            <div class="pointer-events-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-4 w-full max-w-6xl mx-auto">
+                <div class="glass-panel p-4 rounded-xl flex items-center justify-between gap-6 w-full md:w-auto">
+                    <div>
+                        <h1 class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400">
+                            Laboratorio de Topología 4D
+                        </h1>
+                        <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest">Inspirado en L. Piccirillo</p>
+                    </div>
+                    <button onclick="toggleLearnModal()" class="flex items-center gap-2 bg-blue-600/20 hover:bg-blue-500/40 text-blue-300 border border-blue-500/50 px-4 py-2 rounded-lg font-semibold text-sm transition-all hover:scale-105 shrink-0">
+                        <span>💡</span> Aprender
+                    </button>
+                </div>
 
-            <!-- Right Action Box -->
-            <div id="action-panel" class="pointer-events-auto flex flex-col items-end gap-3">
-                <button id="action-btn" class="hidden glass-panel bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 border border-blue-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all transform hover:scale-105 active:scale-95">
-                    Ejecutar Acción
-                </button>
-                <div class="glass-panel px-4 py-2 rounded-lg text-xs text-slate-400">
-                    🖱️ Arrastrar para rotar | 📜 Scroll para zoom
+                <!-- Tabs de Navegación -->
+                <div class="glass-panel p-2 rounded-xl flex gap-2 overflow-x-auto w-full md:w-auto custom-scrollbar">
+                    <button onclick="switchMode(0)" id="tab-0" class="pointer-events-auto tab-btn active px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+                        Esfera de Poincaré
+                    </button>
+                    <button onclick="switchMode(1)" id="tab-1" class="pointer-events-auto tab-btn px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+                        Cork Twisting
+                    </button>
+                    <button onclick="switchMode(2)" id="tab-2" class="pointer-events-auto tab-btn px-4 py-2 rounded-lg text-sm font-medium border border-transparent text-slate-300 hover:bg-slate-800 whitespace-nowrap">
+                        Superficies Slice
+                    </button>
                 </div>
             </div>
 
+            <!-- CONTENEDORES DE INFORMACIÓN Y CONTROLES MATEMÁTICOS -->
+            <div class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-stretch md:items-end mt-auto pb-4 gap-4">
+                
+                <!-- Left Info Box -->
+                <div id="info-panel" class="pointer-events-auto glass-panel p-5 rounded-2xl max-w-md animate-fade-in flex flex-col justify-between">
+                    <!-- El contenido se inyecta por JS -->
+                </div>
+
+                <!-- NUEVO: Panel de Control Matemático Interactivo Integrado -->
+                <div id="controls-panel" class="pointer-events-auto glass-panel p-5 rounded-2xl w-full md:w-80 flex flex-col gap-4 animate-fade-in text-sm">
+                    <h4 class="font-bold text-blue-300 uppercase tracking-wide text-xs">Ajustes Matemáticos</h4>
+                    
+                    <!-- Controls for Mode 0 (Poincaré) -->
+                    <div id="controls-mode-0" class="flex flex-col gap-3">
+                        <div class="flex justify-between items-center">
+                            <label class="text-slate-400">Nudo de Toro (P): <span id="val-p" class="text-white font-bold">3</span></label>
+                            <input type="range" id="slider-p" min="1" max="7" step="1" value="3" class="w-32">
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <label class="text-slate-400">Nudo de Toro (Q): <span id="val-q" class="text-white font-bold">2</span></label>
+                            <input type="range" id="slider-q" min="1" max="7" step="1" value="2" class="w-32">
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <label class="text-slate-400">Dehn Framing (f): <span id="val-framing" class="text-amber-400 font-bold">+1</span></label>
+                            <input type="range" id="slider-framing" min="-4" max="4" step="1" value="1" class="w-32">
+                        </div>
+                    </div>
+
+                    <!-- Controls for Mode 1 (Cork) -->
+                    <div id="controls-mode-1" class="hidden flex flex-col gap-3">
+                        <p class="text-xs text-slate-400">Ajusta de forma analítica el ángulo de rotación de la subvariedad:</p>
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Giro Manual:</span>
+                                <span id="val-twist-deg" class="text-emerald-400 font-bold">0°</span>
+                            </div>
+                            <input type="range" id="slider-twist" min="0" max="180" value="0" class="w-full">
+                        </div>
+                    </div>
+
+                    <!-- Controls for Mode 2 (Slice Surfaces) -->
+                    <div id="controls-mode-2" class="hidden flex flex-col gap-3">
+                        <p class="text-xs text-slate-400">Desplaza el hiperplano a lo largo de la coordenada de profundidad 4D ($W$):</p>
+                        <div class="flex flex-col gap-1">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">Profundidad 4D ($W$):</span>
+                                <span id="val-depth-4d" class="text-purple-400 font-bold">4.0</span>
+                            </div>
+                            <input type="range" id="slider-depth-4d" min="-8" max="4" step="0.1" value="4" class="w-full">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Action Box -->
+                <div id="action-panel" class="pointer-events-auto flex flex-col items-stretch md:items-end justify-end gap-3 min-w-[200px]">
+                    <button id="action-btn" class="hidden glass-panel bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 border border-blue-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(59,130,246,0.5)] transition-all transform hover:scale-105 active:scale-95">
+                        Ejecutar Acción
+                    </button>
+                    <div class="glass-panel px-4 py-2 rounded-lg text-xs text-slate-400 text-center md:text-right">
+                        🖱| Touch: Arrastrar rotar | Zoom scroll/pinch
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
     <div id="canvas-container"></div>
 
     <script>
-        // --- TEXTOS INFORMATIVOS DINÁMICOS ---
+        // --- TEXTOS INFORMATIVOS DINÁMICOS ORIGINALES ---
         const modeInfo = [
             {
                 title: "Esfera de Homología de Poincaré",
@@ -255,6 +334,13 @@
             }
         ];
 
+        // --- PARÁMETROS MATEMÁTICOS DE INTERACCIÓN ---
+        let poincareP = 3;
+        let poincareQ = 2;
+        let poincareFraming = 1;
+        let twistProgress = 0; // Ángulo de twist (0 a 180 grados)
+        let depth4D = 4; // Profundidad de la coordenada W de clípeo local
+
         // --- CONFIGURACIÓN BÁSICA THREE.JS ---
         const container = document.getElementById('canvas-container');
         const scene = new THREE.Scene();
@@ -263,9 +349,11 @@
         const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.set(0, 2, 25);
 
+        // Habilitamos planos de corte locales para la simulación de Slicing 4D
         const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.localClippingEnabled = true;
         container.appendChild(renderer.domElement);
 
         const controls = new THREE.OrbitControls(camera, renderer.domElement);
@@ -275,7 +363,6 @@
         controls.minDistance = 5;
 
         // --- POST-PROCESAMIENTO (BLOOM MAGNÉTICO/NEÓN) ---
-        // Para darle aspecto "cuántico" o matemático de alta energía
         const renderScene = new THREE.RenderPass(scene, camera);
         const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
         bloomPass.threshold = 0.2;
@@ -296,30 +383,30 @@
         scene.add(centerLight);
 
         // --- MATERIALES TOPOLÓGICOS ---
-        // 1-handle: Túnel, remoción de material. Azul, transparente, wireframe.
         const mat1Handle = new THREE.MeshPhysicalMaterial({
             color: 0x1e3a8a, emissive: 0x3b82f6, emissiveIntensity: 0.5,
             wireframe: true, transparent: true, opacity: 0.4,
             side: THREE.DoubleSide
         });
 
-        // 2-handle (Activo): Inyección de material. Rojo/Magenta brillante.
         const mat2HandleRed = new THREE.MeshPhysicalMaterial({
             color: 0x9f1239, emissive: 0xe11d48, emissiveIntensity: 0.8,
             roughness: 0.1, metalness: 0.8, clearcoat: 1.0
         });
 
-        // 2-handle (Variante Cork): Verde Esmeralda para contrastar.
         const mat2HandleGreen = new THREE.MeshPhysicalMaterial({
             color: 0x064e3b, emissive: 0x10b981, emissiveIntensity: 0.7,
             roughness: 0.2, metalness: 0.8, clearcoat: 1.0
         });
 
-        // Superficie Slice (Membrana 4D): Morada, etérea.
+        // Plano de corte para la membrana 4D
+        const slicePlane = new THREE.Plane(new THREE.Vector3(0, -1, 0), depth4D);
+
         const matSliceDisk = new THREE.MeshPhysicalMaterial({
             color: 0x4c1d95, emissive: 0x8b5cf6, emissiveIntensity: 0.4,
-            transparent: true, opacity: 0.0, // Inicialmente invisible
-            side: THREE.DoubleSide, roughness: 0.1, transmission: 0.9, thickness: 0.5
+            transparent: true, opacity: 0.0,
+            side: THREE.DoubleSide, roughness: 0.1, transmission: 0.9, thickness: 0.5,
+            clippingPlanes: [ slicePlane ]
         });
 
         // --- GRUPOS PARA CADA MODO ---
@@ -330,22 +417,77 @@
         scene.add(groupCork);
         scene.add(groupSlice);
 
-        // --- GEOMETRÍAS ---
+        // --- GEOMETRÍAS DINÁMICAS ---
 
-        // 1. Esfera de Poincaré (Nudo Trébol)
-        class TrefoilCurve extends THREE.Curve {
+        // Clase paramétrica para Nudos de Toro (P, Q)
+        class TorusKnotCurve extends THREE.Curve {
+            constructor(p = 3, q = 2, scale = 1.5) {
+                super();
+                this.p = p;
+                this.q = q;
+                this.scale = scale;
+            }
             getPoint(t, optionalTarget = new THREE.Vector3()) {
                 t *= Math.PI * 2;
+                const r = 2.0 + Math.cos(this.q * t);
                 return optionalTarget.set(
-                    Math.sin(t) + 2 * Math.sin(2 * t),
-                    Math.cos(t) - 2 * Math.cos(2 * t),
-                    -Math.sin(3 * t)
-                ).multiplyScalar(1.5);
+                    r * Math.cos(this.p * t),
+                    r * Math.sin(this.p * t),
+                    -Math.sin(this.q * t)
+                ).multiplyScalar(this.scale * 0.6);
             }
         }
-        const trefoilGeo = new THREE.TubeGeometry(new TrefoilCurve(), 200, 0.5, 32, true);
-        const poincareMesh = new THREE.Mesh(trefoilGeo, mat2HandleRed);
-        groupPoincare.add(poincareMesh);
+
+        // Generación de Hélice del Framing (Hélice matemática envolvente)
+        function generateFramingSpiral(curve, framing, tubeRadius = 0.5) {
+            const points = [];
+            const segments = 400;
+            const knotPoints = curve.getPoints(segments);
+            const frenetFrames = curve.computeFrenetFrames(segments, true);
+            
+            for(let i = 0; i <= segments; i++) {
+                const p = knotPoints[i];
+                const normal = frenetFrames.normals[i];
+                const binormal = frenetFrames.binormals[i];
+                
+                const t = i / segments;
+                const angle = t * framing * Math.PI * 2;
+                
+                const spiralPoint = new THREE.Vector3()
+                    .copy(p)
+                    .addScaledVector(normal, Math.cos(angle) * (tubeRadius + 0.12))
+                    .addScaledVector(binormal, Math.sin(angle) * (tubeRadius + 0.12));
+                points.push(spiralPoint);
+            }
+            return new THREE.CatmullRomCurve3(points);
+        }
+
+        // Generar/Actualizar nudo de Poincaré y su hélice de framing
+        function updatePoincareMesh() {
+            // Limpiar geometrías previas
+            while(groupPoincare.children.length > 0) { 
+                const obj = groupPoincare.children[0];
+                if(obj.geometry) obj.geometry.dispose();
+                groupPoincare.remove(obj); 
+            }
+
+            const curve = new TorusKnotCurve(poincareP, poincareQ);
+            const trefoilGeo = new THREE.TubeGeometry(curve, 250, 0.45, 16, true);
+            const mesh = new THREE.Mesh(trefoilGeo, mat2HandleRed);
+            groupPoincare.add(mesh);
+
+            // Trazar espiral de framing si es diferente de 0
+            if (poincareFraming !== 0) {
+                const spiralCurve = generateFramingSpiral(curve, poincareFraming, 0.45);
+                const spiralGeo = new THREE.TubeGeometry(spiralCurve, 400, 0.06, 8, false);
+                const spiralMat = new THREE.MeshBasicMaterial({ color: 0xf59e0b }); // Golden glow
+                const spiralMesh = new THREE.Mesh(spiralGeo, spiralMat);
+                groupPoincare.add(spiralMesh);
+            }
+        }
+
+        // Inicializar Poincaré por primera vez
+        updatePoincareMesh();
 
         // 2. Cork (Enlace de Hopf modificado)
         const torusGeo = new THREE.TorusGeometry(3, 0.4, 32, 100);
@@ -354,7 +496,6 @@
         corkRingB.rotation.x = Math.PI / 2;
         corkRingB.position.x = 3;
         
-        // Centrar el grupo
         const corkCenter = new THREE.Group();
         corkRingA.position.x = -1.5;
         corkRingB.position.x = 1.5;
@@ -363,7 +504,6 @@
         groupCork.add(corkCenter);
 
         // 3. Nudo Slice y Superficie (Representación conceptual de un disco slice)
-        // Usaremos un Nudo Figura en 8 (paramétrico simple)
         class FigureEightKnot extends THREE.Curve {
             getPoint(t, optionalTarget = new THREE.Vector3()) {
                 t *= Math.PI * 2;
@@ -382,26 +522,21 @@
         sliceKnotMesh.material.emissive.setHex(0x2563eb);
         
         // Construcción de la superficie Slice (Cono topológico que baja en Y)
-        // Simulando que se hunde en la 4ta dimensión (eje Y negativo en nuestra proy 3D)
         const sliceDiskGeo = new THREE.BufferGeometry();
         const pts = knotPath.getPoints(100);
         const vertices = [];
         const indices = [];
         
-        // Vértice central en el "fondo" de la 4ta dimensión
         const bottomY = -8; 
         vertices.push(0, bottomY, 0); // Índice 0
         
-        // Vértices del nudo exterior
         for(let i=0; i<pts.length; i++) {
             vertices.push(pts[i].x, pts[i].y, pts[i].z);
         }
         
-        // Caras conectando el borde con el vértice central
         for(let i=1; i<=pts.length; i++) {
             let next = (i === pts.length) ? 1 : i + 1;
             indices.push(0, i, next);
-            // Hacerlo de doble cara para seguridad aunque el material sea DoubleSide
             indices.push(0, next, i); 
         }
         
@@ -429,8 +564,8 @@
         // --- LÓGICA DE ESTADO Y UI ---
         let currentMode = 0;
         let isAnimatingAction = false;
+        let isUIHidden = false; // Estado del botón Mostrar/Ocultar
         
-        // Variables de estado específicas
         let isTwisted = false;
         let isSliced = false;
         let sliceAnimProgress = 0;
@@ -451,6 +586,9 @@
         const infoPanel = document.getElementById('info-panel');
         const actionBtn = document.getElementById('action-btn');
         const learnModal = document.getElementById('learn-modal');
+        const uiLayer = document.getElementById('ui-layer');
+        const uiWrapper = document.getElementById('ui-wrapper');
+        const uiToggleIcon = document.getElementById('ui-toggle-icon');
 
         // Función para mostrar/ocultar el modal educativo
         window.toggleLearnModal = function() {
@@ -460,6 +598,20 @@
             } else {
                 learnModal.classList.add('opacity-0');
                 setTimeout(() => learnModal.classList.add('hidden'), 500);
+            }
+        };
+
+        // Función para Mostrar/Ocultar TODA la interfaz (Mejora Incremental)
+        window.toggleUI = function() {
+            isUIHidden = !isUIHidden;
+            if (isUIHidden) {
+                uiWrapper.classList.add('opacity-0', 'pointer-events-none');
+                uiWrapper.classList.remove('opacity-100');
+                uiToggleIcon.textContent = "🙈";
+            } else {
+                uiWrapper.classList.remove('opacity-0', 'pointer-events-none');
+                uiWrapper.classList.add('opacity-100');
+                uiToggleIcon.textContent = "👁️";
             }
         };
 
@@ -482,8 +634,8 @@
                 actionBtn.classList.remove('hidden');
                 
                 // Reset states button colors
-                if(modeIndex === 1) actionBtn.className = "glass-panel bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all transform hover:scale-105 active:scale-95";
-                if(modeIndex === 2) actionBtn.className = "glass-panel bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(139,92,246,0.5)] transition-all transform hover:scale-105 active:scale-95";
+                if(modeIndex === 1) actionBtn.className = "glass-panel bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all transform hover:scale-105 active:scale-95 pointer-events-auto";
+                if(modeIndex === 2) actionBtn.className = "glass-panel bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold py-3 px-6 rounded-xl shadow-[0_0_15px_rgba(139,92,246,0.5)] transition-all transform hover:scale-105 active:scale-95 pointer-events-auto";
                 
             } else {
                 actionBtn.classList.add('hidden');
@@ -494,6 +646,11 @@
                 if(idx === modeIndex) btn.classList.add('active');
                 else btn.classList.remove('active');
             });
+
+            // Conmutar visibilidad de paneles de ajustes matemáticos inferiores
+            document.getElementById('controls-mode-0').classList.toggle('hidden', modeIndex !== 0);
+            document.getElementById('controls-mode-1').classList.toggle('hidden', modeIndex !== 1);
+            document.getElementById('controls-mode-2').classList.toggle('hidden', modeIndex !== 2);
         }
 
         window.switchMode = function(index) {
@@ -510,12 +667,69 @@
             corkCenter.rotation.set(0,0,0);
             sliceSubGroup.rotation.set(0,0,0);
             
-            // Reset cámara suavemente (simulado moviéndola cerca del origen)
+            // Reset cámara suavemente
             camera.position.set(0, (index===2)? 8 : 2, (index===2)? 30 : 25);
             controls.target.set(0, (index===2)? -3 : 0, 0);
         };
 
-        // --- ACCIONES ESPECÍFICAS ---
+        // --- MANEJADORES DE CONTROLES MATEMÁTICOS MULTI-DIAGRAMA ---
+        const sliderP = document.getElementById('slider-p');
+        const sliderQ = document.getElementById('slider-q');
+        const sliderFraming = document.getElementById('slider-framing');
+        const sliderTwist = document.getElementById('slider-twist');
+        const sliderDepth4D = document.getElementById('slider-depth-4d');
+
+        sliderP.addEventListener('input', (e) => {
+            poincareP = parseInt(e.target.value);
+            document.getElementById('val-p').textContent = poincareP;
+            updatePoincareMesh();
+        });
+
+        sliderQ.addEventListener('input', (e) => {
+            poincareQ = parseInt(e.target.value);
+            document.getElementById('val-q').textContent = poincareQ;
+            updatePoincareMesh();
+        });
+
+        sliderFraming.addEventListener('input', (e) => {
+            poincareFraming = parseInt(e.target.value);
+            const prefix = poincareFraming >= 0 ? "+" : "";
+            document.getElementById('val-framing').textContent = prefix + poincareFraming;
+            updatePoincareMesh();
+        });
+
+        // Evento de control para giro manual del Cork
+        sliderTwist.addEventListener('input', (e) => {
+            twistProgress = parseInt(e.target.value);
+            document.getElementById('val-twist-deg').textContent = twistProgress + "°";
+            
+            // Transformar analíticamente la rotación de involución
+            const rad = (twistProgress / 180) * Math.PI;
+            corkCenter.rotation.y = rad;
+            corkCenter.rotation.x = Math.sin(rad) * 0.4; // Balanceo visual del pegado
+
+            // Intercambio dinámico de propiedades de materiales a los 90°
+            if(twistProgress >= 90) {
+                corkRingA.material = mat2HandleGreen;
+                corkRingB.material = mat1Handle;
+                isTwisted = true;
+            } else {
+                corkRingA.material = mat1Handle;
+                corkRingB.material = mat2HandleGreen;
+                isTwisted = false;
+            }
+        });
+
+        // Evento de control para profundidad 4D (Slicing)
+        sliderDepth4D.addEventListener('input', (e) => {
+            depth4D = parseFloat(e.target.value);
+            document.getElementById('val-depth-4d').textContent = depth4D.toFixed(1);
+            
+            // Actualizar constante del plano de corte local en tiempo real
+            slicePlane.constant = depth4D;
+        });
+
+        // --- ACCIONES ESPECÍFICAS DE ACCIÓN ORIGINALES ---
         actionBtn.addEventListener('click', () => {
             if(isAnimatingAction) return;
 
@@ -524,25 +738,27 @@
                 isAnimatingAction = true;
                 isTwisted = !isTwisted;
                 
-                // Rotar físicamente el corcho en 3D (Involución)
                 let startRot = corkCenter.rotation.y;
-                let targetRot = startRot + Math.PI;
+                let targetRot = isTwisted ? Math.PI : 0;
                 let step = 0;
                 
                 function twistAnim() {
                     step += 0.05;
-                    corkCenter.rotation.y = THREE.MathUtils.lerp(startRot, targetRot, Math.min(step, 1));
-                    corkCenter.rotation.x = Math.sin(step * Math.PI) * 0.5; // Efecto de giro visual
+                    const val = THREE.MathUtils.lerp(startRot, targetRot, Math.min(step, 1));
+                    corkCenter.rotation.y = val;
+                    corkCenter.rotation.x = Math.sin(val) * 0.4;
                     
-                    // A mitad de camino, intercambiamos los materiales (la involución real)
-                    if(step >= 0.5 && step < 0.55) {
-                        if(isTwisted) {
-                            corkRingA.material = mat2HandleGreen;
-                            corkRingB.material = mat1Handle;
-                        } else {
-                            corkRingA.material = mat1Handle;
-                            corkRingB.material = mat2HandleGreen;
-                        }
+                    // Sincronizar el slider visual durante la animación
+                    const progressDeg = Math.round((val / Math.PI) * 180);
+                    sliderTwist.value = progressDeg;
+                    document.getElementById('val-twist-deg').textContent = progressDeg + "°";
+
+                    if(val >= Math.PI / 2) {
+                        corkRingA.material = mat2HandleGreen;
+                        corkRingB.material = mat1Handle;
+                    } else {
+                        corkRingA.material = mat1Handle;
+                        corkRingB.material = mat2HandleGreen;
                     }
 
                     if(step < 1) requestAnimationFrame(twistAnim);
@@ -587,11 +803,10 @@
             requestAnimationFrame(animate);
             const time = clock.getElapsedTime();
 
-            // Interacción del ratón (Suavizado de movimiento)
+            // Interacción del ratón (Suavizado de movimiento para paralaje)
             targetX = mouseX * 0.5;
             targetY = mouseY * 0.5;
 
-            // Movimiento fluido de la cámara/escena para paralaje
             scene.rotation.y += 0.05 * (targetX - scene.rotation.y);
             scene.rotation.x += 0.05 * (targetY - scene.rotation.x);
 
@@ -603,12 +818,13 @@
                 groupPoincare.rotation.y = time * 0.2;
                 groupPoincare.rotation.x = Math.sin(time * 0.5) * 0.1;
                 // Efecto de pulso en la emisión (framing energy)
-                poincareMesh.material.emissiveIntensity = 0.5 + Math.sin(time * 2) * 0.3;
+                if (groupPoincare.children[0]) {
+                    groupPoincare.children[0].material.emissiveIntensity = 0.5 + Math.sin(time * 2) * 0.3;
+                }
             } 
             else if(currentMode === 1 && !isAnimatingAction) {
-                // Rotación de idle del cork
-                corkCenter.rotation.y += 0.005;
-                corkCenter.rotation.z = Math.sin(time * 0.5) * 0.1;
+                // Rotación de idle del cork respetando el slider si no está girando
+                // El slider manual domina la rotación base
             }
             else if(currentMode === 2) {
                 // Rotación lenta para apreciar la superficie
@@ -616,7 +832,6 @@
             }
 
             controls.update();
-            // Usamos composer en lugar de renderer para aplicar el efecto Bloom
             composer.render();
         }
 
