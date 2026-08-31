@@ -3,12 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>♟️ Jaque al Rey — Aventura en los Andes</title>
-  <meta name="description" content="Videojuego de ajedrez andino a pantalla completa estilo consola RPG, con tablero majestuoso, diálogos interactivos y soporte multilingüe.">
-  
-  <!-- Favicon para evitar errores 404 -->
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
-  
+  <title>♟️ Jaque al Rey — Ajedrez RPG Andino</title>
+  <meta name="description" content="Aprende ajedrez paso a paso con el Método de los Pasos, minijuegos tácticos, puzzles y duelos vs IA en una majestuosa aventura pixel art andina.">
+  <meta name="keywords" content="ajedrez, chess, ajedrez andino, metodo de los pasos, pixel art chess, ajedrez rpg, chess engine, minijuegos ajedrez, aprender ajedrez">
+  <meta name="author" content="Juan Tomoo">
+  <link rel="canonical" href="https://juantomoo.github.io/proyectos/jaque-al-rey/">
+
+  <!-- 📱 PWA Meta & Web App Capabilities -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#0B221A">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Jaque al Rey">
+  <meta name="application-name" content="Jaque al Rey">
+
+  <!-- 👑 Favicons Multi-resolución con Piezas Reales -->
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/icons/favicon-48x48.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+
+  <!-- 🌐 OpenGraph / Facebook / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://juantomoo.github.io/proyectos/jaque-al-rey/">
+  <meta property="og:title" content="Jaque al Rey — Ajedrez RPG Andino">
+  <meta property="og:description" content="Aprende ajedrez paso a paso con el Método de los Pasos, minijuegos tácticos, puzzles y duelos vs IA en una aventura pixel art andina.">
+  <meta property="og:image" content="https://juantomoo.github.io/proyectos/jaque-al-rey/assets/icons/og_banner.png">
+  <meta property="og:image:secure_url" content="https://juantomoo.github.io/proyectos/jaque-al-rey/assets/icons/og_banner.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Jaque al Rey — Ajedrez RPG Andino">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:site_name" content="Juan Tomoo — Portafolio">
+
+  <!-- 🐦 Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://juantomoo.github.io/proyectos/jaque-al-rey/">
+  <meta name="twitter:title" content="Jaque al Rey — Ajedrez RPG Andino">
+  <meta name="twitter:description" content="Aprende ajedrez paso a paso con el Método de los Pasos, minijuegos tácticos, puzzles y duelos vs IA en una aventura pixel art andina.">
+  <meta name="twitter:image" content="https://juantomoo.github.io/proyectos/jaque-al-rey/assets/icons/og_banner.png">
+
+  <!-- 🔍 Structured Data (Schema.org / JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoGame",
+    "name": "Jaque al Rey — Ajedrez RPG Andino",
+    "url": "https://juantomoo.github.io/proyectos/jaque-al-rey/",
+    "description": "Videojuego de ajedrez RPG pedagógico con estética pixel art andina. Aprende ajedrez paso a paso con el Método de los Pasos, minijuegos tácticos, puzzles y duelos vs IA.",
+    "image": "https://juantomoo.github.io/proyectos/jaque-al-rey/assets/icons/og_banner.png",
+    "genre": ["Ajedrez", "Estrategia", "Educativo", "RPG"],
+    "gamePlatform": ["Web Browser", "Desktop", "Mobile", "Tablet"],
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Any",
+    "inLanguage": ["es", "en"],
+    "author": {
+      "@type": "Person",
+      "name": "Juan Tomoo",
+      "url": "https://juantomoo.github.io/"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+  </script>
+
   <!-- Tipografías de Alto Impacto -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,6 +217,19 @@
   <script src="js/puzzles.js"></script>
   <script src="js/ai.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- Registro de PWA Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').then(reg => {
+          console.log('✅ [PWA] Service Worker registrado con éxito:', reg.scope);
+        }).catch(err => {
+          console.warn('⚠️ [PWA] Fallo en Service Worker:', err);
+        });
+      });
+    }
+  </script>
 
 </body>
 </html>
