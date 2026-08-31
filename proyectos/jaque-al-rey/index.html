@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>♟️ Jaque al Rey — Aventura en los Andes</title>
+  <meta name="description" content="Videojuego de ajedrez andino a pantalla completa estilo consola RPG, con tablero majestuoso, diálogos interactivos y soporte multilingüe.">
+  
+  <!-- Favicon para evitar errores 404 -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+  
+  <!-- Tipografías de Alto Impacto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ================= ESCENARIO MAJESTUOSO PANTALLA COMPLETA ================= -->
+  <div class="game-viewport-stage">
+
+    <!-- 1. TOP HUD FLOTANTE (MINIMALISTA: CRESTA A LA IZQUIERDA & MENÚ A LA DERECHA) -->
+    <header class="floating-top-hud">
+      <!-- Cresta de Rango del Jugador (Trofeo + XP debajo) -->
+      <div class="hud-trainer-crest" id="btn-open-trophies-hud" title="Salón de Medallas & Rango">
+        <span class="crest-badge-icon" id="user-rank-icon">🌱</span>
+        <span class="crest-xp-text" id="user-xp-counter">0 XP</span>
+      </div>
+
+      <!-- Botón Menú Mochila Superior Derecho -->
+      <div class="hud-quick-actions">
+        <button type="button" id="btn-open-backpack" class="btn-game-tablet gold">🎒 MENÚ</button>
+      </div>
+    </header>
+
+    <!-- 2. EL TABLERO PROTAGONISTA (CENTRAL A PANTALLA COMPLETA) -->
+    <main class="board-fullscreen-anchor">
+      <div id="main-game-board"></div>
+    </main>
+
+    <!-- 3. CAJA DE DIÁLOGO FLOTANTE & MINIMIZABLE (SUPERPUESTA) -->
+    <section class="floating-dialogue-drawer" id="floating-dialogue-box">
+      <!-- Cabecera del Diálogo con botón de minimizar/expandir -->
+      <div class="dialogue-drawer-header">
+        <div class="speaker-tag-title">
+          <span>🦉</span><span id="dialogue-speaker-name">Maestro Búho</span>
+        </div>
+        <button type="button" class="btn-toggle-dialogue" id="btn-minimize-dialogue">▼ MINIMIZAR</button>
+      </div>
+
+      <!-- Cuerpo del Diálogo -->
+      <div class="dialogue-drawer-body">
+        <div class="dialogue-avatar-frame" id="dialogue-avatar-box">🦉</div>
+        <div class="dialogue-bubble-text" id="dialogue-text-content">
+          ¡Bienvenido a la <strong>Academia de los Andes</strong>! Toca las casillas secretas del centro del tablero: <strong>e4</strong>, <strong>d4</strong> y <strong>e5</strong>.
+        </div>
+      </div>
+
+      <!-- Barra de Acciones del Diálogo -->
+      <div class="dialogue-drawer-footer">
+        <span class="dialogue-footer-hint" id="dialogue-extra-hint">🎯 Toca las casillas en el tablero</span>
+        <div class="dialogue-footer-actions" id="dialogue-actions-container">
+          <button type="button" class="btn-game-tablet emerald" id="dialogue-main-action-btn">▶ CONTINUAR</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= MENÚ MOCHILA ROTOM (DRAWER MODAL) ================= -->
+  <div class="backpack-menu-overlay hidden" id="backpack-menu-modal">
+    <div class="backpack-menu-sheet">
+      <div class="backpack-sheet-header">
+        <div class="backpack-header-title-group">
+          <h2 id="backpack-sheet-title">🎒 Mochila de Aventuras</h2>
+          <div class="backpack-quick-settings">
+            <button type="button" id="btn-theme-toggle" class="btn-backpack-setting" title="Modo Día / Noche">☀️</button>
+            <button type="button" id="btn-lang-toggle" class="btn-backpack-setting" title="Idioma / Language">🌐 ES</button>
+            <button type="button" id="btn-sound-toggle" class="btn-backpack-setting" title="Audio">🔊</button>
+          </div>
+        </div>
+        <button type="button" class="btn-close-sheet" id="btn-close-backpack">✕</button>
+      </div>
+
+      <!-- Modos Principales -->
+      <div class="menu-modes-grid" id="main-modes-selector">
+        <div class="menu-mode-card active" data-tab="learn">
+          <div class="mode-card-icon">📜</div>
+          <div class="mode-card-meta">
+            <h3 id="tab-title-learn">Academia</h3>
+            <p id="tab-desc-learn">10 pasos y piezas</p>
+          </div>
+        </div>
+
+        <div class="menu-mode-card" data-tab="minigames">
+          <div class="mode-card-icon">⭐</div>
+          <div class="mode-card-meta">
+            <h3 id="tab-title-minigames">Minijuegos</h3>
+            <p id="tab-desc-minigames">Entrenamiento</p>
+          </div>
+        </div>
+
+        <div class="menu-mode-card" data-tab="puzzles">
+          <div class="mode-card-icon">🧩</div>
+          <div class="mode-card-meta">
+            <h3 id="tab-title-puzzles">Puzzles</h3>
+            <p id="tab-desc-puzzles">Gimnasio táctico</p>
+          </div>
+        </div>
+
+        <div class="menu-mode-card" data-tab="play">
+          <div class="mode-card-icon">⚔️</div>
+          <div class="mode-card-meta">
+            <h3 id="tab-title-play">Duelo vs IA</h3>
+            <p id="tab-desc-play">3 Guardianes</p>
+          </div>
+        </div>
+
+        <div class="menu-mode-card" data-tab="decks">
+          <div class="mode-card-icon">🎴</div>
+          <div class="mode-card-meta">
+            <h3 id="tab-title-decks">Mazos de Fichas</h3>
+            <p id="tab-desc-decks">Sets y estilos</p>
+          </div>
+        </div>
+
+        <div class="menu-mode-card" data-tab="notebook">
+          <div class="mode-card-icon">🏆</div>
+          <div class="mode-card-meta">
+            <h3 id="tab-title-notebook">Salón de Medallas</h3>
+            <p id="tab-desc-notebook">Tus logros y bitácora</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sub-Contenido Dinámico según Modo -->
+      <div class="sub-modal-content" id="backpack-subcontent"></div>
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS ================= -->
+  <script src="js/i18n.js"></script>
+  <script src="js/pieces.js"></script>
+  <script src="js/board_themes.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/board.js"></script>
+  <script src="js/notebook.js"></script>
+  <script src="js/academy.js"></script>
+  <script src="js/minigames.js"></script>
+  <script src="js/puzzles.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>

@@ -187,6 +187,7 @@ Los proyectos que tienen demo en vivo necesitan sus archivos copiados a `proyect
 |----------|--------|---------|
 | ZineR | `ZineR/` | `proyectos/ziner/` |
 | HISQUE Games | `HISQUE Games/` | `proyectos/hisque-games/` |
+| Jaque al Rey | `JaqueAlRey/` | `proyectos/jaque-al-rey/` |
 | Museo Viviente | `Museo Viviente/` | `proyectos/museo-viviente/` |
 | GIFtoArray | `GIFtoArray/` | `proyectos/giftoarray/` |
 
