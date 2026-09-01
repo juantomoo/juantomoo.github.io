@@ -16,7 +16,7 @@ const I18N_DATA = {
     menu: {
       title: "🎒 Mochila de Aventuras",
       learnTitle: "Academia",
-      learnSub: "10 pasos y piezas",
+      learnSub: "100 lecciones maestras",
       miniTitle: "Minijuegos",
       miniSub: "Entrenamiento",
       puzzlesTitle: "Puzzles",
@@ -109,16 +109,27 @@ const I18N_DATA = {
     },
     ranks: [
       { minXP: 0, title: "Aprendiz del Valle", badge: "🌱" },
-      { minXP: 100, title: "Explorador de la Selva", badge: "🌿" },
-      { minXP: 250, title: "Guardián de los Andes", badge: "🏔️" },
-      { minXP: 450, title: "Táctico de la Neblina", badge: "🦅" },
-      { minXP: 700, title: "Maestro del Cóndor", badge: "👑" },
-      { minXP: 1000, title: "Gran Chamán del Tablero", badge: "⚡" },
-      { minXP: 1500, title: "Inca Inmortal", badge: "☀️" }
+      { minXP: 200, title: "Explorador de la Selva", badge: "🌿" },
+      { minXP: 500, title: "Guardián de los Andes", badge: "🏔️" },
+      { minXP: 1000, title: "Táctico de la Neblina", badge: "🦅" },
+      { minXP: 1800, title: "Estratega del Templo", badge: "🏛️" },
+      { minXP: 2800, title: "Maestro del Cóndor", badge: "👑" },
+      { minXP: 4200, title: "Gran Chamán del Tablero", badge: "⚡" },
+      { minXP: 6000, title: "Inca Inmortal del Ajedrez", badge: "☀️" }
     ],
     medals: [
       { id: "first_lesson", name: "Primeros Pasos", desc: "Completaste tu primera lección en la Academia", icon: "🌟" },
-      { id: "all_lessons", name: "Maestro Graduado", desc: "Superaste las 10 lecciones completas", icon: "🎓" },
+      { id: "c1_master", name: "Semilla del Valle", desc: "Completaste el Cuaderno 1 (Fundamentos)", icon: "🌱" },
+      { id: "c2_master", name: "Escudo del Refugio", desc: "Completaste el Cuaderno 2 (Seguridad del Rey)", icon: "🛡️" },
+      { id: "c3_master", name: "Espada del Bosque", desc: "Completaste el Cuaderno 3 (Táctica Básica)", icon: "⚔️" },
+      { id: "c4_master", name: "Corona del Jaque Mate", desc: "Completaste el Cuaderno 4 (Patrones de Mate)", icon: "👑" },
+      { id: "c5_master", name: "Torre de la Fortaleza", desc: "Completaste el Cuaderno 5 (Finales Fundamentales)", icon: "🏰" },
+      { id: "c6_master", name: "Pilar del Templo", desc: "Completaste el Cuaderno 6 (Apertura y Desarrollo)", icon: "🏛️" },
+      { id: "c7_master", name: "Relámpago de la Selva", desc: "Completaste el Cuaderno 7 (Táctica Avanzada)", icon: "⚡" },
+      { id: "c8_master", name: "Cumbre de la Cordillera", desc: "Completaste el Cuaderno 8 (Estrategia y Planes)", icon: "🏔️" },
+      { id: "c9_master", name: "Manto del Páramo", desc: "Completaste el Cuaderno 9 (Finales Complejos)", icon: "🌊" },
+      { id: "c10_master", name: "Alas del Gran Maestro", desc: "Completaste el Cuaderno 10 (Pensamiento de Élite)", icon: "🦅" },
+      { id: "all_lessons_100", name: "Maestro de los 10 Pasos", desc: "¡Completaste las 100 lecciones maestras!", icon: "🎓" },
       { id: "route_star", name: "Cazador de Estrellas", desc: "Completaste el Planificador de Rutas", icon: "⭐" },
       { id: "knight_maze", name: "Jinete del Laberinto", desc: "Superaste el Laberinto de la Llama", icon: "🦙" },
       { id: "tactics_hero", name: "Mente Táctica", desc: "Resolviste 5 puzzles tácticos", icon: "🧩" },
@@ -374,7 +385,7 @@ const I18N_DATA = {
     menu: {
       title: "🎒 Adventure Backpack",
       learnTitle: "Academy",
-      learnSub: "10 steps and pieces",
+      learnSub: "100 master lessons",
       miniTitle: "Minigames",
       miniSub: "Training grounds",
       puzzlesTitle: "Puzzles",
@@ -467,16 +478,27 @@ const I18N_DATA = {
     },
     ranks: [
       { minXP: 0, title: "Valley Apprentice", badge: "🌱" },
-      { minXP: 100, title: "Jungle Explorer", badge: "🌿" },
-      { minXP: 250, title: "Andes Guardian", badge: "🏔️" },
-      { minXP: 450, title: "Mist Tactician", badge: "🦅" },
-      { minXP: 700, title: "Condor Master", badge: "👑" },
-      { minXP: 1000, title: "Grand Board Shaman", badge: "⚡" },
-      { minXP: 1500, title: "Immortal Inca", badge: "☀️" }
+      { minXP: 200, title: "Jungle Explorer", badge: "🌿" },
+      { minXP: 500, title: "Andes Guardian", badge: "🏔️" },
+      { minXP: 1000, title: "Mist Tactician", badge: "🦅" },
+      { minXP: 1800, title: "Temple Strategist", badge: "🏛️" },
+      { minXP: 2800, title: "Condor Master", badge: "👑" },
+      { minXP: 4200, title: "Grand Board Shaman", badge: "⚡" },
+      { minXP: 6000, title: "Immortal Inca of Chess", badge: "☀️" }
     ],
     medals: [
       { id: "first_lesson", name: "First Steps", desc: "Completed your first Academy lesson", icon: "🌟" },
-      { id: "all_lessons", name: "Graduated Master", desc: "Mastered all 10 Academy lessons", icon: "🎓" },
+      { id: "c1_master", name: "Valley Seed", desc: "Completed Book 1 (Foundations)", icon: "🌱" },
+      { id: "c2_master", name: "Shelter Shield", desc: "Completed Book 2 (King Safety)", icon: "🛡️" },
+      { id: "c3_master", name: "Forest Blade", desc: "Completed Book 3 (Tactical Weapons)", icon: "⚔️" },
+      { id: "c4_master", name: "Checkmate Crown", desc: "Completed Book 4 (Checkmate Patterns)", icon: "👑" },
+      { id: "c5_master", name: "Fortress Spire", desc: "Completed Book 5 (Essential Endgames)", icon: "🏰" },
+      { id: "c6_master", name: "Temple Pillar", desc: "Completed Book 6 (Openings & Development)", icon: "🏛️" },
+      { id: "c7_master", name: "Jungle Lightning", desc: "Completed Book 7 (Advanced Tactics)", icon: "⚡" },
+      { id: "c8_master", name: "Mountain Crest", desc: "Completed Book 8 (Middlegame Strategy)", icon: "🏔️" },
+      { id: "c9_master", name: "Paramo Shroud", desc: "Completed Book 9 (Complex Endgames)", icon: "🌊" },
+      { id: "c10_master", name: "Grandmaster Wings", desc: "Completed Book 10 (Elite Master Thought)", icon: "🦅" },
+      { id: "all_lessons_100", name: "Master of 10 Steps", desc: "Mastered all 100 chess lessons!", icon: "🎓" },
       { id: "route_star", name: "Star Hunter", desc: "Completed the Route Planner", icon: "⭐" },
       { id: "knight_maze", name: "Maze Rider", desc: "Conquered the Llama Maze", icon: "🦙" },
       { id: "tactics_hero", name: "Tactical Mind", desc: "Solved 5 tactical chess puzzles", icon: "🧩" },
@@ -771,6 +793,25 @@ class I18nManager {
   }
 
   getLessons() {
+    if (window.ACADEMY_LESSONS_DATA && window.ACADEMY_LESSONS_DATA.length > 0) {
+      const isEn = this.currentLang === 'en';
+      return window.ACADEMY_LESSONS_DATA.map(l => ({
+        id: l.id,
+        chapterId: l.chapterId,
+        chapterTitle: isEn ? (l.chapterTitleEn || l.chapterTitle) : l.chapterTitle,
+        title: isEn ? (l.titleEn || l.title) : l.title,
+        subtitle: isEn ? (l.subtitleEn || l.subtitle) : l.subtitle,
+        character: l.character,
+        dialogue: isEn ? (l.dialogueEn || l.dialogue) : l.dialogue,
+        instruction: isEn ? (l.instructionEn || l.instruction) : l.instruction,
+        explanation: isEn ? (l.explanationEn || l.explanation) : l.explanation,
+        rewardXP: l.rewardXP,
+        type: l.type,
+        fen: l.fen,
+        expectedTo: l.expectedTo,
+        targets: l.targets
+      }));
+    }
     return I18N_DATA[this.currentLang].lessons;
   }
 

@@ -42,12 +42,13 @@ class StudyNotebookManager {
     if (window.i18n) return window.i18n.getRanks();
     return [
       { minXP: 0, title: "Aprendiz del Valle", badge: "🌱" },
-      { minXP: 100, title: "Explorador de la Selva", badge: "🌿" },
-      { minXP: 250, title: "Guardián de los Andes", badge: "🏔️" },
-      { minXP: 450, title: "Táctico de la Neblina", badge: "🦅" },
-      { minXP: 700, title: "Maestro del Cóndor", badge: "👑" },
-      { minXP: 1000, title: "Gran Chamán del Tablero", badge: "⚡" },
-      { minXP: 1500, title: "Inca Inmortal", badge: "☀️" }
+      { minXP: 200, title: "Explorador de la Selva", badge: "🌿" },
+      { minXP: 500, title: "Guardián de los Andes", badge: "🏔️" },
+      { minXP: 1000, title: "Táctico de la Neblina", badge: "🦅" },
+      { minXP: 1800, title: "Estratega del Templo", badge: "🏛️" },
+      { minXP: 2800, title: "Maestro del Cóndor", badge: "👑" },
+      { minXP: 4200, title: "Gran Chamán del Tablero", badge: "⚡" },
+      { minXP: 6000, title: "Inca Inmortal del Ajedrez", badge: "☀️" }
     ];
   }
 
@@ -55,7 +56,17 @@ class StudyNotebookManager {
     if (window.i18n) return window.i18n.getMedals();
     return [
       { id: 'first_lesson', name: 'Primeros Pasos', desc: 'Completaste tu primera lección', icon: '🌟' },
-      { id: 'all_lessons', name: 'Maestro Graduado', desc: 'Superaste las 10 lecciones', icon: '🎓' },
+      { id: 'c1_master', name: 'Semilla del Valle', desc: 'Completaste el Cuaderno 1', icon: '🌱' },
+      { id: 'c2_master', name: 'Escudo del Refugio', desc: 'Completaste el Cuaderno 2', icon: '🛡️' },
+      { id: 'c3_master', name: 'Espada del Bosque', desc: 'Completaste el Cuaderno 3', icon: '⚔️' },
+      { id: 'c4_master', name: 'Corona del Jaque Mate', desc: 'Completaste el Cuaderno 4', icon: '👑' },
+      { id: 'c5_master', name: 'Torre de la Fortaleza', desc: 'Completaste el Cuaderno 5', icon: '🏰' },
+      { id: 'c6_master', name: 'Pilar del Templo', desc: 'Completaste el Cuaderno 6', icon: '🏛️' },
+      { id: 'c7_master', name: 'Relámpago de la Selva', desc: 'Completaste el Cuaderno 7', icon: '⚡' },
+      { id: 'c8_master', name: 'Cumbre de la Cordillera', desc: 'Completaste el Cuaderno 8', icon: '🏔️' },
+      { id: 'c9_master', name: 'Manto del Páramo', desc: 'Completaste el Cuaderno 9', icon: '🌊' },
+      { id: 'c10_master', name: 'Alas del Gran Maestro', desc: 'Completaste el Cuaderno 10', icon: '🦅' },
+      { id: 'all_lessons_100', name: 'Maestro de los 10 Pasos', desc: 'Superaste las 100 lecciones', icon: '🎓' },
       { id: 'route_star', name: 'Cazador de Estrellas', desc: 'Completaste el Planificador de Rutas', icon: '⭐' },
       { id: 'knight_maze', name: 'Jinete del Laberinto', desc: 'Superaste el Laberinto de la Llama', icon: '🦙' },
       { id: 'tactics_hero', name: 'Mente Táctica', desc: 'Resolviste 5 puzzles tácticos', icon: '🧩' },
@@ -105,10 +116,36 @@ class StudyNotebookManager {
       this.saveData();
 
       this.unlockMedal('first_lesson');
-      if (this.data.completedLessons.length >= 10) {
-        this.unlockMedal('all_lessons');
+
+      // Comprobar graduación del Cuaderno correspondiente
+      const chapterId = Math.ceil(lessonId / 10);
+      const startId = (chapterId - 1) * 10 + 1;
+      const endId = chapterId * 10;
+      let chapterDone = true;
+      for (let id = startId; id <= endId; id++) {
+        if (!this.data.completedLessons.includes(id)) {
+          chapterDone = false;
+          break;
+        }
+      }
+      if (chapterDone) {
+        this.unlockMedal(`c${chapterId}_master`);
+      }
+
+      if (this.data.completedLessons.length >= 100) {
+        this.unlockMedal('all_lessons_100');
       }
     }
+  }
+
+  getChapterProgress(chapterId) {
+    const startId = (chapterId - 1) * 10 + 1;
+    const endId = chapterId * 10;
+    let completed = 0;
+    for (let id = startId; id <= endId; id++) {
+      if (this.data.completedLessons.includes(id)) completed++;
+    }
+    return { completed, total: 10, percent: Math.round((completed / 10) * 100) };
   }
 
   markPuzzleSolved(puzzleId) {

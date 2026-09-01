@@ -135,6 +135,11 @@ const ACADEMY_LESSONS = [
   }
 ];
 
+/**
+ * academy.js - Gestor de la Academia y Sistema Pedagógico de 100 Lecciones
+ * Conecta con lessons_data.js y coordina el andamiaje cognitivo interactivo.
+ */
+
 class AcademyManager {
   constructor(boardUI, notebookManager, onLessonComplete) {
     this.boardUI = boardUI;
@@ -144,9 +149,26 @@ class AcademyManager {
     this.activeTargets = [];
   }
 
+  getLessons() {
+    if (window.ACADEMY_LESSONS_DATA && window.ACADEMY_LESSONS_DATA.length > 0) {
+      return window.ACADEMY_LESSONS_DATA;
+    }
+    return window.ACADEMY_LESSONS || [];
+  }
+
+  getLesson(index) {
+    const list = this.getLessons();
+    return list[index] || null;
+  }
+
+  getLessonsByChapter(chapterId) {
+    const list = this.getLessons();
+    return list.filter(l => l.chapterId === chapterId);
+  }
+
   startLesson(index) {
     this.currentLessonIndex = index;
-    const lesson = ACADEMY_LESSONS[index];
+    const lesson = this.getLesson(index);
     if (!lesson) return null;
 
     this.boardUI.engine.loadFen(lesson.fen);
@@ -155,7 +177,7 @@ class AcademyManager {
     this.boardUI.clearArrows();
 
     if (lesson.type === 'click_targets') {
-      this.activeTargets = [...lesson.targets];
+      this.activeTargets = [...(lesson.targets || [])];
       const overlays = {};
       this.activeTargets.forEach(t => {
         overlays[`${t.row},${t.col}`] = { icon: '⭐', class: 'star-target-glow' };
@@ -172,8 +194,8 @@ class AcademyManager {
   }
 
   handleClickTarget(r, c) {
-    const lesson = ACADEMY_LESSONS[this.currentLessonIndex];
-    if (lesson.type !== 'click_targets') return false;
+    const lesson = this.getLesson(this.currentLessonIndex);
+    if (!lesson || lesson.type !== 'click_targets') return false;
 
     const idx = this.activeTargets.findIndex(t => t.row === r && t.col === c);
     if (idx !== -1) {
@@ -195,7 +217,7 @@ class AcademyManager {
   }
 
   handleLessonMove(move) {
-    const lesson = ACADEMY_LESSONS[this.currentLessonIndex];
+    const lesson = this.getLesson(this.currentLessonIndex);
     if (!lesson) return;
 
     if (lesson.type === 'capture_all') {
@@ -219,7 +241,7 @@ class AcademyManager {
 
     } else if (lesson.type === 'target_move' || lesson.type === 'castling' || lesson.type === 'promotion') {
       const exp = lesson.expectedTo;
-      if (move.to.row === exp.row && move.to.col === exp.col) {
+      if (!exp || (move.to.row === exp.row && move.to.col === exp.col)) {
         window.soundFx.playCorrect();
         this.completeCurrentLesson();
       } else {
@@ -234,9 +256,11 @@ class AcademyManager {
   }
 
   completeCurrentLesson() {
-    const lesson = ACADEMY_LESSONS[this.currentLessonIndex];
+    const lesson = this.getLesson(this.currentLessonIndex);
+    if (!lesson) return;
+
     window.soundFx.playVictory();
-    this.notebookManager.addXP(lesson.rewardXP);
+    this.notebookManager.addXP(lesson.rewardXP || 60);
     this.notebookManager.markLessonCompleted(lesson.id);
 
     if (this.onLessonComplete) {
@@ -245,5 +269,4 @@ class AcademyManager {
   }
 }
 
-window.ACADEMY_LESSONS = ACADEMY_LESSONS;
 window.AcademyManager = AcademyManager;

@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeBot = 'easy';
   let isAiThinking = false;
   let currentLearnPiece = 'p';
+  let currentChapterId = 1;
 
   // 2. Inicializar Tablero de Ajedrez Majestuoso
   const boardUI = new ChessBoardUI('main-game-board', {
@@ -221,6 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderBackpackSubcontent() {
     if (!backpackSubcontent) return;
     backpackSubcontent.innerHTML = '';
+    const isEn = window.i18n && window.i18n.getLang() === 'en';
 
     if (currentTab === 'learn') {
       // 1. Selector de Piezas
@@ -248,16 +250,58 @@ document.addEventListener('DOMContentLoaded', () => {
       piecePickerEl.appendChild(grid);
       backpackSubcontent.appendChild(piecePickerEl);
 
-      // 2. Lista de Lecciones
-      const lessonsTitle = document.createElement('h4');
-      lessonsTitle.style.cssText = 'font-family:var(--font-hero); font-size:13px; margin:8px 0 6px; color:var(--jungle-canopy);';
-      lessonsTitle.innerText = window.i18n.t('menu.stepsList');
-      backpackSubcontent.appendChild(lessonsTitle);
+      // 2. Selector de los 10 Cuadernos de Estudio (100 Lecciones)
+      const cuadernosTitle = document.createElement('h4');
+      cuadernosTitle.style.cssText = 'font-family:var(--font-hero); font-size:13px; margin:10px 0 6px; color:var(--jungle-canopy);';
+      cuadernosTitle.innerText = isEn ? '📚 Study Notebooks (100 Lessons):' : '📚 Cuadernos de Estudio (100 Lecciones):';
+      backpackSubcontent.appendChild(cuadernosTitle);
 
-      const lessons = window.i18n.getLessons();
-      lessons.forEach((lesson, index) => {
+      const cuadernosNav = document.createElement('div');
+      cuadernosNav.className = 'cuadernos-nav-container';
+
+      const chapterIcons = ['🌱', '🛡️', '⚔️', '👑', '🏰', '🏛️', '⚡', '🏔️', '🌊', '🦅'];
+      for (let chId = 1; chId <= 10; chId++) {
+        const prog = notebookManager.getChapterProgress(chId);
+        const tabBtn = document.createElement('div');
+        tabBtn.className = `cuaderno-tab-btn ${currentChapterId === chId ? 'active' : ''}`;
+        tabBtn.innerHTML = `
+          <span class="cuaderno-tab-icon">${chapterIcons[chId - 1]}</span>
+          <span class="cuaderno-tab-label">C${chId}</span>
+          <span class="cuaderno-tab-badge">${prog.completed}/10</span>
+        `;
+        tabBtn.addEventListener('click', () => {
+          currentChapterId = chId;
+          window.soundFx.playSelect();
+          renderBackpackSubcontent();
+        });
+        cuadernosNav.appendChild(tabBtn);
+      }
+      backpackSubcontent.appendChild(cuadernosNav);
+
+      // 3. Banner del Cuaderno Seleccionado
+      const allLessons = window.i18n.getLessons();
+      const chapterLessons = allLessons.filter(l => l.chapterId === currentChapterId);
+      const chMeta = chapterLessons[0] || {};
+      const chProg = notebookManager.getChapterProgress(currentChapterId);
+
+      const chapterBanner = document.createElement('div');
+      chapterBanner.className = 'cuaderno-chapter-banner';
+      chapterBanner.innerHTML = `
+        <div class="cuaderno-banner-info">
+          <h4>${chMeta.chapterTitle || `Cuaderno ${currentChapterId}`}</h4>
+          <p>${isEn ? '10 progressive master lessons' : '10 lecciones pedagógicas maestras'}</p>
+        </div>
+        <div class="cuaderno-progress-pill">
+          ${chProg.completed}/10 (${chProg.percent}%)
+        </div>
+      `;
+      backpackSubcontent.appendChild(chapterBanner);
+
+      // 4. Lista de 10 Lecciones del Cuaderno Activo
+      chapterLessons.forEach((lesson) => {
+        const globalIndex = allLessons.findIndex(l => l.id === lesson.id);
         const isDone = notebookManager.data.completedLessons.includes(lesson.id);
-        const isCur = academyManager.currentLessonIndex === index;
+        const isCur = academyManager.currentLessonIndex === globalIndex;
         const item = document.createElement('div');
         item.className = `sub-list-item ${isCur ? 'active' : ''} ${isDone ? 'done' : ''}`;
         item.innerHTML = `
@@ -266,10 +310,10 @@ document.addEventListener('DOMContentLoaded', () => {
             <div style="font-family:var(--font-hero); font-weight:800; font-size:13px;">${lesson.title}</div>
             <div style="font-size:11px; color:#556B63;">${lesson.subtitle}</div>
           </div>
-          <span style="font-family:var(--font-mono-stats); font-weight:800; font-size:11.5px; color:var(--gold-amber);">+${ACADEMY_LESSONS[index].rewardXP} XP</span>
+          <span style="font-family:var(--font-mono-stats); font-weight:800; font-size:11.5px; color:var(--gold-amber);">+${lesson.rewardXP} XP</span>
         `;
         item.addEventListener('click', () => {
-          academyManager.startLesson(index);
+          academyManager.startLesson(globalIndex);
           updateAcademyDialogue();
           closeBackpack();
         });
@@ -714,8 +758,10 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
     document.getElementById('btn-next-lesson-step').onclick = () => {
+      const allLessons = window.i18n.getLessons();
       const nextIdx = academyManager.currentLessonIndex + 1;
-      if (nextIdx < ACADEMY_LESSONS.length) {
+      if (nextIdx < allLessons.length) {
+        currentChapterId = Math.ceil((nextIdx + 1) / 10);
         academyManager.startLesson(nextIdx);
         updateAcademyDialogue();
       } else {
@@ -1130,5 +1176,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Iniciar en la pestaña según URL hash o por defecto en Academia
   const validTabs = ['learn', 'minigames', 'puzzles', 'play', 'decks', 'notebook'];
   const hashTab = (window.location.hash || '').replace('#', '');
-  switchTab(validTabs.includes(hashTab) ? hashTab : 'learn', true);
+  const initialTab = validTabs.includes(hashTab) ? hashTab : 'learn';
+  switchTab(initialTab, true);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const backpackParam = urlParams.get('backpack');
+  if (backpackParam && validTabs.includes(backpackParam)) {
+    openBackpack(backpackParam);
+  }
 });
