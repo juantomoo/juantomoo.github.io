@@ -387,12 +387,18 @@ body.theme-night .game-viewport-stage {
 .luxury-tile:hover { filter: brightness(1.18); }
 
 .luxury-tile.selected     { box-shadow: inset 0 0 0 4px var(--gold-sun), 0 0 18px rgba(246,193,56,.9) !important; z-index: 6; }
-.luxury-tile.last-from    { background-color: rgba(246,193,56,.45) !important; }
-.luxury-tile.last-to      { background-color: rgba(246,193,56,.68) !important; }
+.luxury-tile.last-from    { background-color: rgba(246,193,56,.40) !important; box-shadow: inset 0 0 0 2px rgba(246,193,56,.7) !important; }
+.luxury-tile.last-to      { background-color: rgba(246,193,56,.68) !important; box-shadow: inset 0 0 0 3px #F6C138, 0 0 14px rgba(246,193,56,.65) !important; animation: lastMovePulse 1.2s ease-out 1; }
 .luxury-tile.in-check     { background-color: var(--ruby-coral) !important; animation: ruby-pulse .8s infinite alternate; }
 .luxury-tile.hint-highlight { box-shadow: inset 0 0 0 4px #38BDF8, 0 0 16px rgba(56,189,248,.9) !important; }
 
-/* ── PIEZAS PIXEL ART CON BORDE AZUL MUY OSCURO & BLANCO HUESO ──────────── */
+@keyframes lastMovePulse {
+  0%   { transform: scale(1.05); filter: brightness(1.35); }
+  50%  { transform: scale(1.02); filter: brightness(1.15); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+/* ── PIEZAS PIXEL ART: BORDE BLANCO PARA BLANCAS & BORDE NEGRO PARA NEGRAS ── */
 .luxury-piece-img {
   position: absolute;
   top: 50%;
@@ -405,32 +411,71 @@ body.theme-night .game-viewport-stage {
   object-fit: contain;
   image-rendering: pixelated;
   image-rendering: crisp-edges;
+  transition: transform .14s cubic-bezier(.34, 1.56, .64, 1);
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* FICHAS BLANCAS: Borde exterior Blanco Hueso / Puro (#FFFFFF / #FAF6ED) */
+.luxury-piece-img.piece-white,
+.piece-picker-chip.piece-white img,
+.catalog-piece-card.piece-white img,
+.deck-preview-slot.piece-white img,
+.custom-slot-card.piece-white img {
   filter:
-    drop-shadow(1px 0 0 #050F1E)
-    drop-shadow(-1px 0 0 #050F1E)
-    drop-shadow(0 1px 0 #050F1E)
-    drop-shadow(0 -1px 0 #050F1E)
+    drop-shadow(1.5px 0 0 #FFFFFF)
+    drop-shadow(-1.5px 0 0 #FFFFFF)
+    drop-shadow(0 1.5px 0 #FFFFFF)
+    drop-shadow(0 -1.5px 0 #FFFFFF)
     drop-shadow(1.5px 1.5px 0 #FAF6ED)
     drop-shadow(-1.5px -1.5px 0 #FAF6ED)
     drop-shadow(1.5px -1.5px 0 #FAF6ED)
     drop-shadow(-1.5px 1.5px 0 #FAF6ED)
     drop-shadow(0 4px 8px rgba(0, 0, 0, 0.75));
-  transition: transform .12s cubic-bezier(.34, 1.56, .64, 1);
-  z-index: 5;
-  pointer-events: none;
 }
-.luxury-tile:hover .luxury-piece-img {
+.luxury-tile:hover .luxury-piece-img.piece-white {
   transform: translate(-50%, -58%) scale(1.10);
   filter:
-    drop-shadow(1px 0 0 #050F1E)
-    drop-shadow(-1px 0 0 #050F1E)
-    drop-shadow(0 1px 0 #050F1E)
-    drop-shadow(0 -1px 0 #050F1E)
+    drop-shadow(2px 0 0 #FFFFFF)
+    drop-shadow(-2px 0 0 #FFFFFF)
+    drop-shadow(0 2px 0 #FFFFFF)
+    drop-shadow(0 -2px 0 #FFFFFF)
     drop-shadow(2px 2px 0 #FAF6ED)
     drop-shadow(-2px -2px 0 #FAF6ED)
     drop-shadow(2px -2px 0 #FAF6ED)
     drop-shadow(-2px 2px 0 #FAF6ED)
-    drop-shadow(0 6px 12px rgba(0, 0, 0, 0.85));
+    drop-shadow(0 6px 14px rgba(0, 0, 0, 0.85));
+}
+
+/* FICHAS NEGRAS: Borde exterior Negro Profundo / Obsidiana (#000000 / #050F1E) */
+.luxury-piece-img.piece-black,
+.piece-picker-chip.piece-black img,
+.catalog-piece-card.piece-black img,
+.deck-preview-slot.piece-black img,
+.custom-slot-card.piece-black img {
+  filter:
+    drop-shadow(1.5px 0 0 #000000)
+    drop-shadow(-1.5px 0 0 #000000)
+    drop-shadow(0 1.5px 0 #000000)
+    drop-shadow(0 -1.5px 0 #000000)
+    drop-shadow(1.5px 1.5px 0 #050F1E)
+    drop-shadow(-1.5px -1.5px 0 #050F1E)
+    drop-shadow(1.5px -1.5px 0 #050F1E)
+    drop-shadow(-1.5px 1.5px 0 #050F1E)
+    drop-shadow(0 4px 8px rgba(0, 0, 0, 0.95));
+}
+.luxury-tile:hover .luxury-piece-img.piece-black {
+  transform: translate(-50%, -58%) scale(1.10);
+  filter:
+    drop-shadow(2px 0 0 #000000)
+    drop-shadow(-2px 0 0 #000000)
+    drop-shadow(0 2px 0 #000000)
+    drop-shadow(0 -2px 0 #000000)
+    drop-shadow(2px 2px 0 #050F1E)
+    drop-shadow(-2px -2px 0 #050F1E)
+    drop-shadow(2px -2px 0 #050F1E)
+    drop-shadow(-2px 2px 0 #050F1E)
+    drop-shadow(0 6px 14px rgba(0, 0, 0, 0.95));
 }
 
 /* Indicadores de Movimiento & Captura */

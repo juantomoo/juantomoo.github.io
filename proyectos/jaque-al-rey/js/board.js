@@ -189,10 +189,13 @@ class ChessBoardUI {
         // Renderizar pieza pixel art 512x512
         const piece = this.engine.getPiece(r, c);
         if (piece) {
+          const isPieceWhite = piece.startsWith('w');
           const img = document.createElement('img');
           img.src = window.PIECE_IMAGES[piece] || '';
           img.alt = piece;
-          img.className = 'luxury-piece-img';
+          img.className = `luxury-piece-img ${isPieceWhite ? 'piece-white' : 'piece-black'}`;
+          img.dataset.color = isPieceWhite ? 'w' : 'b';
+          img.dataset.piece = piece;
           img.draggable = true;
           tile.appendChild(img);
 
@@ -240,10 +243,10 @@ class ChessBoardUI {
         if (isPawnPromo) {
           this.showPromotionModal(movingPiece[0], (chosen) => {
             matched.promotion = chosen;
-            this.executeMove(matched);
+            this.executeMove(matched, true);
           });
         } else {
-          this.executeMove(matched);
+          this.executeMove(matched, true);
         }
         return;
       }
@@ -296,10 +299,10 @@ class ChessBoardUI {
         if (isPawnPromo) {
           this.showPromotionModal(movingPiece[0], (chosen) => {
             matched.promotion = chosen;
-            this.executeMove(matched);
+            this.executeMove(matched, false);
           });
         } else {
-          this.executeMove(matched);
+          this.executeMove(matched, false);
         }
       }
       this.draggedPiece = null;
@@ -313,19 +316,19 @@ class ChessBoardUI {
         <p>¡Elige tu nueva pieza!</p>
         <div class="luxury-promo-grid">
           <button type="button" class="luxury-promo-btn" data-piece="q">
-            <img src="${window.PIECE_IMAGES[color+'q']}" alt="Reina">
+            <img src="${window.PIECE_IMAGES[color+'q']}" alt="Reina" class="${color === 'w' ? 'piece-white' : 'piece-black'}">
             <span>Reina</span>
           </button>
           <button type="button" class="luxury-promo-btn" data-piece="r">
-            <img src="${window.PIECE_IMAGES[color+'r']}" alt="Torre">
+            <img src="${window.PIECE_IMAGES[color+'r']}" alt="Torre" class="${color === 'w' ? 'piece-white' : 'piece-black'}">
             <span>Torre</span>
           </button>
           <button type="button" class="luxury-promo-btn" data-piece="b">
-            <img src="${window.PIECE_IMAGES[color+'b']}" alt="Alfil">
+            <img src="${window.PIECE_IMAGES[color+'b']}" alt="Alfil" class="${color === 'w' ? 'piece-white' : 'piece-black'}">
             <span>Alfil</span>
           </button>
           <button type="button" class="luxury-promo-btn" data-piece="n">
-            <img src="${window.PIECE_IMAGES[color+'n']}" alt="Caballo">
+            <img src="${window.PIECE_IMAGES[color+'n']}" alt="Caballo" class="${color === 'w' ? 'piece-white' : 'piece-black'}">
             <span>Caballo</span>
           </button>
         </div>
@@ -342,7 +345,47 @@ class ChessBoardUI {
     });
   }
 
-  executeMove(move) {
+  executeMove(move, animate = false, callback = null) {
+    if (!move) {
+      if (callback) callback();
+      return;
+    }
+
+    if (animate) {
+      const fromTile = this.boardElement.querySelector(`.luxury-tile[data-row="${move.from.row}"][data-col="${move.from.col}"]`);
+      const toTile = this.boardElement.querySelector(`.luxury-tile[data-row="${move.to.row}"][data-col="${move.to.col}"]`);
+      const pieceImg = fromTile ? fromTile.querySelector('.luxury-piece-img') : null;
+
+      if (fromTile && toTile && pieceImg) {
+        fromTile.classList.add('last-from');
+        toTile.classList.add('last-to');
+
+        this.clearArrows();
+        this.drawVectorArrow(move.from.row, move.from.col, move.to.row, move.to.col, '#F6C138');
+
+        const fromRect = fromTile.getBoundingClientRect();
+        const toRect = toTile.getBoundingClientRect();
+        const deltaX = toRect.left - fromRect.left;
+        const deltaY = toRect.top - fromRect.top;
+
+        pieceImg.style.zIndex = '100';
+        pieceImg.style.transition = 'transform 320ms cubic-bezier(0.25, 1, 0.5, 1)';
+        pieceImg.style.transform = `translate(calc(-50% + ${deltaX}px), calc(-50% + ${deltaY}px)) scale(1.16)`;
+
+        setTimeout(() => {
+          this.clearArrows();
+          this.applyMove(move);
+          if (callback) callback();
+        }, 340);
+        return;
+      }
+    }
+
+    this.applyMove(move);
+    if (callback) callback();
+  }
+
+  applyMove(move) {
     const isCapture = !!this.engine.getPiece(move.to.row, move.to.col) || move.isEnPassant;
     this.engine.makeMove(move);
     this.lastMove = move;
@@ -382,21 +425,29 @@ class ChessBoardUI {
     const tR = isWhite ? toRow : 7 - toRow;
     const tC = isWhite ? toCol : 7 - toCol;
 
-    const x1 = (fC + 0.5) * 12.5 + '%';
-    const y1 = (fR + 0.5) * 12.5 + '%';
-    const x2 = (tC + 0.5) * 12.5 + '%';
-    const y2 = (tR + 0.5) * 12.5 + '%';
+    const x1 = (fC + 0.5) * 12.5;
+    const y1 = (fR + 0.5) * 12.5;
+    const x2 = (tC + 0.5) * 12.5;
+    const y2 = (tR + 0.5) * 12.5;
 
     const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', x1);
-    line.setAttribute('y1', y1);
-    line.setAttribute('x2', x2);
-    line.setAttribute('y2', y2);
+    line.setAttribute('x1', x1 + '%');
+    line.setAttribute('y1', y1 + '%');
+    line.setAttribute('x2', x2 + '%');
+    line.setAttribute('y2', y2 + '%');
     line.setAttribute('stroke', color);
-    line.setAttribute('stroke-width', '4');
+    line.setAttribute('stroke-width', '4.5');
     line.setAttribute('stroke-linecap', 'round');
     line.setAttribute('stroke-dasharray', '6,4');
+    line.setAttribute('filter', 'drop-shadow(0 2px 4px rgba(0,0,0,0.85))');
 
+    const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    circle.setAttribute('cx', x1 + '%');
+    circle.setAttribute('cy', y1 + '%');
+    circle.setAttribute('r', '5');
+    circle.setAttribute('fill', color);
+
+    this.svgOverlay.appendChild(circle);
     this.svgOverlay.appendChild(line);
   }
 

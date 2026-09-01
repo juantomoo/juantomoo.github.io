@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ['p', 'n', 'b', 'r', 'q', 'k'].forEach(type => {
         const meta = piecesMeta[type];
         const chip = document.createElement('div');
-        chip.className = `piece-picker-chip ${currentLearnPiece === type ? 'active' : ''}`;
+        chip.className = `piece-picker-chip piece-white ${currentLearnPiece === type ? 'active' : ''}`;
         chip.innerHTML = `
           <img src="${window.PIECE_IMAGES['w' + type]}" alt="${meta.name}">
           <span>${meta.name.split(' ')[0]}</span>
@@ -457,19 +457,19 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="deck-card-desc">${desc}</div>
             <div class="deck-pieces-preview-row">
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.wp].img}" title="Peón Blanco"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.wn].img}" title="Caballo Blanco"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.wb].img}" title="Alfil Blanco"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.wr].img}" title="Torre Blanca"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.wq].img}" title="Dama Blanca"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.wk].img}" title="Rey Blanco"></div>
+              <div class="deck-preview-slot piece-white"><img src="${window.PIECE_CATALOG[deck.pieces.wp].img}" title="Peón Blanco"></div>
+              <div class="deck-preview-slot piece-white"><img src="${window.PIECE_CATALOG[deck.pieces.wn].img}" title="Caballo Blanco"></div>
+              <div class="deck-preview-slot piece-white"><img src="${window.PIECE_CATALOG[deck.pieces.wb].img}" title="Alfil Blanco"></div>
+              <div class="deck-preview-slot piece-white"><img src="${window.PIECE_CATALOG[deck.pieces.wr].img}" title="Torre Blanca"></div>
+              <div class="deck-preview-slot piece-white"><img src="${window.PIECE_CATALOG[deck.pieces.wq].img}" title="Dama Blanca"></div>
+              <div class="deck-preview-slot piece-white"><img src="${window.PIECE_CATALOG[deck.pieces.wk].img}" title="Rey Blanco"></div>
               <div style="width:2px; height:28px; background:var(--brass); margin:0 4px; opacity:0.5;"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.bp].img}" title="Peón Negro"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.bn].img}" title="Caballo Negro"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.bb].img}" title="Alfil Negro"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.br].img}" title="Torre Negra"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.bq].img}" title="Dama Negra"></div>
-              <div class="deck-preview-slot"><img src="${window.PIECE_CATALOG[deck.pieces.bk].img}" title="Rey Negro"></div>
+              <div class="deck-preview-slot piece-black"><img src="${window.PIECE_CATALOG[deck.pieces.bp].img}" title="Peón Negro"></div>
+              <div class="deck-preview-slot piece-black"><img src="${window.PIECE_CATALOG[deck.pieces.bn].img}" title="Caballo Negro"></div>
+              <div class="deck-preview-slot piece-black"><img src="${window.PIECE_CATALOG[deck.pieces.bb].img}" title="Alfil Negro"></div>
+              <div class="deck-preview-slot piece-black"><img src="${window.PIECE_CATALOG[deck.pieces.br].img}" title="Torre Negra"></div>
+              <div class="deck-preview-slot piece-black"><img src="${window.PIECE_CATALOG[deck.pieces.bq].img}" title="Dama Negra"></div>
+              <div class="deck-preview-slot piece-black"><img src="${window.PIECE_CATALOG[deck.pieces.bk].img}" title="Rey Negro"></div>
             </div>
             <div class="deck-actions-row">
               <button type="button" class="btn-game-tablet ${isActive ? 'gold' : 'emerald'} btn-select-deck">
@@ -515,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const currentCatId = window.pieceDeckManager.customDeck[slot] || window.PIECE_DECKS.classic.pieces[slot];
           const meta = window.PIECE_CATALOG[currentCatId];
           const slotEl = document.createElement('div');
-          slotEl.className = 'custom-slot-card';
+          slotEl.className = 'custom-slot-card piece-white';
           slotEl.innerHTML = `
             <img src="${meta ? meta.img : ''}" alt="${slot}">
             <span>${meta ? (isEn ? meta.nameEn : meta.nameEs).split(' ')[0] : slot}</span>
@@ -538,7 +538,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const currentCatId = window.pieceDeckManager.customDeck[slot] || window.PIECE_DECKS.classic.pieces[slot];
           const meta = window.PIECE_CATALOG[currentCatId];
           const slotEl = document.createElement('div');
-          slotEl.className = 'custom-slot-card';
+          slotEl.className = 'custom-slot-card piece-black';
           slotEl.innerHTML = `
             <img src="${meta ? meta.img : ''}" alt="${slot}">
             <span>${meta ? (isEn ? meta.nameEn : meta.nameEs).split(' ')[0] : slot}</span>
@@ -944,28 +944,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // DIÁLOGOS SECUENCIALES: MUNDO 4 (DUELO VS IA)
   // ==========================================
-  function startPlayMatch(botKey = 'easy') {
-    activeBot = botKey;
-    engine.reset();
-    boardUI.clearArrows();
-    boardUI.setCustomOverlays({});
-    boardUI.lastMove = null;
-    boardUI.options.interactive = true;
-    boardUI.render();
-
-    const bot = BOT_PERSONALITIES[botKey];
+  function updatePlayDialogue() {
+    const bot = BOT_PERSONALITIES[activeBot];
     speakerName.innerText = bot.name;
-    avatarBox.innerHTML = `<img src="${window.PIECE_IMAGES[bot.avatarImg]}" alt="${bot.name}">`;
-    textContent.innerHTML = `<strong>${bot.name}</strong> (${bot.elo}):<br><em>"${bot.quotes[0]}"</em>`;
-    extraHint.innerHTML = window.i18n.getLang() === 'en' ? '♟️ Your turn (White)' : '♟️ Tu turno (Blancas)';
+    avatarBox.innerHTML = `<img src="${window.PIECE_IMAGES[bot.avatarImg]}" alt="${bot.name}" class="piece-black">`;
+    textContent.innerHTML = `<strong>${bot.name} (${bot.title})</strong><br><em>"${bot.quotes[0]}"</em>`;
+    extraHint.innerHTML = `⚔️ ` + (window.i18n.getLang() === 'en' ? 'Game in progress. Your turn with white pieces.' : 'Partida en curso. Tu turno con las piezas blancas.');
 
-    renderPlayActions();
-  }
-
-  function renderPlayActions() {
     actionsContainer.innerHTML = `
       <button type="button" class="btn-game-tablet emerald" id="btn-ask-coach-tip">
-        ${window.i18n.t('actions.whatToDo')}
+        ${window.i18n.t('actions.coachTip')}
       </button>
       <button type="button" class="btn-game-tablet wood" id="btn-undo-move">
         ${window.i18n.t('actions.undo')}
@@ -1014,33 +1002,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const bot = BOT_PERSONALITIES[activeBot];
       speakerName.innerText = bot.name;
-      avatarBox.innerHTML = `<img src="${window.PIECE_IMAGES[bot.avatarImg]}" alt="${bot.name}">`;
+      avatarBox.innerHTML = `<img src="${window.PIECE_IMAGES[bot.avatarImg]}" alt="${bot.name}" class="piece-black">`;
       const q = bot.quotes[Math.floor(Math.random() * bot.quotes.length)];
-      textContent.innerHTML = `<em>"${q}"</em> <span style="color:#556B63;">${window.i18n.t('dialogues.calculating')}</span>`;
+      textContent.innerHTML = `<em>"${q}"</em> <span style="color:#F6C138; margin-left:6px; font-weight:700;">⏳ ${window.i18n.t('dialogues.calculating')}</span>`;
+
+      // Retraso natural y visible del oponente (850ms a 1150ms)
+      const thinkTime = 850 + Math.floor(Math.random() * 300);
 
       setTimeout(() => {
         const aiMove = ai.getBestMove(activeBot, 'b');
-        boardUI.options.interactive = true;
         isAiThinking = false;
 
         if (aiMove) {
-          boardUI.executeMove(aiMove);
+          boardUI.executeMove(aiMove, true, () => {
+            boardUI.options.interactive = true;
+            const postStatus = engine.getGameStatus();
+            if (postStatus.gameOver) {
+              handleMatchOver(postStatus);
+            } else if (postStatus.inCheck) {
+              toggleDialogue(true);
+              speakerName.innerText = window.i18n.t('speaker.owl');
+              avatarBox.innerHTML = '🦉';
+              textContent.innerHTML = window.i18n.t('dialogues.checkAlert');
+            } else {
+              textContent.innerHTML = window.i18n.t('dialogues.yourTurn');
+            }
+          });
         } else {
+          boardUI.options.interactive = true;
           boardUI.render();
+          const postStatus = engine.getGameStatus();
+          if (postStatus.gameOver) {
+            handleMatchOver(postStatus);
+          }
         }
-
-        const postStatus = engine.getGameStatus();
-        if (postStatus.gameOver) {
-          handleMatchOver(postStatus);
-        } else if (postStatus.inCheck) {
-          toggleDialogue(true);
-          speakerName.innerText = window.i18n.t('speaker.owl');
-          avatarBox.innerHTML = '🦉';
-          textContent.innerHTML = window.i18n.t('dialogues.checkAlert');
-        } else {
-          textContent.innerHTML = window.i18n.t('dialogues.yourTurn');
-        }
-      }, 500);
+      }, thinkTime);
     }
   }
 

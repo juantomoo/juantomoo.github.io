@@ -264,13 +264,17 @@ class MinigamesManager {
               const distB = Math.hypot(b.to.row - this.sumoGoal.row, b.to.col - this.sumoGoal.col);
               return distA - distB;
             });
-            engine.makeMove(moves[0]);
+            this.boardUI.executeMove(moves[0], true, () => {
+              engine.turn = 'w';
+              this.boardUI.options.interactive = true;
+            });
+            return;
           }
         }
         engine.turn = 'w';
         this.boardUI.options.interactive = true;
         this.boardUI.render();
-      }, 400);
+      }, 500);
     }
   }
 
