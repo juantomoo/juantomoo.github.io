@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Aventura Astral de Matemáticas — Multiplica-Pulse</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/game.css">
+</head>
+<body>
+  <div id="app-container">
+    <!-- CANVAS PRINCIPAL 2.5D TUNNEL & PARTICLES -->
+    <canvas id="pulseCanvas"></canvas>
+
+    <!-- UI LAYER: HUD DEL JUEGO -->
+    <div class="ui-layer" id="hudLayer">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="trackProgressBar"></div>
+      </div>
+
+      <!-- HUD SUPERIOR -->
+      <header class="hud-top">
+        <div class="hud-track-badge" id="hudTrackBadge">
+          <img src="assets/logo.png" alt="Logo" class="hud-mini-logo">
+          <span id="hudTrackEmoji">⚡</span>
+          <span id="hudTrackName">El Pulso Doble</span>
+        </div>
+
+        <!-- Banner fijo de la pregunta en el HUD -->
+        <div class="hud-question-banner" id="hudQuestionBanner">
+          <span id="hudFactorA">2</span>
+          <span class="op-sym" id="hudOpSym">×</span>
+          <span id="hudFactorB">3</span>
+          <span class="eq-sym">= ?</span>
+        </div>
+
+        <div class="hud-stats-group">
+          <div class="hud-multiplier" id="hudMultiplier">1x</div>
+          <div class="hud-score" id="hudScore">0</div>
+        </div>
+      </header>
+
+      <!-- HUD INFERIOR / CONTROLES -->
+      <footer class="hud-bottom">
+        <button class="btn-icon interactive" id="btnBackToMenu" title="Pausar y Menú">
+          ✕
+        </button>
+        <div class="touch-hint">
+          <span>Toca los 3 carriles o usa ← ↓ →</span>
+        </div>
+        <button class="btn-icon interactive" id="btnAudioMute" title="Silenciar / Activar Audio">
+          🔊
+        </button>
+      </footer>
+    </div>
+
+    <!-- PANTALLA DE BIENVENIDA / SPLASH SCREEN (AISLADA) -->
+    <div class="overlay-screen splash-screen" id="splashScreen">
+      <div class="splash-card">
+        <div class="splash-cover-wrapper">
+          <img src="assets/cover.png" alt="Aventura Astral de Matemáticas" class="splash-cover-img">
+        </div>
+        <div class="splash-content">
+          <div class="splash-logo-wrap">
+            <img src="assets/logo.png" alt="Astral Math Path" class="splash-logo-img">
+          </div>
+          <div class="arcade-badge">AVENTURA ASTRAL KINESTÉSICA</div>
+          <h1 class="splash-title">ASTRAL MATH PATH</h1>
+          <p class="splash-tagline">Aprende Suma, Resta, Multiplicación y División al ritmo del cosmos</p>
+          
+          <button class="btn-splash-start interactive" id="btnStartAdventure">
+            <span class="btn-sparkle">✨</span>
+            <span>INICIAR AVENTURA</span>
+            <span class="btn-arrow">➔</span>
+          </button>
+          
+          <div class="splash-credits-note">
+            Desarrollado por <strong>Juan Tomoo</strong> · © Todos los derechos reservados
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANTALLA PRINCIPAL / HUB ASTRAL (MOBILE-FIRST) -->
+    <div class="overlay-screen hidden" id="menuScreen">
+      <!-- HERO DE MARCA CON LOGOTIPO COMPLETO PROTAGÓNICO -->
+      <div class="brand-hero">
+        <div class="logo-full-container">
+          <img src="assets/logo.png" alt="Astral Math Path" class="brand-logo-full">
+        </div>
+        <div class="brand-tagline-bar">
+          <span class="arcade-badge">ARITMÉTICA COMPLETA</span>
+          <span class="brand-tagline">Ritmo kinestésico & Curvas de aprendizaje adaptativas</span>
+        </div>
+      </div>
+
+      <!-- SELECTOR DE NAVEGACIÓN LIMPIO (SIN PESTAÑAS REDUNDANTES) -->
+      <div class="hub-controls-bar">
+        <!-- Pestañas Principales del Juego -->
+        <div class="mode-tabs">
+          <button class="mode-tab-btn active" id="tabModeOperations">
+            ✨ Las 4 Operaciones
+          </button>
+          <button class="mode-tab-btn" id="tabModeSingle">
+            📚 Tablas 1..12
+          </button>
+          <button class="mode-tab-btn" id="tabModeFamilies">
+            🌀 Familias Rítmicas
+          </button>
+          <button class="mode-tab-btn" id="tabModeLeaderboard">
+            🏆 Salón de la Fama
+          </button>
+          <button class="mode-tab-btn" id="tabModeCredits">
+            📜 Créditos & Ciencia
+          </button>
+        </div>
+
+        <!-- Barra de Configuración: Nivel Andamiado y Dificultad -->
+        <div class="scaffolding-bar">
+          <!-- Selector de Nivel de Progresión (1, 2, 3) -->
+          <div class="level-scaffolding-selector">
+            <span class="diff-label">Curva:</span>
+            <button class="level-step-btn active" data-level="1" title="Iniciación: Cifras elementales y concretas, cero frustración">🌱 Nivel 1 (Iniciación)</button>
+            <button class="level-step-btn" data-level="2" title="Exploración: Complementos a 10 y números medianos">⚡ Nivel 2 (Exploración)</button>
+            <button class="level-step-btn" data-level="3" title="Maestría: Cálculo mental ágil y mayores desafíos">🔥 Nivel 3 (Maestría)</button>
+          </div>
+
+          <!-- Selector de Dificultad Dinámica (Velocidad de Pista) -->
+          <div class="difficulty-selector">
+            <span class="diff-label">Ritmo:</span>
+            <button class="diff-btn" data-diff="easy" title="Pausado, ideal para asimilar">🌱 Pausado</button>
+            <button class="diff-btn active" data-diff="moderate" title="Equilibrado">⚡ Estándar</button>
+            <button class="diff-btn" data-diff="hard" title="Ágil, alta velocidad">🔥 Veloz</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONTENEDOR 0: GRILLA DE LAS 4 OPERACIONES ARITMÉTICAS BÁSICAS -->
+      <div class="operations-grid" id="operationsGrid">
+        <!-- Inyectado dinámicamente: Suma, Resta, Multiplicación, División -->
+      </div>
+
+      <!-- CONTENEDOR 1: GRILLA DE TABLAS INDIVIDUALES (1 AL 12) -->
+      <div class="single-tables-grid hidden" id="singleTablesGrid">
+        <!-- Inyectado dinámicamente -->
+      </div>
+
+      <!-- CONTENEDOR 2: CARRUSEL DE FAMILIAS RÍTMICAS -->
+      <div class="tracks-carousel hidden" id="tracksCarousel">
+        <!-- Inyectado dinámicamente -->
+      </div>
+    </div>
+
+    <!-- MODAL SALÓN DE LA FAMA (TOP 10 ARCADE) -->
+    <div class="overlay-screen hidden" id="leaderboardModal">
+      <div class="arcade-card interactive" style="max-width: 620px; width: 95%;">
+        <div class="arcade-card-header">
+          <span class="arcade-card-title">🏆 TOP 10 SALÓN DE LA FAMA</span>
+          <button class="btn-icon" id="btnCloseLeaderboard">✕</button>
+        </div>
+        
+        <div class="leaderboard-table-wrap">
+          <table class="leaderboard-table" id="leaderboardTable">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>INICIALES</th>
+                <th>PUNTOS</th>
+                <th>OPERACIÓN / MODO</th>
+                <th>DIFICULTAD</th>
+                <th>FECHA</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody">
+              <!-- Renderizado dinámico -->
+            </tbody>
+          </table>
+        </div>
+
+        <button class="btn-primary" id="btnBackFromLeaderboard" style="margin-top: 1.2rem;">Volver al Hub</button>
+      </div>
+    </div>
+
+    <!-- MODAL DE CRÉDITOS & SUSTENTO CIENTÍFICO-PEDAGÓGICO -->
+    <div class="overlay-screen hidden" id="creditsModal">
+      <div class="arcade-card interactive" style="max-width: 720px; width: 95%; max-height: 86vh;">
+        <div class="arcade-card-header">
+          <span class="arcade-card-title">✨ CRÉDITOS & FUNDAMENTACIÓN CIENTÍFICA</span>
+          <button class="btn-icon" id="btnCloseCredits">✕</button>
+        </div>
+
+        <div class="credits-content-scroll">
+          <!-- Autoría Oficial con Logo Completo -->
+          <div class="credits-author-box">
+            <img src="assets/logo.png" alt="Astral Math Path" style="max-width: 210px; width: 75%; height: auto; object-fit: contain; margin-bottom: 0.6rem; filter: drop-shadow(0 4px 15px rgba(6, 182, 212, 0.4));">
+            <div class="author-title">ASTRAL MATH PATH</div>
+            <div class="author-name">Desarrollado y Creado por <strong>Juan Tomoo</strong></div>
+            <div class="author-rights">© Todos los derechos reservados.</div>
+            <p class="author-bio">
+              Videojuego educativo indie mobile-first de ritmo kinestésico, síntesis sonora Web Audio API en tiempo real y neuroeducación de aritmética completa (Suma, Resta, Multiplicación y División) basada en el modelo del triple código y la automatización de esquemas.
+            </p>
+          </div>
+
+          <!-- Por qué funciona: Neuroeducación y Pedagogía -->
+          <div class="science-section">
+            <h3 class="science-heading">🧠 ¿Por qué el juego logra resultados en las 4 operaciones?</h3>
+            
+            <div class="science-card">
+              <div class="science-tag">Suma & Resta: Magnitudes Inversas y Complementos a 10</div>
+              <p>
+                La resta se procesa en el cerebro como la operación inversa de la suma mediante el surco intraparietal (IPS). Al automatizar esquemas intermedios como los complementos a 10 (7 + 3 = 10), se reduce drásticamente la carga de memoria de trabajo (WML) y se acelera el cálculo mental.
+              </p>
+              <div class="bib-citation">
+                <strong>Sweller, J. (1988).</strong> <em>Cognitive load during problem solving.</em> Cognitive Science.<br>
+                <strong>Ding, Liu, Xu, Wang & Zhang (2017).</strong> <em>Working memory load and automaticity in mental arithmetic.</em> Journal of Educational Research.<br>
+                <strong>De Smedt & Boets (2010).</strong> <em>Phonological processing and arithmetic fact retrieval.</em> Neuropsychologia.
+              </div>
+            </div>
+
+            <div class="science-card">
+              <div class="science-tag">Multiplicación & División: Rutinas Verbales y Bucle Fonológico</div>
+              <p>
+                Mientras la multiplicación activa rutinas verbales en el giro angular izquierdo (AG), la división actúa como su inversa exacta buscando el cociente sin resto. El ritmo musical a 90–115 BPM sirve de marcapasos cortical que enlaza la corteza auditiva con el surco intraparietal.
+              </p>
+              <div class="bib-citation">
+                <strong>Amalric, M., & Dehaene, S. (2019).</strong> <em>A distinct cortical network for mathematical knowledge in the human brain.</em> NeuroImage.<br>
+                <strong>Simpson, Henderson & Göbel (2025).</strong> <em>An ERP study on multiplication and phonological processing in children and adults.</em> Psychological Research.<br>
+                <strong>Dehaene, S. (1992, 2003).</strong> <em>Triple-code model and parietal circuits for number processing.</em> Cognitive Neuropsychology.
+              </div>
+            </div>
+
+            <div class="science-card">
+              <div class="science-tag">Práctica de Recuperación Activa (Retrieval Practice) sin Aversión</div>
+              <p>
+                El juego utiliza pruebas de bajo riesgo en intervalos rítmicos. La ausencia de alarmas punitivas protege la corteza cingulada anterior (ACC) de la aversión al fracaso, mientras que la desaceleración suave (*tape-stop*) invita a reengancharse con motivación intrínseca.
+              </p>
+              <div class="bib-citation">
+                <strong>Karpicke, J. D. (2008).</strong> <em>The critical importance of retrieval for learning.</em> Science.<br>
+                <strong>Hopkins, S. (2017).</strong> <em>Strategy choice is key for building number fluency.</em> MAV Conference Proceedings.<br>
+                <strong>Education Endowment Foundation - EEF (2017/2020).</strong> <em>Improving Mathematics Guidance Report.</em>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="btnBackFromCredits" style="margin-top: 1.2rem;">Volver al Hub</button>
+      </div>
+    </div>
+
+    <!-- PANTALLA DE VICTORIA Y ENTRADA DE INICIALES ARCADE -->
+    <div class="overlay-screen hidden" id="victoryScreen">
+      <div class="victory-card interactive">
+        <div class="victory-icon">🌟</div>
+        <h2 class="victory-title" id="victoryTitle">¡Sintonía Perfecta!</h2>
+        <p id="victoryDesc" style="color: var(--text-muted); font-size: 1.05rem;">Has dominado la pista con ritmo impecable.</p>
+        
+        <div class="victory-score-box">
+          Puntos: <span id="victoryScore">0</span>
+        </div>
+        <div style="font-size: 0.95rem; color: var(--text-muted);">
+          Racha Máxima: <span id="victoryMaxStreak" style="color: #fff; font-weight: 800;">0</span> notas
+        </div>
+
+        <!-- ENTRADA DE INICIALES RETRO (SI CLASIFICA A TOP 10) -->
+        <div class="arcade-initials-box hidden" id="arcadeInitialsBox">
+          <div class="initials-badge">¡NUEVO RÉCORD ARCADE! INGRESA TUS INICIALES</div>
+          <div class="initials-selector-row">
+            <div class="initial-col">
+              <button class="btn-letter-nav" data-col="0" data-dir="up">▲</button>
+              <div class="letter-display" id="letter0">A</div>
+              <button class="btn-letter-nav" data-col="0" data-dir="down">▼</button>
+            </div>
+            <div class="initial-col">
+              <button class="btn-letter-nav" data-col="1" data-dir="up">▲</button>
+              <div class="letter-display" id="letter1">A</div>
+              <button class="btn-letter-nav" data-col="1" data-dir="down">▼</button>
+            </div>
+            <div class="initial-col">
+              <button class="btn-letter-nav" data-col="2" data-dir="up">▲</button>
+              <div class="letter-display" id="letter2">A</div>
+              <button class="btn-letter-nav" data-col="2" data-dir="down">▼</button>
+            </div>
+          </div>
+          <button class="btn-arcade-save" id="btnSaveInitials">💾 GRABAR RÉCORD EN TOP 10</button>
+        </div>
+
+        <button class="btn-primary" id="btnNextTrack">Continuar ➔</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="js/audio/synths.js"></script>
+  <script src="js/graphics/colors.js"></script>
+  <script src="js/core/leaderboard.js"></script>
+  <script src="js/core/curriculum.js"></script>
+  <script src="js/core/input.js"></script>
+  <script src="js/graphics/particles.js"></script>
+  <script src="js/graphics/tunnel.js"></script>
+  <script src="js/core/engine.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

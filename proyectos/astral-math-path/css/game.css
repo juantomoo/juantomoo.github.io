@@ -1,0 +1,1280 @@
+/**
+ * game.css — Diseño Visual Preciosista Solarpunk / Synthwave Mobile-First
+ * Minimalismo absoluto, tipografía moderna, interfaces glassmorphic y cero ruido.
+ */
+
+:root {
+  --bg-deep: #030712;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --cyan-glow: #06b6d4;
+  --gold-glow: #eab308;
+  --emerald-glow: #10b981;
+  --pink-glow: #ec4899;
+  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: var(--bg-deep);
+  font-family: var(--font-family);
+  color: var(--text-main);
+  touch-action: none;
+}
+
+#app-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* CANVAS DE JUEGO (FULLSCREEN FLUIDO) */
+#pulseCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+/* OVERLAY UI Y HUD */
+.ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.interactive {
+  pointer-events: auto;
+}
+
+/* HUD SUPERIOR */
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(180deg, rgba(3, 7, 18, 0.85) 0%, transparent 100%);
+}
+
+.hud-track-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  padding: 0.4rem 1rem;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hud-stats-group {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.hud-multiplier {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--cyan-glow);
+  text-shadow: 0 0 12px var(--cyan-glow);
+  transition: transform 0.15s ease;
+}
+
+.hud-multiplier.pulse {
+  transform: scale(1.3);
+}
+
+.hud-score {
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* BARRA DE PROGRESO DE LA PISTA */
+.progress-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan-glow), var(--pink-glow));
+  box-shadow: 0 0 8px var(--cyan-glow);
+  transition: width 0.3s ease;
+}
+
+/* CONTROLES / GUÍA TÁCTIL INFERIOR */
+.hud-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem 1.75rem 1.5rem;
+  background: linear-gradient(0deg, rgba(3, 7, 18, 0.85) 0%, transparent 100%);
+}
+
+.btn-icon {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-main);
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: transform 0.15s, background 0.15s;
+}
+
+.btn-icon:active {
+  transform: scale(0.92);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.touch-hint {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* =========================================================================
+   PANTALLA DE INICIO / SELECTOR DE PISTAS (GLASSMORPHISM)
+   ========================================================================= */
+.overlay-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(3, 7, 18, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 1.5rem 1rem 3.5rem 1rem;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: opacity 0.35s ease;
+}
+
+.overlay-screen::-webkit-scrollbar {
+  width: 6px;
+}
+
+.overlay-screen::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 99px;
+}
+
+.overlay-screen.hidden {
+  display: none !important;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.brand-hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.brand-title {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  background: linear-gradient(135deg, #ffffff 20%, var(--cyan-glow) 70%, var(--pink-glow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.1;
+}
+
+.brand-tagline {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-top: 0.4rem;
+}
+
+/* LISTA DE PISTAS DE RITMO */
+.tracks-carousel {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  max-width: 900px;
+  width: 100%;
+  padding: 0.5rem 0.25rem 1.5rem 0.25rem;
+  scrollbar-width: none;
+}
+
+.tracks-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.track-card {
+  flex: 0 0 240px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  position: relative;
+  backdrop-filter: blur(12px);
+}
+
+.track-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--cyan-glow);
+  box-shadow: 0 12px 30px rgba(6, 182, 212, 0.25);
+}
+
+.track-card.locked {
+  opacity: 0.45;
+  filter: grayscale(0.8);
+  cursor: not-allowed;
+}
+
+.track-card.locked:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: none;
+}
+
+.track-card-emoji {
+  font-size: 2.4rem;
+}
+
+.track-card-name {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.track-card-family {
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.track-card-desc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.track-card-bpm {
+  margin-top: auto;
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* PANTALLA DE VICTORIA DE PISTA */
+.victory-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid var(--gold-glow);
+  box-shadow: 0 0 40px rgba(234, 179, 8, 0.25);
+  border-radius: 32px;
+  padding: 2.5rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.2rem;
+  backdrop-filter: blur(20px);
+}
+
+.victory-icon {
+  font-size: 4rem;
+  animation: bounce 1s infinite alternate ease-in-out;
+}
+
+.victory-title {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.victory-score-box {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.8rem 1.6rem;
+  border-radius: 16px;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: var(--gold-glow);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--cyan-glow), #2563eb);
+  color: #ffffff;
+  border: none;
+  border-radius: 99px;
+  padding: 1rem 2.2rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4);
+  font-family: inherit;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.04);
+  box-shadow: 0 8px 25px rgba(6, 182, 212, 0.6);
+}
+
+.btn-primary:active {
+  transform: scale(0.96);
+}
+
+@keyframes bounce {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-10px); }
+}
+
+/* BANNER DE PREGUNTA EN EL HUD SUPERIOR (ANTICIPACIÓN Y SINESTESIA) */
+.hud-question-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: rgba(3, 7, 18, 0.75);
+  backdrop-filter: blur(14px);
+  padding: 0.35rem 1.2rem;
+  border-radius: 99px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.hud-question-banner .op-sym {
+  color: #ffffff;
+  font-size: 1.2rem;
+}
+
+.hud-question-banner .eq-sym {
+  color: var(--text-muted);
+  font-size: 1.2rem;
+}
+
+#hudFactorA, #hudFactorB {
+  text-shadow: 0 0 10px currentColor;
+}
+
+@media (max-width: 520px) {
+  .hud-top {
+    padding: 0.75rem 0.85rem;
+  }
+  .hud-track-badge {
+    font-size: 0.88rem;
+    padding: 0.3rem 0.65rem;
+    gap: 0.35rem;
+  }
+  .hud-mini-logo {
+    width: 20px;
+    height: 10px;
+  }
+  .hud-question-banner {
+    font-size: 1.15rem;
+    padding: 0.25rem 0.75rem;
+    gap: 0.3rem;
+  }
+  .hud-question-banner .op-sym,
+  .hud-question-banner .eq-sym {
+    font-size: 0.95rem;
+  }
+  .hud-stats-group {
+    gap: 0.6rem;
+  }
+  .hud-multiplier {
+    font-size: 1.2rem;
+  }
+  .hud-score {
+    font-size: 1.15rem;
+  }
+  .hud-bottom {
+    padding: 0.75rem 1rem 1.25rem 1rem;
+  }
+  .touch-hint {
+    font-size: 0.75rem;
+  }
+}
+
+/* =========================================================================
+   ELEMENTOS ARCADE, SELECTORES DE DIFICULTAD Y SALÓN DE LA FAMA
+   ========================================================================= */
+
+.arcade-badge {
+  display: inline-block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.58rem;
+  line-height: 1.4;
+  letter-spacing: 1.5px;
+  background: linear-gradient(90deg, #ec4899, #8b5cf6);
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.4rem;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(236, 72, 153, 0.8);
+  max-width: 92%;
+  text-align: center;
+}
+
+.hub-controls-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+  width: 100%;
+  max-width: 850px;
+}
+
+.mode-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.35rem;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+}
+
+.mode-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.92rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mode-tab-btn:hover {
+  color: #fff;
+}
+
+.mode-tab-btn.active {
+  background: linear-gradient(135deg, var(--cyan-glow), #2563eb);
+  color: #ffffff;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35);
+}
+
+.difficulty-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 0.25rem 0.8rem;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.diff-label {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 0.2rem;
+}
+
+.diff-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-family: inherit;
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 99px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.diff-btn:hover {
+  color: #fff;
+}
+
+.diff-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+/* GRILLA DE TABLAS INDIVIDUALES (1 AL 12) */
+.single-tables-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.85rem;
+  max-width: 850px;
+  width: 100%;
+  max-height: 52vh;
+  overflow-y: auto;
+  padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+  scrollbar-width: thin;
+}
+
+.single-table-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(10px);
+}
+
+.single-table-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(6, 182, 212, 0.3);
+}
+
+.single-table-card .num-badge {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.single-table-card .table-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.single-table-card .table-score {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+/* MODAL SALÓN DE LA FAMA ARCADE */
+.arcade-card {
+  background: rgba(10, 15, 30, 0.95);
+  border: 2px solid #8b5cf6;
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.35);
+  border-radius: 28px;
+  padding: 1.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  backdrop-filter: blur(24px);
+  max-height: 90vh;
+}
+
+@media (max-width: 480px) {
+  .arcade-card {
+    padding: 1.25rem 0.9rem;
+    border-radius: 22px;
+  }
+  .arcade-card-title {
+    font-size: 1.05rem;
+  }
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 0.45rem 0.4rem;
+    font-size: 0.76rem;
+  }
+  .arcade-card .btn-primary {
+    padding: 0.65rem 1.4rem;
+    font-size: 0.9rem;
+    margin-top: 0.8rem !important;
+  }
+}
+
+.arcade-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.arcade-card-title {
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  color: #ffffff;
+}
+
+.leaderboard-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  max-height: 48vh;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.leaderboard-table th {
+  padding: 0.6rem 0.75rem;
+  color: var(--text-muted);
+  font-weight: 800;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.leaderboard-table td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-weight: 600;
+}
+
+.leaderboard-table tr:hover td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.leaderboard-table .rank-num {
+  font-weight: 900;
+  color: var(--gold-glow);
+}
+
+.leaderboard-table .initials-col {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  color: var(--cyan-glow);
+  letter-spacing: 2px;
+}
+
+.leaderboard-table .score-col {
+  font-weight: 900;
+  color: #ffffff;
+}
+
+/* ENTRADA DE INICIALES RETRO (ARCADE VICTORY) */
+.arcade-initials-box {
+  margin: 1rem 0;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px dashed var(--gold-glow);
+  border-radius: 18px;
+  padding: 1.2rem;
+  width: 100%;
+  text-align: center;
+}
+
+.initials-badge {
+  font-size: 0.8rem;
+  font-weight: 900;
+  color: var(--gold-glow);
+  letter-spacing: 1px;
+  margin-bottom: 0.8rem;
+}
+
+.initials-selector-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.initial-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-letter-nav {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  width: 38px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.btn-letter-nav:active {
+  background: var(--cyan-glow);
+}
+
+.letter-display {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.8rem;
+  width: 48px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid var(--cyan-glow);
+  border-radius: 8px;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+}
+
+.btn-arcade-save {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #ffffff;
+  border: none;
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: 99px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+  transition: transform 0.15s;
+}
+
+.btn-arcade-save:active {
+  transform: scale(0.96);
+}
+
+/* REGLA MAESTRA DE VISIBILIDAD .hidden */
+.hidden {
+  display: none !important;
+}
+
+/* =========================================================================
+   ESTILOS DEL MODAL DE CRÉDITOS Y SUSTENTACIÓN CIENTÍFICA
+   ========================================================================= */
+
+.credits-content-scroll {
+  width: 100%;
+  max-height: 58vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+}
+
+.credits-author-box {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(8px);
+}
+
+.author-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.8rem;
+  color: var(--cyan-glow);
+  letter-spacing: 2px;
+  margin-bottom: 0.4rem;
+}
+
+.author-name {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.author-name strong {
+  color: var(--gold-glow);
+}
+
+.author-rights {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.75rem;
+}
+
+.author-bio {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+.science-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  text-align: left;
+}
+
+.science-heading {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.science-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-left: 3px solid var(--cyan-glow);
+  border-radius: 0 14px 14px 0;
+  padding: 1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.science-tag {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: var(--cyan-glow);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.science-card p {
+  font-size: 0.86rem;
+  color: var(--text-main);
+  line-height: 1.45;
+}
+
+.bib-citation {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.4rem;
+  margin-top: 0.2rem;
+  line-height: 1.4;
+}
+
+.bib-citation strong {
+  color: #e2e8f0;
+}
+
+.bib-citation em {
+  color: var(--gold-glow);
+  font-style: italic;
+}
+
+/* =========================================================================
+   ESTILOS MOBILE-FIRST DE PORTADA, LOGO Y GRILLA DE 4 OPERACIONES
+   ========================================================================= */
+
+.hud-mini-logo {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cover-banner-container {
+  width: 100%;
+  max-width: 580px;
+  height: 120px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin: 0 auto 0.8rem auto;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  position: relative;
+}
+
+/* ==========================================================================
+   PANTALLA DE BIENVENIDA / SPLASH SCREEN (AISLADA)
+   ========================================================================== */
+.splash-screen {
+  background: radial-gradient(circle at 50% 30%, #0c1a2e 0%, #030712 85%);
+  padding: 1.5rem 1rem;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.splash-card {
+  max-width: 440px;
+  width: 100%;
+  max-height: 94vh;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 40px rgba(6, 182, 212, 0.15);
+  backdrop-filter: blur(16px);
+  display: flex;
+  flex-direction: column;
+  animation: splashFadeIn 0.6s ease-out;
+}
+
+@keyframes splashFadeIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.splash-cover-wrapper {
+  width: 100%;
+  height: 250px;
+  position: relative;
+  overflow: hidden;
+  background: #020617;
+  flex-shrink: 0;
+}
+
+@media (max-height: 700px) {
+  .splash-cover-wrapper {
+    height: 190px;
+  }
+  .splash-logo-img {
+    max-width: 180px;
+  }
+  .splash-title {
+    font-size: 1.35rem;
+  }
+  .splash-content {
+    padding: 0.8rem 1.2rem 1.2rem 1.2rem;
+    gap: 0.4rem;
+  }
+}
+
+.splash-cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+}
+
+.splash-content {
+  padding: 1.15rem 1.4rem 1.4rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.55rem;
+}
+
+.splash-logo-wrap {
+  margin-top: -24px;
+  margin-bottom: 0.15rem;
+  z-index: 2;
+}
+
+.splash-logo-img {
+  max-width: 240px;
+  height: auto;
+  filter: drop-shadow(0 4px 18px rgba(6, 182, 212, 0.5));
+}
+
+.splash-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, #ffffff 30%, var(--cyan-glow) 70%, var(--pink-glow) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.splash-tagline {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+  margin: 0.1rem 0 0.8rem 0;
+}
+
+.btn-splash-start {
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  color: #ffffff;
+  border: none;
+  font-size: 1.15rem;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  padding: 0.95rem 2rem;
+  border-radius: 99px;
+  cursor: pointer;
+  box-shadow: 0 0 25px rgba(6, 182, 212, 0.55), 0 8px 20px rgba(0, 0, 0, 0.4);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+  max-width: 320px;
+  justify-content: center;
+}
+
+.btn-splash-start:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 35px rgba(6, 182, 212, 0.75), 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.btn-splash-start:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.splash-credits-note {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+  opacity: 0.8;
+}
+
+/* ==========================================================================
+   HUB PRINCIPAL: LOGOTIPO COMPLETO PROTAGÓNICO (NO AVATAR)
+   ========================================================================== */
+.logo-full-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0.25rem 0;
+}
+
+.brand-logo-full {
+  max-width: 310px;
+  width: 82%;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 20px rgba(6, 182, 212, 0.35));
+  transition: transform 0.25s ease;
+}
+
+.brand-logo-full:hover {
+  transform: scale(1.02);
+}
+
+.brand-tagline-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
+}
+
+/* ==========================================================================
+   BARRA ANDAMIADA (CURVA DE NIVELES 1, 2, 3 + RITMO)
+   ========================================================================== */
+.scaffolding-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-top: 0.6rem;
+  width: 100%;
+}
+
+.level-scaffolding-selector {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.6rem;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.level-step-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.35rem 0.75rem;
+  border-radius: 99px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.level-step-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.level-step-btn.active {
+  background: linear-gradient(135deg, #10b981, #06b6d4);
+  color: #ffffff;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+/* GRILLA DE 4 OPERACIONES ARITMÉTICAS BÁSICAS */
+.operations-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 780px;
+  width: 100%;
+  padding: 0.5rem 0.25rem 1.5rem 0.25rem;
+}
+
+@media (max-width: 580px) {
+  .operations-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+  .brand-logo-full {
+    max-width: 250px;
+  }
+  .scaffolding-bar {
+    gap: 0.6rem;
+  }
+}
+
+.operation-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 2px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  padding: 1.15rem 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+}
+
+.operation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.operation-icon-badge {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.1rem;
+  font-weight: 900;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 16px currentColor;
+}
+
+.operation-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left;
+}
+
+.operation-name {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.operation-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.operation-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.operation-tag-pill {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 0.2rem 0.55rem;
+  border-radius: 99px;
+  color: #e2e8f0;
+  line-height: 1.2;
+}
+
+@media (max-width: 420px) {
+  .mode-tab-btn {
+    padding: 0.45rem 0.8rem;
+    font-size: 0.8rem;
+  }
+  .level-step-btn {
+    padding: 0.28rem 0.55rem;
+    font-size: 0.72rem;
+  }
+  .diff-btn {
+    padding: 0.28rem 0.6rem;
+    font-size: 0.75rem;
+  }
+  .diff-label {
+    font-size: 0.72rem;
+  }
+  .operation-card {
+    padding: 0.95rem 0.85rem;
+    gap: 0.75rem;
+  }
+  .operation-icon-badge {
+    width: 44px;
+    height: 44px;
+    font-size: 1.7rem;
+  }
+  .operation-name {
+    font-size: 1.05rem;
+  }
+  .operation-desc {
+    font-size: 0.75rem;
+  }
+}
+
