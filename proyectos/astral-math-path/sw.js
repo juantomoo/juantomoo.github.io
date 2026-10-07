@@ -1,10 +1,10 @@
 /* ============================================================
-   Astral Math Path — Service Worker v1
+   Astral Math Path — Service Worker v2 (Ultra-Refinado)
    Estrategia: Network First (navegación) + Cache First (estáticos)
    Desarrollado por Juan Tomoo © Todos los derechos reservados
    ============================================================ */
 
-const CACHE_NAME = 'astral-math-path-v1';
+const CACHE_NAME = 'astral-math-path-v2';
 
 // Recursos esenciales a pre-cachear durante la instalación
 const PRECACHE_ASSETS = [
@@ -12,8 +12,10 @@ const PRECACHE_ASSETS = [
   './index.html',
   './manifest.json',
   './css/game.css',
+  './js/config.js',
   './js/audio/synths.js',
   './js/graphics/colors.js',
+  './js/graphics/constellation-map.js',
   './js/core/leaderboard.js',
   './js/core/curriculum.js',
   './js/core/input.js',
