@@ -11,6 +11,9 @@
   --gold-glow: #eab308;
   --emerald-glow: #10b981;
   --pink-glow: #ec4899;
+  --op-color: var(--cyan-glow);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
   --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -75,7 +78,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.25rem 1.5rem;
+  padding: calc(1.25rem + var(--safe-top)) 1.5rem 1.25rem 1.5rem;
   background: linear-gradient(180deg, rgba(3, 7, 18, 0.85) 0%, transparent 100%);
 }
 
@@ -140,7 +143,7 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.5rem 1.75rem 1.5rem;
+  padding: 1rem 1.5rem calc(1.75rem + var(--safe-bottom)) 1.5rem;
   background: linear-gradient(0deg, rgba(3, 7, 18, 0.85) 0%, transparent 100%);
 }
 
@@ -182,7 +185,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(3, 7, 18, 0.88);
+  background: rgba(3, 7, 18, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   z-index: 50;
@@ -190,10 +193,12 @@ html, body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 1.5rem 1rem 3.5rem 1rem;
+  padding: calc(1.5rem + var(--safe-top)) 1rem calc(3.5rem + var(--safe-bottom)) 1rem;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  transition: opacity 0.35s ease;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.28s ease;
 }
 
 .overlay-screen::-webkit-scrollbar {
@@ -206,8 +211,8 @@ html, body {
 }
 
 .overlay-screen.hidden {
-  display: none !important;
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 
@@ -1277,4 +1282,76 @@ html, body {
     font-size: 0.75rem;
   }
 }
+
+/* =========================================================================
+   BÓVEDA CELESTE DE CONSTELACIONES ESTELARES (ARCADE v2.0)
+   ========================================================================= */
+.constellations-wrap {
+  width: 100%;
+  max-width: 780px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.constellations-header {
+  text-align: center;
+}
+
+.constellations-title {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: 0.5px;
+}
+
+.constellations-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+}
+
+.constellations-canvas-box {
+  width: 100%;
+  background: rgba(3, 7, 18, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+  display: flex;
+  justify-content: center;
+}
+
+#constellationCanvas {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  aspect-ratio: 600 / 380;
+  display: block;
+}
+
+.constellations-legend {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.85rem;
+}
+
+.constellation-badge {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px solid;
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  backdrop-filter: blur(8px);
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.constellation-badge:hover {
+  transform: translateY(-2px);
+}
+
 

@@ -90,12 +90,43 @@ class PulseAudioEngine {
 
     this.masterGain.connect(this.compressor);
     this.compressor.connect(this.ctx.destination);
+
+    // Pre-renderizar y cachear AudioBuffers de ruido estático para evitar allocs en cada compás
+    this.initNoiseBuffers();
+  }
+
+  initNoiseBuffers() {
+    if (!this.ctx) return;
+    // Buffer snare (160ms)
+    const snareLen = Math.floor(this.ctx.sampleRate * 0.16);
+    this.cachedSnareBuffer = this.ctx.createBuffer(1, snareLen, this.ctx.sampleRate);
+    const sData = this.cachedSnareBuffer.getChannelData(0);
+    for (let i = 0; i < snareLen; i++) {
+      sData[i] = (Math.random() * 2 - 1) * 0.75;
+    }
+
+    // Buffer hi-hat (40ms)
+    const hihatLen = Math.floor(this.ctx.sampleRate * 0.04);
+    this.cachedHihatBuffer = this.ctx.createBuffer(1, hihatLen, this.ctx.sampleRate);
+    const hData = this.cachedHihatBuffer.getChannelData(0);
+    for (let i = 0; i < hihatLen; i++) {
+      hData[i] = Math.random() * 2 - 1;
+    }
   }
 
   resume() {
     if (this.ctx && this.ctx.state === 'suspended') {
       this.ctx.resume();
     }
+  }
+
+  toggleMute() {
+    this.isMuted = !this.isMuted;
+    if (this.masterGain && this.ctx) {
+      const targetGain = this.isMuted ? 0.0 : (window.GAME_CONFIG?.AUDIO?.MASTER_VOLUME || 0.75);
+      this.masterGain.gain.setValueAtTime(targetGain, this.ctx.currentTime);
+    }
+    return this.isMuted;
   }
 
   setComboMultiplier(multiplier) {
@@ -231,15 +262,9 @@ class PulseAudioEngine {
   }
 
   playSnappySnare(time, vol = 0.55) {
-    const bufferSize = this.ctx.sampleRate * 0.16;
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * 0.75;
-    }
-
+    if (!this.cachedSnareBuffer) this.initNoiseBuffers();
     const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
+    noise.buffer = this.cachedSnareBuffer;
 
     const noiseFilter = this.ctx.createBiquadFilter();
     noiseFilter.type = 'highpass';
@@ -272,15 +297,9 @@ class PulseAudioEngine {
   }
 
   playHihat(time, vol = 0.3) {
-    const bufferSize = this.ctx.sampleRate * 0.04;
-    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < bufferSize; i++) {
-      data[i] = Math.random() * 2 - 1;
-    }
-
+    if (!this.cachedHihatBuffer) this.initNoiseBuffers();
     const noise = this.ctx.createBufferSource();
-    noise.buffer = buffer;
+    noise.buffer = this.cachedHihatBuffer;
 
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'highpass';

@@ -47,6 +47,14 @@ class TunnelRenderer {
     // Compuerta activa
     this.activeGate = null;
 
+    // Caché de gradientes para no recrear en cada frame
+    this.cachedBgGrad = null;
+    this.cachedSunGrad = null;
+    this.cachedFloorGrad = null;
+
+    // Caché de medidas del banner
+    this.bannerMetrics = null;
+
     this.resize();
     window.addEventListener('resize', () => this.resize());
   }
@@ -76,6 +84,12 @@ class TunnelRenderer {
     this.ctx.scale(dpr, dpr);
     this.width = w;
     this.height = h;
+
+    // Pre-construir gradiente de fondo estático
+    this.cachedBgGrad = this.ctx.createLinearGradient(0, 0, 0, h);
+    this.cachedBgGrad.addColorStop(0, '#030712');
+    this.cachedBgGrad.addColorStop(0.5, '#090d16');
+    this.cachedBgGrad.addColorStop(1, '#05131f');
   }
 
   setTheme(primary, secondary) {
@@ -203,12 +217,8 @@ class TunnelRenderer {
 
     ctx.clearRect(-20, -20, w + 40, h + 40);
 
-    // 1. Fondo cósmico con gradiente reactivo
-    const bgGrad = ctx.createLinearGradient(0, 0, 0, h);
-    bgGrad.addColorStop(0, '#030712');
-    bgGrad.addColorStop(0.5, '#090d16');
-    bgGrad.addColorStop(1, '#05131f');
-    ctx.fillStyle = bgGrad;
+    // 1. Fondo cósmico con gradiente reactivo pre-cacheado
+    ctx.fillStyle = this.cachedBgGrad || '#030712';
     ctx.fillRect(0, 0, w, h);
 
     const vanishX = w * 0.5;

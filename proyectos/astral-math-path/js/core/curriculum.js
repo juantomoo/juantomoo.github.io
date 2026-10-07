@@ -229,7 +229,8 @@ const ARITHMETIC_OPERATIONS_CONFIG = [
 
 class CurriculumManager {
   constructor() {
-    this.storageKey = 'multiplica_pulse_v1';
+    this.storageKey = window.GAME_CONFIG?.STORAGE_KEY_CURRICULUM || 'astral_math_path_v2';
+    this.legacyKey = window.GAME_CONFIG?.STORAGE_KEY_LEGACY_CURRICULUM || 'multiplica_pulse_v1';
     this.state = this.loadState();
     this.currentDifficulty = 'moderate';
     this.currentGameMode = 'operations'; // Por defecto 4 operaciones
@@ -240,7 +241,17 @@ class CurriculumManager {
   loadState() {
     let parsed = null;
     try {
-      const data = localStorage.getItem(this.storageKey);
+      // 1. Intentar v2
+      let data = localStorage.getItem(this.storageKey);
+      // 2. Si no existe, migrar de legacy v1
+      if (!data && this.legacyKey) {
+        const legacyData = localStorage.getItem(this.legacyKey);
+        if (legacyData) {
+          data = legacyData;
+          localStorage.setItem(this.storageKey, legacyData);
+        }
+      }
+
       if (data) parsed = JSON.parse(data);
     } catch (e) {
       console.warn("Storage fallback activo", e);

@@ -9,7 +9,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const tracksCarousel = document.getElementById('tracksCarousel');
   const singleTablesGrid = document.getElementById('singleTablesGrid');
   const operationsGrid = document.getElementById('operationsGrid');
-  const tabModeOperations = document.getElementById('tabModeOperations');
   const hudOpSym = document.getElementById('hudOpSym');
   const menuScreen = document.getElementById('menuScreen');
   const victoryScreen = document.getElementById('victoryScreen');
@@ -22,10 +21,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnBackFromCredits = document.getElementById('btnBackFromCredits');
 
   // Pestañas de modo
-  const tabModeFamilies = document.getElementById('tabModeFamilies');
+  const tabModeOperations = document.getElementById('tabModeOperations');
   const tabModeSingle = document.getElementById('tabModeSingle');
+  const tabModeFamilies = document.getElementById('tabModeFamilies');
+  const tabModeConstellations = document.getElementById('tabModeConstellations');
   const tabModeLeaderboard = document.getElementById('tabModeLeaderboard');
   const tabModeCredits = document.getElementById('tabModeCredits');
+
+  // Contenedor Constelaciones
+  const constellationsContainer = document.getElementById('constellationsContainer');
+  const constellationCanvas = document.getElementById('constellationCanvas');
+  const constellationLegend = document.getElementById('constellationLegend');
 
   // Botones de dificultad y nivel andamiado
   const diffButtons = document.querySelectorAll('.diff-btn');
@@ -64,6 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const particles = new window.ParticleSystem();
   const renderer = new window.TunnelRenderer(canvas);
   const engine = new window.PulseGameEngine(canvas, audio, curriculum, input, particles, renderer);
+  const constellationMap = (constellationCanvas && window.ConstellationMap) ? new window.ConstellationMap(constellationCanvas, curriculum) : null;
 
   // MANEJO DE LA PANTALLA DE BIENVENIDA (SPLASH SCREEN AISLADA)
   if (btnStartAdventure) {
@@ -86,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tabModeOperations) tabModeOperations.classList.toggle('active', mode === 'operations');
     if (tabModeSingle) tabModeSingle.classList.toggle('active', mode === 'single');
     if (tabModeFamilies) tabModeFamilies.classList.toggle('active', mode === 'families');
+    if (tabModeConstellations) tabModeConstellations.classList.toggle('active', mode === 'constellations');
     if (tabModeLeaderboard) tabModeLeaderboard.classList.toggle('active', mode === 'leaderboard');
     if (tabModeCredits) tabModeCredits.classList.toggle('active', mode === 'credits');
 
@@ -93,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (operationsGrid) operationsGrid.classList.remove('hidden');
       if (singleTablesGrid) singleTablesGrid.classList.add('hidden');
       if (tracksCarousel) tracksCarousel.classList.add('hidden');
+      if (constellationsContainer) constellationsContainer.classList.add('hidden');
       leaderboardModal.classList.add('hidden');
       creditsModal.classList.add('hidden');
       curriculum.setGameMode('operations');
@@ -101,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (operationsGrid) operationsGrid.classList.add('hidden');
       if (singleTablesGrid) singleTablesGrid.classList.remove('hidden');
       if (tracksCarousel) tracksCarousel.classList.add('hidden');
+      if (constellationsContainer) constellationsContainer.classList.add('hidden');
       leaderboardModal.classList.add('hidden');
       creditsModal.classList.add('hidden');
       curriculum.setGameMode('single_table');
@@ -109,10 +119,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (operationsGrid) operationsGrid.classList.add('hidden');
       if (singleTablesGrid) singleTablesGrid.classList.add('hidden');
       if (tracksCarousel) tracksCarousel.classList.remove('hidden');
+      if (constellationsContainer) constellationsContainer.classList.add('hidden');
       leaderboardModal.classList.add('hidden');
       creditsModal.classList.add('hidden');
       curriculum.setGameMode('families');
       renderCarousel();
+    } else if (mode === 'constellations') {
+      if (operationsGrid) operationsGrid.classList.add('hidden');
+      if (singleTablesGrid) singleTablesGrid.classList.add('hidden');
+      if (tracksCarousel) tracksCarousel.classList.add('hidden');
+      if (constellationsContainer) constellationsContainer.classList.remove('hidden');
+      leaderboardModal.classList.add('hidden');
+      creditsModal.classList.add('hidden');
+      if (constellationMap) {
+        constellationMap.render();
+        constellationMap.renderLegend(constellationLegend);
+      }
     } else if (mode === 'leaderboard') {
       creditsModal.classList.add('hidden');
       openLeaderboard();
@@ -125,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (tabModeOperations) tabModeOperations.addEventListener('click', () => setMode('operations'));
   if (tabModeSingle) tabModeSingle.addEventListener('click', () => setMode('single'));
   if (tabModeFamilies) tabModeFamilies.addEventListener('click', () => setMode('families'));
+  if (tabModeConstellations) tabModeConstellations.addEventListener('click', () => setMode('constellations'));
   if (tabModeLeaderboard) tabModeLeaderboard.addEventListener('click', () => setMode('leaderboard'));
   if (tabModeCredits) tabModeCredits.addEventListener('click', () => setMode('credits'));
 
@@ -438,13 +461,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setMode(activeMenuMode);
   });
 
-  let isMuted = false;
   btnAudioMute.addEventListener('click', () => {
-    isMuted = !isMuted;
-    if (audio.masterGain) {
-      audio.masterGain.gain.setValueAtTime(isMuted ? 0 : 0.75, audio.ctx.currentTime);
-    }
-    btnAudioMute.textContent = isMuted ? '🔇' : '🔊';
+    const muted = audio.toggleMute();
+    btnAudioMute.textContent = muted ? '🔇' : '🔊';
   });
 
   // Inicialización

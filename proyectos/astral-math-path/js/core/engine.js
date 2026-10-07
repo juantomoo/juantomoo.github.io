@@ -32,7 +32,10 @@ class PulseGameEngine {
     this.cooldownTimer = 0;
 
     this.lastTime = 0;
+    this.accumulator = 0;
+    this.fixedDelta = 1000 / 60; // 16.666 ms
     this.animFrameId = null;
+    this.finishTimeout = null;
 
     this.input.onLaneChange = (lane) => {
       this.renderer.setLane(lane);
@@ -84,10 +87,16 @@ class PulseGameEngine {
   }
 
   loop(currentTime) {
-    const dt = Math.min(2.0, (currentTime - this.lastTime) / 16.666);
+    if (!this.lastTime) this.lastTime = currentTime;
+    const frameTime = Math.min(100, currentTime - this.lastTime); // Cap máximo contra spiral of death
     this.lastTime = currentTime;
+    this.accumulator += frameTime;
 
-    this.update(dt);
+    while (this.accumulator >= this.fixedDelta) {
+      this.update(1.0); // dt normalizado a 60hz
+      this.accumulator -= this.fixedDelta;
+    }
+
     this.render();
 
     this.animFrameId = requestAnimationFrame((t) => this.loop(t));
@@ -173,11 +182,16 @@ class PulseGameEngine {
     }
 
     if (this.challengesResolved >= this.totalChallengesInTrack) {
-      setTimeout(() => this.finishTrack(), 1000);
+      if (this.finishTimeout) clearTimeout(this.finishTimeout);
+      this.finishTimeout = setTimeout(() => this.finishTrack(), 1000);
     }
   }
 
   finishTrack() {
+    if (this.finishTimeout) {
+      clearTimeout(this.finishTimeout);
+      this.finishTimeout = null;
+    }
     this.state = 'track_complete';
     this.audio.stopTrack();
     this.audio.playTrackComplete();
@@ -210,9 +224,14 @@ class PulseGameEngine {
 
   stop() {
     this.state = 'idle';
+    if (this.finishTimeout) {
+      clearTimeout(this.finishTimeout);
+      this.finishTimeout = null;
+    }
     this.audio.stopTrack();
     this.renderer.activeGate = null;
     this.cooldownTimer = 0;
+    this.accumulator = 0;
     if (this.animFrameId) {
       cancelAnimationFrame(this.animFrameId);
       this.animFrameId = null;

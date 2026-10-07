@@ -9,7 +9,8 @@
 
 class LeaderboardManager {
   constructor() {
-    this.storageKey = 'multiplica_pulse_leaderboard_v1';
+    this.storageKey = window.GAME_CONFIG?.STORAGE_KEY_LEADERBOARD || 'astral_math_path_leaderboard_v2';
+    this.legacyKey = window.GAME_CONFIG?.STORAGE_KEY_LEGACY_LEADERBOARD || 'multiplica_pulse_leaderboard_v1';
     this.maxEntries = 10;
     this.entries = this.load();
   }
@@ -37,7 +38,17 @@ class LeaderboardManager {
 
   load() {
     try {
-      const data = localStorage.getItem(this.storageKey);
+      // 1. Intentar cargar v2
+      let data = localStorage.getItem(this.storageKey);
+      // 2. Si no hay v2, migrar desde legacy v1
+      if (!data && this.legacyKey) {
+        const legacyData = localStorage.getItem(this.legacyKey);
+        if (legacyData) {
+          data = legacyData;
+          localStorage.setItem(this.storageKey, legacyData);
+        }
+      }
+
       if (data) {
         const parsed = JSON.parse(data);
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;

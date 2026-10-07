@@ -23,6 +23,12 @@ class PulseInputManager {
     const target = Math.max(0, Math.min(2, newLane));
     if (target !== this.currentLane) {
       this.currentLane = target;
+
+      // Feedback háptico kinestésico en móvil (12ms vibración sutil)
+      if (typeof navigator !== 'undefined' && navigator.vibrate) {
+        try { navigator.vibrate(12); } catch (_) {}
+      }
+
       if (this.onLaneChange) {
         this.onLaneChange(this.currentLane);
       }

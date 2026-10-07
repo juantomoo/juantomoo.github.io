@@ -167,6 +167,9 @@
           <button class="mode-tab-btn" id="tabModeFamilies">
             🌀 Familias Rítmicas
           </button>
+          <button class="mode-tab-btn" id="tabModeConstellations">
+            🌌 Constelaciones
+          </button>
           <button class="mode-tab-btn" id="tabModeLeaderboard">
             🏆 Salón de la Fama
           </button>
@@ -208,6 +211,20 @@
       <!-- CONTENEDOR 2: CARRUSEL DE FAMILIAS RÍTMICAS -->
       <div class="tracks-carousel hidden" id="tracksCarousel">
         <!-- Inyectado dinámicamente -->
+      </div>
+
+      <!-- CONTENEDOR 3: MAPA DE CONSTELACIONES ESTELARES ARCADE -->
+      <div class="constellations-wrap hidden" id="constellationsContainer">
+        <div class="constellations-header">
+          <h3 class="constellations-title">🌌 BÓVEDA CELESTE DE MAESTRÍA</h3>
+          <p class="constellations-subtitle">Cada estrella representa un hito aritmético conquistado. Completa las 4 constelaciones estelares.</p>
+        </div>
+        <div class="constellations-canvas-box">
+          <canvas id="constellationCanvas" width="600" height="380"></canvas>
+        </div>
+        <div class="constellations-legend" id="constellationLegend">
+          <!-- Inyectado dinámicamente con estado de las 4 operaciones -->
+        </div>
       </div>
     </div>
 
@@ -350,6 +367,7 @@
   </div>
 
   <!-- SCRIPTS -->
+  <script src="js/config.js"></script>
   <script src="js/audio/synths.js"></script>
   <script src="js/graphics/colors.js"></script>
   <script src="js/core/leaderboard.js"></script>
@@ -357,6 +375,7 @@
   <script src="js/core/input.js"></script>
   <script src="js/graphics/particles.js"></script>
   <script src="js/graphics/tunnel.js"></script>
+  <script src="js/graphics/constellation-map.js"></script>
   <script src="js/core/engine.js"></script>
   <script src="js/main.js"></script>
 </body>
