@@ -63,6 +63,9 @@
       <button id="btn-open-creator" class="hud-btn hud-btn-neon" title="Escribir nuevo plugin interactivo">
         <span class="btn-bracket">[</span> + CREAR <span class="btn-bracket">]</span>
       </button>
+      <button id="btn-copy-prompt-header" class="hud-btn" style="border-color: rgba(255, 170, 0, 0.5); color: #ffaa00;" title="Copiar plantilla de prompt para generar nuevo arte con IA">
+        <span class="btn-bracket">[</span> 📋 COPIAR PROMPT IA <span class="btn-bracket">]</span>
+      </button>
       <button id="btn-reload-plugin" class="hud-btn" title="Forzar Hot-Reload">
         <span class="btn-bracket">[</span> ↻ REINICIAR <span class="btn-bracket">]</span>
       </button>
@@ -159,7 +162,12 @@
 
       <!-- Modal Footer -->
       <div class="hud-modal-footer">
-        <button id="btn-modal-cancel" class="hud-btn hud-btn-dim">[ DESCARTAR ]</button>
+        <div style="display: flex; gap: 10px; align-items: center;">
+          <button id="btn-copy-prompt-modal" class="hud-btn" style="border-color: #ffaa00; color: #ffaa00;" title="Copiar plantilla para pedir código a ChatGPT, Claude, DeepSeek o Gemini">
+            📋 COPIAR PROMPT PARA CREAR CÓDIGO CON IA
+          </button>
+          <button id="btn-modal-cancel" class="hud-btn hud-btn-dim">[ DESCARTAR ]</button>
+        </div>
         <button id="btn-modal-save" class="hud-btn-primary-neon">◈ COMPILAR Y REGISTRAR EN VIVO ◈</button>
       </div>
     </div>

@@ -1,10 +1,60 @@
 /**
  * Motupia Web Standalone Runtime — Oblivion / Star Trek Sci-Fi Minimalist HUD
- * Funciona completamente en el navegador (GitHub Pages) con soporte de creación de plugins en vivo vía Modal.
+ * Funciona completamente en el navegador (GitHub Pages) con soporte de creación de plugins en vivo vía Modal
+ * y botón para copiar la plantilla de prompt maestro de creación con IA.
  */
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { BUILTIN_PLUGINS } from './standalone-plugins.js';
+
+export const MOTUPIA_AI_PROMPT_TEMPLATE = `Actúa como Diseñador y Desarrollador de Arte Generativo para el ecosistema "Motupia".
+Tu objetivo es crear un nuevo plugin generativo 2D/3D completamente funcional, estético y reactivo en tiempo real bajo el estándar Motupia Drawing Protocol (MDP).
+
+### 1. REQUERIMIENTO CREATIVO DEL USUARIO:
+[ESCRIBE AQUÍ TUS PALABRAS CLAVE O LA IDEA QUE DESEAS VISUALIZAR: ej. "Nebulosa cuántica de espirales de Fermat, emisión de partículas de polvo estelar color cian y naranja ámbar, líneas de campo magnético conectando polos y HUD 2D con telemetría de entropía"]
+
+---
+
+### 2. ESPECIFICACIÓN ARQUITECTÓNICA DE MOTUPIA (MDP SPEC):
+El código de JavaScript para el creador en vivo debe tener la siguiente estructura:
+
+\`\`\`javascript
+function createPlugin() {
+  let t = 0;
+  // Inicialización de buffers o estados persistentes aquí
+
+  return {
+    setup(ctx, params) {
+      // ctx: { width, height, time, frame, dt }
+      // params: valores de los controles interactivos
+    },
+
+    update(ctx, dt, params) {
+      t += dt * (params.speed || 1.0);
+      // Cálculos y transformaciones matemáticas procedurales
+    },
+
+    draw(ctx, scene3d, canvas2d, params) {
+      // 1. ESCENA 3D (scene3d):
+      // - scene3d.clear(colorHex)
+      // - scene3d.setCamera({ x, y, z, targetX, targetY, targetZ, fov })
+      // - scene3d.points(nodeId, positionsArrayOrFloat32Array, { color: "#00f0ff", size: 2.5 })
+      // - scene3d.lines(nodeId, linesArrayOrFloat32Array, { color: "#ffaa00", lineWidth: 1.5 })
+      
+      // 2. LIENZO 2D HUD (canvas2d):
+      // - canvas2d.clear()
+      // - canvas2d.text(str, x, y, { font: "bold 13px monospace", fill: "#faf7ee", align: "left" })
+      // - canvas2d.line(x1, y1, x2, y2, { stroke: "#faf7ee", lineWidth: 1.0 })
+      // - canvas2d.rect(x, y, w, h, { stroke: "#00f0ff", fill: null, lineWidth: 1.0 })
+      // - canvas2d.circle(cx, cy, r, { stroke: "#ffaa00", fill: null, lineWidth: 1.0 })
+      // - canvas2d.path(pointsXYArray, { stroke: "#00f0ff", fill: null, lineWidth: 1.5, closed: true })
+    }
+  };
+}
+return createPlugin();
+\`\`\`
+
+Entrega exclusivamente el bloque de código limpio listo para ser pegado en el Modal de Creación de Motupia.`;
 
 const JS_DEFAULT_TEMPLATE = `// Motupia Plugin Standard MDP Spec
 function createPlugin() {
@@ -317,8 +367,29 @@ class MotupiaStandaloneApp {
     this._toastTimer = setTimeout(() => this.toastEl.classList.add('hidden'), 3500);
   }
 
+  copyPromptToClipboard() {
+    navigator.clipboard.writeText(MOTUPIA_AI_PROMPT_TEMPLATE).then(() => {
+      this.showToast('📋 PROMPT MAESTRO COPIADO AL PORTAPAPELES');
+    }).catch(() => {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = MOTUPIA_AI_PROMPT_TEMPLATE;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      this.showToast('📋 PROMPT MAESTRO COPIADO AL PORTAPAPELES');
+    });
+  }
+
   initHUD() {
     this.renderPluginsList();
+
+    // Botón Copiar Prompt en Topbar
+    const btnCopyHeader = document.getElementById('btn-copy-prompt-header');
+    if (btnCopyHeader) {
+      btnCopyHeader.onclick = () => this.copyPromptToClipboard();
+    }
 
     // Toggle Drawer
     const btnTogglePlugins = document.getElementById('btn-toggle-plugins');
@@ -406,6 +477,11 @@ class MotupiaStandaloneApp {
 
     const btnCancel = document.getElementById('btn-modal-cancel');
     if (btnCancel) btnCancel.onclick = () => this.pluginModal.classList.add('hidden');
+
+    const btnCopyModal = document.getElementById('btn-copy-prompt-modal');
+    if (btnCopyModal) {
+      btnCopyModal.onclick = () => this.copyPromptToClipboard();
+    }
 
     const btnSave = document.getElementById('btn-modal-save');
     if (btnSave) {
