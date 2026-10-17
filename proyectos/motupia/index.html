@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motupia — Minimalist Sci-Fi Generative Art Sandbox | Juan Tomoo</title>
+  <meta name="description" content="Sandbox de arte generativo 2D y 3D en tiempo real con estética minimalista inspirada en Oblivion y Star Trek LCARS. Obra interactiva de Juan Tomoo.">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.ico">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.174.0/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.174.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- Fullscreen Viewport Canvas Layers -->
+  <div class="fullscreen-viewport" id="viewport-container">
+    <canvas id="canvas-3d"></canvas>
+    <canvas id="canvas-2d"></canvas>
+    <div class="hud-grid-overlay"></div>
+  </div>
+
+  <!-- HUD System: Tactical Ribbon (Top) -->
+  <header class="hud-topbar">
+    <div class="hud-brand">
+      <a href="../../" class="hud-logo" title="Volver al Portafolio" style="text-decoration: none; color: inherit;">◈</a>
+      <span class="hud-title">MOTUPIA</span>
+      <span class="hud-badge-tactical">SYS.GEN-ART // OBLIVION-OS</span>
+    </div>
+
+    <!-- Live Telemetry -->
+    <div class="hud-telemetry">
+      <div class="telemetry-item">
+        <span class="telemetry-label">STATUS</span>
+        <span class="telemetry-val-pulse" id="connection-status">STANDALONE WEB</span>
+      </div>
+      <div class="telemetry-divider"></div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">FPS</span>
+        <span class="telemetry-val" id="fps-meter">60.0</span>
+      </div>
+      <div class="telemetry-divider"></div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">FRAME</span>
+        <span class="telemetry-val" id="frame-counter">0</span>
+      </div>
+      <div class="telemetry-divider"></div>
+      <div class="telemetry-item">
+        <span class="telemetry-label">ACTIVE MODULE</span>
+        <span class="telemetry-val-accent" id="current-plugin-title">Cargando...</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="hud-actions">
+      <button id="btn-toggle-plugins" class="hud-btn hud-btn-accent" title="Lista de Plugins">
+        <span class="btn-bracket">[</span> PLUGINS <span class="badge-count" id="plugin-count">0</span> <span class="btn-bracket">]</span>
+      </button>
+      <button id="btn-reload-plugin" class="hud-btn" title="Forzar Hot-Reload">
+        <span class="btn-bracket">[</span> ↻ REINICIAR <span class="btn-bracket">]</span>
+      </button>
+      <button id="btn-toggle-hud" class="hud-btn" title="Ocultar / Mostrar HUD (Tecla H)">
+        <span class="btn-bracket">[</span> ◰ HUD (H) <span class="btn-bracket">]</span>
+      </button>
+      <a href="../../" class="hud-btn" style="text-decoration: none; display: flex; align-items: center;" title="Regresar al Portafolio">
+        <span class="btn-bracket">[</span> ⮌ PORTAFOLIO <span class="btn-bracket">]</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Floating HUD Plugins Drawer -->
+  <aside class="hud-plugins-drawer hidden" id="hud-plugins-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <span class="drawer-decor">◬</span>
+        <h3>MÓDULOS GENERATIVOS</h3>
+      </div>
+      <button id="btn-close-plugins" class="drawer-close" title="Cerrar Panel">✕</button>
+    </div>
+    <div class="drawer-content" id="plugins-list">
+      <!-- Dynamic Plugin Cards Generated in JS -->
+    </div>
+  </aside>
+
+  <!-- Floating HUD Parameter Inspector -->
+  <section class="hud-inspector" id="hud-inspector">
+    <div class="inspector-header">
+      <div class="inspector-title-group">
+        <span class="inspector-decor">❖</span>
+        <h4>PARÁMETROS HUD</h4>
+      </div>
+      <div class="inspector-actions">
+        <span class="inspector-tag js" id="current-lang-tag">ESM</span>
+        <button id="btn-toggle-inspector" class="inspector-minimize" title="Minimizar">_</button>
+      </div>
+    </div>
+
+    <div class="inspector-body" id="inspector-body">
+      <p class="inspector-desc" id="current-plugin-desc">Cargando configuración de simulación...</p>
+      
+      <div class="hud-divider"></div>
+
+      <div class="params-form" id="params-container">
+        <!-- Sliders, Color Pickers and Toggles generated dynamically -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Sci-Fi Floating Dock (Bottom Transport) -->
+  <footer class="hud-dock">
+    <div class="dock-container">
+      <div class="dock-cluster">
+        <button id="btn-play" class="dock-btn active" title="Pausar / Reproducir">❚❚ PAUSA</button>
+        <button id="btn-reset" class="dock-btn" title="Reiniciar Cronómetro">⟲ T=0</button>
+      </div>
+      <div class="dock-divider"></div>
+      <div class="dock-cluster">
+        <button id="btn-export-frame" class="dock-btn dock-btn-accent" title="Exportar Captura PNG de Alta Resolución">
+          <span>◈</span> CAPTURA HD
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Notification Toast -->
+  <div class="hud-toast hidden" id="hud-toast">◈ PROTOCOLO MDP ACTIVO</div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
