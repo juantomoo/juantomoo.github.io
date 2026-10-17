@@ -255,11 +255,11 @@ class MotupiaStandaloneApp {
     this.pluginsDrawer = document.getElementById('hud-plugins-drawer');
     this.pluginsListEl = document.getElementById('plugins-list');
     this.inspector = document.getElementById('hud-inspector');
-    this.paramsContainer = document.getElementById('params-container');
-    this.pluginDescEl = document.getElementById('current-plugin-desc');
+    this.paramsContainer = document.getElementById('parameters-form');
+    this.pluginDescEl = document.getElementById('plugin-description');
     this.langTagEl = document.getElementById('current-lang-tag');
-    this.toastEl = document.getElementById('hud-toast');
-    this.btnPlay = document.getElementById('btn-play');
+    this.toastEl = document.getElementById('toast');
+    this.btnPlay = document.getElementById('btn-play-pause');
 
     // Modal DOM
     this.pluginModal = document.getElementById('plugin-modal');
@@ -321,47 +321,70 @@ class MotupiaStandaloneApp {
     this.renderPluginsList();
 
     // Toggle Drawer
-    document.getElementById('btn-toggle-plugins').onclick = () => {
-      this.pluginsDrawer.classList.toggle('hidden');
-    };
-    document.getElementById('btn-close-plugins').onclick = () => {
-      this.pluginsDrawer.classList.add('hidden');
-    };
+    const btnTogglePlugins = document.getElementById('btn-toggle-plugins');
+    if (btnTogglePlugins) {
+      btnTogglePlugins.onclick = (e) => {
+        e.stopPropagation();
+        this.pluginsDrawer.classList.toggle('hidden');
+      };
+    }
+
+    const btnClosePlugins = document.getElementById('btn-close-plugins');
+    if (btnClosePlugins) {
+      btnClosePlugins.onclick = (e) => {
+        e.stopPropagation();
+        this.pluginsDrawer.classList.add('hidden');
+      };
+    }
 
     // Toggle Inspector
-    document.getElementById('btn-toggle-inspector').onclick = () => {
-      this.inspector.classList.toggle('collapsed');
-    };
+    const btnToggleInspector = document.getElementById('btn-toggle-inspector');
+    if (btnToggleInspector) {
+      btnToggleInspector.onclick = () => {
+        this.inspector.classList.toggle('collapsed');
+      };
+    }
 
     // Clean Art Mode Toggle
     const toggleHud = () => document.body.classList.toggle('hud-hidden');
-    document.getElementById('btn-toggle-hud').onclick = toggleHud;
+    const btnToggleHud = document.getElementById('btn-toggle-hud');
+    if (btnToggleHud) btnToggleHud.onclick = toggleHud;
     window.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       if (e.key === 'h' || e.key === 'H') toggleHud();
     });
 
     // Transport Controls
-    this.btnPlay.onclick = () => {
-      this.isPlaying = !this.isPlaying;
-      this.btnPlay.textContent = this.isPlaying ? '❚❚ PAUSA' : '▶ PLAY';
-      this.btnPlay.classList.toggle('active', this.isPlaying);
-    };
+    if (this.btnPlay) {
+      this.btnPlay.onclick = () => {
+        this.isPlaying = !this.isPlaying;
+        this.btnPlay.textContent = this.isPlaying ? '❚❚' : '►';
+      };
+    }
 
-    document.getElementById('btn-reset').onclick = () => {
-      this.elapsedTime = 0;
-      this.frameCount = 0;
-      this.showToast('◈ TEMPORALIDAD RESETEADA A T=0');
-    };
+    const btnReset = document.getElementById('btn-reset');
+    if (btnReset) {
+      btnReset.onclick = () => {
+        this.elapsedTime = 0;
+        this.frameCount = 0;
+        this.showToast('◈ TEMPORALIDAD RESETEADA A T=0');
+      };
+    }
 
-    document.getElementById('btn-reload-plugin').onclick = () => {
-      this.switchPlugin(this.currentPlugin.id);
-      this.showToast('↻ MÓDULO REINICIALIZADO');
-    };
+    const btnReloadPlugin = document.getElementById('btn-reload-plugin');
+    if (btnReloadPlugin) {
+      btnReloadPlugin.onclick = () => {
+        this.switchPlugin(this.currentPlugin.id);
+        this.showToast('↻ MÓDULO REINICIALIZADO');
+      };
+    }
 
-    document.getElementById('btn-export-frame').onclick = () => {
-      this.exportCanvasImage();
-    };
+    const btnExport = document.getElementById('btn-export-frame');
+    if (btnExport) {
+      btnExport.onclick = () => {
+        this.exportCanvasImage();
+      };
+    }
   }
 
   initModal() {
@@ -391,7 +414,6 @@ class MotupiaStandaloneApp {
         const code = this.modalCodeEditor.value;
 
         try {
-          // Evaluar y compilar la función generativa de forma segura
           const pluginFactory = new Function(code);
           const instance = pluginFactory();
           if (!instance || typeof instance.draw !== 'function') {
@@ -439,7 +461,8 @@ class MotupiaStandaloneApp {
         </div>
         <span class="card-pill js">ESM</span>
       `;
-      card.onclick = () => {
+      card.onclick = (e) => {
+        e.stopPropagation();
         this.switchPlugin(p.id);
         this.pluginsDrawer.classList.add('hidden');
       };
@@ -480,18 +503,23 @@ class MotupiaStandaloneApp {
     const params = this.currentPlugin.parameters || {};
 
     for (const [key, conf] of Object.entries(params)) {
-      const row = document.createElement('div');
-      row.className = 'hud-param-row';
+      const group = document.createElement('div');
+      group.className = 'hud-param-group';
+
+      const header = document.createElement('div');
+      header.className = 'hud-param-header';
 
       const label = document.createElement('label');
       label.className = 'hud-param-label';
-      label.innerHTML = `<span>${conf.label || key}</span>`;
+      label.textContent = conf.label || key;
+      header.appendChild(label);
 
       if (conf.type === 'float' || conf.type === 'int') {
         const valSpan = document.createElement('span');
-        valSpan.className = 'param-val-readout';
+        valSpan.className = 'hud-param-val';
         valSpan.textContent = this.currentParams[key];
-        label.appendChild(valSpan);
+        header.appendChild(valSpan);
+        group.appendChild(header);
 
         const slider = document.createElement('input');
         slider.type = 'range';
@@ -506,36 +534,37 @@ class MotupiaStandaloneApp {
           this.currentParams[key] = val;
           valSpan.textContent = val;
         };
-
-        row.appendChild(label);
-        row.appendChild(slider);
+        group.appendChild(slider);
       } else if (conf.type === 'color') {
+        group.appendChild(header);
         const picker = document.createElement('input');
         picker.type = 'color';
         picker.value = this.currentParams[key] || '#00f0ff';
         picker.className = 'hud-color-picker';
+        picker.style.width = '100%';
+        picker.style.height = '32px';
+        picker.style.background = 'none';
+        picker.style.border = '1px solid var(--cream-border)';
+        picker.style.cursor = 'pointer';
 
         picker.oninput = (e) => {
           this.currentParams[key] = e.target.value;
         };
-
-        row.appendChild(label);
-        row.appendChild(picker);
+        group.appendChild(picker);
       } else if (conf.type === 'bool') {
+        group.appendChild(header);
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.checked = Boolean(this.currentParams[key]);
-        checkbox.className = 'hud-checkbox';
+        checkbox.style.cursor = 'pointer';
 
         checkbox.onchange = (e) => {
           this.currentParams[key] = e.target.checked;
         };
-
-        row.appendChild(label);
-        row.appendChild(checkbox);
+        group.appendChild(checkbox);
       }
 
-      this.paramsContainer.appendChild(row);
+      this.paramsContainer.appendChild(group);
     }
   }
 

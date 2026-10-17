@@ -75,60 +75,48 @@
     </div>
   </header>
 
-  <!-- Floating HUD Plugins Drawer -->
-  <aside class="hud-plugins-drawer hidden" id="hud-plugins-drawer">
-    <div class="drawer-header">
-      <div class="drawer-title-group">
-        <span class="drawer-decor">◬</span>
-        <h3>MÓDULOS GENERATIVOS</h3>
+  <!-- HUD Floating Drawer: Plugins List Flyout -->
+  <div class="hud-flyout hidden" id="hud-plugins-drawer">
+    <div class="hud-flyout-header">
+      <div class="flyout-title-row">
+        <span class="flyout-glyph">▤</span>
+        <span class="flyout-title">BIBLIOTECA DE PLUGINS</span>
       </div>
-      <div style="display: flex; gap: 8px; align-items: center;">
-        <button id="btn-flyout-new" class="hud-btn-mini hud-btn-neon">+ CREAR</button>
-        <button id="btn-close-plugins" class="drawer-close" title="Cerrar Panel">✕</button>
-      </div>
+      <button id="btn-close-plugins" class="hud-btn-close" title="Cerrar Panel">✕</button>
     </div>
-    <div class="drawer-content" id="plugins-list">
-      <!-- Dynamic Plugin Cards Generated in JS -->
+    <div class="hud-plugins-list" id="plugins-list">
+      <!-- Inyectado dinámicamente -->
+    </div>
+    <div class="hud-flyout-footer">
+      <button id="btn-flyout-new" class="hud-btn-primary-neon">+ ESCRIBIR NUEVO PLUGIN</button>
+    </div>
+  </div>
+
+  <!-- HUD Floating Inspector: Parameters (Right Side) -->
+  <aside class="hud-inspector" id="hud-inspector">
+    <div class="hud-panel-header">
+      <div class="inspector-title-row">
+        <span class="inspector-tag js" id="current-lang-tag">ESM</span>
+        <span class="inspector-title">PARÁMETROS HUD</span>
+      </div>
+      <button id="btn-toggle-inspector" class="hud-btn-minimize" title="Minimizar Inspector">_</button>
+    </div>
+    <div class="hud-inspector-meta">
+      <p id="plugin-description">Cargando configuración de simulación...</p>
+    </div>
+    <div class="hud-parameters-form" id="parameters-form">
+      <!-- Generado dinámicamente -->
     </div>
   </aside>
 
-  <!-- Floating HUD Parameter Inspector -->
-  <section class="hud-inspector" id="hud-inspector">
-    <div class="inspector-header">
-      <div class="inspector-title-group">
-        <span class="inspector-decor">❖</span>
-        <h4>PARÁMETROS HUD</h4>
-      </div>
-      <div class="inspector-actions">
-        <span class="inspector-tag js" id="current-lang-tag">ESM</span>
-        <button id="btn-toggle-inspector" class="inspector-minimize" title="Minimizar">_</button>
-      </div>
+  <!-- HUD Floating Dock: Transport Bar (Bottom) -->
+  <footer class="hud-transport-dock" id="hud-transport-dock">
+    <div class="dock-transport-controls">
+      <button id="btn-play-pause" class="hud-btn-dock" title="Pausar / Reanudar">❚❚</button>
+      <button id="btn-reset" class="hud-btn-dock" title="Reiniciar Cronómetro">↺</button>
     </div>
-
-    <div class="inspector-body" id="inspector-body">
-      <p class="inspector-desc" id="current-plugin-desc">Cargando configuración de simulación...</p>
-      
-      <div class="hud-divider"></div>
-
-      <div class="params-form" id="params-container">
-        <!-- Sliders, Color Pickers and Toggles generated dynamically -->
-      </div>
-    </div>
-  </section>
-
-  <!-- Sci-Fi Floating Dock (Bottom Transport) -->
-  <footer class="hud-dock">
-    <div class="dock-container">
-      <div class="dock-cluster">
-        <button id="btn-play" class="dock-btn active" title="Pausar / Reproducir">❚❚ PAUSA</button>
-        <button id="btn-reset" class="dock-btn" title="Reiniciar Cronómetro">⟲ T=0</button>
-      </div>
-      <div class="dock-divider"></div>
-      <div class="dock-cluster">
-        <button id="btn-export-frame" class="dock-btn dock-btn-accent" title="Exportar Captura PNG de Alta Resolución">
-          <span>◈</span> CAPTURA HD
-        </button>
-      </div>
+    <div class="dock-export-group">
+      <button id="btn-export-frame" class="hud-btn-capture" title="Exportar Render Actual en Alta Definición">⚡ CAPTURAR HD</button>
     </div>
   </footer>
 
@@ -178,7 +166,7 @@
   </div>
 
   <!-- Notification Toast -->
-  <div class="hud-toast hidden" id="hud-toast">◈ PROTOCOLO MDP ACTIVO</div>
+  <div id="toast" class="hud-toast hidden">◈ PROTOCOLO MDP ACTIVO</div>
 
   <script type="module" src="app.js"></script>
 </body>
