@@ -1,10 +1,52 @@
 /**
  * Motupia Web Standalone Runtime — Oblivion / Star Trek Sci-Fi Minimalist HUD
- * Funciona completamente en el navegador (GitHub Pages) sin requerir servidor local ni WebSocket.
+ * Funciona completamente en el navegador (GitHub Pages) con soporte de creación de plugins en vivo vía Modal.
  */
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { BUILTIN_PLUGINS } from './standalone-plugins.js';
+
+const JS_DEFAULT_TEMPLATE = `// Motupia Plugin Standard MDP Spec
+function createPlugin() {
+  let t = 0;
+  return {
+    setup(ctx, params) {},
+    update(ctx, dt, params) {
+      t += dt * (params.speed || 1.5);
+    },
+    draw(ctx, scene3d, canvas2d, params) {
+      const col = params.color || "#00f0ff";
+      scene3d.clear("#040608");
+      scene3d.setCamera({ x: 0, y: 0, z: 6, targetX: 0, targetY: 0, targetZ: 0, fov: 60 });
+
+      // Generación procedural de filamentos 3D
+      const lines = [];
+      const count = 48;
+      for (let i = 0; i < count; i++) {
+        const u = (i / count) * Math.PI * 2;
+        const rad = 2.2 + 0.5 * Math.sin(u * 5 + t);
+        const x1 = rad * Math.cos(u + t * 0.2);
+        const y1 = rad * Math.sin(u + t * 0.2);
+        const z1 = Math.sin(u * 3 + t) * 0.8;
+        lines.push(0, 0, 0, x1, y1, z1);
+      }
+      scene3d.lines("custom_stream", lines, { color: col, lineWidth: 1.8 });
+
+      // Capa 2D
+      canvas2d.clear();
+      canvas2d.text("LIVE USER PLUGIN // MDP ACTIVE", 45, 50, {
+        font: "bold 13px monospace",
+        fill: col
+      });
+      canvas2d.text(\`TEMPORALIDAD: t=\${t.toFixed(2)}s\`, 45, 70, {
+        font: "11px monospace",
+        fill: "#c9bea7"
+      });
+    }
+  };
+}
+return createPlugin();
+`;
 
 class BridgeCanvas2D {
   constructor(canvas) {
@@ -95,13 +137,9 @@ class BridgeScene3D {
     this.objects = new Map();
   }
 
-  clear(bgColor = null) {
-    // Mantener la escena
-  }
+  clear(bgColor = null) {}
 
-  setCamera({ x = 0, y = 0, z = 6, targetX = 0, targetY = 0, targetZ = 0, fov = 60 } = {}) {
-    // Si la cámara no ha sido movida manualmente por OrbitControls
-  }
+  setCamera({ x = 0, y = 0, z = 6, targetX = 0, targetY = 0, targetZ = 0, fov = 60 } = {}) {}
 
   points(nodeId, positions, options = {}) {
     let obj = this.objects.get(nodeId);
@@ -190,7 +228,7 @@ class BridgeScene3D {
 
 class MotupiaStandaloneApp {
   constructor() {
-    this.plugins = BUILTIN_PLUGINS;
+    this.plugins = [...BUILTIN_PLUGINS];
     this.currentPlugin = null;
     this.pluginInstance = null;
     this.currentParams = {};
@@ -202,6 +240,7 @@ class MotupiaStandaloneApp {
     this.initDOM();
     this.initThree();
     this.initHUD();
+    this.initModal();
     this.switchPlugin(this.plugins[0].id);
     this.startLoop();
   }
@@ -221,6 +260,11 @@ class MotupiaStandaloneApp {
     this.langTagEl = document.getElementById('current-lang-tag');
     this.toastEl = document.getElementById('hud-toast');
     this.btnPlay = document.getElementById('btn-play');
+
+    // Modal DOM
+    this.pluginModal = document.getElementById('plugin-modal');
+    this.modalPluginName = document.getElementById('modal-plugin-name');
+    this.modalCodeEditor = document.getElementById('modal-code-editor');
   }
 
   initThree() {
@@ -289,10 +333,11 @@ class MotupiaStandaloneApp {
       this.inspector.classList.toggle('collapsed');
     };
 
-    // Clean Art Mode Toggle (Key 'H' o botón)
+    // Clean Art Mode Toggle
     const toggleHud = () => document.body.classList.toggle('hud-hidden');
     document.getElementById('btn-toggle-hud').onclick = toggleHud;
     window.addEventListener('keydown', (e) => {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
       if (e.key === 'h' || e.key === 'H') toggleHud();
     });
 
@@ -317,6 +362,66 @@ class MotupiaStandaloneApp {
     document.getElementById('btn-export-frame').onclick = () => {
       this.exportCanvasImage();
     };
+  }
+
+  initModal() {
+    const openModal = () => {
+      this.modalPluginName.value = `Sector-${Math.floor(Math.random() * 900 + 100)}`;
+      this.modalCodeEditor.value = JS_DEFAULT_TEMPLATE;
+      this.pluginModal.classList.remove('hidden');
+      this.pluginsDrawer.classList.add('hidden');
+    };
+
+    const btnOpenCreator = document.getElementById('btn-open-creator');
+    if (btnOpenCreator) btnOpenCreator.onclick = openModal;
+
+    const btnFlyoutNew = document.getElementById('btn-flyout-new');
+    if (btnFlyoutNew) btnFlyoutNew.onclick = openModal;
+
+    const btnClose = document.getElementById('btn-modal-close');
+    if (btnClose) btnClose.onclick = () => this.pluginModal.classList.add('hidden');
+
+    const btnCancel = document.getElementById('btn-modal-cancel');
+    if (btnCancel) btnCancel.onclick = () => this.pluginModal.classList.add('hidden');
+
+    const btnSave = document.getElementById('btn-modal-save');
+    if (btnSave) {
+      btnSave.onclick = () => {
+        const name = this.modalPluginName.value.trim() || 'Nuevo Arte';
+        const code = this.modalCodeEditor.value;
+
+        try {
+          // Evaluar y compilar la función generativa de forma segura
+          const pluginFactory = new Function(code);
+          const instance = pluginFactory();
+          if (!instance || typeof instance.draw !== 'function') {
+            throw new Error('El script debe retornar un objeto con el método draw(ctx, scene3d, canvas2d, params)');
+          }
+
+          const id = name.toLowerCase().replace(/[^a-z0-9_-]/g, '-') + '-' + Date.now();
+          const newPlugin = {
+            id,
+            name,
+            version: '1.0.0',
+            author: 'Live User Creator',
+            description: `Módulo interactivo creado en vivo: ${name}`,
+            runtime: 'js',
+            parameters: {
+              speed: { type: 'float', label: 'Velocidad', default: 1.5, min: 0.1, max: 5.0, step: 0.1 },
+              color: { type: 'color', label: 'Color Principal', default: '#00f0ff' }
+            },
+            create: () => pluginFactory()
+          };
+
+          this.plugins.unshift(newPlugin);
+          this.pluginModal.classList.add('hidden');
+          this.switchPlugin(id);
+          this.showToast(`◈ PLUGIN COMPILADO Y REGISTRADO: ${name}`);
+        } catch (err) {
+          alert(`Error de compilación en el plugin:\n${err.message}`);
+        }
+      };
+    }
   }
 
   renderPluginsList() {
@@ -355,14 +460,15 @@ class MotupiaStandaloneApp {
     this.langTagEl.textContent = 'ESM / CLIENT';
     this.langTagEl.className = 'inspector-tag js';
 
-    // Inicializar parámetros
     this.currentParams = {};
     for (const [key, conf] of Object.entries(plugin.parameters || {})) {
       this.currentParams[key] = conf.default;
     }
 
     this.pluginInstance = plugin.create();
-    this.pluginInstance.setup({ width: window.innerWidth, height: window.innerHeight, time: 0 }, this.currentParams);
+    if (typeof this.pluginInstance.setup === 'function') {
+      this.pluginInstance.setup({ width: window.innerWidth, height: window.innerHeight, time: 0 }, this.currentParams);
+    }
 
     this.renderParametersForm();
     this.renderPluginsList();
@@ -457,7 +563,6 @@ class MotupiaStandaloneApp {
       const dt = Math.min((now - this.lastTime) / 1000, 0.1);
       this.lastTime = now;
 
-      // Medidor de FPS
       frameTimes.push(now);
       while (frameTimes.length > 0 && frameTimes[0] <= now - 1000) {
         frameTimes.shift();
@@ -479,8 +584,12 @@ class MotupiaStandaloneApp {
           dt
         };
 
-        this.pluginInstance.update(ctx, dt, this.currentParams);
-        this.pluginInstance.draw(ctx, this.bridge3D, this.bridge2D, this.currentParams);
+        if (typeof this.pluginInstance.update === 'function') {
+          this.pluginInstance.update(ctx, dt, this.currentParams);
+        }
+        if (typeof this.pluginInstance.draw === 'function') {
+          this.pluginInstance.draw(ctx, this.bridge3D, this.bridge2D, this.currentParams);
+        }
       }
 
       this.renderer.render(this.scene, this.camera);

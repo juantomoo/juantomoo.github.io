@@ -60,6 +60,9 @@
       <button id="btn-toggle-plugins" class="hud-btn hud-btn-accent" title="Lista de Plugins">
         <span class="btn-bracket">[</span> PLUGINS <span class="badge-count" id="plugin-count">0</span> <span class="btn-bracket">]</span>
       </button>
+      <button id="btn-open-creator" class="hud-btn hud-btn-neon" title="Escribir nuevo plugin interactivo">
+        <span class="btn-bracket">[</span> + CREAR <span class="btn-bracket">]</span>
+      </button>
       <button id="btn-reload-plugin" class="hud-btn" title="Forzar Hot-Reload">
         <span class="btn-bracket">[</span> ↻ REINICIAR <span class="btn-bracket">]</span>
       </button>
@@ -79,7 +82,10 @@
         <span class="drawer-decor">◬</span>
         <h3>MÓDULOS GENERATIVOS</h3>
       </div>
-      <button id="btn-close-plugins" class="drawer-close" title="Cerrar Panel">✕</button>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button id="btn-flyout-new" class="hud-btn-mini hud-btn-neon">+ CREAR</button>
+        <button id="btn-close-plugins" class="drawer-close" title="Cerrar Panel">✕</button>
+      </div>
     </div>
     <div class="drawer-content" id="plugins-list">
       <!-- Dynamic Plugin Cards Generated in JS -->
@@ -125,6 +131,51 @@
       </div>
     </div>
   </footer>
+
+  <!-- HUD Sci-Fi Modal: Plugin Creator Code Studio -->
+  <div class="hud-modal-backdrop hidden" id="plugin-modal">
+    <div class="hud-modal-window">
+      <!-- Modal Header -->
+      <div class="hud-modal-header">
+        <div class="modal-title-row">
+          <span class="modal-glyph">◈</span>
+          <span class="modal-title">TERMINAL DE CREACIÓN DE PLUGIN</span>
+          <span class="modal-subtitle">// MDP SPEC V1</span>
+        </div>
+        <button id="btn-modal-close" class="hud-btn-close">✕</button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="hud-modal-body">
+        <div class="modal-config-bar">
+          <div class="config-field">
+            <label>NOMBRE DEL PLUGIN:</label>
+            <input type="text" id="modal-plugin-name" class="hud-input" placeholder="Ej: Quantum Resonance" value="Cyber Singularity">
+          </div>
+          <div class="config-field">
+            <label>RUNTIME:</label>
+            <div class="runtime-selector">
+              <button class="runtime-tab active" data-lang="js" id="tab-lang-js">JAVASCRIPT (ESM / WebGL)</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-editor-container">
+          <div class="editor-header-bar">
+            <span class="editor-filename" id="modal-filename">plugin.js</span>
+            <span class="editor-hint">API MDP: setup(ctx, params), update(ctx, dt, params), draw(ctx, scene3d, canvas2d, params)</span>
+          </div>
+          <textarea id="modal-code-editor" class="hud-code-editor" spellcheck="false"></textarea>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="hud-modal-footer">
+        <button id="btn-modal-cancel" class="hud-btn hud-btn-dim">[ DESCARTAR ]</button>
+        <button id="btn-modal-save" class="hud-btn-primary-neon">◈ COMPILAR Y REGISTRAR EN VIVO ◈</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Notification Toast -->
   <div class="hud-toast hidden" id="hud-toast">◈ PROTOCOLO MDP ACTIVO</div>
